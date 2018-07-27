@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
+  public opened: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  public openSidenav() {
+    this.opened = true;
   }
 
 }
