@@ -28,6 +28,7 @@ import { UserService } from './services/user.service';
 // Components
 import { HomeComponent } from './components/home/home.component';
 import { PopupSigninComponent } from './components/home/popup-signin/popup-signin.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -76,7 +77,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    PopupSigninComponent
+    PopupSigninComponent,
+    AdminComponent
   ],
   entryComponents: [
     PopupSigninComponent

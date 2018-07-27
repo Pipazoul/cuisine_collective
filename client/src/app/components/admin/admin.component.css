@@ -1,0 +1,8 @@
+.add-element {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+    line-height: 20px;
+    height: 100px;
+    width: 100px;
+}
