@@ -18,5 +18,12 @@
       "limit": "100kb"
     },
     "cors": false
+  },
+  "scriptsDirectory": "scripts",
+  "sqlScripts": {
+    "directory": "sql",
+    "foreignKeysClean": "foreign_keys_clean",
+    "foreignKeysGenerate": "foreign_keys_generate",
+    "functionsGenerate": "functions_generate"
   }
 }
