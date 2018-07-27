@@ -18,12 +18,20 @@ app.start = function() {
   });
 };
 
+app.boot = function(cb) {
+  boot(app, __dirname, function(err) {
+    cb(err);
+  });
+};
+
 // Bootstrap the application, configure models, datasources and middleware.
 // Sub-apps like REST API are mounted via boot scripts.
-boot(app, __dirname, function(err) {
-  if (err) throw err;
-
-  // start the server if `$ node server.js`
-  if (require.main === module)
+if (require.main === module) {
+  boot(app, __dirname, function(err) {
+    if (err) {
+      throw err;
+    }
     app.start();
-});
+  });
+}
+
