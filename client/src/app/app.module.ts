@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -8,7 +8,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { UrlSettings } from './config/url.settings';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 
-
+// Services
+import { AuthenticationService } from './services/authentication.service';
+import { UserService } from './services/user.service';
 
 /**
  * Function for settting the default restangular configuration
@@ -45,6 +47,13 @@ export function RestangularConfigFactory(RestangularProvider) {
   }
 }
 
+/**
+ * Function to compute if we are logged in before loading the appModule
+ */
+export function startupServiceFactory(authenticationService: AuthenticationService): Function {
+  return () => authenticationService.computeIsLoggedIn();
+}
+
 // Design
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -59,7 +68,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     // Importing RestangularModule and making default configs for restanglar
     RestangularModule.forRoot(RestangularConfigFactory)
   ],
-  providers: [],
+  providers: [
+    {
+      // Provider for APP_INITIALIZER
+      provide: APP_INITIALIZER,
+      useFactory: startupServiceFactory,
+      deps: [AuthenticationService],
+      multi: true
+    },
+    AuthenticationService,
+    UserService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
