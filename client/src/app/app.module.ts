@@ -18,3 +18,37 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+/*
+MatAutocompleteModule,
+MatButtonModule,
+MatButtonToggleModule,
+MatCardModule,
+MatCheckboxModule,
+MatChipsModule,
+MatDatepickerModule,
+MatDialogModule,
+MatExpansionModule,
+MatGridListModule,
+MatIconModule,
+MatInputModule,
+MatListModule,
+MatMenuModule,
+MatNativeDateModule,
+MatPaginatorModule,
+MatProgressBarModule,
+MatProgressSpinnerModule,
+MatRadioModule,
+MatRippleModule,
+MatSidenavModule,
+MatSliderModule,
+MatSlideToggleModule,
+MatSnackBarModule,
+MatSortModule,
+MatTableModule,
+MatTabsModule,
+MatToolbarModule,
+MatTooltipModule,
+MatSelectModule,
+MatStepperModule
+*/
