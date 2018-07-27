@@ -4,11 +4,18 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 
+// Design
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 // Restangular
 import { UrlSettings } from './config/url.settings';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 
+// Routing
+import { appRoutingProviders, routing } from './app.routes';
 
+// Components
+import { HomeComponent } from './components/home/home.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -45,21 +52,22 @@ export function RestangularConfigFactory(RestangularProvider) {
   }
 }
 
-// Design
-import { FlexLayoutModule } from '@angular/flex-layout';
-
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     FlexLayoutModule,
     // Importing RestangularModule and making default configs for restanglar
-    RestangularModule.forRoot(RestangularConfigFactory)
+    RestangularModule.forRoot(RestangularConfigFactory),
+    routing
   ],
-  providers: [],
+  providers: [
+    appRoutingProviders
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
