@@ -1,4 +1,4 @@
-CREATE USER lyve_dev WITH
+CREATE USER cuisine_collective_dev WITH
                 LOGIN
                 NOSUPERUSER
                 NOCREATEDB
