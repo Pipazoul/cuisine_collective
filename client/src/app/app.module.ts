@@ -4,13 +4,22 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 
+// Design
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 // Restangular
 import { UrlSettings } from './config/url.settings';
 import { RestangularModule, Restangular } from 'ngx-restangular';
 
+// Routing
+import { appRoutingProviders, routing } from './app.routes';
+
 // Services
 import { AuthenticationService } from './services/authentication.service';
 import { UserService } from './services/user.service';
+
+// Components
+import { HomeComponent } from './components/home/home.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -54,19 +63,18 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
   return () => authenticationService.computeIsLoggedIn();
 }
 
-// Design
-import { FlexLayoutModule } from '@angular/flex-layout';
-
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     FlexLayoutModule,
     // Importing RestangularModule and making default configs for restanglar
-    RestangularModule.forRoot(RestangularConfigFactory)
+    RestangularModule.forRoot(RestangularConfigFactory),
+    routing
   ],
   providers: [
     {
@@ -76,6 +84,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
       deps: [AuthenticationService],
       multi: true
     },
+    appRoutingProviders,
     AuthenticationService,
     UserService
   ],
