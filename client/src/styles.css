@@ -35,6 +35,10 @@ a {
     background-color: white;
     color: #6CCACC;
 }
+.popup .mat-button {
+    background-color: #6CCACC;
+    color: white;
+}
 
 .mat-dialog-container {
     padding: 0 !important;
@@ -49,6 +53,7 @@ a {
     color: white;
 }
 .popup-body {
+    padding: 5px 20px 20px 20px;
     background-color: white;
     color: #6CCACC;
 }

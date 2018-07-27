@@ -11,11 +11,10 @@ import {
   MatSidenavModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Restangular
 import { UrlSettings } from './config/url.settings';
-import { RestangularModule, Restangular } from 'ngx-restangular';
+import { RestangularModule } from 'ngx-restangular';
 
 // Routing
 import { appRoutingProviders, routing } from './app.routes';
@@ -28,9 +27,12 @@ import { UserService } from './services/user.service';
 // Components
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
-import { PopupSigninComponent } from './components/home/popup-signin/popup-signin.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
+
+// Dialogs
+import { DialogComponent } from './components/common/dialog/dialog.component';
+import { PopupSigninComponent } from './components/home/popup-signin/popup-signin.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -80,11 +82,13 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     HeaderComponent,
     HomeComponent,
     PopupSigninComponent,
+    DialogComponent,
     AdminComponent,
     EventFormComponent
   ],
   entryComponents: [
-    PopupSigninComponent
+    PopupSigninComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
