@@ -7,6 +7,13 @@ import { HeaderComponent } from './components/header/header.component';
 // Design
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+// Material Design & FlexLayout
+import {
+  MatButtonModule,
+  MatIconModule,
+  MatDialogModule
+} from '@angular/material';
+
 // Restangular
 import { UrlSettings } from './config/url.settings';
 import { RestangularModule, Restangular } from 'ngx-restangular';
@@ -20,6 +27,7 @@ import { UserService } from './services/user.service';
 
 // Components
 import { HomeComponent } from './components/home/home.component';
+import { PopupSigninComponent } from './components/home/popup-signin/popup-signin.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -67,11 +75,19 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    PopupSigninComponent
+  ],
+  entryComponents: [
+    PopupSigninComponent
   ],
   imports: [
     BrowserModule,
     FlexLayoutModule,
+    // Material
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule,
     // Importing RestangularModule and making default configs for restanglar
     RestangularModule.forRoot(RestangularConfigFactory),
     routing
@@ -94,16 +110,13 @@ export class AppModule { }
 
 /*
 MatAutocompleteModule,
-MatButtonModule,
 MatButtonToggleModule,
 MatCardModule,
 MatCheckboxModule,
 MatChipsModule,
 MatDatepickerModule,
-MatDialogModule,
 MatExpansionModule,
 MatGridListModule,
-MatIconModule,
 MatInputModule,
 MatListModule,
 MatMenuModule,
