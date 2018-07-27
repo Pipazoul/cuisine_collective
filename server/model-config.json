@@ -14,25 +14,48 @@
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "options": {
+      "postgresql": {
+        "schema": "cuisine_collective_dev"
+      }
+    }
   },
   "AccessToken": {
     "dataSource": "db",
-    "public": false
+    "public": false,
+    "options": {
+      "postgresql": {
+        "schema": "cuisine_collective_dev"
+      }
+    }
   },
   "ACL": {
     "dataSource": "db",
-    "public": false
+    "public": false,
+    "options": {
+      "postgresql": {
+        "schema": "cuisine_collective_dev"
+      }
+    }
   },
   "RoleMapping": {
     "dataSource": "db",
     "public": false,
     "options": {
-      "strictObjectIDCoercion": true
+      "strictObjectIDCoercion": true,
+      "postgresql": {
+        "schema": "cuisine_collective_dev"
+      }
     }
   },
   "Role": {
     "dataSource": "db",
-    "public": false
+    "public": false,
+    "options": {
+      "postgresql": {
+        "schema": "cuisine_collective_dev"
+      }
+    }
   }
 }
