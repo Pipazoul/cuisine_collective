@@ -29,6 +29,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
+import { ComponentInjectorService } from './services/component-injector.service';
 
 // Dialogs
 import { DialogComponent } from './components/common/dialog/dialog.component';
@@ -88,7 +89,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
   ],
   entryComponents: [
     PopupSigninComponent,
-    DialogComponent
+    DialogComponent,
+    EventFormComponent
   ],
   imports: [
     BrowserModule,
@@ -113,7 +115,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     },
     appRoutingProviders,
     AuthenticationService,
-    UserService
+    UserService,
+    ComponentInjectorService
   ],
   bootstrap: [AppComponent]
 })
