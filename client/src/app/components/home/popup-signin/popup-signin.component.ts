@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
 
+// Services
+import { AuthenticationService } from '../../../services/authentication.service';
+
 @Component({
   selector: 'app-popup-signin',
   templateUrl: './popup-signin.component.html',
@@ -8,9 +11,29 @@ import { MatDialogRef } from '@angular/material';
 })
 export class PopupSigninComponent implements OnInit {
 
-  constructor(private dialogRef: MatDialogRef<PopupSigninComponent>) { }
+  public showError: boolean = false;
+  constructor(
+    private dialogRef: MatDialogRef<PopupSigninComponent>,
+    private authenticationService: AuthenticationService
+  ) { }
 
   ngOnInit() {
+  }
+
+  signin(code) {
+    this.authenticationService.signin('admin@admin.com', code).subscribe(
+      (res) => {
+        this.showError = false;
+        this.dialogRef.close(res);
+      }, (err) => {
+        this.showError = true;
+        console.error(err);
+      }
+    );
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 
 }

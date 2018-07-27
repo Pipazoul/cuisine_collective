@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
    */
   openSigninDialog(): void {
     this.signinDialog = this.dialog.open(PopupSigninComponent, {
-      width: '300px',
+      width: '550px',
       panelClass: "dialog"
     })
 

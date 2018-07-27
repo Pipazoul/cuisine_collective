@@ -20,6 +20,7 @@ import { RestangularModule, Restangular } from 'ngx-restangular';
 
 // Routing
 import { appRoutingProviders, routing } from './app.routes';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
 import { AuthenticationService } from './services/authentication.service';
@@ -83,6 +84,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FlexLayoutModule,
     // Material
     MatButtonModule,

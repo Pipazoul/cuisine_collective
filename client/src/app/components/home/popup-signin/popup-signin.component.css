@@ -1,0 +1,18 @@
+input:focus {
+    outline: initial;
+    outline-color: #FF5555;
+}
+
+.popup-body {
+    padding: 30px;
+}
+
+.authentication-input {
+    width: 300px;
+}
+
+.authentication-button {
+    width: 150px;
+    background-color: #FF5555;
+    color: white;
+}
