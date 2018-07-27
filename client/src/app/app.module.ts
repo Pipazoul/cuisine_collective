@@ -45,6 +45,9 @@ export function RestangularConfigFactory(RestangularProvider) {
   }
 }
 
+// Design
+import { FlexLayoutModule } from '@angular/flex-layout';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -52,6 +55,7 @@ export function RestangularConfigFactory(RestangularProvider) {
   ],
   imports: [
     BrowserModule,
+    FlexLayoutModule,
     // Importing RestangularModule and making default configs for restanglar
     RestangularModule.forRoot(RestangularConfigFactory)
   ],
@@ -59,3 +63,37 @@ export function RestangularConfigFactory(RestangularProvider) {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+/*
+MatAutocompleteModule,
+MatButtonModule,
+MatButtonToggleModule,
+MatCardModule,
+MatCheckboxModule,
+MatChipsModule,
+MatDatepickerModule,
+MatDialogModule,
+MatExpansionModule,
+MatGridListModule,
+MatIconModule,
+MatInputModule,
+MatListModule,
+MatMenuModule,
+MatNativeDateModule,
+MatPaginatorModule,
+MatProgressBarModule,
+MatProgressSpinnerModule,
+MatRadioModule,
+MatRippleModule,
+MatSidenavModule,
+MatSliderModule,
+MatSlideToggleModule,
+MatSnackBarModule,
+MatSortModule,
+MatTableModule,
+MatTabsModule,
+MatToolbarModule,
+MatTooltipModule,
+MatSelectModule,
+MatStepperModule
+*/
