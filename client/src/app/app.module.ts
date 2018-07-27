@@ -2,17 +2,16 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './components/header/header.component';
-
-// Design
-import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Material Design & FlexLayout
 import {
   MatButtonModule,
+  MatDialogModule,
   MatIconModule,
-  MatDialogModule
+  MatSidenavModule
 } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Restangular
 import { UrlSettings } from './config/url.settings';
@@ -28,7 +27,10 @@ import { UserService } from './services/user.service';
 
 // Components
 import { HomeComponent } from './components/home/home.component';
+import { HeaderComponent } from './components/header/header.component';
 import { PopupSigninComponent } from './components/home/popup-signin/popup-signin.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { EventFormComponent } from './components/admin/event-form/event-form.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -77,7 +79,9 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    PopupSigninComponent
+    PopupSigninComponent,
+    AdminComponent,
+    EventFormComponent
   ],
   entryComponents: [
     PopupSigninComponent
@@ -90,6 +94,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
+    MatSidenavModule,
     // Importing RestangularModule and making default configs for restanglar
     RestangularModule.forRoot(RestangularConfigFactory),
     routing
@@ -128,7 +133,6 @@ MatProgressBarModule,
 MatProgressSpinnerModule,
 MatRadioModule,
 MatRippleModule,
-MatSidenavModule,
 MatSliderModule,
 MatSlideToggleModule,
 MatSnackBarModule,
