@@ -30,6 +30,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { PopupSigninComponent } from './components/home/popup-signin/popup-signin.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
+import { ComponentInjectorService } from './services/component-injector.service';
 
 /**
  * Function for settting the default restangular configuration
@@ -83,7 +84,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     EventFormComponent
   ],
   entryComponents: [
-    PopupSigninComponent
+    PopupSigninComponent,
+    EventFormComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +110,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     },
     appRoutingProviders,
     AuthenticationService,
-    UserService
+    UserService,
+    ComponentInjectorService
   ],
   bootstrap: [AppComponent]
 })
