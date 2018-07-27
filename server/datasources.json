@@ -1,6 +1,12 @@
 {
   "db": {
+    "host": "127.0.0.1",
+    "port": 5432,
+    "database": "cuisine_collective_dev",
+    "password": "cuisine_collective_dev",
     "name": "db",
-    "connector": "memory"
+    "user": "cuisine_collective_dev",
+    "connector": "postgresql",
+    "schema": "cuisine_collective_dev"
   }
 }
