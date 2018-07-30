@@ -1,0 +1,19 @@
+.left-content {
+    background-color: white;
+}
+
+.content-title {
+    text-transform: uppercase;
+    color: #6CCACC;
+    padding: 20px 0 20px 0;
+}
+
+.filters-container {
+    height: 100%;
+    background-color: #eaeaea;
+}
+
+.section-title {
+    padding: 20px 0 20px 0;
+    text-align: center;
+}

@@ -1,0 +1,27 @@
+.search-bar {
+    border-radius: 10px;
+    background-color: white;
+    color: #c6c6c6;
+}
+
+.search-bar>div {
+    border-radius: 10px 0 0 10px;
+}
+
+.search-bar>div>i {
+    border-radius: 10px 0 0 10px;
+    padding: 0 7px 0 10px;
+}
+
+.search-bar input {
+    border-radius: 10px 0 0 10px;
+    border: none;
+    width: 100%;
+}
+
+.search-bar button {
+    border-radius: 0 10px 10px 0;
+    padding: 5px;
+    background-color: #6CCACC;
+    color: white;
+}

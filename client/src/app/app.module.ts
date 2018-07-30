@@ -9,7 +9,8 @@ import {
   MatButtonModule,
   MatDialogModule,
   MatIconModule,
-  MatSidenavModule
+  MatSidenavModule,
+  MatSlideToggleModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -44,6 +45,9 @@ import { CarouselComponent, CarouselItemElement } from './components/carousel/ca
 // Dialogs
 import { DialogComponent } from './components/common/dialog/dialog.component';
 import { PopupSigninComponent } from './components/home/popup-signin/popup-signin.component';
+import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
+import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
+import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -99,7 +103,10 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AddElementComponent,
     CarouselComponent,
     CarouselItemDirective,
-    CarouselItemElement
+    CarouselItemElement,
+    HomeFiltersComponent,
+    AdminFiltersComponent,
+    SearchBarComponent
   ],
   entryComponents: [
     PopupSigninComponent,
@@ -114,9 +121,10 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     FlexLayoutModule,
     // Material
     MatButtonModule,
-    MatIconModule,
     MatDialogModule,
+    MatIconModule,
     MatSidenavModule,
+    MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
     RestangularModule.forRoot(RestangularConfigFactory),
     routing

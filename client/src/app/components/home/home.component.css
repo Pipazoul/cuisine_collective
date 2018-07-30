@@ -1,0 +1,14 @@
+.home-container {
+    position: absolute;
+    top: calc(0px + 60px);
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+app-search-bar {
+    position: absolute;
+    top: 20px;
+    width: 600px;
+    left: calc(50% - 300px);
+}

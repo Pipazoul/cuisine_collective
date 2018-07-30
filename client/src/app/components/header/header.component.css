@@ -6,6 +6,10 @@
     color: white;
 }
 
+.header-admin {
+    background-color: #c6c6c6;
+}
+
 .first-part {
     border-right: 1px solid white;
 }

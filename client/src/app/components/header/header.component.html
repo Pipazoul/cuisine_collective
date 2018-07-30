@@ -1,4 +1,4 @@
-<div class="header" fxLayout="row" fxLayoutAlign="center center">
+<div class="header" [ngClass]="{'header-admin' : isConnected()}" fxLayout="row" fxLayoutAlign="center center">
   <div fxFlex="70%" class="first-part">
     <span class="main-title">Repas ensemble - </span>
     <span class="title">où cuisiner ? où manger ?</span>
