@@ -66,5 +66,9 @@
         "schema": "cuisine_collective_dev"
       }
     }
+  },
+  "event": {
+    "dataSource": "db",
+    "public": true
   }
 }

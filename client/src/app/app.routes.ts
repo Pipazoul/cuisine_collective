@@ -10,6 +10,7 @@ import { HomeComponent } from './components/home/home.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
+import { EventComponent } from './components/event/event.component';
 
 const ROUTES: Routes = [{
   path: 'home',
@@ -18,6 +19,20 @@ const ROUTES: Routes = [{
     {
       path: '',
       component: HomeComponent,
+      outlet: "primary"
+    }, {
+      path: '',
+      component: HomeFiltersComponent,
+      outlet: "sidenav"
+    }
+  ]
+}, {
+  path: 'events/:id',
+  canActivate: [UnauthGuard],
+  children: [
+    {
+      path: '',
+      component: EventComponent,
       outlet: "primary"
     }, {
       path: '',

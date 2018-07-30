@@ -33,6 +33,7 @@ import { CarouselItemDirective } from './directive/carousel-item.directive';
 // Services
 import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
+import { EventService } from './services/event.service';
 import { UserService } from './services/user.service';
 
 // Guards
@@ -53,6 +54,7 @@ import { PopupSigninComponent } from './components/home/popup-signin/popup-signi
 import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
+import { EventComponent } from './components/event/event.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -111,7 +113,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     CarouselItemElement,
     HomeFiltersComponent,
     AdminFiltersComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    EventComponent
   ],
   entryComponents: [
     PopupSigninComponent,
@@ -149,6 +152,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     },
     appRoutingProviders,
     AuthenticationService,
+    EventService,
     UserService,
     ComponentInjectorService,
     AuthGuard,
@@ -165,7 +169,6 @@ MatCardModule,
 MatCheckboxModule,
 MatChipsModule,
 MatGridListModule,
-MatInputModule,
 MatListModule,
 MatMenuModule,
 MatPaginatorModule,

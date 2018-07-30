@@ -12,3 +12,8 @@ ul {
 .carousel-inner {
     display: flex;
 }
+
+.carousel-item {
+    display: flex;
+    align-items: center;
+}
