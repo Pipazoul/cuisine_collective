@@ -8,7 +8,9 @@ import { AppComponent } from './app.component';
 import {
   MatButtonModule,
   MatDialogModule,
+  MatFormFieldModule,
   MatIconModule,
+  MatInputModule,
   MatSidenavModule,
   MatSlideToggleModule
 } from '@angular/material';
@@ -122,7 +124,9 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     // Material
     MatButtonModule,
     MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -157,7 +161,6 @@ MatChipsModule,
 MatDatepickerModule,
 MatExpansionModule,
 MatGridListModule,
-MatInputModule,
 MatListModule,
 MatMenuModule,
 MatNativeDateModule,

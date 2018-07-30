@@ -40,6 +40,14 @@ a {
     color: #6CCACC;
 }
 
+/* Required fields */
+label.required:after,
+mat-form-field.required label:after,
+span.required:before {
+  content: "*";
+  color: #DD1828;
+}
+
 /* ----- POPUP ----- */
 
 .popup .mat-button {
