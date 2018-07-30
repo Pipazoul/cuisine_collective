@@ -32,7 +32,7 @@ export class AuthenticationService {
    * Authenticated user's ID
    */
   public get user(): UserClass {
-    return localStorage[AuthenticationService.REGISTERED_USER];
+    return localStorage[AuthenticationService.REGISTERED_USER] ? JSON.parse(localStorage[AuthenticationService.REGISTERED_USER]) : null;
   }
 
   /**
