@@ -1,5 +1,9 @@
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ViewContainerRef, OnInit } from '@angular/core';
 import * as ol from 'openlayers';
+import { ComponentInjectorService } from './services/component-injector.service';
+import { AddElementComponent } from './components/admin/add-element/add-element.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +12,7 @@ import * as ol from 'openlayers';
 })
 export class AppComponent implements OnInit, AfterViewInit {
 
+  // Map
   @ViewChild('map') mapElement: ElementRef;
   title = 'client';
   initialCoordinates: [number, number] = [538262.3872128094, 5740786.2887582248];
@@ -23,6 +28,29 @@ export class AppComponent implements OnInit, AfterViewInit {
       src: 'https://openlayers.org/en/v4.6.4/examples/data/icon.png'
     }))
   });
+
+  // Sidenav
+  @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
+  public showSidenav: boolean = false;
+  public sidenavTitle: string;
+  public sidenavColor: string;
+
+  constructor(private activatedRoute: ActivatedRoute,
+    private authenticationService: AuthenticationService,
+    private componentInjectorService: ComponentInjectorService) {
+
+  }
+
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(res => {
+      if (res.addElement === 'true') {
+        this.openSidenavAddElement();
+      }
+      if (!res.addElement || res.addElement !== 'true') {
+        this.closeSidenav();
+      }
+    });
+  }
 
   ngAfterViewInit(): void {
     this.map = new ol.Map({
@@ -49,10 +77,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngOnInit(): void {
-    
-  }
-
   addMarker(lon, lat) {
 
 
@@ -66,5 +90,22 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.markerSource.addFeature(iconFeature);
+  }
+
+  public openSidenavAddElement() {
+    if (!this.authenticationService.isConnected) {
+      return;
+    }
+    if (!this.viewContainerRef.length) {
+      this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
+      this.sidenavTitle = 'Ajouter un élément sur la carte';
+      this.sidenavColor = 'background-red';
+    }
+    this.showSidenav = true;
+  }
+
+  public closeSidenav() {
+    this.showSidenav = false;
+    this.viewContainerRef.clear();
   }
 }
