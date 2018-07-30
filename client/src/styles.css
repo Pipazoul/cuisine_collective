@@ -57,3 +57,30 @@ a {
     background-color: white;
     color: #6CCACC;
 }
+
+.background-red {
+    background-color: #FF5555;
+}
+
+.background-blue-light {
+    background-color: #6CCACC;
+}
+
+.background-blue-dark {
+    background-color: #0D70CD;
+}
+
+/* ----- SIDENAV ----- */
+
+.mat-sidenav {
+    color: white;
+    width: 380px;
+    max-width: 380px;
+}
+
+.mat-sidenav .sidenav-header {
+    font-weight: bold;
+    padding-left: 15px;
+}
+
+/* ----- END SIDENAV ----- */

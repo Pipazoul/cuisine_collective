@@ -13,6 +13,8 @@ export class AdminComponent implements OnInit {
 
   @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
   public opened: boolean = false;
+  public sidenavTitle: string;
+  public sidenavColor: string;
 
   constructor(private componentInjectorService: ComponentInjectorService) {
   }
@@ -23,8 +25,15 @@ export class AdminComponent implements OnInit {
   public openSidenavAddElement() {
     if (!this.viewContainerRef.length) {
       this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
+      this.sidenavTitle = 'Ajouter un élément sur la carte';
+      this.sidenavColor = 'background-red';
     }
     this.opened = true;
+  }
+
+  public closeSidenav() {
+    this.opened = false;
+    this.viewContainerRef.clear();
   }
 
 }
