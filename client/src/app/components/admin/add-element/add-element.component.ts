@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CarouselComponent } from '../../carousel/carousel.component';
+import { EventClass } from '../../../domain/event.class';
 
 @Component({
   selector: 'app-add-element',
@@ -9,6 +10,7 @@ import { CarouselComponent } from '../../carousel/carousel.component';
 export class AddElementComponent implements OnInit {
 
   @ViewChild('carousel') public carousel: CarouselComponent;
+  public event: EventClass = new EventClass();
 
   constructor() { }
 
