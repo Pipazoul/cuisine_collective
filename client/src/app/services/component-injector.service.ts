@@ -1,26 +1,24 @@
 import {
     ComponentFactoryResolver,
     Injectable,
-    Inject
+    Inject,
+    ViewContainerRef,
+    Type
 } from '@angular/core';
 
 @Injectable()
 export class ComponentInjectorService {
 
     private factoryResolver;
-    private rootViewContainer;
 
     constructor(@Inject(ComponentFactoryResolver) factoryResolver) {
         this.factoryResolver = factoryResolver
     }
 
-    public setRootViewContainerRef(viewContainerRef) {
-        this.rootViewContainer = viewContainerRef
-    }
-
-    public addComponent(theComponent) {
+    public addComponent<T>(viewContainerRef: ViewContainerRef, theComponent: Type<T>) {
+        const rootViewContainer = viewContainerRef;
         const factory = this.factoryResolver.resolveComponentFactory(theComponent);
-        const component = factory.create(this.rootViewContainer.parentInjector);
-        this.rootViewContainer.insert(component.hostView);
+        const component = factory.create(rootViewContainer.parentInjector);
+        rootViewContainer.insert(component.hostView);
     }
 }

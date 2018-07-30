@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
+
 import { ComponentInjectorService } from '../../services/component-injector.service';
-import { EventFormComponent } from './event-form/event-form.component';
+
+import { AddElementComponent } from './add-element/add-element.component';
 
 @Component({
   selector: 'app-admin',
@@ -16,11 +18,12 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.componentInjectorService.setRootViewContainerRef(this.viewContainerRef);
   }
 
-  public openSidenavAddEvent() {
-    this.componentInjectorService.addComponent(EventFormComponent);
+  public openSidenavAddElement() {
+    if (!this.viewContainerRef.length) {
+      this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
+    }
     this.opened = true;
   }
 
