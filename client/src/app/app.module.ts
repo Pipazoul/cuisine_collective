@@ -25,6 +25,10 @@ import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
 import { UserService } from './services/user.service';
 
+// Guards
+import { AuthGuard } from './guards/auth.guard';
+import { UnauthGuard } from './guards/unauth.guard';
+
 // Components
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -118,7 +122,9 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     appRoutingProviders,
     AuthenticationService,
     UserService,
-    ComponentInjectorService
+    ComponentInjectorService,
+    AuthGuard,
+    UnauthGuard
   ],
   bootstrap: [AppComponent]
 })
