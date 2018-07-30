@@ -42,20 +42,35 @@ export class CarouselComponent implements AfterViewInit {
   }
 
   public next() {
-    if (this.currentSlide + 1 === this.items.length) return;
+    if (this.currentSlide + 1 === this.items.length) {
+      return
+    };
     this.currentSlide = (this.currentSlide + 1) % this.items.length;
-    const offset = this.currentSlide * this.itemWidth;
-    const myAnimation: AnimationFactory = this.buildAnimation(offset);
-    this.player = myAnimation.create(this.carousel.nativeElement);
-    this.player.play();
+    this.animate();
   }
 
   public prev() {
-    if (this.currentSlide === 0) return;
-
+    if (this.currentSlide === 0) {
+      return;
+    }
     this.currentSlide = ((this.currentSlide - 1) + this.items.length) % this.items.length;
-    const offset = this.currentSlide * this.itemWidth;
+    this.animate();
+  }
 
+  public goTo(index: number) {
+    if (this.currentSlide === index) {
+      return;
+    }
+    if (index >= this.items.length) {
+      console.warn('Trying to access slide %d which does not exists');
+      return;
+    }
+    this.currentSlide = index;
+    this.animate();
+  }
+
+  private animate() {
+    const offset = this.currentSlide * this.itemWidth;
     const myAnimation: AnimationFactory = this.buildAnimation(offset);
     this.player = myAnimation.create(this.carousel.nativeElement);
     this.player.play();
