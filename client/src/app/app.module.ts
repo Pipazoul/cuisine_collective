@@ -22,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Services
 import { AuthenticationService } from './services/authentication.service';
+import { ComponentInjectorService } from './services/component-injector.service';
 import { UserService } from './services/user.service';
 
 // Components
@@ -29,7 +30,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
-import { ComponentInjectorService } from './services/component-injector.service';
+import { AddElementComponent } from './components/admin/add-element/add-element.component';
 
 // Dialogs
 import { DialogComponent } from './components/common/dialog/dialog.component';
@@ -85,12 +86,13 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     PopupSigninComponent,
     DialogComponent,
     AdminComponent,
-    EventFormComponent
+    EventFormComponent,
+    AddElementComponent
   ],
   entryComponents: [
     PopupSigninComponent,
     DialogComponent,
-    EventFormComponent
+    AddElementComponent
   ],
   imports: [
     BrowserModule,
