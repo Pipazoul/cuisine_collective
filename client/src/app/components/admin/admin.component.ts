@@ -11,7 +11,7 @@ import { AddElementComponent } from './add-element/add-element.component';
 })
 export class AdminComponent implements OnInit {
 
-  @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
+  @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
   public opened: boolean = false;
   public sidenavTitle: string;
   public sidenavColor: string;
