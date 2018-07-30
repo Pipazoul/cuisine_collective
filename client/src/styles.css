@@ -99,3 +99,8 @@ a {
 }
 
 /* ----- END SIDENAV ----- */
+
+.left-content {
+    height: 100%;
+    width: 25%;
+}
