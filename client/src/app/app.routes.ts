@@ -8,11 +8,22 @@ import { UnauthGuard } from './guards/unauth.guard';
 // Components
 import { HomeComponent } from './components/home/home.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
 
 const ROUTES: Routes = [{
   path: 'home',
-  component: HomeComponent,
-  canActivate: [UnauthGuard]
+  canActivate: [UnauthGuard],
+  children: [
+    {
+      path: '',
+      component: HomeFiltersComponent,
+      outlet: "sidenav"
+    }, {
+      path: '',
+      component: HomeComponent,
+      outlet: "primary"
+    }
+  ]
 }, {
   path: 'admin',
   component: AdminComponent,

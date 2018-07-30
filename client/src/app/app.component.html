@@ -1,5 +1,10 @@
 <app-header></app-header>
-<div>
-    <div #map></div>
-    <router-outlet></router-outlet>
+<div class="full-page-container" fxLayout="row">
+    <div fxFlex="25%">
+        <router-outlet name="sidenav"></router-outlet>
+    </div>
+    <div #map fxFlex="50%"></div>
+    <div fxFlex="25%">
+        <router-outlet></router-outlet>
+    </div>
 </div>
