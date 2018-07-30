@@ -6,7 +6,7 @@ html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif !important;
 }
 
 *:focus, div, button:focus {
@@ -88,14 +88,29 @@ a {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
-    color: white;
     width: 380px;
     max-width: 380px;
 }
 
 .mat-sidenav .sidenav-header {
+    color: white;
     font-weight: bold;
     padding-left: 15px;
 }
 
 /* ----- END SIDENAV ----- */
+
+
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #6CCACC;
+}
+.mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar, .mat-slide-toggle-bar {
+    background-color: white;
+}
+.mat-slide-toggle-thumb {
+    background-color: #cccccc;
+}
+
+label {
+    cursor: pointer;
+}

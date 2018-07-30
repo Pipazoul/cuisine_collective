@@ -1,3 +1,8 @@
-<p>
-  add-element works!
-</p>
+<app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center center">
+  <div *carouselItem class="carousel-element" fxLayout="column" fxLayoutGap="15px">
+    <button type="button" mat-button class="background-blue-light" (click)="showCreateEvent()">Créer un évènement</button>
+    <button type="button" mat-button class="background-blue-dark">Ajouter un contributeur</button>
+  </div>
+
+  <app-event-form *carouselItem class="carousel-element"></app-event-form>
+</app-carousel>

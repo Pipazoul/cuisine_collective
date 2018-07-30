@@ -1,23 +1,11 @@
-<mat-sidenav-container>
-  <mat-sidenav-content>
-    <button mat-button class="add-element background-red" (click)="openSidenavAddElement()">
-      <div fxLayout="column" fxLayoutAlign="start center">
-        <mat-icon>add_circle</mat-icon>
-        <span class="add-element-text">Ajouter un
-          <br>élément sur
-          <br>la carte</span>
-      </div>
-    </button>
-  </mat-sidenav-content>
-  <mat-sidenav mode="side" [opened]="opened" position="end">
-    <div fxLayout="column">
-      <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header" [ngClass]="sidenavColor">
-        <span>{{sidenavTitle | uppercase}}</span>
-        <button mat-icon-button (click)="closeSidenav()">
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-      <ng-template #dynamic></ng-template>
-    </div>
-  </mat-sidenav>
-</mat-sidenav-container>
+<!-- Button to add an element on the map -->
+<button type="button" mat-button class="add-element background-red" [routerLink]="['/admin']" [queryParams]="{addElement: 'true'}">
+  <div fxLayout="column" fxLayoutAlign="start center">
+    <mat-icon>add_circle</mat-icon>
+    <span class="add-element-text">
+      Ajouter un
+      <br>élément sur
+      <br>la carte
+    </span>
+  </div>
+</button>

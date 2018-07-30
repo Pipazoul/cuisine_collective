@@ -1,6 +1,9 @@
-import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, ViewContainerRef, OnInit } from '@angular/core';
 import * as ol from 'openlayers';
-import { Router } from '@angular/router';
+import { ComponentInjectorService } from './services/component-injector.service';
+import { AddElementComponent } from './components/admin/add-element/add-element.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from './services/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -61,6 +64,32 @@ export class AppComponent implements OnInit, AfterViewInit {
   initialZoom: number = 11;
   map: ol.Map;
   markerSource = new ol.source.Vector();
+
+  // Sidenav
+  @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
+  public showSidenav: boolean = false;
+  public sidenavTitle: string;
+  public sidenavColor: string;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private authenticationService: AuthenticationService,
+    private componentInjectorService: ComponentInjectorService,
+    private router: Router
+  ) {
+
+  }
+
+  ngOnInit() {
+    this.activatedRoute.queryParams.subscribe(res => {
+      if (res.addElement === 'true') {
+        this.openSidenavAddElement();
+      }
+      if (!res.addElement || res.addElement !== 'true') {
+        this.closeSidenav();
+      }
+    });
+  }
 
   get eventStyle() {
     return new ol.style.Style({
@@ -148,9 +177,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  constructor(private router: Router) { }
+  public openSidenavAddElement() {
+    if (!this.authenticationService.isConnected) {
+      return;
+    }
+    if (!this.viewContainerRef.length) {
+      this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
+      this.sidenavTitle = 'Ajouter un élément sur la carte';
+      this.sidenavColor = 'background-red';
+    }
+    this.showSidenav = true;
+  }
 
-  ngOnInit(): void {
-
+  public closeSidenav() {
+    this.showSidenav = false;
+    this.viewContainerRef.clear();
   }
 }

@@ -1,13 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 
 // Material Design & FlexLayout
 import {
   MatButtonModule,
+  MatDatepickerModule,
   MatDialogModule,
+  MatFormFieldModule,
   MatIconModule,
+  MatInputModule,
+  MatNativeDateModule,
   MatSidenavModule,
   MatSlideToggleModule
 } from '@angular/material';
@@ -20,6 +25,9 @@ import { RestangularModule } from 'ngx-restangular';
 // Routing
 import { appRoutingProviders, routing } from './app.routes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+// Directives
+import { CarouselItemDirective } from './directive/carousel-item.directive';
 
 // Services
 import { AuthenticationService } from './services/authentication.service';
@@ -36,6 +44,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
+import { CarouselComponent, CarouselItemElement } from './components/carousel/carousel.component';
 
 // Dialogs
 import { DialogComponent } from './components/common/dialog/dialog.component';
@@ -97,6 +106,9 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AdminComponent,
     EventFormComponent,
     AddElementComponent,
+    CarouselComponent,
+    CarouselItemDirective,
+    CarouselItemElement,
     HomeFiltersComponent,
     AdminFiltersComponent,
     SearchBarComponent,
@@ -110,11 +122,17 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     // Material
     MatButtonModule,
+    MatDatepickerModule,
     MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
+    MatNativeDateModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -146,13 +164,11 @@ MatButtonToggleModule,
 MatCardModule,
 MatCheckboxModule,
 MatChipsModule,
-MatDatepickerModule,
 MatExpansionModule,
 MatGridListModule,
 MatInputModule,
 MatListModule,
 MatMenuModule,
-MatNativeDateModule,
 MatPaginatorModule,
 MatProgressBarModule,
 MatProgressSpinnerModule,
