@@ -16,11 +16,12 @@ export class AdminComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.componentInjectorService.setRootViewContainerRef(this.viewContainerRef);
   }
 
   public openSidenavAddEvent() {
-    this.componentInjectorService.addComponent(EventFormComponent);
+    if (!this.viewContainerRef.length) {
+      this.componentInjectorService.addComponent(this.viewContainerRef, EventFormComponent);
+    }
     this.opened = true;
   }
 
