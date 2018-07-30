@@ -88,12 +88,12 @@ a {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
-    color: white;
     width: 380px;
     max-width: 380px;
 }
 
 .mat-sidenav .sidenav-header {
+    color: white;
     font-weight: bold;
     padding-left: 15px;
 }
