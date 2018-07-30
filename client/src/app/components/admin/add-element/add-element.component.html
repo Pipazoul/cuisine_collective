@@ -1,3 +1,6 @@
-<p>
-  add-element works!
-</p>
+<div fxLayout="column" fxLayoutGap="15px">
+  <button mat-button class="background-blue-light">Créer un évènement</button>
+  <button mat-button class="background-blue-dark">Ajouter un contributeur</button>
+</div>
+
+<app-event-form [hidden]="!showEventForm"></app-event-form>

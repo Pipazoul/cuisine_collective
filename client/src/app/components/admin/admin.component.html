@@ -10,7 +10,7 @@
     </button>
   </mat-sidenav-content>
   <mat-sidenav mode="side" [opened]="opened" position="end">
-    <div fxLayout="column">
+    <div fxFlex fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header" [ngClass]="sidenavColor">
         <span>{{sidenavTitle | uppercase}}</span>
         <button mat-icon-button (click)="closeSidenav()">
