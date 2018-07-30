@@ -1,8 +1,4 @@
-import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
-
-import { ComponentInjectorService } from '../../services/component-injector.service';
-
-import { AddElementComponent } from './add-element/add-element.component';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-admin',
@@ -11,29 +7,10 @@ import { AddElementComponent } from './add-element/add-element.component';
 })
 export class AdminComponent implements OnInit {
 
-  @ViewChild('dynamic', { read: ViewContainerRef }) viewContainerRef: ViewContainerRef;
-  public opened: boolean = false;
-  public sidenavTitle: string;
-  public sidenavColor: string;
-
-  constructor(private componentInjectorService: ComponentInjectorService) {
+  constructor() {
   }
 
   ngOnInit() {
-  }
-
-  public openSidenavAddElement() {
-    if (!this.viewContainerRef.length) {
-      this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
-      this.sidenavTitle = 'Ajouter un élément sur la carte';
-      this.sidenavColor = 'background-red';
-    }
-    this.opened = true;
-  }
-
-  public closeSidenav() {
-    this.opened = false;
-    this.viewContainerRef.clear();
   }
 
 }

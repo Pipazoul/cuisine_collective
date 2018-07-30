@@ -1,10 +1,21 @@
 <app-header></app-header>
-<div class="full-page-container" fxLayout="row">
-    <div fxFlex="25%">
-        <router-outlet name="sidenav"></router-outlet>
-    </div>
-    <div class="map-container" #map fxFlex="50%"></div>
-    <div fxFlex="25%">
-        <router-outlet></router-outlet>
-    </div>
+<div class="full-page-container">
+    <mat-sidenav-container>
+        <mat-sidenav-content fxLayout="row">
+            <div fxFlex="25%">
+                <router-outlet name="sidenav"></router-outlet>
+            </div>
+            <div #map fxFlex="75%"></div>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+        <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end" fxFlex fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header" [ngClass]="sidenavColor">
+                <span>{{sidenavTitle | uppercase}}</span>
+                <button type="button" mat-icon-button [routerLink]="'/admin'">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <ng-template #dynamic></ng-template>
+        </mat-sidenav>
+    </mat-sidenav-container>
 </div>
