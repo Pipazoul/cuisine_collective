@@ -6,8 +6,12 @@ import { AppComponent } from './app.component';
 // Material Design & FlexLayout
 import {
   MatButtonModule,
+  MatDatepickerModule,
   MatDialogModule,
+  MatFormFieldModule,
   MatIconModule,
+  MatInputModule,
+  MatNativeDateModule,
   MatSidenavModule,
   MatSlideToggleModule
 } from '@angular/material';
@@ -111,8 +115,12 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     FlexLayoutModule,
     // Material
     MatButtonModule,
+    MatDatepickerModule,
     MatDialogModule,
+    MatFormFieldModule,
     MatIconModule,
+    MatInputModule,
+    MatNativeDateModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -144,13 +152,11 @@ MatButtonToggleModule,
 MatCardModule,
 MatCheckboxModule,
 MatChipsModule,
-MatDatepickerModule,
 MatExpansionModule,
 MatGridListModule,
 MatInputModule,
 MatListModule,
 MatMenuModule,
-MatNativeDateModule,
 MatPaginatorModule,
 MatProgressBarModule,
 MatProgressSpinnerModule,
