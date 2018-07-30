@@ -12,16 +12,20 @@ html, body {
 *:focus, div, button:focus {
     outline: none;
 }
+
 a {
     text-decoration: none;
     color: #6CCACC;
 }
+
 .uppercase {
     text-transform: uppercase;
 }
+
 .bold {
     font-weight: bold;
 }
+
 .clickable {
     cursor: pointer;
 }
@@ -35,6 +39,9 @@ a {
     background-color: white;
     color: #6CCACC;
 }
+
+/* ----- POPUP ----- */
+
 .popup .mat-button {
     background-color: #6CCACC;
     color: white;
@@ -49,14 +56,20 @@ a {
     background-color: #6CCACC;
     color: white;
 }
+
 .popup-header i {
     color: white;
 }
+
 .popup-body {
     padding: 5px 20px 20px 20px;
     background-color: white;
     color: #6CCACC;
 }
+
+/* ----- END POPUP ----- */
+
+/* ----- BACKGROUNDS ----- */
 
 .background-red {
     background-color: #FF5555;
@@ -69,6 +82,8 @@ a {
 .background-blue-dark {
     background-color: #0D70CD;
 }
+
+/* ----- END BACKGROUNDS ----- */
 
 /* ----- SIDENAV ----- */
 
