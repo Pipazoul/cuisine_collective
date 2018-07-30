@@ -1,12 +1,13 @@
 :host {
-    display: flex;
-    flex: 1 1 0%;
-    flex-direction: column;
-    place-content: space-between center;
+    height: 100%;
 }
 
 .mat-button {
     color: white;
     font-weight: bold;
     margin: 0 15px;
+}
+
+.carousel-element {
+    width: 380px;
 }
