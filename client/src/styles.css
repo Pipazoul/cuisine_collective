@@ -114,3 +114,19 @@ a {
 label {
     cursor: pointer;
 }
+
+.mat-expansion-panel:not(:first-child) {
+    border-top: 1px solid #6CCACC;
+}
+.mat-expansion-panel-body {
+    background-color: #eaeaea !important;
+}
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: initial !important;
+}
+.mat-expansion-panel-spacing {
+    margin: 0 !important;
+}
+.mat-expansion-panel-header-title, .mat-expansion-indicator::after {
+    color: #6CCACC !important;
+}

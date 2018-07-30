@@ -1,0 +1,48 @@
+.left-content {
+    height: 100%;
+    background-color: #eaeaea;
+    -webkit-box-shadow: 6px 0 7px -4px #888;
+    box-shadow: 6px 0 7px -4px #888;
+}
+
+.content-title {
+    background-color: #6CCACC;
+    text-transform: uppercase;
+    color: white;
+    padding: 20px 0 20px 0;
+}
+
+.filters-container {
+    height: 100%;
+}
+
+.section-header {
+    padding: 20px 0 20px 0;
+    width: 100%
+}
+
+.section-header>div {
+    text-align: center;
+}
+
+.title-decoration {
+    background-color: #f4f4f4;
+    height: 12px;
+}
+
+.section-title {
+    color: #6CCACC;
+}
+
+.section-filters {
+    padding-top: 20px;
+}
+
+mat-form-field {
+    width: 200px;
+}
+
+img {
+    padding: 10px 15px 5px 15px;
+    width: 100px;
+}

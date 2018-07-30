@@ -12,4 +12,14 @@ export class SearchBarComponent implements OnInit {
   ngOnInit() {
   }
 
+  locateUser() {
+    if (window.navigator.geolocation) {
+      window.navigator.geolocation.getCurrentPosition(position => {
+        // TODO : US ? : locate user
+        console.log(position);
+      }, error => {
+        console.error(error);
+      });
+    };
+  }
 }

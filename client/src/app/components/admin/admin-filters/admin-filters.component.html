@@ -1,3 +1,96 @@
-<p>
-  admin-filters works!
-</p>
+<div class="left-content" fxLayout="column">
+  <div class="content-title bold" fxLayoutAlign="center">
+    Filtrer ma recherche
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Statut
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-filters" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="10px">
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <i class="material-icons">location_on</i>
+          <span>Publiés</span>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="center center">
+          <i class="material-icons">edit_location</i>
+          <span>En cours d'organisation</span>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Date ou période
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-header">
+        <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+          <mat-form-field>
+            <input matInput autocomplete="off" [matDatepicker]="startPicker" placeholder="Date de départ">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput autocomplete="off" [matDatepicker]="endPicker" placeholder="Date d'arrivée">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Type d'évènement
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <label for="eat-input">Manger ensemble</label>
+          <label for="cook-input">Cuisiner ensemble</label>
+          <label for="public-input">Tout public</label>
+          <label for="regular-input">Récurrent</label>
+        </div>
+        <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <mat-slide-toggle id="eat"></mat-slide-toggle>
+          <mat-slide-toggle id="cook"></mat-slide-toggle>
+          <mat-slide-toggle id="public"></mat-slide-toggle>
+          <mat-slide-toggle id="regular"></mat-slide-toggle>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Besoins
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <div fxLayout="row">
+          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <img src="/assets/img/place.svg"> Un lieu
+          </div>
+          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <img src="/assets/img/food.svg"> Des aliments
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <img src="/assets/img/pros.svg"> Des pros
+          </div>
+          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <img src="/assets/img/users.svg"> Des usagers
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <img src="/assets/img/assistant.svg"> Des accompagnateurs
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
