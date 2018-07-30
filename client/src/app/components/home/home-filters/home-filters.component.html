@@ -2,30 +2,50 @@
   <div class="content-title bold" fxLayoutAlign="center">
     Filtrer ma recherche
   </div>
-  <div class="filters-container" fxLayout="column" fxLayoutAlign="start center" fxLayoutGap="30px">
-    <div class="section-title">
-      <div class="section-title">
-        Date ou période
+  <div class="filters-container" fxLayout="column" fxLayoutAlign="start center">
+    <div class="section-header">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="20%" class="title-decoration"></div>
+        <div class="section-title" fxFlex="60%">
+          Date ou période
+        </div>
+        <div fxFlex="20%" class="title-decoration"></div>
+      </div>
+      <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <mat-form-field>
+          <input matInput autocomplete="off" [matDatepicker]="startPicker" placeholder="Date de départ">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput autocomplete="off" [matDatepicker]="endPicker" placeholder="Date d'arrivée">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
       </div>
     </div>
-    <div>
-      <div class="section-title">
-        Type d'évènement
+    <div class="section-header">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="20%" class="title-decoration"></div>
+        <div class="section-title" fxFlex="60%">
+          Type d'évènement
+        </div>
+        <div fxFlex="20%" class="title-decoration"></div>
       </div>
-      <section fxLayout="column" fxLayoutGap="20px">
-        <mat-slide-toggle labelPosition="before">
-          Manger ensemble
-        </mat-slide-toggle>
-        <mat-slide-toggle labelPosition="before">
-          Cuisiner ensemble
-        </mat-slide-toggle>
-        <mat-slide-toggle labelPosition="before">
-          Tout public
-        </mat-slide-toggle>
-        <mat-slide-toggle labelPosition="before">
-          Récurrent
-        </mat-slide-toggle>
-      </section>
+      <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <label for="eat-input">Manger ensemble</label>
+          <label for="cook-input">Cuisiner ensemble</label>
+          <label for="public-input">Tout public</label>
+          <label for="regular-input">Récurrent</label>
+        </div>
+        <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <mat-slide-toggle id="eat"></mat-slide-toggle>
+          <mat-slide-toggle id="cook"></mat-slide-toggle>
+          <mat-slide-toggle id="public"></mat-slide-toggle>
+          <mat-slide-toggle id="regular"></mat-slide-toggle>
+        </div>
+      </div>
     </div>
   </div>
 </div>

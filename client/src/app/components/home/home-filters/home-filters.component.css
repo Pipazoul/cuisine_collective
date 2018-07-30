@@ -1,5 +1,8 @@
 .left-content {
+    height: 100%;
     background-color: white;
+    -webkit-box-shadow: 6px 0 7px -4px #888;
+    box-shadow: 6px 0 7px -4px #888;
 }
 
 .content-title {
@@ -13,7 +16,28 @@
     background-color: #eaeaea;
 }
 
-.section-title {
+.section-header {
     padding: 20px 0 20px 0;
+    width: 100%
+}
+
+.section-header>div {
     text-align: center;
+}
+
+.title-decoration {
+    background-color: #f4f4f4;
+    height: 12px;
+}
+
+.section-title {
+    color: #6CCACC;
+}
+
+.section-filters {
+    padding-top: 20px;
+}
+
+mat-form-field {
+    width: 200px;
 }

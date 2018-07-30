@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 // Material Design & FlexLayout
 import {
   MatButtonModule,
+  MatDatepickerModule,
   MatDialogModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
+  MatNativeDateModule,
   MatSidenavModule,
   MatSlideToggleModule
 } from '@angular/material';
@@ -50,6 +52,7 @@ import { PopupSigninComponent } from './components/home/popup-signin/popup-signi
 import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
+import { EventComponent } from './components/event/event.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -108,7 +111,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     CarouselItemElement,
     HomeFiltersComponent,
     AdminFiltersComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    EventComponent
   ],
   entryComponents: [
     PopupSigninComponent,
@@ -123,10 +127,12 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     FlexLayoutModule,
     // Material
     MatButtonModule,
+    MatDatepickerModule,
     MatDialogModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatNativeDateModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -158,12 +164,10 @@ MatButtonToggleModule,
 MatCardModule,
 MatCheckboxModule,
 MatChipsModule,
-MatDatepickerModule,
 MatExpansionModule,
 MatGridListModule,
 MatListModule,
 MatMenuModule,
-MatNativeDateModule,
 MatPaginatorModule,
 MatProgressBarModule,
 MatProgressSpinnerModule,

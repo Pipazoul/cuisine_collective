@@ -2,6 +2,10 @@
     height: calc(100% - 60px);
 }
 
+.map-container {
+    z-index: -1;
+}
+
 .mat-sidenav-container {
     height: 100%;
 }
