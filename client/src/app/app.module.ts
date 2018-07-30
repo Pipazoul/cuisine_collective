@@ -20,6 +20,9 @@ import { RestangularModule } from 'ngx-restangular';
 import { appRoutingProviders, routing } from './app.routes';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Directives
+import { CarouselItemDirective } from './directive/carousel-item.directive';
+
 // Services
 import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
@@ -35,6 +38,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
+import { CarouselComponent, CarouselItemElement } from './components/carousel/carousel.component';
 
 // Dialogs
 import { DialogComponent } from './components/common/dialog/dialog.component';
@@ -91,7 +95,10 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     DialogComponent,
     AdminComponent,
     EventFormComponent,
-    AddElementComponent
+    AddElementComponent,
+    CarouselComponent,
+    CarouselItemDirective,
+    CarouselItemElement
   ],
   entryComponents: [
     PopupSigninComponent,
