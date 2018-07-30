@@ -43,6 +43,7 @@ import { PopupSigninComponent } from './components/home/popup-signin/popup-signi
 import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
+import { EventComponent } from './components/event/event.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -98,7 +99,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AddElementComponent,
     HomeFiltersComponent,
     AdminFiltersComponent,
-    SearchBarComponent
+    SearchBarComponent,
+    EventComponent
   ],
   entryComponents: [
     PopupSigninComponent,

@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef, OnInit, AfterViewInit } from '@angular/core';
 import * as ol from 'openlayers';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -7,6 +8,52 @@ import * as ol from 'openlayers';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
+  eventColor = '#6CCACC';
+  toBeAccompaniedEventColor = '#F9A755';
+  selectedEventColor = '#FF5555';
+
+  mockEvents: {id: number, type: number, coordinates: [number, number]}[] = [
+    {
+      id: 1,
+      type: 1,
+      coordinates: [532262.3872128094, 5740786.2887582248]
+    },
+    {
+      id: 2,
+      type: 2,
+      coordinates: [534356.3872128094, 5740897.2887582248]
+    },
+    {
+      id: 3,
+      type: 1,
+      coordinates: [530892.3872128094, 5749564.2887582248]
+    },
+    {
+      id: 4,
+      type: 1,
+      coordinates: [536187.3872128094, 5745493.2887582248]
+    },
+    {
+      id: 5,
+      type: 1,
+      coordinates: [535684.3872128094, 5740543.2887582248]
+    },
+    {
+      id: 6,
+      type: 2,
+      coordinates: [537892.3872128094, 5748927.2887582248]
+    },
+    {
+      id: 7,
+      type: 1,
+      coordinates: [539298.3872128094, 5745938.2887582248]
+    },
+    {
+      id: 8,
+      type: 1,
+      coordinates: [538390.3872128094, 5748935.2887582248]
+    }
+  ]
 
   @ViewChild('map') mapElement: ElementRef;
   title = 'client';
@@ -14,6 +61,39 @@ export class AppComponent implements OnInit, AfterViewInit {
   initialZoom: number = 11;
   map: ol.Map;
   markerSource = new ol.source.Vector();
+
+  get eventStyle() {
+    return new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+        color: this.eventColor,
+        crossOrigin: 'anonymous',
+        src: 'assets/pin.png',
+        anchor: [0.5, 1]
+      }))
+    });
+  }
+
+  get toBeAccompaniedEventStyle() {
+    return new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+        color: this.toBeAccompaniedEventColor,
+        crossOrigin: 'anonymous',
+        src: 'assets/pin.png',
+        anchor: [0.5, 1]
+      }))
+    });
+  }
+
+  get selectedEventStyle() {
+    return new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+        color: this.selectedEventColor,
+        crossOrigin: 'anonymous',
+        src: 'assets/pin.png',
+        anchor: [0.5, 1]
+      }))
+    });
+  }
 
   ngAfterViewInit(): void {
     this.map = new ol.Map({
@@ -37,34 +117,40 @@ export class AppComponent implements OnInit, AfterViewInit {
         zoom: this.initialZoom
       })
     });
-    var iconFeatures = [];
-
-    var iconFeature = new ol.Feature({
-      geometry: new ol.geom.Point([538262.3872128094, 5740786.2887582248]),
-      name: 'Null Island',
-      population: 4000,
-      rainfall: 500
+    
+    this.mockEvents.forEach((event) => {
+      var iconFeature = new ol.Feature({
+        geometry: new ol.geom.Point(event.coordinates),
+        selected: false,
+        onClick: () => {
+          this.router.navigate(['events', event.id])
+        }
+      });
+  
+      if(event.type === 1) {
+        iconFeature.setStyle(
+          this.eventStyle
+        );
+      }
+      else if(event.type === 2) {
+        iconFeature.setStyle(
+          this.toBeAccompaniedEventStyle
+        );
+      }
+  
+      this.markerSource.addFeature(iconFeature);
     });
 
-    iconFeature.setStyle(
-      new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-          color: '#8959A8',
-          crossOrigin: 'anonymous',
-          src: 'assets/pin.png',
-          anchor: [0.5, 1]
-        }))
-    }));
-    this.markerSource.addFeature(iconFeature);
+    this.map.on('click', (event: ol.MapBrowserEvent) => {
+      this.map.forEachFeatureAtPixel(event.pixel, (feature: ol.Feature, layer) => {
+        feature.getProperties().onClick();
+      });
+    });
   }
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
-    
-  }
 
-  addMarker(lon, lat) {
-
-
-    
   }
 }
