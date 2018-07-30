@@ -1,3 +1,28 @@
-<p>
-  popup-signin works!
-</p>
+<div class="popup">
+  <div class="popup-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="uppercase" fxLayoutAlign="space-around center">
+      <i class="material-icons">people</i>
+      &nbsp;Professionnels
+    </div>
+    <a class="clickable" (click)="close()">
+      <i class="material-icons">close</i>
+    </a>
+  </div>
+  <div class="popup-body" fxLayout="column" fxLayoutGap="30px" fxLayoutAlign="center center">
+    <div fxLayout="column" class="authentication-input">
+      <label for="code">Renseignez le code de connexion</label>
+      <input #code id="code" type="password" (keydown.enter)="signin(code.value)">
+      <span *ngIf="showError" class="error-message">Le code saisi est incorrect</span>
+    </div>
+    <button mat-button type="submit" (click)="signin(code.value)" class="authentication-button uppercase">
+      Se connecter
+    </button>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
+      <div class="bold">Je souhaite que l'on me transmette le code de connexion :</div>
+      <div>
+        Envoyez un courrier à
+        <a href="mailto:conferencesdesfinanceurs@grandlyon.com">conferencesdesfinanceurs@grandlyon.com</a>
+      </div>
+    </div>
+  </div>
+</div>

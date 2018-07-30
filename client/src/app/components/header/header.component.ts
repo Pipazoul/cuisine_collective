@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { Router } from '@angular/router';
 
 // Components
+import { DialogComponent } from '../common/dialog/dialog.component';
 import { PopupSigninComponent } from '../home/popup-signin/popup-signin.component';
 
 // Services
@@ -16,6 +17,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 export class HeaderComponent implements OnInit {
 
   signinDialog: MatDialogRef<PopupSigninComponent, any>;
+  signoutDialog: MatDialogRef<DialogComponent, any>;
 
   constructor(
     private dialog: MatDialog,
@@ -23,6 +25,7 @@ export class HeaderComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
+    
   }
 
   /**
@@ -30,7 +33,7 @@ export class HeaderComponent implements OnInit {
    */
   openSigninDialog(): void {
     this.signinDialog = this.dialog.open(PopupSigninComponent, {
-      width: '300px',
+      width: '550px',
       panelClass: "dialog"
     })
 
@@ -41,4 +44,36 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  /**
+   * Open the signout popup dialog
+   */
+  openSignoutDialog(): void {
+    this.signoutDialog = this.dialog.open(DialogComponent, {
+      width: '300px',
+      panelClass: "dialog",
+      data: {
+        title: 'Déconnexion',
+        body: 'Merci de confirmer la déconnexion.'
+      }
+    })
+
+    this.signoutDialog.afterClosed().subscribe((res) => {
+      if (res) {
+        this.authenticationService.signout().subscribe(
+          res => {
+            this.router.navigate(this.authenticationService.homePage);
+          }, err => {
+            console.error(err);
+          }
+        )
+      }
+    });
+  }
+
+  /**
+   * To know if we are logged in or not or not
+   */
+  isConnected() {
+    return this.authenticationService.isConnected;
+  }
 }

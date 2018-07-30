@@ -1,0 +1,19 @@
+<div class="popup">
+  <div class="popup-header" fxLayout="row" fxLayoutAlign="space-between center">
+    <div class="uppercase" fxLayoutAlign="space-around center">
+      &nbsp;{{data.title}}
+    </div>
+    <a class="clickable" (click)="onCancelClick()">
+      <i class="material-icons">close</i>
+    </a>
+  </div>
+  <div class="popup-body">
+    <div>
+      <p>{{data.body}}</p>
+    </div>
+    <div fxLayoutAlign="center center" fxLayoutGap="10px">
+      <button mat-button (click)="onCancelClick()">Annuler</button>
+      <button mat-button (click)="onOkClick()">Ok</button>
+    </div>
+  </div>
+</div>
