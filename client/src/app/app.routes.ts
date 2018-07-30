@@ -16,12 +16,12 @@ const ROUTES: Routes = [{
   children: [
     {
       path: '',
-      component: HomeFiltersComponent,
-      outlet: "sidenav"
-    }, {
-      path: '',
       component: HomeComponent,
       outlet: "primary"
+    }, {
+      path: '',
+      component: HomeFiltersComponent,
+      outlet: "sidenav"
     }
   ]
 }, {
