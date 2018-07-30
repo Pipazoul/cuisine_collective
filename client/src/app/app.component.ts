@@ -151,6 +151,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(event.coordinates),
         selected: false,
+        type: event.type,
         onClick: () => {
           this.router.navigate(['events', event.id])
         }
@@ -171,8 +172,27 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.map.on('click', (event: ol.MapBrowserEvent) => {
+      let featureFound = false;
       this.map.forEachFeatureAtPixel(event.pixel, (feature: ol.Feature, layer) => {
-        feature.getProperties().onClick();
+        if(!featureFound) {
+          const properties = feature.getProperties();
+          properties.onClick();
+          feature.setStyle(this.selectedEventStyle);
+          feature.setProperties({selected: true});
+          this.markerSource.getFeatures().filter(x => x !== feature).forEach(feature => {
+            if(feature.getProperties().type === 1) {
+              feature.setStyle(
+                this.eventStyle
+              );
+            }
+            else if(feature.getProperties().type === 2) {
+              feature.setStyle(
+                this.toBeAccompaniedEventStyle
+              );
+            }
+          });
+        }
+        featureFound = true;
       });
     });
   }
