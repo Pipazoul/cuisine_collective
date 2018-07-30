@@ -46,3 +46,7 @@ img {
     padding: 10px 15px 5px 15px;
     width: 100px;
 }
+
+.content-title.contributors {
+    background-color: #0d70cd;
+}

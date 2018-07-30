@@ -138,3 +138,6 @@ label {
 .mat-expansion-panel-header-title, .mat-expansion-indicator::after {
     color: #6CCACC !important;
 }
+.contributors .mat-expansion-panel-header-title, .contributors .mat-expansion-indicator::after {
+    color: #0d70cd !important;
+}
