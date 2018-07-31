@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 // Classes
 import { LocationClass } from '../../../domain/location.class';
 import { LocationService } from '../../../services/location.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'app-search-bar',
@@ -38,7 +39,6 @@ export class SearchBarComponent implements OnInit {
       switchMap(data => this.locationService.search(data, SearchBarComponent.RESULTS_LIMIT)))
       .subscribe(data => {
         this.isLoading = false;
-        console.log(data);
         this.results = data.features;
       });
     this.locationForm = new FormGroup({ 'location': locationCtrl });
@@ -48,7 +48,7 @@ export class SearchBarComponent implements OnInit {
    * When user select a result among the list
    * @param event Clicked result
    */
-  selectAddress(event) {
+  selectAddress(event: MatAutocompleteSelectedEvent) {
     this.results.length = 0;
     const location: LocationClass = event.option.value;
     this.locationForm.controls.location.setValue(location.properties.label);
