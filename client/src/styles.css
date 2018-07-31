@@ -198,3 +198,7 @@ label {
 .full-width {
     width: 100%;
 }
+.mat-drawer-backdrop {
+    background-color: transparent !important;
+    pointer-events: none;
+}

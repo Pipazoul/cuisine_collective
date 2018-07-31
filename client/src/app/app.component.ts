@@ -4,6 +4,8 @@ import { ComponentInjectorService } from './services/component-injector.service'
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
+import { EventService } from './services/event.service';
+import { EventClass } from './domain/event.class';
 
 @Component({
   selector: 'app-root',
@@ -12,51 +14,10 @@ import { AuthenticationService } from './services/authentication.service';
 })
 export class AppComponent implements OnInit, AfterViewInit {
   eventColor = '#6CCACC';
-  toBeAccompaniedEventColor = '#F9A755';
+  contributorColor = '#F9A755';
   selectedEventColor = '#FF5555';
 
-  mockEvents: { id: number, type: number, coordinates: [number, number] }[] = [
-    {
-      id: 1,
-      type: 1,
-      coordinates: [532262.3872128094, 5740786.2887582248]
-    },
-    {
-      id: 2,
-      type: 2,
-      coordinates: [534356.3872128094, 5740897.2887582248]
-    },
-    {
-      id: 3,
-      type: 1,
-      coordinates: [530892.3872128094, 5749564.2887582248]
-    },
-    {
-      id: 4,
-      type: 1,
-      coordinates: [536187.3872128094, 5745493.2887582248]
-    },
-    {
-      id: 5,
-      type: 1,
-      coordinates: [535684.3872128094, 5740543.2887582248]
-    },
-    {
-      id: 6,
-      type: 2,
-      coordinates: [537892.3872128094, 5748927.2887582248]
-    },
-    {
-      id: 7,
-      type: 1,
-      coordinates: [539298.3872128094, 5745938.2887582248]
-    },
-    {
-      id: 8,
-      type: 1,
-      coordinates: [538390.3872128094, 5748935.2887582248]
-    }
-  ]
+  events: EventClass[];
 
   @ViewChild('map') mapElement: ElementRef;
   title = 'client';
@@ -64,24 +25,21 @@ export class AppComponent implements OnInit, AfterViewInit {
   initialZoom: number = 11;
   searchZoom: number = 16;
   map: ol.Map;
-  eventsMarkerSource = new ol.source.Vector({
-    features: this.mockEvents.filter(x => x.type === 1).map((event) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point(event.coordinates),
-        type: event.type,
-        id: event.id
-      })
-    )
-  });
-  toBeAccompaniedEventsMarkerSource = new ol.source.Vector({
-    features: this.mockEvents.filter(x => x.type === 2).map((event) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point(event.coordinates),
-        type: event.type,
-        id: event.id
-      })
-    )
-  });
+  get eventsMarkerSource() {
+    return new ol.source.Vector({
+      features: this.events.map((event) =>
+        new ol.Feature({
+          geometry: new ol.geom.Point([event.longitude, event.latitude]),
+          id: event.id
+        })
+      )
+    });
+  }
+  get contributorsMarkerSource() {
+    return new ol.source.Vector({
+      features: [/*TODO*/]
+    });
+  }
   selectInteraction = new ol.interaction.Select({ multi: false, style: this.selectedEventStyle, hitTolerance: 10 });
   // Sidenav
   @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
@@ -91,18 +49,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private authenticationService: AuthenticationService,
     private componentInjectorService: ComponentInjectorService,
-    private router: Router
+    private router: Router,
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(res => {
-      if (res.addElement === 'true') {
-        this.openSidenavAddElement();
-      }
-      if (!res.addElement || res.addElement !== 'true') {
-        this.closeSidenav();
-      }
-    });
   }
 
   get eventStyle() {
@@ -115,10 +66,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get toBeAccompaniedEventStyle() {
+  get contributorStyle() {
     return new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-        color: this.toBeAccompaniedEventColor,
+        color: this.contributorColor,
         src: 'assets/pin.png',
         anchor: [0.5, 1]
       }))
@@ -147,6 +98,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.initializeData().then(res => {
+      this.events = res;
+      this.initializeMap();
+    })
+  }
+
+  initializeData() {
+    return this.eventService.getAll().toPromise();
+  }
+
+  initializeMap() {
     this.map = new ol.Map({
       layers: [
         new ol.layer.Tile({
@@ -157,8 +119,8 @@ export class AppComponent implements OnInit, AfterViewInit {
           style: this.eventStyle
         }),
         new ol.layer.Vector({
-          source: this.toBeAccompaniedEventsMarkerSource,
-          style: this.toBeAccompaniedEventStyle
+          source: this.contributorsMarkerSource,
+          style: this.contributorStyle
         }),
       ],
       target: this.mapElement.nativeElement,
@@ -178,25 +140,36 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
-      console.log(e.target.getFeatures());
       if (e.selected && e.target.getFeatures().item(0)) {
         this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
       }
+      else {
+        this.router.navigate(['home']);
+      }
     });
-  }
 
-  public openSidenavAddElement() {
-    if (!this.authenticationService.isConnected) {
-      return;
-    }
-    if (!this.viewContainerRef.length) {
-      this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
-    }
-    this.showSidenav = true;
+    /*var mousePosition = new ol.control.MousePosition({
+      coordinateFormat: ol.coordinate.createStringXY(10),
+      projection: 'EPSG:3857',
+      target: document.getElementById('myposition'),
+      undefinedHTML: '&nbsp;'
+    });
+
+    this.map.addControl(mousePosition);*/
   }
 
   public closeSidenav() {
     this.showSidenav = false;
     this.viewContainerRef.clear();
+  }
+
+  onPrimaryRouterActivate(event) {
+    console.log('onPrimaryRouterActivate');
+    this.showSidenav = true;
+  }
+
+  onPrimaryRouterDeactivate(event) {
+    console.log('onPrimaryRouterDeactivate');
+    this.showSidenav = false;
   }
 }
