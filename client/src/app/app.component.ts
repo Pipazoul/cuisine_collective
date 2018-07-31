@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   toBeAccompaniedEventColor = '#F9A755';
   selectedEventColor = '#FF5555';
 
-  mockEvents: {id: number, type: number, coordinates: [number, number]}[] = [
+  mockEvents: { id: number, type: number, coordinates: [number, number] }[] = [
     {
       id: 1,
       type: 1,
@@ -63,8 +63,25 @@ export class AppComponent implements OnInit, AfterViewInit {
   initialCoordinates: [number, number] = [538262.3872128094, 5740786.2887582248];
   initialZoom: number = 11;
   map: ol.Map;
-  markerSource = new ol.source.Vector();
-
+  eventsMarkerSource = new ol.source.Vector({
+    features: this.mockEvents.filter(x => x.type === 1).map((event) =>
+      new ol.Feature({
+        geometry: new ol.geom.Point(event.coordinates),
+        type: event.type,
+        id: event.id
+      })
+    )
+  });
+  toBeAccompaniedEventsMarkerSource = new ol.source.Vector({
+    features: this.mockEvents.filter(x => x.type === 2).map((event) =>
+      new ol.Feature({
+        geometry: new ol.geom.Point(event.coordinates),
+        type: event.type,
+        id: event.id
+      })
+    )
+  });
+  selectInteraction = new ol.interaction.Select({ multi: false, style: this.selectedEventStyle });
   // Sidenav
   @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
   public showSidenav: boolean = false;
@@ -95,7 +112,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     return new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
         color: this.eventColor,
-        crossOrigin: 'anonymous',
         src: 'assets/pin.png',
         anchor: [0.5, 1]
       }))
@@ -106,7 +122,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     return new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
         color: this.toBeAccompaniedEventColor,
-        crossOrigin: 'anonymous',
         src: 'assets/pin.png',
         anchor: [0.5, 1]
       }))
@@ -117,7 +132,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     return new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
         color: this.selectedEventColor,
-        crossOrigin: 'anonymous',
         src: 'assets/pin.png',
         anchor: [0.5, 1]
       }))
@@ -131,7 +145,12 @@ export class AppComponent implements OnInit, AfterViewInit {
           source: new ol.source.OSM()
         }),
         new ol.layer.Vector({
-          source: this.markerSource,
+          source: this.eventsMarkerSource,
+          style: this.eventStyle
+        }),
+        new ol.layer.Vector({
+          source: this.toBeAccompaniedEventsMarkerSource,
+          style: this.toBeAccompaniedEventStyle
         }),
       ],
       target: this.mapElement.nativeElement,
@@ -140,60 +159,21 @@ export class AppComponent implements OnInit, AfterViewInit {
         zoom: false,
         rotate: false
       }),
-      interactions: ol.interaction.defaults({ doubleClickZoom: false }),
+      interactions:
+        ol.interaction.defaults({ doubleClickZoom: false }).extend([
+          this.selectInteraction
+        ]),
       view: new ol.View({
         center: this.initialCoordinates,
         zoom: this.initialZoom
       })
     });
-    
-    this.mockEvents.forEach((event) => {
-      var iconFeature = new ol.Feature({
-        geometry: new ol.geom.Point(event.coordinates),
-        selected: false,
-        type: event.type,
-        onClick: () => {
-          this.router.navigate(['events', event.id])
-        }
-      });
-  
-      if(event.type === 1) {
-        iconFeature.setStyle(
-          this.eventStyle
-        );
-      }
-      else if(event.type === 2) {
-        iconFeature.setStyle(
-          this.toBeAccompaniedEventStyle
-        );
-      }
-  
-      this.markerSource.addFeature(iconFeature);
-    });
 
-    this.map.on('click', (event: ol.MapBrowserEvent) => {
-      let featureFound = false;
-      this.map.forEachFeatureAtPixel(event.pixel, (feature: ol.Feature, layer) => {
-        if(!featureFound) {
-          const properties = feature.getProperties();
-          properties.onClick();
-          feature.setStyle(this.selectedEventStyle);
-          feature.setProperties({selected: true});
-          this.markerSource.getFeatures().filter(x => x !== feature).forEach(feature => {
-            if(feature.getProperties().type === 1) {
-              feature.setStyle(
-                this.eventStyle
-              );
-            }
-            else if(feature.getProperties().type === 2) {
-              feature.setStyle(
-                this.toBeAccompaniedEventStyle
-              );
-            }
-          });
-        }
-        featureFound = true;
-      });
+    this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
+      console.log(e.target.getFeatures());
+      if (e.selected && e.target.getFeatures().item(0)) {
+        this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
+      }
     });
   }
 
