@@ -4,6 +4,7 @@ import { ComponentInjectorService } from './services/component-injector.service'
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
+import { CoordinatesClass } from './domain/coordinates.class';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   toBeAccompaniedEventColor = '#F9A755';
   selectedEventColor = '#FF5555';
 
-  mockEvents: {id: number, type: number, coordinates: [number, number]}[] = [
+  mockEvents: { id: number, type: number, coordinates: [number, number] }[] = [
     {
       id: 1,
       type: 1,
@@ -76,9 +77,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private componentInjectorService: ComponentInjectorService,
     private router: Router
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(res => {
@@ -124,6 +123,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Center the map on the given coordinates
+   * @param coordinates coordinates
+   */
+  goTo(coordinates) {
+    this.map.set('view', new ol.View({
+      center: ol.proj.fromLonLat(coordinates, 'EPSG:3857'),
+      zoom: 16
+    }));
+  }
+
   ngAfterViewInit(): void {
     this.map = new ol.Map({
       layers: [
@@ -146,7 +156,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         zoom: this.initialZoom
       })
     });
-    
+
     this.mockEvents.forEach((event) => {
       var iconFeature = new ol.Feature({
         geometry: new ol.geom.Point(event.coordinates),
@@ -156,36 +166,36 @@ export class AppComponent implements OnInit, AfterViewInit {
           this.router.navigate(['events', event.id])
         }
       });
-  
-      if(event.type === 1) {
+
+      if (event.type === 1) {
         iconFeature.setStyle(
           this.eventStyle
         );
       }
-      else if(event.type === 2) {
+      else if (event.type === 2) {
         iconFeature.setStyle(
           this.toBeAccompaniedEventStyle
         );
       }
-  
+
       this.markerSource.addFeature(iconFeature);
     });
 
     this.map.on('click', (event: ol.MapBrowserEvent) => {
       let featureFound = false;
       this.map.forEachFeatureAtPixel(event.pixel, (feature: ol.Feature, layer) => {
-        if(!featureFound) {
+        if (!featureFound) {
           const properties = feature.getProperties();
           properties.onClick();
           feature.setStyle(this.selectedEventStyle);
-          feature.setProperties({selected: true});
+          feature.setProperties({ selected: true });
           this.markerSource.getFeatures().filter(x => x !== feature).forEach(feature => {
-            if(feature.getProperties().type === 1) {
+            if (feature.getProperties().type === 1) {
               feature.setStyle(
                 this.eventStyle
               );
             }
-            else if(feature.getProperties().type === 2) {
+            else if (feature.getProperties().type === 2) {
               feature.setStyle(
                 this.toBeAccompaniedEventStyle
               );

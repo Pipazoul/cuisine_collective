@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 
 // Material Design & FlexLayout
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatDatepickerModule,
   MatDialogModule,
@@ -128,6 +129,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     ReactiveFormsModule,
     FlexLayoutModule,
     // Material
+    MatAutocompleteModule,
     MatButtonModule,
     MatDatepickerModule,
     MatDialogModule,
@@ -163,7 +165,6 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
 export class AppModule { }
 
 /*
-MatAutocompleteModule,
 MatButtonToggleModule,
 MatCardModule,
 MatCheckboxModule,

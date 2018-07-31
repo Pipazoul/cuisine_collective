@@ -6,7 +6,7 @@
                 <router-outlet name="sidenav"></router-outlet>
             </div>
             <div class="map-container" #map fxFlex="75%">
-                <app-search-bar></app-search-bar>
+                <app-search-bar (goTo)=goTo($event)></app-search-bar>
             </div>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
