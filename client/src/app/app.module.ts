@@ -37,6 +37,7 @@ import { CarouselItemDirective } from './directive/carousel-item.directive';
 // Services
 import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
+import { ContributorService } from './services/contributor.service';
 import { EventService } from './services/event.service';
 import { UserService } from './services/user.service';
 
@@ -49,6 +50,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
+import { ContributorFormComponent } from './components/admin/contributor-form/contributor-form.component';
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { CarouselComponent, CarouselItemElement } from './components/carousel/carousel.component';
 
@@ -114,6 +116,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     DialogComponent,
     AdminComponent,
     EventFormComponent,
+    ContributorFormComponent,
     AddElementComponent,
     CarouselComponent,
     CarouselItemDirective,
@@ -169,6 +172,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     appRoutingProviders,
     AuthenticationService,
     EventService,
+    ContributorService,
     UserService,
     ComponentInjectorService,
     AuthGuard,

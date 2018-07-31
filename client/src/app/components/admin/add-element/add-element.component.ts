@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
+// Components
 import { CarouselComponent } from '../../carousel/carousel.component';
+
+// Classes
 import { EventClass } from '../../../domain/event.class';
+import { ContributorClass } from '../../../domain/contributor.class';
 
 @Component({
   selector: 'app-add-element',
@@ -12,6 +17,8 @@ export class AddElementComponent implements OnInit {
   @ViewChild('carousel') public carousel: CarouselComponent;
   public sidenavTitle: string = 'Ajouter un élément sur la carte';
   public event: EventClass = new EventClass();
+  public contributor: ContributorClass = new ContributorClass();
+  public showEvent: boolean = true;
 
   constructor() { }
 
@@ -21,6 +28,12 @@ export class AddElementComponent implements OnInit {
   public showCreateEvent() {
     this.sidenavTitle = 'Créer un évènement';
     this.carousel.goTo(1);
+  }
+
+  public showCreateContributor() {
+    this.showEvent = false;
+    this.sidenavTitle = 'Créer un contributeur';
+    this.carousel.next();
   }
 
 }
