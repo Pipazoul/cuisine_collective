@@ -11,7 +11,8 @@
       "type": "number"
     },
     "title": {
-      "type": "string"
+      "type": "string",
+      "default": "sans_nom"
     },
     "description": {
       "type": "string"
@@ -38,10 +39,38 @@
       "type": "string"
     },
     "longitude": {
-      "type": "number"
+      "type": "number",
+      "default": "538262.3872128094",
+      "postgresql": {
+        "dataType": "double precision"
+      }
     },
     "latitude": {
-      "type": "number"
+      "type": "number",
+      "default": "5740786.2887582248",
+      "postgresql": {
+        "dataType": "double precision"
+      }
+    },
+    "location": {
+      "type": "boolean",
+      "default": false
+    },
+    "food": {
+      "type": "boolean",
+      "default": false
+    },
+    "skills": {
+      "type": "boolean",
+      "default": false
+    },
+    "people": {
+      "type": "boolean",
+      "default": false
+    },
+    "assistants": {
+      "type": "boolean",
+      "default": false
     }
   },
   "validations": [],

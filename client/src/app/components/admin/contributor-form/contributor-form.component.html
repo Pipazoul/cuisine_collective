@@ -1,30 +1,36 @@
 <form [formGroup]="contributorForm" (ngSubmit)="submitForm(contributorForm.value)" fxFlex fxLayout="column">
   <mat-form-field class="required">
-    <input matInput formControlName="title" maxlength="100" placeholder="Titre">
+    <input matInput type="text" autocomplete="false" formControlName="title" maxlength="100" placeholder="Titre">
   </mat-form-field>
 
   <mat-form-field>
-    <textarea matInput formControlName="description" maxlength="500" placeholder="Description"></textarea>
+    <textarea matInput autocomplete="false" formControlName="description" maxlength="500" placeholder="Description"></textarea>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput formControlName="name" maxlength="100" placeholder="Nom">
+    <input matInput type="text" autocomplete="false" formControlName="name" maxlength="100" placeholder="Nom">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="hours" max="100" placeholder="Horaires">
+    <input matInput type="text" autocomplete="false" formControlName="hours" max="100" placeholder="Horaires">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="email" max="100" placeholder="Adresse email">
+    <input matInput type="text" autocomplete="false" formControlName="email" max="100" placeholder="Adresse email">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="phone" max="10" placeholder="Numéro de téléphone">
+    <input matInput type="text" autocomplete="false" formControlName="phone" max="10" placeholder="Numéro de téléphone">
   </mat-form-field>
 
-  <button mat-button type="submit" class="next-button background-red" [disabled]="contributorForm.invalid">
-    Suivant
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
+  <div fxLayout="row" fxLayoutGap="10px">
+    <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
+      Précédent
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-button type="submit" class="next-button background-red" fxFlex="50">
+      Suivant
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
 </form>
