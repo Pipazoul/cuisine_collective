@@ -81,7 +81,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       })
     )
   });
-  selectInteraction = new ol.interaction.Select({ multi: false, style: this.selectedEventStyle });
+  selectInteraction = new ol.interaction.Select({ multi: false, style: this.selectedEventStyle, hitTolerance: 10 });
   // Sidenav
   @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
   public showSidenav: boolean = false;
