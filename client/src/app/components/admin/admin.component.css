@@ -7,4 +7,5 @@
     top: calc(100% / 2 - 50px);
     height: 100px;
     width: 100px;
+    z-index: 2;
 }

@@ -11,6 +11,7 @@ import { AdminComponent } from './components/admin/admin.component';
 import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { EventComponent } from './components/event/event.component';
+import { AddElementComponent } from './components/admin/add-element/add-element.component';
 
 const ROUTES: Routes = [{
   path: 'home',
@@ -42,10 +43,18 @@ const ROUTES: Routes = [{
   children: [
     {
       path: '',
-      component: AdminComponent,
-      outlet: "primary"
+      component: AdminFiltersComponent,
+      outlet: "sidenav"
     }, {
       path: '',
+      component: AdminComponent,
+      outlet: "mapOverlay"
+    }, {
+      path: 'addElement',
+      component: AddElementComponent,
+      outlet: "primary"
+    }, {
+      path: 'addElement',
       component: AdminFiltersComponent,
       outlet: "sidenav"
     }

@@ -7,6 +7,7 @@
             </div>
             <div class="map-container" #map fxFlex="75%">
                 <app-search-bar (goTo)=goTo($event)></app-search-bar>
+                <router-outlet name="mapOverlay"></router-outlet>
             </div>
             <!--<div id="myposition"></div>-->
         </mat-sidenav-content>

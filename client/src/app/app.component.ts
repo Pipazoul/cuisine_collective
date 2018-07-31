@@ -54,14 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(res => {
-      if (res.addElement === 'true') {
-        this.openSidenavAddElement();
-      }
-      if (!res.addElement || res.addElement !== 'true') {
-        this.closeSidenav();
-      }
-    });
   }
 
   get eventStyle() {
@@ -164,16 +156,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.map.addControl(mousePosition);*/
-  }
-
-  public openSidenavAddElement() {
-    if (!this.authenticationService.isConnected) {
-      return;
-    }
-    if (!this.viewContainerRef.length) {
-      this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
-    }
-    this.showSidenav = true;
   }
 
   public closeSidenav() {
