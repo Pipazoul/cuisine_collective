@@ -32,7 +32,10 @@ export class SearchBarComponent implements OnInit {
     // location control with value changes listener
     let locationCtrl = new FormControl();
     locationCtrl.valueChanges.pipe(
-      filter(data => _.isString(data) && (data.trim().length ? true : false) && (this.isLoading = true)),
+      filter(data => {
+        this.results.length = 0;
+        return _.isString(data) && (data.trim().length ? true : false) && (this.isLoading = true)
+      }),
       debounceTime(500),
       // Using switchMap to prevent displaying data returned if another request is in progress
       switchMap(data => this.searchLocation(data)))
@@ -57,6 +60,7 @@ export class SearchBarComponent implements OnInit {
    * @param event Clicked result
    */
   selectAddress(event) {
+    this.results.length = 0;
     const location: LocationClass = event.option.value;
     this.locationForm.controls.location.setValue(location.properties.label);
     this.goTo.emit(location.geometry.coordinates);
