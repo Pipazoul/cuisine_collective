@@ -168,3 +168,8 @@ label {
 .contributors .mat-expansion-panel-header-title, .contributors .mat-expansion-indicator::after {
     color: #0d70cd !important;
 }
+
+.mat-drawer-backdrop {
+    background-color: transparent !important;
+    pointer-events: none;
+}

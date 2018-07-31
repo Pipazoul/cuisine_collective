@@ -148,9 +148,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
-      console.log(e.target.getFeatures());
       if (e.selected && e.target.getFeatures().item(0)) {
         this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
+      }
+      else {
+        this.router.navigate(['home']);
       }
     });
 
@@ -177,5 +179,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   public closeSidenav() {
     this.showSidenav = false;
     this.viewContainerRef.clear();
+  }
+
+  onPrimaryRouterActivate(event) {
+    console.log('onPrimaryRouterActivate');
+    this.showSidenav = true;
+  }
+
+  onPrimaryRouterDeactivate(event) {
+    console.log('onPrimaryRouterDeactivate');
+    this.showSidenav = false;
   }
 }

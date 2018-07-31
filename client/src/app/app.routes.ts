@@ -18,10 +18,6 @@ const ROUTES: Routes = [{
   children: [
     {
       path: '',
-      component: HomeComponent,
-      outlet: "primary"
-    }, {
-      path: '',
       component: HomeFiltersComponent,
       outlet: "sidenav"
     }
