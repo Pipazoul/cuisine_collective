@@ -106,6 +106,10 @@ span.required:before {
     padding-left: 15px;
 }
 
+.sidenav-body {
+    margin: 30px;
+}
+
 /* ----- END SIDENAV ----- */
 
 /* ----- BUTTONS ----- */
