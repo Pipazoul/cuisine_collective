@@ -108,6 +108,17 @@ span.required:before {
 
 /* ----- END SIDENAV ----- */
 
+/* ----- BUTTONS ----- */
+
+.next-button {
+    color: white;
+}
+
+.next-button.background-red:disabled {
+    background-color: #FF7777;
+}
+
+/* ----- END BUTTONS ----- */
 
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
     background-color: #6CCACC;
@@ -121,4 +132,23 @@ span.required:before {
 
 label {
     cursor: pointer;
+}
+
+.mat-expansion-panel:not(:first-child) {
+    border-top: 1px solid #6CCACC;
+}
+.mat-expansion-panel-body {
+    background-color: #eaeaea !important;
+}
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+    box-shadow: initial !important;
+}
+.mat-expansion-panel-spacing {
+    margin: 0 !important;
+}
+.mat-expansion-panel-header-title, .mat-expansion-indicator::after {
+    color: #6CCACC !important;
+}
+.contributors .mat-expansion-panel-header-title, .contributors .mat-expansion-indicator::after {
+    color: #0d70cd !important;
 }

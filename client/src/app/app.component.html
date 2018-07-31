@@ -5,7 +5,9 @@
             <div fxFlex="25%">
                 <router-outlet name="sidenav"></router-outlet>
             </div>
-            <div #map fxFlex="75%"></div>
+            <div class="map-container" #map fxFlex="75%">
+                <app-search-bar></app-search-bar>
+            </div>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
         <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end" fxFlex fxLayout="column">

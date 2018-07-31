@@ -2,6 +2,8 @@
     border-radius: 10px;
     background-color: white;
     color: #c6c6c6;
+    -webkit-box-shadow: 0px 0 7px 2px #888;
+    box-shadow: 0px 0 7px 2px #888;
 }
 
 .search-bar>div {

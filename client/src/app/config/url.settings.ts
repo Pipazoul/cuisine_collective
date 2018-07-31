@@ -13,6 +13,9 @@ export class UrlSettings {
 
   /* Models endpoint */
 
+  // Event
+  public static readonly eventModel = 'events';
+
   // User
   public static readonly userModel = 'Users';
   public static readonly userAccessTokens = 'accessTokens';

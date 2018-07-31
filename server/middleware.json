@@ -1,6 +1,11 @@
 {
   "initial:before": {
-    "loopback#favicon": {}
+    "loopback#favicon": {},
+    "./middleware/tracker": {
+      "params": {
+        "active": true
+      }
+    }
   },
   "initial": {
     "compression": {},

@@ -9,6 +9,7 @@ import { UnauthGuard } from './guards/unauth.guard';
 import { HomeComponent } from './components/home/home.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
+import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { EventComponent } from './components/event/event.component';
 
 const ROUTES: Routes = [{
@@ -41,8 +42,18 @@ const ROUTES: Routes = [{
   ]
 }, {
   path: 'admin',
-  component: AdminComponent,
-  canActivate: [AuthGuard]
+  canActivate: [AuthGuard],
+  children: [
+    {
+      path: '',
+      component: AdminComponent,
+      outlet: "primary"
+    }, {
+      path: '',
+      component: AdminFiltersComponent,
+      outlet: "sidenav"
+    }
+  ]
 }, {
   path: '**',
   redirectTo: 'home'

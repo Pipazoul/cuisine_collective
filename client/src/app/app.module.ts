@@ -9,12 +9,14 @@ import {
   MatButtonModule,
   MatDatepickerModule,
   MatDialogModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatNativeDateModule,
   MatSidenavModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  DateAdapter
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -32,6 +34,7 @@ import { CarouselItemDirective } from './directive/carousel-item.directive';
 // Services
 import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
+import { EventService } from './services/event.service';
 import { UserService } from './services/user.service';
 
 // Guards
@@ -53,6 +56,8 @@ import { HomeFiltersComponent } from './components/home/home-filters/home-filter
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
 import { EventComponent } from './components/event/event.component';
+import { EventPlanningComponent } from './components/admin/event-planning/event-planning.component';
+import { FrenchDateAdapter } from './util/FrenchDateAdapter';
 
 /**
  * Function for settting the default restangular configuration
@@ -112,7 +117,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     HomeFiltersComponent,
     AdminFiltersComponent,
     SearchBarComponent,
-    EventComponent
+    EventComponent,
+    EventPlanningComponent
   ],
   entryComponents: [
     PopupSigninComponent,
@@ -129,6 +135,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     MatButtonModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
@@ -147,8 +154,13 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
       deps: [AuthenticationService],
       multi: true
     },
+    {
+      provide: DateAdapter,
+      useClass: FrenchDateAdapter
+    },
     appRoutingProviders,
     AuthenticationService,
+    EventService,
     UserService,
     ComponentInjectorService,
     AuthGuard,
@@ -164,7 +176,6 @@ MatButtonToggleModule,
 MatCardModule,
 MatCheckboxModule,
 MatChipsModule,
-MatExpansionModule,
 MatGridListModule,
 MatListModule,
 MatMenuModule,
