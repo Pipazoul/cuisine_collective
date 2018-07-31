@@ -96,14 +96,18 @@ span.required:before {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
-    width: 380px;
-    max-width: 380px;
+    width: 400px;
+    max-width: 400px;
 }
 
 .mat-sidenav .sidenav-header {
     color: white;
     font-weight: bold;
     padding-left: 15px;
+}
+
+.sidenav-body {
+    margin: 30px;
 }
 
 /* ----- END SIDENAV ----- */
@@ -119,6 +123,18 @@ span.required:before {
 }
 
 /* ----- END BUTTONS ----- */
+
+/* ------ Radio button ------- */
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #6CCACC;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #6CCACC;
+}
+  
+/* ------ END Radio button ------- */
 
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
     background-color: #6CCACC;
