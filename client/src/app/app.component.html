@@ -13,7 +13,6 @@
         </mat-sidenav-content>
         <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end">
             <router-outlet (activate)='onPrimaryRouterActivate($event)' (deactivate)='onPrimaryRouterDeactivate($event)'></router-outlet>
-            <ng-template #dynamic></ng-template>
         </mat-sidenav>
     </mat-sidenav-container>
 </div>
