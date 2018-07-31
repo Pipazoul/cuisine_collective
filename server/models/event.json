@@ -78,6 +78,10 @@
       "postgresql": {
         "dataType": "date"
       }
+    },
+    "occurenceType": {
+      "type": "number",
+      "default": 0
     }
   },
   "validations": [],

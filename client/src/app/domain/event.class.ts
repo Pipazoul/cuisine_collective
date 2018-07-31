@@ -1,3 +1,5 @@
+import { OccurenceType } from "../enum/occurence-type.enum";
+
 export class EventClass {
 
     public id: number;
@@ -12,6 +14,7 @@ export class EventClass {
     public url: string;
     public dateStart: Date;
     public dateEnd: Date;
+    public occurenceType: OccurenceType;
 
     constructor(obj?: any) {
         Object.assign(this, obj);

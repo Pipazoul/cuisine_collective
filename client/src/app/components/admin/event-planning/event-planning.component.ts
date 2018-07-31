@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, EventEmitter, Output, Inject } from '@angular/core';
-import { EventClass } from '../../../domain/event.class';
+import { Component, OnInit, Inject } from '@angular/core';
 import { EventService } from '../../../services/event.service';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
+import { OccurenceType } from '../../../enum/occurence-type.enum';
 
 @Component({
   selector: 'app-event-planning',
@@ -10,6 +10,7 @@ import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier
 })
 export class EventPlanningComponent extends AbstractEventModifier implements OnInit {
 
+  public readonly OccurenceType = OccurenceType;
   public readonly minDate: Date = new Date();
 
   constructor(@Inject(EventService) eventService: EventService) {
