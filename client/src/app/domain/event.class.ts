@@ -10,6 +10,8 @@ export class EventClass {
     public email: string;
     public phone: string;
     public url: string;
+    public dateStart: Date;
+    public dateEnd: Date;
 
     constructor(obj?: any) {
         Object.assign(this, obj);

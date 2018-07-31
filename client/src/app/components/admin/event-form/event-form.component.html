@@ -1,6 +1,6 @@
 <form [formGroup]="eventForm" (ngSubmit)="submitForm(eventForm.value)" fxFlex fxLayout="column">
   <mat-form-field class="required">
-    <input matInput formControlName="name" placeholder="Nom de l'évènement">
+    <input matInput formControlName="name" maxlength="100" placeholder="Nom de l'évènement">
   </mat-form-field>
 
   <mat-form-field>
@@ -12,7 +12,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="datetime" max="100" placeholder="Horaires / durée de l'évènement">
+    <input matInput type="text" formControlName="datetime" max="200" placeholder="Horaires / durée de l'évènement">
   </mat-form-field>
 
   <mat-form-field>
@@ -24,7 +24,7 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="email" max="200" placeholder="Adresse email">
+    <input matInput type="text" formControlName="email" max="100" placeholder="Adresse email">
   </mat-form-field>
 
   <mat-form-field>
@@ -35,5 +35,8 @@
     <input matInput type="text" formControlName="url" max="200" placeholder="Site internet">
   </mat-form-field>
 
-  <button mat-button type="submit" [disabled]="eventForm.invalid">Suivant</button>
+  <button mat-button type="submit" class="next-button background-red" [disabled]="eventForm.invalid">
+    Suivant
+    <mat-icon>arrow_forward</mat-icon>
+  </button>
 </form>
