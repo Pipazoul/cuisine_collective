@@ -78,6 +78,18 @@
       "postgresql": {
         "dataType": "date"
       }
+    },
+    "longitude": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "double precision"
+      }
+    },
+    "latitude": {
+      "type": "number",
+      "postgresql": {
+        "dataType": "double precision"
+      }
     }
   },
   "validations": [],
