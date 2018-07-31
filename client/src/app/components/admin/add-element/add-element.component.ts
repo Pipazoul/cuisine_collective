@@ -10,6 +10,7 @@ import { EventClass } from '../../../domain/event.class';
 export class AddElementComponent implements OnInit {
 
   @ViewChild('carousel') public carousel: CarouselComponent;
+  public sidenavTitle: string = 'Ajouter un élément sur la carte';
   public event: EventClass = new EventClass();
 
   constructor() { }
@@ -18,6 +19,7 @@ export class AddElementComponent implements OnInit {
   }
 
   public showCreateEvent() {
+    this.sidenavTitle = 'Créer un évènement';
     this.carousel.goTo(1);
   }
 

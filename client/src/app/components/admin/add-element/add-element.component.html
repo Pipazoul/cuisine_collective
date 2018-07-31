@@ -1,12 +1,21 @@
-<app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center center">
-  <div *carouselItem class="carousel-element" fxLayout="column" fxLayoutGap="15px">
-    <button type="button" mat-button class="background-blue-light" (click)="showCreateEvent()">Créer un évènement</button>
-    <button type="button" mat-button class="background-blue-dark">Ajouter un contributeur</button>
+<div fxFlex fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
+    <span>{{sidenavTitle | uppercase}}</span>
+    <button type="button" mat-icon-button [routerLink]="'/admin'">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
 
-  <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
+  <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center center">
+    <div *carouselItem class="carousel-element" fxLayout="column" fxLayoutGap="15px">
+      <button type="button" mat-button class="background-blue-light" (click)="showCreateEvent()">Créer un évènement</button>
+      <button type="button" mat-button class="background-blue-dark">Ajouter un contributeur</button>
+    </div>
 
-  <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
+    <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
 
-  <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-location-type>
-</app-carousel>
+    <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
+
+    <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-location-type>
+  </app-carousel>
+</div>

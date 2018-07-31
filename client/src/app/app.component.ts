@@ -86,8 +86,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   // Sidenav
   @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
   public showSidenav: boolean = false;
-  public sidenavTitle: string;
-  public sidenavColor: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -193,8 +191,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     if (!this.viewContainerRef.length) {
       this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
-      this.sidenavTitle = 'Ajouter un élément sur la carte';
-      this.sidenavColor = 'background-red';
     }
     this.showSidenav = true;
   }
