@@ -61,6 +61,7 @@ import { SearchBarComponent } from './components/common/search-bar/search-bar.co
 import { EventComponent } from './components/event/event.component';
 import { EventPlanningComponent } from './components/admin/event-planning/event-planning.component';
 import { FrenchDateAdapter } from './util/FrenchDateAdapter';
+import { EventLocationTypeComponent } from './components/admin/event-location-type/event-location-type.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -121,7 +122,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AdminFiltersComponent,
     SearchBarComponent,
     EventComponent,
-    EventPlanningComponent
+    EventPlanningComponent,
+    EventLocationTypeComponent
   ],
   entryComponents: [
     PopupSigninComponent,
