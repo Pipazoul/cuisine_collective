@@ -190,14 +190,13 @@ label {
 .services:hover input ~ i {
   background-color: #aaa;
 }
-
-/* When the checkbox is checked, add a blue background */
 .services input:checked ~ i {
   background-color: #0d70cd;
 }
 .full-width {
     width: 100%;
 }
+
 .mat-drawer-backdrop {
     background-color: transparent !important;
     pointer-events: none;
