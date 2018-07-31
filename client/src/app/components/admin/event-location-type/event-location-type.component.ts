@@ -16,4 +16,8 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
   ngOnInit() {
   }
 
+  public saveLocation() {
+    this.saveEvent(this.event);
+  }
+
 }
