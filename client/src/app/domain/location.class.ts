@@ -8,6 +8,9 @@ export class LocationClass {
     public properties: PropertiesClass;
 
     constructor(obj?: any) {
-        Object.assign(this, obj);
+        Object.assign(this, obj, {
+            geometry: obj && obj.geometry ? new GeometryClass(obj.geometry) : null,
+            properties: obj && obj.properties ? new PropertiesClass(obj.properties) : null
+        });
     }
 }

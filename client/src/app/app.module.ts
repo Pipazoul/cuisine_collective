@@ -39,6 +39,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
 import { ContributorService } from './services/contributor.service';
 import { EventService } from './services/event.service';
+import { LocationService } from './services/location.service';
 import { UserService } from './services/user.service';
 
 // Guards
@@ -172,6 +173,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     appRoutingProviders,
     AuthenticationService,
     EventService,
+    LocationService,
     ContributorService,
     UserService,
     ComponentInjectorService,
