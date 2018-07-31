@@ -51,6 +51,7 @@ export class SearchBarComponent implements OnInit {
    */
   selectAddress(event) {
     const location: LocationClass = event.option.value;
+    this.locationForm.controls.location.setValue(location.properties.label);
     this.goTo.emit(location.geometry.coordinates);
   }
 
