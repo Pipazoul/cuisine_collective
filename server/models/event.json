@@ -66,6 +66,18 @@
       "postgresql": {
         "dataType": "character varying"
       }
+    },
+    "dateStart": {
+      "type": "date",
+      "postgresql": {
+        "dataType": "date"
+      }
+    },
+    "dateEnd": {
+      "type": "date",
+      "postgresql": {
+        "dataType": "date"
+      }
     }
   },
   "validations": [],
