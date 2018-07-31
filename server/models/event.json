@@ -79,6 +79,10 @@
         "dataType": "date"
       }
     },
+    "occurenceType": {
+      "type": "number",
+      "default": 0
+    },
     "longitude": {
       "type": "number",
       "postgresql": {

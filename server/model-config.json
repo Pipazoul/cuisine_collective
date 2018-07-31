@@ -70,5 +70,9 @@
   "event": {
     "dataSource": "db",
     "public": true
+  },
+  "contributor": {
+    "dataSource": "db",
+    "public": true
   }
 }

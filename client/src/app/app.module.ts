@@ -6,7 +6,9 @@ import { AppComponent } from './app.component';
 
 // Material Design & FlexLayout
 import {
+  MatAutocompleteModule,
   MatButtonModule,
+  MatCheckboxModule,
   MatDatepickerModule,
   MatDialogModule,
   MatExpansionModule,
@@ -14,6 +16,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatNativeDateModule,
+  MatRadioModule,
   MatSidenavModule,
   MatSlideToggleModule,
   DateAdapter
@@ -34,6 +37,7 @@ import { CarouselItemDirective } from './directive/carousel-item.directive';
 // Services
 import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
+import { ContributorService } from './services/contributor.service';
 import { EventService } from './services/event.service';
 import { UserService } from './services/user.service';
 
@@ -46,6 +50,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
+import { ContributorFormComponent } from './components/admin/contributor-form/contributor-form.component';
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { CarouselComponent, CarouselItemElement } from './components/carousel/carousel.component';
 
@@ -58,6 +63,7 @@ import { SearchBarComponent } from './components/common/search-bar/search-bar.co
 import { EventComponent } from './components/event/event.component';
 import { EventPlanningComponent } from './components/admin/event-planning/event-planning.component';
 import { FrenchDateAdapter } from './util/FrenchDateAdapter';
+import { EventLocationTypeComponent } from './components/admin/event-location-type/event-location-type.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -110,6 +116,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     DialogComponent,
     AdminComponent,
     EventFormComponent,
+    ContributorFormComponent,
     AddElementComponent,
     CarouselComponent,
     CarouselItemDirective,
@@ -118,7 +125,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AdminFiltersComponent,
     SearchBarComponent,
     EventComponent,
-    EventPlanningComponent
+    EventPlanningComponent,
+    EventLocationTypeComponent
   ],
   entryComponents: [
     PopupSigninComponent,
@@ -132,7 +140,9 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     ReactiveFormsModule,
     FlexLayoutModule,
     // Material
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
@@ -140,6 +150,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     MatIconModule,
     MatInputModule,
     MatNativeDateModule,
+    MatRadioModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -161,6 +172,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     appRoutingProviders,
     AuthenticationService,
     EventService,
+    ContributorService,
     UserService,
     ComponentInjectorService,
     AuthGuard,
@@ -171,10 +183,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
 export class AppModule { }
 
 /*
-MatAutocompleteModule,
 MatButtonToggleModule,
 MatCardModule,
-MatCheckboxModule,
 MatChipsModule,
 MatGridListModule,
 MatListModule,
@@ -182,7 +192,6 @@ MatMenuModule,
 MatPaginatorModule,
 MatProgressBarModule,
 MatProgressSpinnerModule,
-MatRadioModule,
 MatRippleModule,
 MatSliderModule,
 MatSlideToggleModule,

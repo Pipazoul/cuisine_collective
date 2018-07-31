@@ -6,18 +6,12 @@
                 <router-outlet name="sidenav"></router-outlet>
             </div>
             <div class="map-container" #map fxFlex="75%">
-                <app-search-bar></app-search-bar>
+                <app-search-bar (goTo)=goTo($event)></app-search-bar>
             </div>
             <!--<div id="myposition"></div>-->
             <router-outlet></router-outlet>
         </mat-sidenav-content>
-        <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end" fxFlex fxLayout="column">
-            <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header" [ngClass]="sidenavColor">
-                <span>{{sidenavTitle | uppercase}}</span>
-                <button type="button" mat-icon-button [routerLink]="'/admin'">
-                    <mat-icon>close</mat-icon>
-                </button>
-            </div>
+        <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end">
             <ng-template #dynamic></ng-template>
         </mat-sidenav>
     </mat-sidenav-container>

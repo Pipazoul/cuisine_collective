@@ -23,6 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   title = 'client';
   initialCoordinates: [number, number] = [538262.3872128094, 5740786.2887582248];
   initialZoom: number = 11;
+  searchZoom: number = 16;
   map: ol.Map;
   get eventsMarkerSource() {
     return new ol.source.Vector({
@@ -43,8 +44,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   // Sidenav
   @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
   public showSidenav: boolean = false;
-  public sidenavTitle: string;
-  public sidenavColor: string;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -52,9 +51,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private componentInjectorService: ComponentInjectorService,
     private router: Router,
     private eventService: EventService
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(res => {
@@ -95,6 +92,17 @@ export class AppComponent implements OnInit, AfterViewInit {
         anchor: [0.5, 1]
       }))
     });
+  }
+
+  /**
+   * Center the map on the given coordinates
+   * @param coordinates coordinates
+   */
+  goTo(coordinates) {
+    this.map.set('view', new ol.View({
+      center: ol.proj.fromLonLat(coordinates, 'EPSG:3857'),
+      zoom: this.searchZoom
+    }));
   }
 
   ngAfterViewInit(): void {
@@ -162,8 +170,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     if (!this.viewContainerRef.length) {
       this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
-      this.sidenavTitle = 'Ajouter un élément sur la carte';
-      this.sidenavColor = 'background-red';
     }
     this.showSidenav = true;
   }

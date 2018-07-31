@@ -1,10 +1,19 @@
-<div class="search-bar" fxLayout="row" fxLayoutAlign="space-between center">
-  <div fxFlex="70%" fxLayout="row" fxLayoutAlign="center center">
-    <i class="material-icons">search</i>
-    <input type="text" placeholder="Choisir une ville, un arrondissement, un quartier">
+<form [formGroup]="locationForm">
+  <div class="search-bar" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="70%" fxLayout="row" fxLayoutAlign="center center">
+      <i class="material-icons">search</i>
+      <input type="text" id="address" [matAutocomplete]="auto" formControlName="location" placeholder="Choisir une ville, un arrondissement, un quartier">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUser" (optionSelected)="selectAddress($event)">
+        <mat-option *ngIf="isLoading" disabled>Recherche en cours...</mat-option>
+        <mat-option *ngFor="let result of results" [value]="result">
+          {{result.properties.label}}
+        </mat-option>
+        <mat-option *ngIf="locationForm.controls.location.value && !results.length && !isLoading" disabled>Aucun résultat</mat-option>
+      </mat-autocomplete>
+    </div>
+    <button fxFlex="30%" mat-button type="button" (click)="locateUser()">
+      Utiliser ma position
+      <i class="material-icons">my_location</i>
+    </button>
   </div>
-  <button fxFlex="30%" mat-button type="button" (click)="locateUser()">
-    Utiliser ma position
-    <i class="material-icons">my_location</i>
-  </button>
-</div>
+</form>
