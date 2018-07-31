@@ -14,6 +14,11 @@ import { LocationClass } from '../../../domain/location.class';
 })
 export class SearchBarComponent implements OnInit {
 
+  private static readonly LOCATION_API_URL = 'https://api-adresse.data.gouv.fr/search/';
+  private static readonly QUERY_PARAMETER = 'q';
+  private static readonly LIMIT_PARAMETER = 'limit';
+  private static readonly RESULTS_LIMIT = 5;
+
   @Output() public goTo: EventEmitter<[number, number]> = new EventEmitter<[number, number]>();
 
   public locationForm: FormGroup;
@@ -42,7 +47,9 @@ export class SearchBarComponent implements OnInit {
    * Search locations from typed text
    */
   searchLocation(data) {
-    return this.httpClient.get('https://api-adresse.data.gouv.fr/search/?q=' + data);
+    return this.httpClient.get(SearchBarComponent.LOCATION_API_URL + '?'
+      + SearchBarComponent.QUERY_PARAMETER + '=' + data
+      + '&' + SearchBarComponent.LIMIT_PARAMETER + '=' + SearchBarComponent.RESULTS_LIMIT);
   }
 
   /**
