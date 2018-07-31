@@ -119,7 +119,7 @@ span.required:before {
 }
 
 .next-button.background-red:disabled {
-    background-color: #FF7777;
+    background-color: #eaeaea;
 }
 
 /* ----- END BUTTONS ----- */

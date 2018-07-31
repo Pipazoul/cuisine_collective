@@ -13,6 +13,9 @@ export class UrlSettings {
 
   /* Models endpoint */
 
+  // Contributor
+  public static readonly contributorModel = 'contributors';
+
   // Event
   public static readonly eventModel = 'events';
 

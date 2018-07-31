@@ -9,13 +9,19 @@
   <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center center">
     <div *carouselItem class="carousel-element" fxLayout="column" fxLayoutGap="15px">
       <button type="button" mat-button class="background-blue-light" (click)="showCreateEvent()">Créer un évènement</button>
-      <button type="button" mat-button class="background-blue-dark">Ajouter un contributeur</button>
+      <button type="button" mat-button class="background-blue-dark" (click)="showCreateContributor()">Ajouter un contributeur</button>
     </div>
+    <ng-container *ngIf="showEvent">
+      <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
 
-    <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
+      <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
 
-    <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
+      <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-location-type>
 
-    <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-location-type>
+      <div *carouselItem>Ressources et partenaire identifiés</div>
+      <div *carouselItem>Ressources et partenaire manquants</div>
+    </ng-container>
+    <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-form>
+    <div *carouselItem>Type de contributeur</div>
   </app-carousel>
 </div>
