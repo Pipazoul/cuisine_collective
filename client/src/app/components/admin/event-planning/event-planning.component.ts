@@ -10,11 +10,17 @@ import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier
 })
 export class EventPlanningComponent extends AbstractEventModifier implements OnInit {
 
+  public readonly minDate: Date = new Date();
+
   constructor(@Inject(EventService) eventService: EventService) {
     super(eventService);
   }
 
   ngOnInit() {
+  }
+
+  public savePlanning() {
+    this.saveEvent(this.event);
   }
 
 }
