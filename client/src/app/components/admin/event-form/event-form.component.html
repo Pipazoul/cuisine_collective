@@ -35,5 +35,8 @@
     <input matInput type="text" formControlName="url" max="200" placeholder="Site internet">
   </mat-form-field>
 
-  <button mat-button type="submit" [disabled]="eventForm.invalid">Suivant</button>
+  <button mat-button type="submit" class="next-button background-red" [disabled]="eventForm.invalid">
+    Suivant
+    <mat-icon>arrow_right_alt</mat-icon>
+  </button>
 </form>
