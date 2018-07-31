@@ -8,32 +8,64 @@
   "properties": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "length": 100,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     },
     "description": {
-      "type": "string"
+      "type": "string",
+      "length": 500,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     },
     "participantsAmount": {
       "type": "number",
       "default": 0
     },
     "datetime": {
-      "type": "string"
+      "type": "string",
+      "length": 200,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     },
     "planner": {
-      "type": "string"
+      "type": "string",
+      "length": 100,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     },
     "referent": {
-      "type": "string"
+      "type": "string",
+      "length": 50,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     },
     "email": {
-      "type": "string"
+      "type": "string",
+      "length": 100,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     },
     "phone": {
-      "type": "string"
+      "type": "string",
+      "length": 10,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     },
     "url": {
-      "type": "string"
+      "type": "string",
+      "length": 200,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     }
   },
   "validations": [],
