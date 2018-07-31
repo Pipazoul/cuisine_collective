@@ -12,6 +12,8 @@ export class EventClass {
     public url: string;
     public dateStart: Date;
     public dateEnd: Date;
+    public longitude: number;
+    public latitude: number;
 
     constructor(obj?: any) {
         Object.assign(this, obj);

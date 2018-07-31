@@ -30,4 +30,11 @@ export class EventService {
   update(event: EventClass): Observable<EventClass> {
     return this.restangular.one(UrlSettings.eventModel, event.id).patch(event).pipe(map(res => new EventClass(res)));
   }
+
+  /**
+   * Get all events
+   */
+  getAll(): Observable<EventClass[]> {
+    return this.restangular.all(UrlSettings.eventModel).getList().pipe(map((res: Array<any>) => res.map(event => new EventClass(event))));
+  }
 }
