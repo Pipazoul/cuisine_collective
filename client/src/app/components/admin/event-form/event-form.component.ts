@@ -39,6 +39,10 @@ export class EventFormComponent implements OnInit {
       this.eventService.create(new EventClass(value)).subscribe(
         (event) => Object.assign(this.event, event)
       );
+    } else {
+      this.eventService.update(new EventClass(value)).subscribe(
+        (event) => Object.assign(this.event, event)
+      )
     }
   }
 
