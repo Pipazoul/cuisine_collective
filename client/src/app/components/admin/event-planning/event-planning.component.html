@@ -18,7 +18,12 @@
   </div>
 
   <h4>Répéter tous les :</h4>
-  <span>Jours Semaines</span>
+  <mat-radio-group [(ngModel)]="event.occurenceType" fxLayout="column" fxLayoutGap="10px">
+    <mat-radio-button [value]="OccurenceType.NEVER">Jamais</mat-radio-button>
+    <mat-radio-button [value]="OccurenceType.DAILY">Jours</mat-radio-button>
+    <mat-radio-button [value]="OccurenceType.WEEKLY">Semaines</mat-radio-button>
+    <mat-radio-button [value]="OccurenceType.MONTHLY">Mois</mat-radio-button>
+  </mat-radio-group>
 
   <div fxLayout="row" fxLayoutGap="10px">
     <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">

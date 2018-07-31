@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatCheckboxModule,
   MatDatepickerModule,
   MatDialogModule,
   MatExpansionModule,
@@ -15,6 +16,7 @@ import {
   MatIconModule,
   MatInputModule,
   MatNativeDateModule,
+  MatRadioModule,
   MatSidenavModule,
   MatSlideToggleModule,
   DateAdapter
@@ -135,6 +137,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     // Material
     MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatDialogModule,
     MatExpansionModule,
@@ -142,6 +145,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     MatIconModule,
     MatInputModule,
     MatNativeDateModule,
+    MatRadioModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -175,7 +179,6 @@ export class AppModule { }
 /*
 MatButtonToggleModule,
 MatCardModule,
-MatCheckboxModule,
 MatChipsModule,
 MatGridListModule,
 MatListModule,
@@ -183,7 +186,6 @@ MatMenuModule,
 MatPaginatorModule,
 MatProgressBarModule,
 MatProgressSpinnerModule,
-MatRadioModule,
 MatRippleModule,
 MatSliderModule,
 MatSlideToggleModule,
