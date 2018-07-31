@@ -55,6 +55,7 @@ import { HomeFiltersComponent } from './components/home/home-filters/home-filter
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
 import { EventComponent } from './components/event/event.component';
+import { EventPlanningComponent } from './components/admin/event-planning/event-planning.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -114,7 +115,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     HomeFiltersComponent,
     AdminFiltersComponent,
     SearchBarComponent,
-    EventComponent
+    EventComponent,
+    EventPlanningComponent
   ],
   entryComponents: [
     PopupSigninComponent,
