@@ -15,7 +15,8 @@ import {
   MatInputModule,
   MatNativeDateModule,
   MatSidenavModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  DateAdapter
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -56,6 +57,7 @@ import { AdminFiltersComponent } from './components/admin/admin-filters/admin-fi
 import { SearchBarComponent } from './components/common/search-bar/search-bar.component';
 import { EventComponent } from './components/event/event.component';
 import { EventPlanningComponent } from './components/admin/event-planning/event-planning.component';
+import { FrenchDateAdapter } from './util/FrenchDateAdapter';
 
 /**
  * Function for settting the default restangular configuration
@@ -151,6 +153,10 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
       useFactory: startupServiceFactory,
       deps: [AuthenticationService],
       multi: true
+    },
+    {
+      provide: DateAdapter,
+      useClass: FrenchDateAdapter
     },
     appRoutingProviders,
     AuthenticationService,
