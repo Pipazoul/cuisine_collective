@@ -36,4 +36,8 @@ export class EventFormComponent extends AbstractEventModifier implements OnInit 
     });
   }
 
+  public submitForm(value) {
+    this.saveEvent(new EventClass(value));
+  }
+
 }

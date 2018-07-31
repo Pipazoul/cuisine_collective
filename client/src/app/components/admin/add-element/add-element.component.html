@@ -6,5 +6,5 @@
 
   <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
 
-  <app-event-planning *carouselItem class="carousel-element" [event]="event"></app-event-planning>
+  <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
 </app-carousel>
