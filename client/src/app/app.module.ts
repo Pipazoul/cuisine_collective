@@ -17,6 +17,7 @@ import {
   MatInputModule,
   MatNativeDateModule,
   MatRadioModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSlideToggleModule,
   DateAdapter
@@ -154,6 +155,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     MatInputModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatSelectModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -205,6 +207,5 @@ MatTableModule,
 MatTabsModule,
 MatToolbarModule,
 MatTooltipModule,
-MatSelectModule,
 MatStepperModule
 */
