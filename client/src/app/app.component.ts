@@ -93,8 +93,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.initializeMap();
 
       //Select the right marker when URL is "/events/:id" or "/contributors/:id"
-      const currentUrl = 
-      this.selectCurrentMarker(this.router.parseUrl(this.router.url).root.children.primary);
+      const currentUrl = this.router.parseUrl(this.router.url).root.children.primary
+      this.selectCurrentMarker(currentUrl);
       this.router.events.subscribe(res => {
         if (res instanceof NavigationEnd) {
           const currentUrl = this.router.parseUrl(res.urlAfterRedirects).root.children.primary;
