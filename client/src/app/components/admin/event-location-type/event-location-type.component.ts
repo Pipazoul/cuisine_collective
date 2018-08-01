@@ -6,7 +6,9 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { filter, debounceTime, switchMap } from 'rxjs/operators';
 import { LocationService } from '../../../services/location.service';
 import * as _ from 'lodash';
+import * as ol from 'openlayers';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { CoordinatesClass } from '../../../domain/coordinates.class';
 
 @Component({
   selector: 'app-event-location-type',
@@ -63,16 +65,17 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
   public onLocationSelected(event: MatAutocompleteSelectedEvent) {
     const location: LocationClass = event.option.value;
     this.eventLocationForm.get('location').setValue(location.properties.label);
+    const transformedLocation = ol.proj.fromLonLat(location.geometry.coordinates, 'EPSG:3857');
     Object.assign(this.event, {
-      longitude: location.geometry.coordinates[0],
-      latitude: location.geometry.coordinates[1],
+      longitude: transformedLocation[0],
+      latitude: transformedLocation[1],
       locationCity: location.properties.city,
       locationCitycode: location.properties.citycode,
       locationHousenumber: location.properties.housenumber,
       locationName: location.properties.name,
       locationPostcode: location.properties.postcode,
       locationStreet: location.properties.street
-    })
+    });
   }
 
   public submitForm(value) {
