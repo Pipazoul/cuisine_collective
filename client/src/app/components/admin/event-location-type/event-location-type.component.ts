@@ -76,13 +76,7 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
   }
 
   public submitForm(value) {
-    Object.assign(this.event, {
-      locationLabel: value.locationLabel,
-      informations: value.informations,
-      eat: value.eat,
-      cook: value.cook,
-      public: value.public
-    });
+    Object.assign(this.event, value);
     this.saveEvent(this.event);
   }
 
