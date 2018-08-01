@@ -3,7 +3,7 @@
     <mat-sidenav-container>
         <mat-sidenav-content fxLayout="row">
             <div fxFlex="25%">
-                <router-outlet name="sidenav"></router-outlet>
+                <router-outlet name="sidenav" (activate)="onActivate($event)"></router-outlet>
             </div>
             <div class="map-container" #map fxFlex="75%">
                 <app-search-bar (goTo)=goTo($event)></app-search-bar>

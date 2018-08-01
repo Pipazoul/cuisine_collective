@@ -33,9 +33,38 @@ export class EventService {
 
   /**
    * Get all events
+   * @param filters 
    */
-  getAll(): Observable<EventClass[]> {
-    return this.restangular.all(UrlSettings.eventModel).getList().pipe(map((res: Array<any>) => res.map(event => new EventClass(event))));
+  getAll(filters?): Observable<EventClass[]> {
+    let params = {
+      filter: {
+        where: {
+          and: [{
+            eat: filters ? filters.eat : false
+          }, {
+            cook: filters ? filters.cook : false
+          }, {
+            public: filters ? filters.public : false
+          }, {
+            dateEnd: undefined
+          }]
+        }
+      }
+    };
+
+    if (filters && filters.startDate) {
+      params.filter.where.and.push({
+        dateEnd: { gt: new Date(filters.startDate) }
+      });
+    }
+
+    if (filters && filters.endDate) {
+      params.filter.where.and.push({
+        dateEnd: { lt: new Date(filters.endDate) }
+      });
+    }
+
+    return this.restangular.all(UrlSettings.eventModel).getList(params).pipe(map((res: Array<any>) => res.map(event => new EventClass(event))));
   }
 
   /**

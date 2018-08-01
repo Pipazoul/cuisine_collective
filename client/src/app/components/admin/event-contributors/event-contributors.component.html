@@ -39,8 +39,9 @@
           </button>
         </div>
 
-        <button mat-button type="button" [matMenuTriggerFor]="menu" [disabled]="!contributors.length">
-          <mat-icon svgIcon="ic_add_white"></mat-icon>
+        <button mat-button type="button" class="add-contributor" fxLayout="row" fxLayoutAlign="start center" [matMenuTriggerFor]="menu"
+          [disabled]="!contributors.length">
+          <mat-icon>add</mat-icon>
           {{menuLabel}}
         </button>
         <mat-menu #menu="matMenu">
