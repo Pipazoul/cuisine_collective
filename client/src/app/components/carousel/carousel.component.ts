@@ -43,7 +43,7 @@ export class CarouselComponent implements AfterViewInit {
 
   public next() {
     if (this.currentSlide + 1 === this.items.length) {
-      return
+      return;
     };
     this.currentSlide = (this.currentSlide + 1) % this.items.length;
     this.animate();

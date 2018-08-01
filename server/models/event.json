@@ -168,7 +168,15 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "contributors": {
+      "type": "hasMany",
+      "model": "contributor",
+      "foreignKey": "eventId",
+      "through": "eventContributor",
+      "keyThrough": "contributorId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

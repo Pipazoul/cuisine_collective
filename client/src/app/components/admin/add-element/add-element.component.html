@@ -11,15 +11,24 @@
       <button type="button" mat-button class="background-blue-light" (click)="showCreateEvent()">Créer un évènement</button>
       <button type="button" mat-button class="background-blue-dark" (click)="showCreateContributor()">Ajouter un contributeur</button>
     </div>
+    <!-- All forms to create an event -->
     <ng-container *ngIf="showEvent">
       <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
 
       <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
 
       <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-location-type>
+
+      <app-event-contributors *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-contributors>
+
+      <div *carouselItem>Ressources et partenaire manquants</div>
     </ng-container>
 
-    <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
-    <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()" (contributorSaved)="endCarousel()"></app-contributor-form>
+    <!-- All forms to create a contributor -->
+    <ng-container *ngIf="showContributor">
+      <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
+      <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()"
+        (contributorSaved)="endCarousel()"></app-contributor-form>
+    </ng-container>
   </app-carousel>
 </div>

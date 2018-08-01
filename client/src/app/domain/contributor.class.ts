@@ -19,6 +19,8 @@ export class ContributorClass {
     public street: string;
     public zipcode: string;
     public city: string;
+    public longitude: number;
+    public latitude: number;
 
     constructor(obj?: any) {
         Object.assign(this, obj);

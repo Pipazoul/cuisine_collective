@@ -1,0 +1,15 @@
+<form [formGroup]="eventContributorsForm" (ngSubmit)="submitForm(eventContributorsForm.value)" fxLayout="column" class="sidenav-body">
+
+  
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
+      Précédent
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-button type="submit" class="next-button background-red" fxFlex="50" [disabled]="eventContributorsForm.invalid">
+      Suivant
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</form>
