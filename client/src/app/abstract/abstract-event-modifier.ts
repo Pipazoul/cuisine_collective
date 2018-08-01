@@ -27,9 +27,4 @@ export abstract class AbstractEventModifier {
     public goBackward() {
         this.backwardPressed.emit();
     }
-
-    public submitForm(value) {
-      Object.assign(this.event, value);
-      this.saveEvent(this.event);
-    }
 }
