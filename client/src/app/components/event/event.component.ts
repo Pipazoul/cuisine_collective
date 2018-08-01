@@ -20,7 +20,6 @@ export class EventComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.eventService.getById(params['id']).subscribe(event => {
         this.event = event;
-        console.log(event);
       }, err => {
         console.error(err);
       })
