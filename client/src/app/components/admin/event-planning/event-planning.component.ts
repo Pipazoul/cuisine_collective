@@ -31,9 +31,4 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     });
   }
 
-  public submitForm(value) {
-    Object.assign(this.event, value);
-    this.saveEvent(this.event);
-  }
-
 }
