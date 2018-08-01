@@ -17,6 +17,7 @@ import {
   MatInputModule,
   MatNativeDateModule,
   MatRadioModule,
+  MatSelectModule,
   MatSidenavModule,
   MatSlideToggleModule,
   DateAdapter
@@ -65,6 +66,7 @@ import { EventComponent } from './components/event/event.component';
 import { EventPlanningComponent } from './components/admin/event-planning/event-planning.component';
 import { FrenchDateAdapter } from './util/FrenchDateAdapter';
 import { EventLocationTypeComponent } from './components/admin/event-location-type/event-location-type.component';
+import { EventContributorsComponent } from './components/admin/event-contributors/event-contributors.component';
 import { ContributorServicesComponent } from './components/admin/contributor-services/contributor-services.component';
 import { ContributorComponent } from './components/contributor/contributor.component';
 
@@ -131,7 +133,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     EventPlanningComponent,
     EventLocationTypeComponent,
     ContributorServicesComponent,
-    ContributorComponent
+    ContributorComponent,
+    EventContributorsComponent,
   ],
   entryComponents: [
     PopupSigninComponent,
@@ -156,6 +159,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     MatInputModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatSelectModule,
     MatSidenavModule,
     MatSlideToggleModule,
     // Importing RestangularModule and making default configs for restanglar
@@ -207,6 +211,5 @@ MatTableModule,
 MatTabsModule,
 MatToolbarModule,
 MatTooltipModule,
-MatSelectModule,
 MatStepperModule
 */

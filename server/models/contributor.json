@@ -77,7 +77,15 @@
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "events": {
+      "type": "hasMany",
+      "model": "event",
+      "foreignKey": "contributorId",
+      "through": "eventContributor",
+      "keyThrough": "eventId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

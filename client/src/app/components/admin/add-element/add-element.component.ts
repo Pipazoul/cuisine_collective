@@ -20,6 +20,7 @@ export class AddElementComponent implements OnInit {
   public event: EventClass = new EventClass();
   public contributor: ContributorClass = new ContributorClass();
   public showEvent: boolean = true;
+  public showContributor: boolean = true;
 
   constructor(private router: Router) { }
 
@@ -27,8 +28,9 @@ export class AddElementComponent implements OnInit {
   }
 
   public showCreateEvent() {
+    this.showContributor = false;
     this.sidenavTitle = 'Créer un évènement';
-    this.carousel.goTo(1);
+    this.carousel.next();
   }
 
   public showCreateContributor() {

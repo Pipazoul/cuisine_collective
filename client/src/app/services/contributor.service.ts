@@ -31,7 +31,7 @@ export class ContributorService {
     return this.restangular.one(UrlSettings.contributorModel, contributor.id).patch(contributor).pipe(map(res => new ContributorClass(res)));
   }
 
-   /**
+  /**
    * Get all contributors
    */
   getAll(): Observable<ContributorClass[]> {
