@@ -1,4 +1,5 @@
 import { OccurenceType } from "../enum/occurence-type.enum";
+import { ContributorClass } from "./contributor.class";
 
 export class EventClass {
 
@@ -29,8 +30,14 @@ export class EventClass {
     public locationName: string;
     public locationPostcode: string;
     public locationStreet: string;
+    /**
+     * Linked contributors
+     */
+    public contributors: ContributorClass[] = [];
 
     constructor(obj?: any) {
-        Object.assign(this, obj);
+        Object.assign(this, obj, {
+            contributors: obj && obj.contributors ? obj.contributors.map(c => new ContributorClass(c)) : []
+        });
     }
 }
