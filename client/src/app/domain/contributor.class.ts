@@ -7,6 +7,7 @@ export class ContributorClass {
     public hours: string;
     public email: string;
     public phone: string;
+    public houseNumber: string;
     public address: string;
     public zipcode: string;
     public city: string;

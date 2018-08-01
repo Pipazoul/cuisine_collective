@@ -20,6 +20,6 @@
     </ng-container>
 
     <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
-    <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()" (contributorSaved)="carousel.next()"></app-contributor-form>
+    <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()" (contributorSaved)="endCarousel()"></app-contributor-form>
   </app-carousel>
 </div>

@@ -23,13 +23,17 @@
     <input matInput type="text" autocomplete="false" formControlName="phone" max="10" placeholder="Numéro de téléphone">
   </mat-form-field>
 
+  <mat-form-field>
+    <input matInput type="text" autocomplete="false" formControlName="address" max="100" placeholder="Adresse">
+  </mat-form-field>
+
   <div fxLayout="row" fxLayoutGap="10px">
     <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
       Précédent
       <mat-icon>arrow_back</mat-icon>
     </button>
     <button mat-button type="submit" class="next-button background-red" fxFlex="50">
-      Suivant
+      Terminer
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>

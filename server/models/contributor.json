@@ -29,6 +29,9 @@
     "phone": {
       "type": "string"
     },
+    "houseNumber": {
+      "type": "string"
+    },
     "address": {
       "type": "string"
     },
