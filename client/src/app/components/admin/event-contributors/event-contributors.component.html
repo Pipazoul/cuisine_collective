@@ -1,6 +1,89 @@
 <form [formGroup]="eventContributorsForm" (ngSubmit)="submitForm(eventContributorsForm.value)" fxLayout="column" class="sidenav-body">
 
-  
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
+    <label class="services" fxLayout="column" fxLayoutAlign="center center">
+      <input type="checkbox">
+      <i class="material-icons">kitchen</i>
+    </label>
+
+    <div fxFlex fxLayout="column">
+      <mat-form-field>
+        <mat-select placeholder="Ajouter un lieu" (selectionChange)="onContributorLocationSelected($event)">
+          <mat-option *ngFor="let contributor of contributors.location" [value]="contributor">
+            {{contributor.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
+    <label class="services" fxLayout="column" fxLayoutAlign="center center">
+      <input type="checkbox">
+      <i class="material-icons">shopping_cart</i>
+    </label>
+
+    <div fxFlex fxLayout="column">
+      <mat-form-field>
+        <mat-select placeholder="Ajouter un fournisseur" (selectionChange)="onContributorFoodSelected($event)">
+          <mat-option *ngFor="let contributor of contributors.food" [value]="contributor">
+            {{contributor.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
+    <label class="services" fxLayout="column" fxLayoutAlign="center center">
+      <input type="checkbox">
+      <i class="material-icons">school</i>
+    </label>
+
+    <div fxFlex fxLayout="column">
+      <mat-form-field>
+        <mat-select placeholder="Ajouter un professionnel" (selectionChange)="onContributorSkillsSelected($event)">
+          <mat-option *ngFor="let contributor of contributors.skills" [value]="contributor">
+            {{contributor.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
+    <label class="services" fxLayout="column" fxLayoutAlign="center center">
+      <input type="checkbox">
+      <i class="material-icons">people</i>
+    </label>
+
+    <div fxFlex fxLayout="column">
+      <mat-form-field>
+        <mat-select placeholder="Ajouter un relais usagers" (selectionChange)="onContributorPeopleSelected($event)">
+          <mat-option *ngFor="let contributor of contributors.people" [value]="contributor">
+            {{contributor.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
+    <label class="services" fxLayout="column" fxLayoutAlign="center center">
+      <input type="checkbox">
+      <i class="material-icons">mood</i>
+    </label>
+
+    <div fxFlex fxLayout="column">
+      <mat-form-field>
+        <mat-select placeholder="Ajouter un accompagnateur" (selectionChange)="onContributorAssistantsSelected($event)">
+          <mat-option *ngFor="let contributor of contributors.assistants" [value]="contributor">
+            {{contributor.title}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
 
   <div fxLayout="row" fxLayoutGap="10px">
     <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
