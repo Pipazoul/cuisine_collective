@@ -100,7 +100,7 @@ export class AppComponent implements OnInit, AfterViewInit {
    * Center the map on the given coordinates
    * @param coordinates coordinates
    */
-  goTo(coordinates) {
+  goTo(coordinates: [number, number]) {
     this.map.set('view', new ol.View({
       center: ol.proj.fromLonLat(coordinates, 'EPSG:3857'),
       zoom: this.searchZoom

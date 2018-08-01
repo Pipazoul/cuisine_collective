@@ -17,11 +17,9 @@
       <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
 
       <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-location-type>
-
-      <div *carouselItem>Ressources et partenaire identifiés</div>
-      <div *carouselItem>Ressources et partenaire manquants</div>
     </ng-container>
-    <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-form>
-    <div *carouselItem>Type de contributeur</div>
+
+    <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
+    <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()" (contributorSaved)="endCarousel()"></app-contributor-form>
   </app-carousel>
 </div>

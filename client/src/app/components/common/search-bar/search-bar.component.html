@@ -2,8 +2,8 @@
   <div class="search-bar" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxFlex="70%" fxLayout="row" fxLayoutAlign="center center">
       <i class="material-icons">search</i>
-      <input type="text" id="address" [matAutocomplete]="auto" formControlName="location" placeholder="Choisir une ville, un arrondissement, un quartier">
-      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayUser" (optionSelected)="selectAddress($event)">
+      <input type="text" [matAutocomplete]="auto" formControlName="location" placeholder="Choisir une ville, un arrondissement, un quartier">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectAddress($event)">
         <mat-option *ngIf="isLoading" disabled>Recherche en cours...</mat-option>
         <mat-option *ngFor="let result of results" [value]="result">
           {{result.properties.label}}

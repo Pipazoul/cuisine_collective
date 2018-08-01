@@ -169,6 +169,34 @@ label {
     color: #0d70cd !important;
 }
 
+.services {
+    padding: 15px;
+}
+.services i {
+    cursor: pointer;
+    color: white;
+    background-color: #cccccc;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 50px;
+    padding: 10px;
+}
+.services input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.services:hover input ~ i {
+  background-color: #aaa;
+}
+.services input:checked ~ i {
+  background-color: #0d70cd;
+}
+.full-width {
+    width: 100%;
+}
+
 .mat-drawer-backdrop {
     background-color: transparent !important;
     pointer-events: none;

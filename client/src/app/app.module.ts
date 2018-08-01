@@ -39,6 +39,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { ComponentInjectorService } from './services/component-injector.service';
 import { ContributorService } from './services/contributor.service';
 import { EventService } from './services/event.service';
+import { LocationService } from './services/location.service';
 import { UserService } from './services/user.service';
 
 // Guards
@@ -64,6 +65,7 @@ import { EventComponent } from './components/event/event.component';
 import { EventPlanningComponent } from './components/admin/event-planning/event-planning.component';
 import { FrenchDateAdapter } from './util/FrenchDateAdapter';
 import { EventLocationTypeComponent } from './components/admin/event-location-type/event-location-type.component';
+import { ContributorServicesComponent } from './components/admin/contributor-services/contributor-services.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -126,7 +128,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     SearchBarComponent,
     EventComponent,
     EventPlanningComponent,
-    EventLocationTypeComponent
+    EventLocationTypeComponent,
+    ContributorServicesComponent
   ],
   entryComponents: [
     PopupSigninComponent,
@@ -172,6 +175,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     appRoutingProviders,
     AuthenticationService,
     EventService,
+    LocationService,
     ContributorService,
     UserService,
     ComponentInjectorService,

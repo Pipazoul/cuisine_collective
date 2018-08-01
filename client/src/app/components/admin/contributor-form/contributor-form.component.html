@@ -1,6 +1,6 @@
 <form [formGroup]="contributorForm" (ngSubmit)="submitForm(contributorForm.value)" fxFlex fxLayout="column">
-  <mat-form-field class="required">
-    <input matInput formControlName="title" maxlength="100" placeholder="Titre">
+  <mat-form-field>
+    <input matInput type="text" autocomplete="new-password" formControlName="title" maxlength="100" placeholder="Titre">
   </mat-form-field>
 
   <mat-form-field>
@@ -8,23 +8,41 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput formControlName="name" maxlength="100" placeholder="Nom">
+    <input matInput type="text" autocomplete="new-password" formControlName="name" maxlength="100" placeholder="Nom">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="hours" max="100" placeholder="Horaires">
+    <textarea matInput formControlName="hours" maxlength="500" placeholder="Horaires"></textarea>
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="email" max="100" placeholder="Adresse email">
+    <input matInput type="text" autocomplete="email" formControlName="email" max="100" placeholder="Adresse email">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="phone" max="10" placeholder="Numéro de téléphone">
+    <input matInput type="text" autocomplete="mobile" formControlName="phone" max="10" placeholder="Numéro de téléphone">
   </mat-form-field>
 
-  <button mat-button type="submit" class="next-button background-red" [disabled]="contributorForm.invalid">
-    Suivant
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
+  <!-- Search for location -->
+  <mat-form-field>
+    <input matInput type="text" autocomplete="new-password" [matAutocomplete]="auto" formControlName="location" placeholder="Saisissez une adresse">
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onLocationSelected($event)">
+      <mat-option *ngIf="isLoading" disabled>Recherche en cours...</mat-option>
+      <mat-option *ngFor="let location of locations" [value]="location">
+        {{location.properties.label}}
+      </mat-option>
+      <mat-option *ngIf="!locations.length && !isLoading" disabled>Aucun résultat</mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
+      Précédent
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-button type="submit" class="next-button background-red" fxFlex="50">
+      Terminer
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
 </form>

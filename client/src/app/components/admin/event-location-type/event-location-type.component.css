@@ -1,0 +1,17 @@
+.location-warn {
+    background-color: #FFDDDC;
+    margin: 0 -30px 10px -30px !important;
+    padding: 5px 30px;
+}
+
+.location-warn>mat-icon {
+    color: #FF5555;
+}
+
+.section-filters ::ng-deep .mat-slide-toggle-bar {
+    background-color: #EAEAEA;
+}
+
+.section-filters ::ng-deep .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+    background-color: #EAEAEA;
+}

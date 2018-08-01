@@ -1,11 +1,12 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { filter, switchMap, debounceTime } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 
 // Classes
 import { LocationClass } from '../../../domain/location.class';
+import { LocationService } from '../../../services/location.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 @Component({
   selector: 'app-search-bar',
@@ -14,9 +15,6 @@ import { LocationClass } from '../../../domain/location.class';
 })
 export class SearchBarComponent implements OnInit {
 
-  private static readonly LOCATION_API_URL = 'https://api-adresse.data.gouv.fr/search/';
-  private static readonly QUERY_PARAMETER = 'q';
-  private static readonly LIMIT_PARAMETER = 'limit';
   private static readonly RESULTS_LIMIT = 5;
 
   @Output() public goTo: EventEmitter<[number, number]> = new EventEmitter<[number, number]>();
@@ -26,7 +24,7 @@ export class SearchBarComponent implements OnInit {
   public coordinates: [number, number];
   public results: LocationClass[] = [];
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private locationService: LocationService) { }
 
   ngOnInit() {
     // location control with value changes listener
@@ -38,28 +36,19 @@ export class SearchBarComponent implements OnInit {
       }),
       debounceTime(500),
       // Using switchMap to prevent displaying data returned if another request is in progress
-      switchMap(data => this.searchLocation(data)))
+      switchMap(data => this.locationService.search(data, SearchBarComponent.RESULTS_LIMIT)))
       .subscribe(data => {
         this.isLoading = false;
-        this.results = data['features'];
+        this.results = data.features;
       });
     this.locationForm = new FormGroup({ 'location': locationCtrl });
-  }
-
-  /**
-   * Search locations from typed text
-   */
-  searchLocation(data) {
-    return this.httpClient.get(SearchBarComponent.LOCATION_API_URL + '?'
-      + SearchBarComponent.QUERY_PARAMETER + '=' + data
-      + '&' + SearchBarComponent.LIMIT_PARAMETER + '=' + SearchBarComponent.RESULTS_LIMIT);
   }
 
   /**
    * When user select a result among the list
    * @param event Clicked result
    */
-  selectAddress(event) {
+  selectAddress(event: MatAutocompleteSelectedEvent) {
     this.results.length = 0;
     const location: LocationClass = event.option.value;
     this.locationForm.controls.location.setValue(location.properties.label);
