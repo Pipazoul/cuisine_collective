@@ -106,6 +106,14 @@ span.required:before {
     padding-left: 15px;
 }
 
+.mat-sidenav .sidenav-footer {
+    width: 100%;
+    background-color: #eaeaea;
+}
+.mat-sidenav .sidenav-footer>button {
+    margin: 10px
+}
+
 .sidenav-body {
     margin: 30px;
 }
@@ -200,4 +208,13 @@ label {
 .mat-drawer-backdrop {
     background-color: transparent !important;
     pointer-events: none;
+}
+
+.event-description, .contributor-description {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+}
+.event-section, .contributor-section {
+    padding: 15px;
 }

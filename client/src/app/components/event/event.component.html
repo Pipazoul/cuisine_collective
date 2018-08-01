@@ -1,3 +1,55 @@
-<p>
-  event {{eventId}}
-</p>
+<div *ngIf="event" fxFlex fxLayout="column">
+  <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
+    <span>{{event.name | uppercase}}</span>
+    <button type="button" mat-icon-button [routerLink]="'/admin'">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div fxFlex="100%" class="event-description">
+    <div class="event-section">
+      <div class="bold">Description</div>
+      <div>{{event.description}}</div>
+    </div>
+    <div class="event-section">
+      <div class="bold">Type d'évènement</div>
+      <div>
+        <span *ngIf="event.eat">manger ensemble, </span>
+        <span *ngIf="event.cook">cuisiner ensemble, </span>
+        <span *ngIf="event.public">tous publics</span>
+      </div>
+    </div>
+    <div class="event-section">
+      <div class="bold">Organisateur</div>
+      <div>{{event.planner}}</div>
+    </div>
+    <div class="event-section">
+      <div class="bold">Nombre de participants</div>
+      <div>{{event.participantsAmount}}</div>
+    </div>
+    <div class="event-section">
+      <div class="bold">Date</div>
+      <div>{{event.timeSlot}}</div>
+    </div>
+    <div class="event-section">
+      <div class="bold">Contact</div>
+      <div>
+        <div>{{event.referent}}</div>
+        <div>{{event.email}}</div>
+        <div>{{event.phone}}</div>
+      </div>
+    </div>
+    <div class="event-section">
+      <div class="bold">Adresse</div>
+      <div>
+        <div>{{event.locationLabel}}</div>
+        <div>{{event.locationHousenumber}} {{event.locationStreet}}</div>
+        <div>{{event.locationCitycode}} {{event.locationCity}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div fxFlex="55px" class="sidenav-footer">
+    <button mat-button fxFlex type="button" class="next-button background-red" [routerLink]="'/admin'">OK</button>
+  </div>
+</div>

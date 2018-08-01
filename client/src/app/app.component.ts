@@ -120,7 +120,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   initializeData() {
-    return zip(this.eventService.getAll(), this.contributorService.getAll());
+    return zip(this.eventService.getAll(), this.contributorService.getAssistants());
   }
 
   initializeMap() {
