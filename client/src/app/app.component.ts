@@ -6,6 +6,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
+import { ContributorClass } from './domain/contributor.class';
+import { zip } from 'rxjs';
+import { ContributorService } from './services/contributor.service';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   selectedEventColor = '#FF5555';
 
   events: EventClass[];
+  contributors: ContributorClass[];
 
   @ViewChild('map') mapElement: ElementRef;
   title = 'client';
@@ -37,7 +41,12 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
   get contributorsMarkerSource() {
     return new ol.source.Vector({
-      features: [/*TODO*/]
+      features: this.contributors.map((contributor) =>
+        new ol.Feature({
+          geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+          id: contributor.id
+        })
+      )
     });
   }
   selectInteraction = new ol.interaction.Select({ multi: false, style: this.selectedEventStyle, hitTolerance: 10 });
@@ -50,7 +59,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private componentInjectorService: ComponentInjectorService,
     private router: Router,
-    private eventService: EventService
+    private eventService: EventService,
+    private contributorService: ContributorService
   ) { }
 
   ngOnInit() {
@@ -98,14 +108,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initializeData().then(res => {
-      this.events = res;
+    this.initializeData().subscribe(pair => {
+      this.events = pair[0];
+      this.contributors = pair[1];
       this.initializeMap();
     })
   }
 
   initializeData() {
-    return this.eventService.getAll().toPromise();
+    return zip(this.eventService.getAll(), this.contributorService.getAll());
   }
 
   initializeMap() {
@@ -140,6 +151,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
+      debugger;
       if (e.selected && e.target.getFeatures().item(0)) {
         this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
       }
@@ -164,12 +176,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onPrimaryRouterActivate(event) {
-    console.log('onPrimaryRouterActivate');
     this.showSidenav = true;
   }
 
   onPrimaryRouterDeactivate(event) {
-    console.log('onPrimaryRouterDeactivate');
     this.showSidenav = false;
   }
 }

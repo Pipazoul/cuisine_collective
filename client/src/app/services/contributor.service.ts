@@ -30,4 +30,11 @@ export class ContributorService {
   update(contributor: ContributorClass): Observable<ContributorClass> {
     return this.restangular.one(UrlSettings.contributorModel, contributor.id).patch(contributor).pipe(map(res => new ContributorClass(res)));
   }
+
+   /**
+   * Get all contributors
+   */
+  getAll(): Observable<ContributorClass[]> {
+    return this.restangular.all(UrlSettings.contributorModel).getList().pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
+  }
 }

@@ -10,8 +10,8 @@ export class ContributorClass {
     public address: string;
     public zipcode: string;
     public city: string;
-    public longitude: string;
-    public latitude: string;
+    public longitude: number;
+    public latitude: number;
 
     constructor(obj?: any) {
         Object.assign(this, obj);
