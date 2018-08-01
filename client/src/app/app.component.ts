@@ -201,6 +201,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
 
+    // change mouse cursor when over marker
+    this.map.on('pointermove', (e) => {
+      var pixel = this.map.getEventPixel(e['originalEvent']);
+      var mapDiv = (this.map.getTarget() as Element)
+
+      this.map.hasFeatureAtPixel(pixel) ? mapDiv.classList.add("clickable") : mapDiv.classList.remove("clickable");
+    });
+
     /*var mousePosition = new ol.control.MousePosition({
       coordinateFormat: ol.coordinate.createStringXY(10),
       projection: 'EPSG:3857',
