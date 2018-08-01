@@ -219,7 +219,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showSidenav = false;
   }
 
+  /**
+   * Subscribe to router outlet's child component's event
+   * @param elementRef sidenav
+   */
   onActivate(elementRef) {
+    // Event filter of the sidenav
     elementRef.filter.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
         this.redrawEvents(events);
