@@ -37,4 +37,12 @@ export class EventService {
   getAll(): Observable<EventClass[]> {
     return this.restangular.all(UrlSettings.eventModel).getList().pipe(map((res: Array<any>) => res.map(event => new EventClass(event))));
   }
+
+  /**
+   * Get an event by its id
+   * @param id event's id
+   */
+  getById(id: number): Observable<EventClass> {
+    return this.restangular.one(UrlSettings.eventModel, id).get().pipe(map(event => new EventClass(event)));
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, ViewContainerRef, OnInit } from '@angular/core';
-import * as ol from 'openlayers';
+import * as ol from 'openlayers/dist/ol-debug';
 import { ComponentInjectorService } from './services/component-injector.service';
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -29,27 +29,31 @@ export class AppComponent implements OnInit, AfterViewInit {
   initialZoom: number = 11;
   searchZoom: number = 16;
   map: ol.Map;
+
   get eventsMarkerSource() {
     return new ol.source.Vector({
       features: this.events.map((event) =>
         new ol.Feature({
           geometry: new ol.geom.Point([event.longitude, event.latitude]),
+          type: 'event',
           id: event.id
         })
       )
     });
   }
+
   get contributorsMarkerSource() {
     return new ol.source.Vector({
       features: this.contributors.map((contributor) =>
         new ol.Feature({
           geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+          type: 'contributor',
           id: contributor.id
         })
       )
     });
   }
-  selectInteraction = new ol.interaction.Select({ multi: false, style: this.selectedEventStyle, hitTolerance: 10 });
+
   // Sidenav
   @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
   public showSidenav: boolean = false;
@@ -116,23 +120,35 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   initializeData() {
-    return zip(this.eventService.getAll(), this.contributorService.getAll());
+    return zip(this.eventService.getAll(), this.contributorService.getAssistants());
   }
 
   initializeMap() {
+    const eventsLayer = new ol.layer.Vector({
+      source: this.eventsMarkerSource,
+      style: this.eventStyle,
+    });
+
+    const contributorsLayer = new ol.layer.Vector({
+      source: this.contributorsMarkerSource,
+      style: this.contributorStyle,
+    });
+
+    const selectInteraction = new ol.interaction.Select(
+      {
+        multi: false,
+        style: this.selectedEventStyle,
+        hitTolerance: 10
+      }
+    );
+
     this.map = new ol.Map({
       layers: [
         new ol.layer.Tile({
           source: new ol.source.OSM()
         }),
-        new ol.layer.Vector({
-          source: this.eventsMarkerSource,
-          style: this.eventStyle
-        }),
-        new ol.layer.Vector({
-          source: this.contributorsMarkerSource,
-          style: this.contributorStyle
-        }),
+        eventsLayer,
+        contributorsLayer,
       ],
       target: this.mapElement.nativeElement,
       controls: ol.control.defaults({
@@ -142,7 +158,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }),
       interactions:
         ol.interaction.defaults({ doubleClickZoom: false }).extend([
-          this.selectInteraction
+          selectInteraction
         ]),
       view: new ol.View({
         center: this.initialCoordinates,
@@ -150,10 +166,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       })
     });
 
-    this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
-      debugger;
+    selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
       if (e.selected && e.target.getFeatures().item(0)) {
-        this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
+        if (e.target.getFeatures().item(0).get('type') === 'event') {
+          this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
+        }
+        else if (e.target.getFeatures().item(0).get('type') === 'contributor') {
+          this.router.navigate(['contributors', e.target.getFeatures().item(0).getProperties().id]);
+        }
       }
       else {
         this.router.navigate(['home']);
