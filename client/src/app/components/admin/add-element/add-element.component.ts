@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 // Components
 import { CarouselComponent } from '../../carousel/carousel.component';
@@ -20,7 +21,7 @@ export class AddElementComponent implements OnInit {
   public contributor: ContributorClass = new ContributorClass();
   public showEvent: boolean = true;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
   }
@@ -36,4 +37,7 @@ export class AddElementComponent implements OnInit {
     this.carousel.next();
   }
 
+  public endCarousel() {
+    this.router.navigate(['/admin']);
+  }
 }
