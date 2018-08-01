@@ -1,6 +1,6 @@
 <form [formGroup]="eventForm" (ngSubmit)="submitForm(eventForm.value)" fxLayout="column" class="sidenav-body">
   <mat-form-field class="required">
-    <input matInput formControlName="name" maxlength="100" placeholder="Nom de l'évènement">
+    <input matInput type="text" formControlName="name" maxlength="100" placeholder="Nom de l'évènement">
   </mat-form-field>
 
   <mat-form-field>
