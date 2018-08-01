@@ -27,7 +27,7 @@ export class EventFormComponent extends AbstractEventModifier implements OnInit 
       'name': new FormControl(this.event.name, Validators.required),
       'description': new FormControl(this.event.description),
       'participantsAmount': new FormControl(this.event.participantsAmount, [Validators.min(1), Validators.max(1000)]),
-      'datetime': new FormControl(this.event.datetime),
+      'timeSlot': new FormControl(this.event.timeSlot),
       'planner': new FormControl(this.event.planner),
       'referent': new FormControl(this.event.referent),
       'email': new FormControl(this.event.email, Validators.email),

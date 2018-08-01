@@ -6,7 +6,7 @@ export class EventClass {
     public name: string;
     public description: string;
     public participantsAmount: string;
-    public datetime: string;
+    public timeSlot: string;
     public planner: string;
     public referent: string;
     public email: string;
