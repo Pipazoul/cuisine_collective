@@ -16,7 +16,12 @@
     background-color: #6CCACC;
 }
 
-.add-contributor {
+button.add-contributor {
     background-color: #6CCACC;
     color: white;
+    margin-top: 5px;
+}
+
+button.remove-contributor {
+    background-color: #FF5555;
 }

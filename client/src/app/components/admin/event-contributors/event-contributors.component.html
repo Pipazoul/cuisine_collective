@@ -26,7 +26,7 @@
     let-add="add" let-remove="remove">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
       <label class="services" fxLayout="column" fxLayoutAlign="center center">
-        <input type="checkbox">
+        <input type="checkbox" disabled>
         <i class="material-icons">{{icon}}</i>
       </label>
 
@@ -34,7 +34,7 @@
         <span class="bold">{{title}}</span>
         <div *ngFor="let contributor of contributorsForm" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
           <span>{{contributor.title}}</span>
-          <button mat-mini-fab (click)="remove(contributor)">
+          <button mat-mini-fab class="remove-contributor" (click)="remove(contributor)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
