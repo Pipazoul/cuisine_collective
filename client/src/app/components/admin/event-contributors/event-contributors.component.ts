@@ -107,6 +107,33 @@ export class EventContributorsComponent extends AbstractEventModifier implements
     _.remove(contributorsList, { id: contributor.id });
   }
 
+  public onContributorLocationRemoved(contributor: ContributorClass) {
+    this.onContributorRemoved(contributor, this.eventContributorsForm.get('location') as FormArray, this.contributors.location);
+  }
+
+  public onContributorFoodRemoved(contributor: ContributorClass) {
+    this.onContributorRemoved(contributor, this.eventContributorsForm.get('food') as FormArray, this.contributors.food);
+  }
+
+  public onContributorSkillsRemoved(contributor: ContributorClass) {
+    this.onContributorRemoved(contributor, this.eventContributorsForm.get('skills') as FormArray, this.contributors.skills);
+  }
+
+  public onContributorPeopleRemoved(contributor: ContributorClass) {
+    this.onContributorRemoved(contributor, this.eventContributorsForm.get('people') as FormArray, this.contributors.people);
+  }
+
+  public onContributorAssistantsRemoved(contributor: ContributorClass) {
+    this.onContributorRemoved(contributor, this.eventContributorsForm.get('assistants') as FormArray, this.contributors.assistants);
+  }
+
+  private onContributorRemoved(contributor: ContributorClass, contributorsFormArray: FormArray, contributorsList: ContributorClass[]) {
+    // Add to list
+    contributorsList.push(contributor);
+    // Remove from form
+    contributorsFormArray.removeAt(_.findIndex(contributorsFormArray.controls, c => c.value.id === contributor.id));
+  }
+
   public submitForm(value) {
     Object.assign(this.event, {
       contributorsLocation: value.location,

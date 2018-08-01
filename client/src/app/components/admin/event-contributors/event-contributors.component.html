@@ -1,14 +1,14 @@
 <form [formGroup]="eventContributorsForm" (ngSubmit)="submitForm(eventContributorsForm.value)" fxLayout="column" class="sidenav-body">
 
-  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'kitchen', title: 'Un lieu', placeholder:'Ajouter un lieu', contributors: contributors.location, contributorsForm: eventContributorsForm.get('location').value, selectionChange: onContributorLocationSelected.bind(this) }"></ng-container>
+  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'kitchen', title: 'Un lieu', placeholder:'Ajouter un lieu', contributors: contributors.location, contributorsForm: eventContributorsForm.get('location').value, selectionChange: onContributorLocationSelected.bind(this), remove: onContributorLocationRemoved.bind(this) }"></ng-container>
 
-  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'shopping_cart', title: 'Des fournisseurs', placeholder:'Ajouter un fournisseur', contributors: contributors.food, contributorsForm: eventContributorsForm.get('food').value, selectionChange: onContributorFoodSelected.bind(this) }"></ng-container>
+  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'shopping_cart', title: 'Des fournisseurs', placeholder:'Ajouter un fournisseur', contributors: contributors.food, contributorsForm: eventContributorsForm.get('food').value, selectionChange: onContributorFoodSelected.bind(this), remove: onContributorFoodRemoved.bind(this) }"></ng-container>
 
-  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'school', title: 'Des professionnels', placeholder:'Ajouter un professionnel', contributors: contributors.skills, contributorsForm: eventContributorsForm.get('skills').value, selectionChange: onContributorSkillsSelected.bind(this) }"></ng-container>
+  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'school', title: 'Des professionnels', placeholder:'Ajouter un professionnel', contributors: contributors.skills, contributorsForm: eventContributorsForm.get('skills').value, selectionChange: onContributorSkillsSelected.bind(this), remove: onContributorSkillsRemoved.bind(this) }"></ng-container>
 
-  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'people', title: 'Des relais usagers', placeholder:'Ajouter un relais usagers', contributors: contributors.people, contributorsForm: eventContributorsForm.get('people').value, selectionChange: onContributorPeopleSelected.bind(this) }"></ng-container>
+  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'people', title: 'Des relais usagers', placeholder:'Ajouter un relais usagers', contributors: contributors.people, contributorsForm: eventContributorsForm.get('people').value, selectionChange: onContributorPeopleSelected.bind(this), remove: onContributorPeopleRemoved.bind(this) }"></ng-container>
 
-  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'mood', title: 'Des accompagnateurs', placeholder:'Ajouter un accompagnateur', contributors: contributors.assistants, contributorsForm: eventContributorsForm.get('assistants').value, selectionChange: onContributorAssistantsSelected.bind(this) }"></ng-container>
+  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'mood', title: 'Des accompagnateurs', placeholder:'Ajouter un accompagnateur', contributors: contributors.assistants, contributorsForm: eventContributorsForm.get('assistants').value, selectionChange: onContributorAssistantsSelected.bind(this), remove: onContributorAssistantsRemoved.bind(this) }"></ng-container>
 
   <div fxLayout="row" fxLayoutGap="10px">
     <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
@@ -23,7 +23,7 @@
 
   <!-- Template for a contributor category with add/remove/display list -->
   <ng-template #category let-icon="icon" let-title="title" let-placeholder="placeholder" let-contributors="contributors" let-contributorsForm="contributorsForm"
-    let-selectionChange="selectionChange">
+    let-selectionChange="selectionChange" let-remove="remove">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
       <label class="services" fxLayout="column" fxLayoutAlign="center center">
         <input type="checkbox">
@@ -34,7 +34,7 @@
         <span class="bold">{{title}}</span>
         <div *ngFor="let contributor of contributorsForm" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
           <span>{{contributor.title}}</span>
-          <button mat-mini-fab>
+          <button mat-mini-fab (click)="remove(contributor)">
             <mat-icon>delete</mat-icon>
           </button>
         </div>
