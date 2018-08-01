@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutGap="10px" class="sidenav-body">
+<form [formGroup]="eventLocationForm" (ngSubmit)="submitForm(eventLocationForm.value)" fxLayout="column" class="sidenav-body">
   <!-- Location -->
   <h4>Renseignez le lieu où se déroulera l'évènement</h4>
 
@@ -9,11 +9,19 @@
 
   <div fxLayout="column">
     <mat-form-field>
-      <input matInput [(ngModel)]="event.locationName" maxlength="100" placeholder="Nom du lieu (facultatif)">
+      <input matInput type="text" formControlName="locationLabel" maxlength="100" placeholder="Nom du lieu (facultatif)">
     </mat-form-field>
 
+    <!-- Search for location -->
     <mat-form-field>
-      <input matInput maxlength="200" placeholder="Saisissez une adresse...">
+      <input matInput type="text" id="address" [matAutocomplete]="auto" formControlName="location" placeholder="Saisissez une adresse">
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onLocationSelected($event)">
+        <mat-option *ngIf="isLoading" disabled>Recherche en cours...</mat-option>
+        <mat-option *ngFor="let location of locationsFound" [value]="location">
+          {{location.properties.label}}
+        </mat-option>
+        <mat-option *ngIf="!locationsFound.length && !isLoading" disabled>Aucun résultat</mat-option>
+      </mat-autocomplete>
     </mat-form-field>
   </div>
 
@@ -27,14 +35,14 @@
       <label for="public-input">Tout public</label>
     </div>
     <div fxFlex="40%" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
-      <mat-slide-toggle id="eat"></mat-slide-toggle>
-      <mat-slide-toggle id="cook"></mat-slide-toggle>
-      <mat-slide-toggle id="public"></mat-slide-toggle>
+      <mat-slide-toggle id="eat" formControlName="eat"></mat-slide-toggle>
+      <mat-slide-toggle id="cook" formControlName="cook"></mat-slide-toggle>
+      <mat-slide-toggle id="public" formControlName="public"></mat-slide-toggle>
     </div>
   </div>
 
   <mat-form-field>
-    <textarea matInput [(ngModel)]="event.informations" maxlength="500" placeholder="Autres informations à destination du public"></textarea>
+    <textarea matInput formControlName="informations" maxlength="500" placeholder="Autres informations à destination du public"></textarea>
   </mat-form-field>
 
   <div fxLayout="row" fxLayoutGap="10px">
@@ -42,10 +50,9 @@
       Précédent
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="saveLocation()">
+    <button mat-button type="submit" class="next-button background-red" fxFlex="50" [disabled]="eventLocationForm.invalid">
       Suivant
       <mat-icon>arrow_forward</mat-icon>
     </button>
   </div>
-
-</div>
+</form>
