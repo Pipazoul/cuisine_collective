@@ -54,14 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(res => {
-      if (res.addElement === 'true') {
-        this.openSidenavAddElement();
-      }
-      if (!res.addElement || res.addElement !== 'true') {
-        this.closeSidenav();
-      }
-    });
   }
 
   get eventStyle() {
@@ -148,9 +140,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
-      console.log(e.target.getFeatures());
       if (e.selected && e.target.getFeatures().item(0)) {
         this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
+      }
+      else {
+        this.router.navigate(['home']);
       }
     });
 
@@ -164,18 +158,18 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.map.addControl(mousePosition);*/
   }
 
-  public openSidenavAddElement() {
-    if (!this.authenticationService.isConnected) {
-      return;
-    }
-    if (!this.viewContainerRef.length) {
-      this.componentInjectorService.addComponent(this.viewContainerRef, AddElementComponent);
-    }
-    this.showSidenav = true;
-  }
-
   public closeSidenav() {
     this.showSidenav = false;
     this.viewContainerRef.clear();
+  }
+
+  onPrimaryRouterActivate(event) {
+    console.log('onPrimaryRouterActivate');
+    this.showSidenav = true;
+  }
+
+  onPrimaryRouterDeactivate(event) {
+    console.log('onPrimaryRouterDeactivate');
+    this.showSidenav = false;
   }
 }

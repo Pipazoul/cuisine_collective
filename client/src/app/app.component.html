@@ -7,12 +7,12 @@
             </div>
             <div class="map-container" #map fxFlex="75%">
                 <app-search-bar (goTo)=goTo($event)></app-search-bar>
+                <router-outlet name="mapOverlay"></router-outlet>
             </div>
             <!--<div id="myposition"></div>-->
-            <router-outlet></router-outlet>
         </mat-sidenav-content>
         <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end">
-            <ng-template #dynamic></ng-template>
+            <router-outlet (activate)='onPrimaryRouterActivate($event)' (deactivate)='onPrimaryRouterDeactivate($event)'></router-outlet>
         </mat-sidenav>
     </mat-sidenav-container>
 </div>
