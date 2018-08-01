@@ -12,6 +12,7 @@ import { HomeFiltersComponent } from './components/home/home-filters/home-filter
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { EventComponent } from './components/event/event.component';
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
+import { ContributorComponent } from './components/contributor/contributor.component';
 
 const ROUTES: Routes = [{
   path: 'home',
@@ -30,6 +31,20 @@ const ROUTES: Routes = [{
     {
       path: '',
       component: EventComponent,
+      outlet: "primary"
+    }, {
+      path: '',
+      component: HomeFiltersComponent,
+      outlet: "sidenav"
+    }
+  ]
+}, {
+  path: 'contributors/:id',
+  canActivate: [UnauthGuard],
+  children: [
+    {
+      path: '',
+      component: ContributorComponent,
       outlet: "primary"
     }, {
       path: '',

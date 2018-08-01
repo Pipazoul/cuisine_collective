@@ -66,6 +66,7 @@ import { EventPlanningComponent } from './components/admin/event-planning/event-
 import { FrenchDateAdapter } from './util/FrenchDateAdapter';
 import { EventLocationTypeComponent } from './components/admin/event-location-type/event-location-type.component';
 import { ContributorServicesComponent } from './components/admin/contributor-services/contributor-services.component';
+import { ContributorComponent } from './components/contributor/contributor.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -129,7 +130,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     EventComponent,
     EventPlanningComponent,
     EventLocationTypeComponent,
-    ContributorServicesComponent
+    ContributorServicesComponent,
+    ContributorComponent
   ],
   entryComponents: [
     PopupSigninComponent,
