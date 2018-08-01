@@ -25,7 +25,7 @@
       "type": "number",
       "default": 0
     },
-    "datetime": {
+    "timeSlot": {
       "type": "string",
       "length": 200,
       "postgresql": {
@@ -93,6 +93,77 @@
       "type": "number",
       "postgresql": {
         "dataType": "double precision"
+      }
+    },
+    "locationLabel": {
+      "type": "string",
+      "length": 100,
+      "postgresql": {
+        "dataType": "character varying"
+      }
+    },
+    "informations": {
+      "type": "string",
+      "length": 500,
+      "postgresql": {
+        "dataType": "character varying"
+      }
+    },
+    "eat": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "cook": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "public": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "locationCity": {
+      "type": "string",
+      "length": 50,
+      "postgresql": {
+        "dataType": "character varying"
+      }
+    },
+    "locationCitycode": {
+      "type": "string",
+      "length": 5,
+      "postgresql": {
+        "dataType": "character varying"
+      }
+    },
+    "locationHousenumber": {
+      "type": "string",
+      "length": 10,
+      "postgresql": {
+        "dataType": "character varying"
+      }
+    },
+    "locationName": {
+      "type": "string",
+      "length": 50,
+      "postgresql": {
+        "dataType": "character varying"
+      }
+    },
+    "locationPostcode": {
+      "type": "string",
+      "length": 5,
+      "postgresql": {
+        "dataType": "character varying"
+      }
+    },
+    "locationStreet": {
+      "type": "string",
+      "length": 50,
+      "postgresql": {
+        "dataType": "character varying"
       }
     }
   },
