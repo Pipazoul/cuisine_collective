@@ -1,4 +1,4 @@
-<div fxFlex fxLayout="column">
+<div *ngIf="event" fxFlex fxLayout="column">
   <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
     <span>{{event.name | uppercase}}</span>
     <button type="button" mat-icon-button [routerLink]="'/admin'">

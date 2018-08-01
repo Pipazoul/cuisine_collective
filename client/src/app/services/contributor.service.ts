@@ -37,4 +37,12 @@ export class ContributorService {
   getAll(): Observable<ContributorClass[]> {
     return this.restangular.all(UrlSettings.contributorModel).getList().pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
   }
+
+  /**
+   * Get all guides
+   */
+  getAssistants(): Observable<ContributorClass[]> {
+    return this.restangular.all(UrlSettings.contributorModel).getList({filter: {where:{assistants:true}}})
+    .pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
+  }
 }
