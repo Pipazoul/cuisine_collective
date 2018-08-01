@@ -32,7 +32,7 @@
     "houseNumber": {
       "type": "string"
     },
-    "address": {
+    "street": {
       "type": "string"
     },
     "zipcode": {
