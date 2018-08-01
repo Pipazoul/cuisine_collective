@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, ViewContainerRef, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import * as ol from 'openlayers/dist/ol-debug';
 import { ComponentInjectorService } from './services/component-injector.service';
-import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   selectedEventColor = '#FF5555';
 
   events: EventClass[];
+  eventsLayer: ol.layer.Vector;
   contributors: ContributorClass[];
 
   @ViewChild('map') mapElement: ElementRef;
@@ -124,7 +125,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   initializeMap() {
-    const eventsLayer = new ol.layer.Vector({
+    this.eventsLayer = new ol.layer.Vector({
       source: this.eventsMarkerSource,
       style: this.eventStyle,
     });
@@ -147,7 +148,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         new ol.layer.Tile({
           source: new ol.source.OSM()
         }),
-        eventsLayer,
+        this.eventsLayer,
         contributorsLayer,
       ],
       target: this.mapElement.nativeElement,
@@ -201,5 +202,35 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onPrimaryRouterDeactivate(event) {
     this.showSidenav = false;
+  }
+
+  onActivate(elementRef) {
+    elementRef.filter.subscribe(filters => {
+      this.eventService.getAll(filters).subscribe(events => {
+        this.redrawEvents(events);
+      });
+    }, err => {
+      console.error(err);
+    });
+  }
+
+  /**
+   * Remove all event from layer then add the new ones
+   * @param events list of new events to draw
+   */
+  redrawEvents(events) {
+    // Removing all previous features of eventLayer
+    _.each(this.eventsLayer.getSource().getFeatures(), feature => {
+      this.eventsLayer.getSource().removeFeature(feature);
+    });
+
+    // Adding all new features (events) of eventLayer
+    events.map((event) =>
+      this.eventsLayer.getSource().addFeature(new ol.Feature({
+        geometry: new ol.geom.Point([event.longitude, event.latitude]),
+        type: 'event',
+        id: event.id
+      }))
+    );
   }
 }
