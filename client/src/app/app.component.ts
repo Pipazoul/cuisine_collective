@@ -1,8 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, ViewContainerRef, OnInit } from '@angular/core';
-import * as ol from 'openlayers/dist/ol-debug';
-import { ComponentInjectorService } from './services/component-injector.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from './services/authentication.service';
+import * as ol from 'openlayers';
+import { Router, NavigationEnd } from '@angular/router';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
 import { ContributorClass } from './domain/contributor.class';
@@ -29,10 +27,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   searchZoom: number = 16;
   map: ol.Map;
 
-
-
-  // Sidenav
-  @ViewChild('dynamic', { read: ViewContainerRef }) private viewContainerRef: ViewContainerRef;
   public showSidenav: boolean = false;
   eventsFeatures: ol.Feature[];
   contributorsFeatures: ol.Feature[];
@@ -43,9 +37,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   selectInteraction: ol.interaction.Select;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private authenticationService: AuthenticationService,
-    private componentInjectorService: ComponentInjectorService,
     private router: Router,
     private eventService: EventService,
     private contributorService: ContributorService
@@ -102,13 +93,18 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.initializeMap();
 
       //Select the right marker when URL is "/events/:id" or "/contributors/:id"
-      const currentUrl = this.router.parseUrl(this.router.url).root.children.primary;
-      if (currentUrl.segments[0].path === 'events' && !isNaN(+currentUrl.segments[1].path)) {
-        this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
-      }
-      else if (currentUrl.segments[0].path === 'contributors' && !isNaN(+currentUrl.segments[1].path)) {
-        this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
-      }
+      this.router.events.subscribe(res => {
+        if (res instanceof NavigationEnd) {
+          const currentUrl = this.router.parseUrl(res.urlAfterRedirects).root.children.primary;
+          this.selectInteraction.getFeatures().clear();
+          if (currentUrl.segments[0].path === 'events' && !isNaN(+currentUrl.segments[1].path)) {
+            this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
+          }
+          else if (currentUrl.segments[0].path === 'contributors' && !isNaN(+currentUrl.segments[1].path)) {
+            this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
+          }
+        }
+      });
     });
   }
 
@@ -205,11 +201,6 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.map.addControl(mousePosition);*/
-  }
-
-  public closeSidenav() {
-    this.showSidenav = false;
-    this.viewContainerRef.clear();
   }
 
   onPrimaryRouterActivate(event) {

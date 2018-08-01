@@ -37,7 +37,6 @@ import { CarouselItemDirective } from './directive/carousel-item.directive';
 
 // Services
 import { AuthenticationService } from './services/authentication.service';
-import { ComponentInjectorService } from './services/component-injector.service';
 import { ContributorService } from './services/contributor.service';
 import { EventService } from './services/event.service';
 import { LocationService } from './services/location.service';
@@ -184,7 +183,6 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     LocationService,
     ContributorService,
     UserService,
-    ComponentInjectorService,
     AuthGuard,
     UnauthGuard
   ],
