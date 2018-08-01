@@ -1,11 +1,12 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, ViewContainerRef, OnInit } from '@angular/core';
 import * as ol from 'openlayers';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
 import { ContributorClass } from './domain/contributor.class';
 import { zip } from 'rxjs';
 import { ContributorService } from './services/contributor.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -35,9 +36,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   eventsLayer: ol.layer.Vector;
   contributorsLayer: ol.layer.Vector;
   selectInteraction: ol.interaction.Select;
+  currentRoute: any;
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private eventService: EventService,
     private contributorService: ContributorService
   ) { }
@@ -95,17 +98,15 @@ export class AppComponent implements OnInit, AfterViewInit {
       //Select the right marker when URL is "/events/:id" or "/contributors/:id"
       const currentUrl = this.router.parseUrl(this.router.url).root.children.primary
       this.selectCurrentMarker(currentUrl);
-      this.router.events.subscribe(res => {
-        if (res instanceof NavigationEnd) {
-          const currentUrl = this.router.parseUrl(res.urlAfterRedirects).root.children.primary;
-          this.selectCurrentMarker(currentUrl);
-        }
+      this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(res => {
+        const currentUrl = this.router.parseUrl((<NavigationEnd>res).urlAfterRedirects).root.children.primary;
+        this.currentRoute = this.activatedRoute.root.firstChild;
+        this.selectCurrentMarker(currentUrl);
       });
     });
   }
 
   selectCurrentMarker(currentUrl) {
-    console.log(currentUrl);
     this.selectInteraction.getFeatures().clear();
     if (currentUrl.segments[0].path === 'events' && !isNaN(+currentUrl.segments[1].path)) {
       this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
@@ -189,10 +190,10 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
       if (e.selected && e.target.getFeatures().item(0)) {
         if (e.target.getFeatures().item(0).get('type') === 'event') {
-          this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id]);
+          this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id], {relativeTo: this.currentRoute});
         }
         else if (e.target.getFeatures().item(0).get('type') === 'contributor') {
-          this.router.navigate(['contributors', e.target.getFeatures().item(0).getProperties().id]);
+          this.router.navigate(['contributors', e.target.getFeatures().item(0).getProperties().id], {relativeTo: this.currentRoute});
         }
       }
       else {

@@ -68,6 +68,8 @@ import { EventLocationTypeComponent } from './components/admin/event-location-ty
 import { EventContributorsComponent } from './components/admin/event-contributors/event-contributors.component';
 import { ContributorServicesComponent } from './components/admin/contributor-services/contributor-services.component';
 import { ContributorComponent } from './components/contributor/contributor.component';
+import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
+import { EventEditionComponent } from './components/event-edition/event-edition.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -134,6 +136,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     ContributorServicesComponent,
     ContributorComponent,
     EventContributorsComponent,
+    ContributorEditionComponent,
+    EventEditionComponent,
   ],
   entryComponents: [
     PopupSigninComponent,
