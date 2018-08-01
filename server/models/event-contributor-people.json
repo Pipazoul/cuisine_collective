@@ -1,0 +1,35 @@
+{
+  "name": "eventContributorPeople",
+  "base": "PersistedModel",
+  "idInjection": false,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "eventId": {
+      "type": "number",
+      "id": 1,
+      "required": true
+    },
+    "contributorId": {
+      "type": "number",
+      "id": 2,
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "event": {
+      "type": "belongsTo",
+      "model": "event",
+      "foreignKey": "eventId"
+    },
+    "contributor": {
+      "type": "belongsTo",
+      "model": "contributor",
+      "foreignKey": "contributorId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

@@ -33,11 +33,19 @@ export class EventClass {
     /**
      * Linked contributors
      */
-    public contributors: ContributorClass[] = [];
+    public contributorsLocation: ContributorClass[] = [];
+    public contributorsFood: ContributorClass[] = [];
+    public contributorsSkills: ContributorClass[] = [];
+    public contributorsPeople: ContributorClass[] = [];
+    public contributorsAssistants: ContributorClass[] = [];
 
     constructor(obj?: any) {
         Object.assign(this, obj, {
-            contributors: obj && obj.contributors ? obj.contributors.map(c => new ContributorClass(c)) : []
+            contributorsLocation: obj && obj.contributorsLocation ? obj.contributorsLocation.map(c => new ContributorClass(c)) : [],
+            contributorsFood: obj && obj.contributorsFood ? obj.contributorsFood.map(c => new ContributorClass(c)) : [],
+            contributorsSkills: obj && obj.contributorsSkills ? obj.contributorsSkills.map(c => new ContributorClass(c)) : [],
+            contributorsPeople: obj && obj.contributorsPeople ? obj.contributorsPeople.map(c => new ContributorClass(c)) : [],
+            contributorsAssistants: obj && obj.contributorsAssistants ? obj.contributorsAssistants.map(c => new ContributorClass(c)) : []
         });
     }
 }

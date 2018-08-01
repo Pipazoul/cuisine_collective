@@ -169,11 +169,39 @@
   },
   "validations": [],
   "relations": {
-    "contributors": {
+    "contributorsLocation": {
       "type": "hasMany",
       "model": "contributor",
       "foreignKey": "eventId",
-      "through": "eventContributor",
+      "through": "eventContributorLocation",
+      "keyThrough": "contributorId"
+    },
+    "contributorsFood": {
+      "type": "hasMany",
+      "model": "contributor",
+      "foreignKey": "eventId",
+      "through": "eventContributorFood",
+      "keyThrough": "contributorId"
+    },
+    "contributorsSkills": {
+      "type": "hasMany",
+      "model": "contributor",
+      "foreignKey": "eventId",
+      "through": "eventContributorSkills",
+      "keyThrough": "contributorId"
+    },
+    "contributorsPeople": {
+      "type": "hasMany",
+      "model": "contributor",
+      "foreignKey": "eventId",
+      "through": "eventContributorPeople",
+      "keyThrough": "contributorId"
+    },
+    "contributorsAssistants": {
+      "type": "hasMany",
+      "model": "contributor",
+      "foreignKey": "eventId",
+      "through": "eventContributorAssistants",
       "keyThrough": "contributorId"
     }
   },

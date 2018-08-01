@@ -75,7 +75,23 @@
     "dataSource": "db",
     "public": true
   },
-  "eventContributor": {
+  "eventContributorLocation": {
+    "dataSource": "db",
+    "public": false
+  },
+  "eventContributorFood": {
+    "dataSource": "db",
+    "public": false
+  },
+  "eventContributorSkills": {
+    "dataSource": "db",
+    "public": false
+  },
+  "eventContributorPeople": {
+    "dataSource": "db",
+    "public": false
+  },
+  "eventContributorAssistants": {
     "dataSource": "db",
     "public": false
   }

@@ -1,5 +1,5 @@
 {
-  "name": "eventContributor",
+  "name": "eventContributorAssistants",
   "base": "PersistedModel",
   "idInjection": false,
   "options": {
