@@ -7,9 +7,6 @@
     "validateUpsert": true
   },
   "properties": {
-    "type": {
-      "type": "number"
-    },
     "title": {
       "type": "string",
       "default": "sans_nom"
@@ -77,15 +74,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "events": {
-      "type": "hasMany",
-      "model": "event",
-      "foreignKey": "contributorId",
-      "through": "eventContributor",
-      "keyThrough": "eventId"
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }
