@@ -72,62 +72,61 @@ export class EventContributorsComponent extends AbstractEventModifier implements
     });
   }
 
-  public onContributorLocationSelected(event: MatSelectChange) {
-    this.onContributorSelected(event, this.eventContributorsForm.get('location') as FormArray, this.contributors.location);
+  public addContributorLocation(contributor: ContributorClass) {
+    this.addContributor(contributor, this.eventContributorsForm.get('location') as FormArray, this.contributors.location);
   }
 
-  public onContributorFoodSelected(event: MatSelectChange) {
-    this.onContributorSelected(event, this.eventContributorsForm.get('food') as FormArray, this.contributors.food);
+  public addContributorFood(contributor: ContributorClass) {
+    this.addContributor(contributor, this.eventContributorsForm.get('food') as FormArray, this.contributors.food);
   }
 
-  public onContributorSkillsSelected(event: MatSelectChange) {
-    this.onContributorSelected(event, this.eventContributorsForm.get('skills') as FormArray, this.contributors.skills);
+  public addContributorSkills(contributor: ContributorClass) {
+    this.addContributor(contributor, this.eventContributorsForm.get('skills') as FormArray, this.contributors.skills);
   }
 
-  public onContributorPeopleSelected(event: MatSelectChange) {
-    this.onContributorSelected(event, this.eventContributorsForm.get('people') as FormArray, this.contributors.people);
+  public addContributorPeople(contributor: ContributorClass) {
+    this.addContributor(contributor, this.eventContributorsForm.get('people') as FormArray, this.contributors.people);
   }
 
-  public onContributorAssistantsSelected(event: MatSelectChange) {
-    this.onContributorSelected(event, this.eventContributorsForm.get('assistants') as FormArray, this.contributors.assistants);
+  public addContributorAssistants(contributor: ContributorClass) {
+    this.addContributor(contributor, this.eventContributorsForm.get('assistants') as FormArray, this.contributors.assistants);
   }
 
   /**
    * When a contributors is selected in a given list, add the contributor to the form and remove it from the corresponding contributor list
    * 
-   * @param event
+   * @param contributor
    * @param contributorsFormArray
    * @param contributorsList 
    */
-  private onContributorSelected(event: MatSelectChange, contributorsFormArray: FormArray, contributorsList: ContributorClass[]) {
-    const contributor = event.value as ContributorClass;
+  private addContributor(contributor: ContributorClass, contributorsFormArray: FormArray, contributorsList: ContributorClass[]) {
     // Add to form
     contributorsFormArray.push(new FormControl(contributor));
     // Remove from list
     _.remove(contributorsList, { id: contributor.id });
   }
 
-  public onContributorLocationRemoved(contributor: ContributorClass) {
-    this.onContributorRemoved(contributor, this.eventContributorsForm.get('location') as FormArray, this.contributors.location);
+  public removeContributorLocation(contributor: ContributorClass) {
+    this.removeContributor(contributor, this.eventContributorsForm.get('location') as FormArray, this.contributors.location);
   }
 
-  public onContributorFoodRemoved(contributor: ContributorClass) {
-    this.onContributorRemoved(contributor, this.eventContributorsForm.get('food') as FormArray, this.contributors.food);
+  public removeContributorFood(contributor: ContributorClass) {
+    this.removeContributor(contributor, this.eventContributorsForm.get('food') as FormArray, this.contributors.food);
   }
 
-  public onContributorSkillsRemoved(contributor: ContributorClass) {
-    this.onContributorRemoved(contributor, this.eventContributorsForm.get('skills') as FormArray, this.contributors.skills);
+  public removeContributorSkills(contributor: ContributorClass) {
+    this.removeContributor(contributor, this.eventContributorsForm.get('skills') as FormArray, this.contributors.skills);
   }
 
-  public onContributorPeopleRemoved(contributor: ContributorClass) {
-    this.onContributorRemoved(contributor, this.eventContributorsForm.get('people') as FormArray, this.contributors.people);
+  public removeContributorPeople(contributor: ContributorClass) {
+    this.removeContributor(contributor, this.eventContributorsForm.get('people') as FormArray, this.contributors.people);
   }
 
-  public onContributorAssistantsRemoved(contributor: ContributorClass) {
-    this.onContributorRemoved(contributor, this.eventContributorsForm.get('assistants') as FormArray, this.contributors.assistants);
+  public removeContributorAssistants(contributor: ContributorClass) {
+    this.removeContributor(contributor, this.eventContributorsForm.get('assistants') as FormArray, this.contributors.assistants);
   }
 
-  private onContributorRemoved(contributor: ContributorClass, contributorsFormArray: FormArray, contributorsList: ContributorClass[]) {
+  private removeContributor(contributor: ContributorClass, contributorsFormArray: FormArray, contributorsList: ContributorClass[]) {
     // Add to list
     contributorsList.push(contributor);
     // Remove from form
