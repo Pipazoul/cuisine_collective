@@ -55,10 +55,10 @@
           <label for="regular-input">Récurrent</label>
         </div>
         <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-          <mat-slide-toggle id="eat"></mat-slide-toggle>
-          <mat-slide-toggle id="cook"></mat-slide-toggle>
-          <mat-slide-toggle id="public"></mat-slide-toggle>
-          <mat-slide-toggle id="regular"></mat-slide-toggle>
+          <mat-slide-toggle id="eat" [(ngModel)]="eatToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
+          <mat-slide-toggle id="cook" [(ngModel)]="cookToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
+          <mat-slide-toggle id="public" [(ngModel)]="publicToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
+          <mat-slide-toggle id="regular" [(ngModel)]="regularToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
         </div>
       </div>
     </mat-expansion-panel>

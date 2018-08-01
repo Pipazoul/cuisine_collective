@@ -1,4 +1,5 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import * as _ from 'lodash';
 import * as ol from 'openlayers';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { EventService } from './services/event.service';
@@ -201,6 +202,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
 
+    // change mouse cursor when over marker
+    this.map.on('pointermove', (e) => {
+      var pixel = this.map.getEventPixel(e['originalEvent']);
+      var mapDiv = (this.map.getTarget() as Element)
+
+      this.map.hasFeatureAtPixel(pixel) ? mapDiv.classList.add("clickable") : mapDiv.classList.remove("clickable");
+    });
+
     /*var mousePosition = new ol.control.MousePosition({
       coordinateFormat: ol.coordinate.createStringXY(10),
       projection: 'EPSG:3857',
@@ -217,5 +226,40 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onPrimaryRouterDeactivate(event) {
     this.showSidenav = false;
+  }
+
+  /**
+   * Subscribe to router outlet's child component's event
+   * @param elementRef sidenav
+   */
+  onActivate(elementRef) {
+    // Event filter of the sidenav
+    elementRef.filter.subscribe(filters => {
+      this.eventService.getAll(filters).subscribe(events => {
+        this.redrawEvents(events);
+      });
+    }, err => {
+      console.error(err);
+    });
+  }
+
+  /**
+   * Remove all event from layer then add the new ones
+   * @param events list of new events to draw
+   */
+  redrawEvents(events) {
+    // Removing all previous features of eventLayer
+    _.each(this.eventsLayer.getSource().getFeatures(), feature => {
+      this.eventsLayer.getSource().removeFeature(feature);
+    });
+
+    // Adding all new features (events) of eventLayer
+    events.map((event) =>
+      this.eventsLayer.getSource().addFeature(new ol.Feature({
+        geometry: new ol.geom.Point([event.longitude, event.latitude]),
+        type: 'event',
+        id: event.id
+      }))
+    );
   }
 }
