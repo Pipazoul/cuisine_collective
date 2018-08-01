@@ -27,7 +27,7 @@ export class AddElementComponent implements OnInit {
 
   public showCreateEvent() {
     this.sidenavTitle = 'Créer un évènement';
-    this.carousel.goTo(1);
+    this.carousel.next();
   }
 
   public showCreateContributor() {

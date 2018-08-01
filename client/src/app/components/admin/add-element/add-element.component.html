@@ -11,6 +11,7 @@
       <button type="button" mat-button class="background-blue-light" (click)="showCreateEvent()">Créer un évènement</button>
       <button type="button" mat-button class="background-blue-dark" (click)="showCreateContributor()">Ajouter un contributeur</button>
     </div>
+    <!-- All forms to create an event -->
     <ng-container *ngIf="showEvent">
       <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
 
@@ -21,6 +22,8 @@
       <div *carouselItem>Ressources et partenaire identifiés</div>
       <div *carouselItem>Ressources et partenaire manquants</div>
     </ng-container>
+
+    <!-- All forms to create a contributor -->
     <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-form>
     <div *carouselItem>Type de contributeur</div>
   </app-carousel>
