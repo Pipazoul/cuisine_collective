@@ -20,6 +20,9 @@ export class EventEditionComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      if (!params['id']) {
+        return;
+      }
       this.eventService.getById(params['id']).subscribe(event => {
         this.event = event;
       }, err => {

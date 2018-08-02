@@ -18,6 +18,9 @@ export class ContributorEditionComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
+      if (!params['id']) {
+        return;
+      }
       this.contributorService.getById(params['id']).subscribe(event => {
         this.contributor = event;
       }, err => {
