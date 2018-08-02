@@ -46,6 +46,16 @@ export class EventService {
           }, {
             public: filters ? filters.public : false
           }, {
+            location: filters && filters.location ? filters.location : undefined
+          }, {
+            food: filters && filters.food ? filters.food : undefined
+          }, {
+            skills: filters && filters.skills ? filters.skills : undefined
+          }, {
+            people: filters && filters.people ? filters.people : undefined
+          }, {
+            assistants: filters && filters.assistants ? filters.assistants : undefined
+          }, {
             dateEnd: undefined
           }]
         }

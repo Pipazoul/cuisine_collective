@@ -9,12 +9,19 @@ export class AdminFiltersComponent implements OnInit {
 
   @Output() filterEvents: EventEmitter<any> = new EventEmitter<any>();
   @Output() filterContributors: EventEmitter<any> = new EventEmitter<any>();
+
+  // Event's filters
   public startDate: Date;
   public endDate: Date;
   public eatToggle: boolean = false;
   public cookToggle: boolean = false;
   public publicToggle: boolean = false;
   public regularToggle: boolean = false;
+  public locationNeeded: boolean = false;
+  public foodNeeded: boolean = false;
+  public skillsNeeded: boolean = false;
+  public peopleNeeded: boolean = false;
+  public assistantsNeeded: boolean = false;
 
   // Contributor's filters
   public locationProvided: boolean = false;
@@ -44,6 +51,11 @@ export class AdminFiltersComponent implements OnInit {
       regular: this.regularToggle,
       startDate: this.startDate,
       endDate: this.endDate,
+      location: this.locationNeeded,
+      food: this.foodNeeded,
+      skills: this.skillsNeeded,
+      people: this.peopleNeeded,
+      assistants: this.assistantsNeeded,
     });
   }
 

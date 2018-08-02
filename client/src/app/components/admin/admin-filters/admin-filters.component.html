@@ -72,27 +72,27 @@
       <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
         <div fxLayout="row" class="full-width">
           <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <input type="checkbox">
+            <input type="checkbox" [(ngModel)]="locationNeeded" (change)="applyEventsFilters()">
             <i class="material-icons">kitchen</i>Un lieu
           </label>
           <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <input type="checkbox">
+            <input type="checkbox" [(ngModel)]="foodNeeded" (change)="applyEventsFilters()">
             <i class="material-icons">shopping_cart</i>Des aliments
           </label>
         </div>
         <div fxLayout="row" class="full-width">
           <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <input type="checkbox">
+            <input type="checkbox" [(ngModel)]="skillsNeeded" (change)="applyEventsFilters()">
             <i class="material-icons">school</i>Des compétences
           </label>
           <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <input type="checkbox">
+            <input type="checkbox" [(ngModel)]="peopleNeeded" (change)="applyEventsFilters()">
             <i class="material-icons">people</i>Des usagers
           </label>
         </div>
         <div fxLayout="row">
           <label class="services needed" fxLayout="column" fxLayoutAlign="center center">
-            <input type="checkbox">
+            <input type="checkbox" [(ngModel)]="assistantsNeeded" (change)="applyEventsFilters()">
             <i class="material-icons">mood</i>Des accompagnateurs
           </label>
         </div>
