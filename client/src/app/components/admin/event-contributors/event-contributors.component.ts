@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnChanges } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { EventService } from '../../../services/event.service';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
@@ -22,7 +22,7 @@ export class EventContributorsComponent extends AbstractEventModifier implements
     super(eventService);
   }
 
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.initForm();
     this.loadContributors();
   }

@@ -7,6 +7,7 @@ import { UrlSettings } from '../config/url.settings';
 
 import { EventClass } from '../domain/event.class';
 import { AuthenticationService } from './authentication.service';
+import { ContributorClass } from '../domain/contributor.class';
 
 @Injectable()
 export class EventService {
@@ -14,6 +15,14 @@ export class EventService {
   constructor(
     private restangular: Restangular,
     private authenticateService: AuthenticationService) {
+  }
+
+  /**
+   * Get an event by its id
+   * @param id event's id
+   */
+  getById(id: number): Observable<EventClass> {
+    return this.restangular.one(UrlSettings.eventModel, id).get().pipe(map(event => new EventClass(event)));
   }
 
   /**
@@ -89,14 +98,6 @@ export class EventService {
   }
 
   /**
-   * Get an event by its id
-   * @param id event's id
-   */
-  getById(id: number): Observable<EventClass> {
-    return this.restangular.one(UrlSettings.eventModel, id).get().pipe(map(event => new EventClass(event)));
-  }
-
-  /**
    * Link a contributor location to the event
    * 
    * @param eventId 
@@ -104,6 +105,56 @@ export class EventService {
    */
   setContributors(eventId: number, contributorsIds: ContributorsIds) {
     return this.restangular.one(UrlSettings.eventModel, eventId).all(UrlSettings.eventContributors).customPUT(contributorsIds);
+  }
+
+  /**
+   * Get all contributors assistants linked to this event
+   * 
+   * @param eventId 
+   */
+  getContributorsAssistants(eventId: number): Observable<ContributorClass[]> {
+    return this.restangular.one(UrlSettings.eventModel, eventId).all(UrlSettings.eventContributorsAssistants)
+      .getList().pipe(map((res: Array<any>) => res.map(c => new ContributorClass(c))));
+  }
+
+  /**
+   * Get all contributors food linked to this event
+   * 
+   * @param eventId 
+   */
+  getContributorsFood(eventId: number): Observable<ContributorClass[]> {
+    return this.restangular.one(UrlSettings.eventModel, eventId).all(UrlSettings.eventContributorsFood)
+      .getList().pipe(map((res: Array<any>) => res.map(c => new ContributorClass(c))));
+  }
+
+  /**
+   * Get all contributors location linked to this event
+   * 
+   * @param eventId 
+   */
+  getContributorsLocation(eventId: number): Observable<ContributorClass[]> {
+    return this.restangular.one(UrlSettings.eventModel, eventId).all(UrlSettings.eventContributorsLocation)
+      .getList().pipe(map((res: Array<any>) => res.map(c => new ContributorClass(c))));
+  }
+
+  /**
+   * Get all contributors people linked to this event
+   * 
+   * @param eventId 
+   */
+  getContributorsPeople(eventId: number): Observable<ContributorClass[]> {
+    return this.restangular.one(UrlSettings.eventModel, eventId).all(UrlSettings.eventContributorsPeople)
+      .getList().pipe(map((res: Array<any>) => res.map(c => new ContributorClass(c))));
+  }
+
+  /**
+   * Get all contributors skills linked to this event
+   * 
+   * @param eventId 
+   */
+  getContributorsSkills(eventId: number): Observable<ContributorClass[]> {
+    return this.restangular.one(UrlSettings.eventModel, eventId).all(UrlSettings.eventContributorsSkills)
+      .getList().pipe(map((res: Array<any>) => res.map(c => new ContributorClass(c))));
   }
 }
 
