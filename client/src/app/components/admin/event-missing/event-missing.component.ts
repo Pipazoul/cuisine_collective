@@ -36,4 +36,9 @@ export class EventMissingComponent extends AbstractEventModifier implements OnIn
     this.saveEvent(this.event);
   }
 
+  public publish() {
+    this.event.publish = true;
+    this.submitForm(this.eventMissingForm.value);
+  }
+
 }

@@ -38,6 +38,10 @@ export class EventClass {
     public missingPeople: boolean = false;
     public missingAssistants: boolean = false;
     /**
+     * Is event published ?
+     */
+    public publish: boolean = false;
+    /**
      * Linked contributors
      */
     public contributorsLocation: ContributorClass[] = [];
