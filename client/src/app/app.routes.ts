@@ -13,6 +13,8 @@ import { AdminFiltersComponent } from './components/admin/admin-filters/admin-fi
 import { EventComponent } from './components/event/event.component';
 import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { ContributorComponent } from './components/contributor/contributor.component';
+import { EventEditionComponent } from './components/event-edition/event-edition.component';
+import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 
 const ROUTES: Routes = [{
   path: 'home',
@@ -67,11 +69,21 @@ const ROUTES: Routes = [{
     }, {
       path: 'addElement',
       component: AddElementComponent,
-      outlet: "primary"
     }, {
-      path: 'addElement',
-      component: AdminFiltersComponent,
-      outlet: "sidenav"
+      path: 'events/:id',
+      component: EventEditionComponent,
+    },
+    {
+      path: 'events/edit',
+      component: EventEditionComponent
+    },
+    {
+      path: 'contributors/:id',
+      component: ContributorEditionComponent
+    },
+    {
+      path: 'contributors/edit',
+      component: ContributorEditionComponent
     }
   ]
 }, {

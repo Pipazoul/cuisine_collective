@@ -1,34 +1,14 @@
 <div fxFlex fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
-    <span>{{sidenavTitle | uppercase}}</span>
+    <span>{{'Ajouter un élément sur la carte' | uppercase}}</span>
     <button type="button" mat-icon-button [routerLink]="'/admin'">
       <mat-icon>close</mat-icon>
     </button>
   </div>
 
-  <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center center">
-    <div *carouselItem class="carousel-element" fxLayout="column" fxLayoutGap="15px">
-      <button type="button" mat-button class="background-blue-light" (click)="showCreateEvent()">Créer un évènement</button>
-      <button type="button" mat-button class="background-blue-dark" (click)="showCreateContributor()">Ajouter un contributeur</button>
-    </div>
-    <!-- All forms to create an event -->
-    <ng-container *ngIf="showEvent">
-      <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
-
-      <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-planning>
-
-      <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-location-type>
-
-      <app-event-contributors *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-contributors>
-
-      <div *carouselItem>Ressources et partenaire manquants</div>
-    </ng-container>
-
-    <!-- All forms to create a contributor -->
-    <ng-container *ngIf="showContributor">
-      <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
-      <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()"
-        (contributorSaved)="endCarousel()"></app-contributor-form>
-    </ng-container>
-  </app-carousel>
+  <div class="carousel-element" fxLayout="column" fxLayoutGap="15px">
+    <button type="button" mat-button class="background-blue-light" routerLink="/admin/events/edit">Créer un évènement</button>
+    <button type="button" mat-button class="background-blue-dark" routerLink="/admin/contributors/edit">Ajouter un contributeur</button>
+  </div>
+  <!-- All forms to create a contributor -->
 </div>

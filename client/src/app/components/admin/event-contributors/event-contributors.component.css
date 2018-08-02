@@ -15,3 +15,13 @@
 .services input:checked ~ i {
     background-color: #6CCACC;
 }
+
+button.add-contributor {
+    background-color: #6CCACC;
+    color: white;
+    margin-top: 5px;
+}
+
+button.remove-contributor {
+    background-color: #FF5555;
+}
