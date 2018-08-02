@@ -3,13 +3,23 @@
 }
 
 .services {
+    cursor: default;
     padding: 0;
 }
 
 .services i {
+    cursor: default;
     font-size: 40px;
     height: 40px;
     width: 40px;
+}
+
+.services input {
+    cursor: default;
+}
+
+.services:hover input ~ i {
+    background-color: #CCCCCC;
 }
 
 .services input:checked ~ i {
