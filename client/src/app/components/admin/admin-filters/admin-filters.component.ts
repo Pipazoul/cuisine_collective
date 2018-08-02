@@ -22,6 +22,8 @@ export class AdminFiltersComponent implements OnInit {
   public missingSkills: boolean = false;
   public missingPeople: boolean = false;
   public missingAssistants: boolean = false;
+  public published: boolean = false;
+  public unpublished: boolean = false;
 
   // Contributor's filters
   public location: boolean = false;
@@ -56,6 +58,8 @@ export class AdminFiltersComponent implements OnInit {
       missingSkills: this.missingSkills,
       missingPeople: this.missingPeople,
       missingAssistants: this.missingAssistants,
+      published: this.published,
+      unpublished: this.unpublished,
     });
   }
 

@@ -10,14 +10,14 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="section-filters" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="10px">
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <i class="material-icons">location_on</i>
-          <span>Publiés</span>
-        </div>
-        <div fxLayout="row" fxLayoutAlign="center center">
-          <i class="material-icons">edit_location</i>
-          <span>En cours d'organisation</span>
-        </div>
+        <label class="status" fxLayoutAlign="center center">
+          <input type="checkbox" [(ngModel)]="published" (change)="applyEventsFilters()">
+          <i class="material-icons">location_on</i>Publiés
+        </label>
+        <label class="status" fxLayoutAlign="center center">
+          <input type="checkbox" [(ngModel)]="unpublished" (change)="applyEventsFilters()">
+          <i class="material-icons">edit_location</i>En cours d'organisation
+        </label>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel>

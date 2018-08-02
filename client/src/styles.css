@@ -187,10 +187,24 @@ label {
     color: #0d70cd !important;
 }
 
+.status i {
+    cursor: pointer;
+    color: #cccccc;
+    width: 40px;
+    height: 40px;
+    font-size: 40px;
+    padding: 5px;
+}
+.status:hover input ~ i {
+    color: #aaa;
+}
+.status input:checked ~ i {
+    color: #6CCACC;
+}
+
 .services {
     margin: 15px;
 }
-
 .services i {
     cursor: pointer;
     color: white;
@@ -201,7 +215,8 @@ label {
     font-size: 50px;
     padding: 10px;
 }
-.services input {
+.services input, .status input {
+    z-index: -1;
     top: 0;
     position: absolute;
     opacity: 0;
@@ -210,7 +225,7 @@ label {
 .services:hover input ~ i {
   background-color: #aaa;
 }
-.services.needed input:checked ~ i {
+.services.needed input:checked ~ i, .status.needed input:checked ~ i {
   background-color: #6CCACC;
 }
 .services.provided input:checked ~ i {
