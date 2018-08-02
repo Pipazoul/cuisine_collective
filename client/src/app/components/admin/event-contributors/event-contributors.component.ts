@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   templateUrl: './event-contributors.component.html',
   styleUrls: ['./event-contributors.component.css']
 })
-export class EventContributorsComponent extends AbstractEventModifier implements OnInit, OnChanges {
+export class EventContributorsComponent extends AbstractEventModifier implements OnChanges {
 
   public eventContributorsForm: FormGroup;
   public contributors: ContributorGroups = { location: [], food: [], skills: [], people: [], assistants: [] };
@@ -20,11 +20,6 @@ export class EventContributorsComponent extends AbstractEventModifier implements
   constructor(@Inject(EventService) eventService: EventService,
     private contributorService: ContributorService) {
     super(eventService);
-  }
-
-  ngOnInit() {
-    this.initForm();
-    this.loadContributors();
   }
 
   ngOnChanges() {
