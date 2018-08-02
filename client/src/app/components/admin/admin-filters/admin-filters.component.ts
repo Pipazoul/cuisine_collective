@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-admin-filters',
@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminFiltersComponent implements OnInit {
 
+  @Output() filter: EventEmitter<any> = new EventEmitter<any>();
+  public startDate: Date;
+  public endDate: Date;
   public eatToggle: boolean = false;
   public cookToggle: boolean = false;
   public publicToggle: boolean = false;
@@ -18,9 +21,21 @@ export class AdminFiltersComponent implements OnInit {
   }
 
   onSlideToggleClick() {
-    console.log(this.eatToggle);
-    console.log(this.cookToggle);
-    console.log(this.publicToggle);
-    console.log(this.regularToggle);
+    this.applyFilters();
+  }
+
+  onCalendarClose() {
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    this.filter.emit({
+      eat: this.eatToggle,
+      cook: this.cookToggle,
+      public: this.publicToggle,
+      regular: this.regularToggle,
+      startDate: this.startDate,
+      endDate: this.endDate,
+    });
   }
 }
