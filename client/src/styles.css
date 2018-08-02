@@ -270,7 +270,16 @@ label {
     padding: 20px 0 20px 0;
 }
 
+.carousel-wrapper {
+    height: 100%;
+}
+
 .carousel-element {
     height: 100%;
     width: 420px;
+}
+
+.overflowable {
+    height: 100%;
+    overflow-y: auto;
 }
