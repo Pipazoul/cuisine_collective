@@ -22,8 +22,8 @@
       }
     },
     "participantsAmount": {
-      "type": "number",
-      "default": 0
+      "type": "string",
+      "length": 100
     },
     "timeSlot": {
       "type": "string",
