@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute, UrlSegmentGroup } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
@@ -9,6 +9,7 @@ import { ContributorClass } from './domain/contributor.class';
 import { zip } from 'rxjs';
 import { ContributorService } from './services/contributor.service';
 import { filter } from 'rxjs/operators';
+import { ArrayUtils } from './util/ArrayUtils';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   eventsLayer: ol.layer.Vector;
   contributorsLayer: ol.layer.Vector;
   selectInteraction: ol.interaction.Select;
-  currentRoute: any;
+  currentRouteWithNoSelection: ActivatedRoute;
 
   constructor(
     private router: Router,
@@ -81,6 +82,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
+  get routingUrls() {
+    const admin = 'admin';
+    const events = 'events';
+    const contributors = 'contributors';
+    const root = '';
+
+    const routes = {
+      events: this.authenticationService.isConnected ? [admin, events] : [events],
+      contributors: this.authenticationService.isConnected ? [admin, contributors] : [events],
+      root: this.authenticationService.isConnected ? [admin, root] : [events]
+    }
+    return routes;
+  }
+
   /**
    * Center the map on the given coordinates
    * @param coordinates coordinates
@@ -103,24 +118,36 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.selectCurrentMarker(currentUrl);
       this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(res => {
         const currentUrl = this.router.parseUrl((<NavigationEnd>res).urlAfterRedirects).root.children.primary;
-        this.currentRoute = this.activatedRoute.root.firstChild;
         this.selectCurrentMarker(currentUrl);
+
       });
     });
   }
 
-  selectCurrentMarker(currentUrl) {
+  selectCurrentMarker(currentUrl: UrlSegmentGroup) {
     this.selectInteraction.getFeatures().clear();
-    if (currentUrl.segments[0].path === 'events' && !isNaN(+currentUrl.segments[1].path)) {
-      this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
+
+    let pathToCompare;
+    let next;
+    if (this.authenticationService.isConnected) {
+      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 2);
+      next = currentUrl.segments[2];
     }
-    else if (currentUrl.segments[0].path === 'contributors' && !isNaN(+currentUrl.segments[1].path)) {
-      this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
+    else {
+      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 1);
+      next = currentUrl.segments[1];
+    }
+
+    if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
+      this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +next));
+    }
+    else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
+      this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +next));
     }
   }
 
   initializeData() {
-    return zip(this.eventService.getAll(), 
+    return zip(this.eventService.getAll(),
       this.authenticationService.isConnected ? this.contributorService.getAll() : this.contributorService.getAssistants());
   }
 
@@ -192,16 +219,21 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
+
       if (e.selected && e.target.getFeatures().item(0)) {
+
         if (e.target.getFeatures().item(0).get('type') === 'event') {
-          this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id], {relativeTo: this.currentRoute});
+
+          this.router.navigate([...this.routingUrls.events, e.target.getFeatures().item(0).getProperties().id]);
         }
         else if (e.target.getFeatures().item(0).get('type') === 'contributor') {
-          this.router.navigate(['contributors', e.target.getFeatures().item(0).getProperties().id], {relativeTo: this.currentRoute});
+
+          this.router.navigate([...this.routingUrls.contributors, e.target.getFeatures().item(0).getProperties().id]);
         }
       }
       else {
-        this.router.navigate(['home']);
+
+        this.router.navigate(this.routingUrls.root);
       }
     });
 
