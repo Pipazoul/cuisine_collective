@@ -34,8 +34,26 @@ export class ContributorService {
   /**
    * Get all contributors
    */
-  getAll(): Observable<ContributorClass[]> {
-    return this.restangular.all(UrlSettings.contributorModel).getList().pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
+  getAll(filters?): Observable<ContributorClass[]> {
+    var params = {
+      filter: {
+        where: {
+          and: [{
+            location: filters && filters.location ? filters.location : undefined
+          }, {
+            food: filters && filters.food ? filters.food : undefined
+          }, {
+            skills: filters && filters.skills ? filters.skills : undefined
+          }, {
+            people: filters && filters.people ? filters.people : undefined
+          }, {
+            assistants: filters && filters.assistants ? filters.assistants : undefined
+          }]
+        }
+      }
+    };
+
+    return this.restangular.all(UrlSettings.contributorModel).getList(params).pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
   }
 
   /**

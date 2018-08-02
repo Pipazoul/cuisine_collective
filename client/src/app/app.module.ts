@@ -70,6 +70,7 @@ import { ContributorServicesComponent } from './components/admin/contributor-ser
 import { ContributorComponent } from './components/contributor/contributor.component';
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
+import { EventMissingComponent } from './components/admin/event-missing/event-missing.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -138,6 +139,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     EventContributorsComponent,
     ContributorEditionComponent,
     EventEditionComponent,
+    EventMissingComponent,
   ],
   entryComponents: [
     PopupSigninComponent,

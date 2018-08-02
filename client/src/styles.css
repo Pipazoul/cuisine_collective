@@ -96,8 +96,7 @@ span.required:before {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
-    width: 400px;
-    max-width: 400px;
+    overflow-x: hidden;
 }
 
 .mat-sidenav .sidenav-header {
@@ -116,6 +115,17 @@ span.required:before {
 
 .sidenav-body {
     margin: 30px;
+}
+
+.sidenav-body>*:first-child {
+    margin-top: 0;
+}
+
+.sidenav-body>.subtitle {
+    background-color: #6CCACC;
+    color: white;
+    margin: -30px -30px 0 -30px;
+    padding: 20px 30px;
 }
 
 /* ----- END SIDENAV ----- */
@@ -178,8 +188,9 @@ label {
 }
 
 .services {
-    padding: 15px;
+    margin: 15px;
 }
+
 .services i {
     cursor: pointer;
     color: white;
@@ -191,6 +202,7 @@ label {
     padding: 10px;
 }
 .services input {
+    top: 0;
     position: absolute;
     opacity: 0;
     cursor: pointer;
@@ -198,8 +210,17 @@ label {
 .services:hover input ~ i {
   background-color: #aaa;
 }
-.services input:checked ~ i {
+.services.needed input:checked ~ i {
+  background-color: #6CCACC;
+}
+.services.provided input:checked ~ i {
   background-color: #0d70cd;
+}
+.services.services-event input:checked ~ i {
+    background-color: #6CCACC;
+}
+.services.services-assistants input:checked ~ i {
+    background-color: #F9A755;
 }
 .full-width {
     width: 100%;
@@ -217,4 +238,24 @@ label {
 }
 .event-section, .contributor-section {
     padding: 15px;
+}
+
+.left-content {
+    height: 100%;
+    overflow-y: auto;
+    background-color: white;
+    -webkit-box-shadow: 6px 0 7px -4px #888;
+    box-shadow: 6px 0 7px -4px #888;
+}
+.content-title {
+    text-align: center;
+    background-color: #6CCACC;
+    text-transform: uppercase;
+    color: white;
+    padding: 20px 0 20px 0;
+}
+
+.carousel-element {
+    height: 100%;
+    width: 420px;
 }

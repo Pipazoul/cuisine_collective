@@ -1,5 +1,5 @@
 <div class="left-content" fxLayout="column">
-  <div class="content-title bold" fxLayoutAlign="center">
+  <div class="content-title bold">
     Filtrer ma recherche
   </div>
   <div class="filters-container" fxLayout="column" fxLayoutAlign="start center">
@@ -13,14 +13,14 @@
       </div>
       <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
         <mat-form-field>
-          <input matInput autocomplete="off" [matDatepicker]="startPicker" placeholder="Date de départ" [(ngModel)]="startDate" (blur)="onCalendarClose()">
+          <input matInput autocomplete="off" [matDatepicker]="startPicker" placeholder="Date de départ" [(ngModel)]="startDate" (blur)="applyEventsFilters()">
           <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-          <mat-datepicker #startPicker (closed)="onCalendarClose()"></mat-datepicker>
+          <mat-datepicker #startPicker (closed)="applyEventsFilters()"></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
-          <input matInput autocomplete="off" [matDatepicker]="endPicker" placeholder="Date d'arrivée" [(ngModel)]="endDate" (blur)="onCalendarClose()">
+          <input matInput autocomplete="off" [matDatepicker]="endPicker" placeholder="Date d'arrivée" [(ngModel)]="endDate" (blur)="applyEventsFilters()">
           <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-          <mat-datepicker #endPicker (closed)="onCalendarClose()"></mat-datepicker>
+          <mat-datepicker #endPicker (closed)="applyEventsFilters()"></mat-datepicker>
         </mat-form-field>
       </div>
     </div>
@@ -40,10 +40,10 @@
           <label for="regular-input">Récurrent</label>
         </div>
         <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-          <mat-slide-toggle id="eat" [(ngModel)]="eatToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
-          <mat-slide-toggle id="cook" [(ngModel)]="cookToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
-          <mat-slide-toggle id="public" [(ngModel)]="publicToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
-          <mat-slide-toggle id="regular" [(ngModel)]="regularToggle" (change)="onSlideToggleClick()"></mat-slide-toggle>
+          <mat-slide-toggle id="eat" [(ngModel)]="eatToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
+          <mat-slide-toggle id="cook" [(ngModel)]="cookToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
+          <mat-slide-toggle id="public" [(ngModel)]="publicToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
+          <mat-slide-toggle id="regular" [(ngModel)]="regularToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
         </div>
       </div>
     </div>

@@ -46,6 +46,16 @@ export class EventService {
           }, {
             public: filters ? filters.public : false
           }, {
+            missingLocation: filters && filters.missingLocation ? filters.missingLocation : undefined
+          }, {
+            missingFood: filters && filters.missingFood ? filters.missingFood : undefined
+          }, {
+            missingSkills: filters && filters.missingSkills ? filters.missingSkills : undefined
+          }, {
+            missingPeople: filters && filters.missingPeople ? filters.missingPeople : undefined
+          }, {
+            missingAssistants: filters && filters.missingAssistants ? filters.missingAssistants : undefined
+          }, {
             dateEnd: undefined
           }]
         }
@@ -74,4 +84,22 @@ export class EventService {
   getById(id: number): Observable<EventClass> {
     return this.restangular.one(UrlSettings.eventModel, id).get().pipe(map(event => new EventClass(event)));
   }
+
+  /**
+   * Link a contributor location to the event
+   * 
+   * @param eventId 
+   * @param contributorId 
+   */
+  setContributors(eventId: number, contributorsIds: ContributorsIds) {
+    return this.restangular.one(UrlSettings.eventModel, eventId).all(UrlSettings.eventContributors).customPUT(contributorsIds);
+  }
+}
+
+export interface ContributorsIds {
+  contributorsLocation: number[];
+  contributorsFood: number[];
+  contributorsSkills: number[];
+  contributorsPeople: number[];
+  contributorsAssistants: number[]
 }

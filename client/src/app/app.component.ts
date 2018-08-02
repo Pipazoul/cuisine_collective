@@ -1,13 +1,15 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute, UrlSegmentGroup } from '@angular/router';
+import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
 import { ContributorClass } from './domain/contributor.class';
 import { zip } from 'rxjs';
 import { ContributorService } from './services/contributor.service';
 import { filter } from 'rxjs/operators';
+import { ArrayUtils } from './util/ArrayUtils';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +45,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private eventService: EventService,
-    private contributorService: ContributorService
+    private contributorService: ContributorService,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -84,13 +87,13 @@ export class AppComponent implements OnInit, AfterViewInit {
     const events = 'events';
     const contributors = 'contributors';
     const root = '';
-    
+
     const routes = {
-      events: ['events'],
-      contributors: ['contributors'],
-      root: ['']
+      events: this.authenticationService.isConnected ? [admin, events] : [events],
+      contributors: this.authenticationService.isConnected ? [admin, contributors] : [events],
+      root: this.authenticationService.isConnected ? [admin, root] : [events]
     }
-    return routes.
+    return routes;
   }
 
   /**
@@ -121,18 +124,31 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  selectCurrentMarker(currentUrl) {
+  selectCurrentMarker(currentUrl: UrlSegmentGroup) {
     this.selectInteraction.getFeatures().clear();
-    if (currentUrl && currentUrl.segments[0].path === 'events' && !isNaN(+currentUrl.segments[1].path)) {
+
+    let pathToCompare;
+    let next;
+    if (this.authenticationService.isConnected) {
+      pathToCompare = currentUrl.segments.slice(0, 1);
+      next = currentUrl.segments[2];
+    }
+    else {
+      pathToCompare = currentUrl.segments.slice(0, 0);
+      next = currentUrl.segments[1];
+    }
+
+    if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
       this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
     }
-    else if (currentUrl && currentUrl.segments[0].path === 'contributors' && !isNaN(+currentUrl.segments[1].path)) {
+    else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
       this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
     }
   }
 
   initializeData() {
-    return zip(this.eventService.getAll(), this.contributorService.getAssistants());
+    return zip(this.eventService.getAll(),
+      this.authenticationService.isConnected ? this.contributorService.getAll() : this.contributorService.getAssistants());
   }
 
   initializeMap() {
@@ -208,16 +224,16 @@ export class AppComponent implements OnInit, AfterViewInit {
         console.log('2');
         if (e.target.getFeatures().item(0).get('type') === 'event') {
 
-          this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id], { relativeTo: this.activatedRouteBeforePrimaryOutlet });
+          this.router.navigate([...this.routingUrls.events, e.target.getFeatures().item(0).getProperties().id]);
         }
         else if (e.target.getFeatures().item(0).get('type') === 'contributor') {
           console.log('4');
-          this.router.navigate(['contributors', e.target.getFeatures().item(0).getProperties().id], { relativeTo: this.activatedRouteBeforePrimaryOutlet });
+          this.router.navigate([...this.routingUrls.contributors, e.target.getFeatures().item(0).getProperties().id]);
         }
       }
       else {
         console.log('5');
-        this.router.navigate();
+        this.router.navigate(this.routingUrls.root);
       }
     });
 
@@ -253,9 +269,17 @@ export class AppComponent implements OnInit, AfterViewInit {
    */
   onActivate(elementRef) {
     // Event filter of the sidenav
-    elementRef.filter.subscribe(filters => {
+    elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
         this.redrawEvents(events);
+      });
+    }, err => {
+      console.error(err);
+    });
+    elementRef.filterContributors.subscribe(filters => {
+      // TODO
+      this.contributorService.getAll(filters).subscribe(contributors => {
+        this.redrawContributors(contributors);
       });
     }, err => {
       console.error(err);
@@ -263,7 +287,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Remove all event from layer then add the new ones
+   * Remove all events from layer then add the new ones
    * @param events list of new events to draw
    */
   redrawEvents(events) {
@@ -282,22 +306,23 @@ export class AppComponent implements OnInit, AfterViewInit {
     );
   }
 
-  /*get activatedRouteBeforePrimaryOutlet() {
-    const root = this.activatedRoute.root;
-    let returnValue = this.findActivatedRouteBeforePrimaryOutlet(root);
-    return returnValue || this.activatedRoute;
-  }
+  /**
+   * Remove all contributors from layer then add the new ones
+   * @param contributors list of new contributors to draw
+   */
+  redrawContributors(contributors) {
+    // Removing all previous features of eventLayer
+    _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
+      this.contributorsLayer.getSource().removeFeature(feature);
+    });
 
-  findActivatedRouteBeforePrimaryOutlet(route: ActivatedRoute): ActivatedRoute {
-    if (route.children.some(x => x.outlet === 'primary' && x.component !== undefined)) {
-      return route;
-    }
-    else if (route.children && route.children.length) {
-      for (let childRoute of route.children) {
-        let value = this.findActivatedRouteBeforePrimaryOutlet(childRoute);
-        if (value) return value;
-      }
-    }
-    return null;
-  }*/
+    // Adding all new features (contributors) of eventLayer
+    contributors.map((contributor) =>
+      this.contributorsLayer.getSource().addFeature(new ol.Feature({
+        geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+        type: 'contributor',
+        id: contributor.id
+      }))
+    );
+  }
 }

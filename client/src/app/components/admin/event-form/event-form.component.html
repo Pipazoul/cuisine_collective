@@ -1,6 +1,6 @@
 <form [formGroup]="eventForm" (ngSubmit)="submitForm(eventForm.value)" fxLayout="column" class="sidenav-body">
   <mat-form-field class="required">
-    <input matInput type="text" formControlName="name" maxlength="100" placeholder="Nom de l'évènement">
+    <input matInput type="text" autocomplete="off" formControlName="name" maxlength="100" placeholder="Nom de l'évènement">
   </mat-form-field>
 
   <mat-form-field>
@@ -8,31 +8,31 @@
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="number" formControlName="participantsAmount" max="1000" placeholder="Nombre de participants">
+    <input matInput type="number" autocomplete="off" formControlName="participantsAmount" max="1000" placeholder="Nombre de participants">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="timeSlot" max="200" placeholder="Horaires / durée de l'évènement">
+    <input matInput type="text" autocomplete="off" formControlName="timeSlot" max="200" placeholder="Horaires / durée de l'évènement">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="planner" max="100" placeholder="Organisme organisateur">
+    <input matInput type="text" autocomplete="off" formControlName="planner" max="100" placeholder="Organisme organisateur">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="referent" max="50" placeholder="Nom du contact référent">
+    <input matInput type="text" autocomplete="off" formControlName="referent" max="50" placeholder="Nom du contact référent">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="email" max="100" placeholder="Adresse email">
+    <input matInput type="text" autocomplete="off" formControlName="email" max="100" placeholder="Adresse email">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="phone" max="10" placeholder="Numéro de téléphone">
+    <input matInput type="text" autocomplete="off" formControlName="phone" max="10" placeholder="Numéro de téléphone">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput type="text" formControlName="url" max="200" placeholder="Site internet">
+    <input matInput type="text" autocomplete="off" formControlName="url" max="200" placeholder="Site internet">
   </mat-form-field>
 
   <button mat-button type="submit" class="next-button background-red" [disabled]="eventForm.invalid">

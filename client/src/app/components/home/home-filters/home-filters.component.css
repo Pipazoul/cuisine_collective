@@ -1,19 +1,11 @@
-.left-content {
-    height: 100%;
-    background-color: white;
-    -webkit-box-shadow: 6px 0 7px -4px #888;
-    box-shadow: 6px 0 7px -4px #888;
-}
-
-.content-title {
-    text-transform: uppercase;
-    color: #6CCACC;
-    padding: 20px 0 20px 0;
-}
-
 .filters-container {
     height: 100%;
     background-color: #eaeaea;
+}
+
+.content-title {
+    color: #6CCACC;
+    background-color: white;
 }
 
 .section-header {

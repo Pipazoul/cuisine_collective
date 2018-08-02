@@ -8,7 +8,7 @@ export abstract class AbstractEventModifier {
     @Output() public eventSaved: EventEmitter<EventClass> = new EventEmitter();
     @Output() public backwardPressed: EventEmitter<any> = new EventEmitter();
 
-    constructor(private eventService: EventService) {
+    constructor(protected eventService: EventService) {
         
     }
 

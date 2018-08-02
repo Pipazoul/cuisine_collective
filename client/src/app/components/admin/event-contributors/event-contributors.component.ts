@@ -141,7 +141,13 @@ export class EventContributorsComponent extends AbstractEventModifier implements
       contributorsPeople: value.people,
       contributorsAssistants: value.assistants
     });
-    // TODO save
+    this.eventService.setContributors(this.event.id, {
+      contributorsLocation: _.map(this.event.contributorsLocation, 'id'),
+      contributorsFood: _.map(this.event.contributorsFood, 'id'),
+      contributorsSkills: _.map(this.event.contributorsSkills, 'id'),
+      contributorsPeople: _.map(this.event.contributorsPeople, 'id'),
+      contributorsAssistants: _.map(this.event.contributorsAssistants, 'id')
+    }).subscribe(() => this.eventSaved.emit());
   }
 
 }
