@@ -1,3 +1,14 @@
 :host {
     height: 100%;
 }
+
+.mat-button {
+    color: white;
+    font-weight: bold;
+    margin: 0 30px;
+}
+
+.carousel-element {
+    height: 100%;
+    width: 400px;
+}

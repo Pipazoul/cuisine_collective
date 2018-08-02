@@ -18,6 +18,7 @@ export class UrlSettings {
 
   // Event
   public static readonly eventModel = 'events';
+  public static readonly eventContributors = 'contributors';
 
   // User
   public static readonly userModel = 'Users';
