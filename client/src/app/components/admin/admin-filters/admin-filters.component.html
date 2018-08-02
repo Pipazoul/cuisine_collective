@@ -1,5 +1,5 @@
 <div class="left-content" fxLayout="column">
-  <div class="content-title bold" fxLayoutAlign="center">
+  <div class="content-title bold">
     Filtrer ma recherche
   </div>
   <mat-accordion>
@@ -29,14 +29,14 @@
       <div class="section-header">
         <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
           <mat-form-field>
-            <input matInput autocomplete="off" [matDatepicker]="startPicker" placeholder="Date de départ">
+            <input matInput autocomplete="off" [matDatepicker]="startPicker" placeholder="Date de départ" [(ngModel)]="startDate" (blur)="onCalendarClose()">
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-            <mat-datepicker #startPicker></mat-datepicker>
+            <mat-datepicker #startPicker (closed)="onCalendarClose()"></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <input matInput autocomplete="off" [matDatepicker]="endPicker" placeholder="Date d'arrivée">
+            <input matInput autocomplete="off" [matDatepicker]="endPicker" placeholder="Date d'arrivée" [(ngModel)]="endDate" (blur)="onCalendarClose()">
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-            <mat-datepicker #endPicker></mat-datepicker>
+            <mat-datepicker #endPicker (closed)="onCalendarClose()"></mat-datepicker>
           </mat-form-field>
         </div>
       </div>
@@ -68,32 +68,39 @@
           Besoins
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <!-- <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px"> -->
       <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <div fxLayout="row">
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/place.svg"> Un lieu
-          </div>
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/food.svg"> Des aliments
-          </div>
+        <div fxLayout="row" class="full-width">
+          <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox">
+            <i class="material-icons">kitchen</i>Un lieu
+          </label>
+          <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox">
+            <i class="material-icons">shopping_cart</i>Des aliments
+          </label>
+        </div>
+        <div fxLayout="row" class="full-width">
+          <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox">
+            <i class="material-icons">school</i>Des compétences
+          </label>
+          <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox">
+            <i class="material-icons">people</i>Des usagers
+          </label>
         </div>
         <div fxLayout="row">
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/pros.svg"> Des pros
-          </div>
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/users.svg"> Des usagers
-          </div>
-        </div>
-        <div fxLayout="row">
-          <div fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/assistant.svg"> Des accompagnateurs
-          </div>
+          <label class="services needed" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox">
+            <i class="material-icons">mood</i>Des accompagnateurs
+          </label>
         </div>
       </div>
+      <!-- </div> -->
     </mat-expansion-panel>
   </mat-accordion>
-  <div class="content-title contributors bold" fxLayoutAlign="center">
+  <div class="content-title contributors bold">
     Filtrer les contributeurs
   </div>
   <mat-accordion>
@@ -104,26 +111,31 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-        <div fxLayout="row">
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/place.svg"> Un lieu
-          </div>
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/food.svg"> Des aliments
-          </div>
+        <div fxLayout="row" class="full-width">
+          <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox" [(ngModel)]="locationProvided" (change)="applyContributorsFilters()">
+            <i class="material-icons">kitchen</i>Un lieu
+          </label>
+          <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox" [(ngModel)]="foodProvided" (change)="applyContributorsFilters()">
+            <i class="material-icons">shopping_cart</i>Des aliments
+          </label>
+        </div>
+        <div fxLayout="row" class="full-width">
+          <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox" [(ngModel)]="skillsProvided" (change)="applyContributorsFilters()">
+            <i class="material-icons">school</i>Des compétences
+          </label>
+          <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox" [(ngModel)]="peopleProvided" (change)="applyContributorsFilters()">
+            <i class="material-icons">people</i>Des usagers
+          </label>
         </div>
         <div fxLayout="row">
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/pros.svg"> Des pros
-          </div>
-          <div fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/users.svg"> Des usagers
-          </div>
-        </div>
-        <div fxLayout="row">
-          <div fxLayout="column" fxLayoutAlign="center center">
-            <img src="/assets/img/assistant.svg"> Des accompagnateurs
-          </div>
+          <label class="services provided" fxLayout="column" fxLayoutAlign="center center">
+            <input type="checkbox" [(ngModel)]="assistantsProvided" (change)="applyContributorsFilters()">
+            <i class="material-icons">mood</i>Des accompagnateurs
+          </label>
         </div>
       </div>
     </mat-expansion-panel>

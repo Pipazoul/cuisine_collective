@@ -27,7 +27,7 @@
   <ng-template #category let-icon="icon" let-colorClass="colorClass" let-title="title" let-menuLabel="menuLabel" let-menuColor="menuColor"
     let-contributors="contributors" let-contributorsForm="contributorsForm" let-maxItems="maxItems" let-add="add" let-remove="remove">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
-      <label class="services" [ngClass]="colorClass" fxLayout="column" fxLayoutAlign="center center">
+      <label class="services needed" [ngClass]="colorClass" fxLayout="column" fxLayoutAlign="center center">
         <input type="checkbox" [checked]="contributorsForm.length" disabled>
         <i class="material-icons">{{icon}}</i>
       </label>

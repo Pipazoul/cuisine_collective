@@ -7,7 +7,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class AdminFiltersComponent implements OnInit {
 
-  @Output() filter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() filterEvents: EventEmitter<any> = new EventEmitter<any>();
+  @Output() filterContributors: EventEmitter<any> = new EventEmitter<any>();
   public startDate: Date;
   public endDate: Date;
   public eatToggle: boolean = false;
@@ -15,27 +16,44 @@ export class AdminFiltersComponent implements OnInit {
   public publicToggle: boolean = false;
   public regularToggle: boolean = false;
 
+  // Contributor's filters
+  public locationProvided: boolean = false;
+  public foodProvided: boolean = false;
+  public skillsProvided: boolean = false;
+  public peopleProvided: boolean = false;
+  public assistantsProvided: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   onSlideToggleClick() {
-    this.applyFilters();
+    this.applyEventFilters();
   }
 
   onCalendarClose() {
-    this.applyFilters();
+    this.applyEventFilters();
   }
 
-  applyFilters() {
-    this.filter.emit({
+  applyEventFilters() {
+    this.filterEvents.emit({
       eat: this.eatToggle,
       cook: this.cookToggle,
       public: this.publicToggle,
       regular: this.regularToggle,
       startDate: this.startDate,
       endDate: this.endDate,
+    });
+  }
+
+  applyContributorsFilters() {
+    this.filterContributors.emit({
+      location: this.locationProvided,
+      food: this.foodProvided,
+      skills: this.skillsProvided,
+      people: this.peopleProvided,
+      assistants: this.assistantsProvided,
     });
   }
 }

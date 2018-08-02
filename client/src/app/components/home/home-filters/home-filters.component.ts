@@ -7,7 +7,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class HomeFiltersComponent implements OnInit {
 
-  @Output() filter: EventEmitter<any> = new EventEmitter<any>();
+  @Output() filterEvents: EventEmitter<any> = new EventEmitter<any>();
+  @Output() filterContributors: EventEmitter<any> = new EventEmitter<any>();
   public startDate: Date;
   public endDate: Date;
   public eatToggle: boolean = false;
@@ -21,15 +22,15 @@ export class HomeFiltersComponent implements OnInit {
   }
 
   onSlideToggleClick() {
-    this.applyFilters();
+    this.applyEventFilters();
   }
 
   onCalendarClose() {
-    this.applyFilters();
+    this.applyEventFilters();
   }
 
-  applyFilters() {
-    this.filter.emit({
+  applyEventFilters() {
+    this.filterEvents.emit({
       eat: this.eatToggle,
       cook: this.cookToggle,
       public: this.publicToggle,
