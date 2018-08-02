@@ -35,16 +35,16 @@ export class EventService {
    * Get all events
    * @param filters 
    */
-  getAll(filters?): Observable<EventClass[]> {
+  getAll(filters?: EventFilters): Observable<EventClass[]> {
     let params = {
       filter: {
         where: {
           and: [{
-            eat: filters ? filters.eat : false
+            eat: filters && filters.eat ? filters.eat : undefined
           }, {
-            cook: filters ? filters.cook : false
+            cook: filters && filters.cook ? filters.cook : undefined
           }, {
-            public: filters ? filters.public : false
+            public: filters && filters.public ? filters.public : undefined
           }, {
             missingLocation: filters && filters.missingLocation ? true : undefined
           }, {
@@ -63,6 +63,8 @@ export class EventService {
             }, {
               publish: filters && filters.unpublished ? false : undefined
             }]
+          }, {
+            occurenceType: filters && filters.regular ? { gt: 0 } : undefined
           }]
         }
       }
@@ -108,4 +110,20 @@ export interface ContributorsIds {
   contributorsSkills: number[];
   contributorsPeople: number[];
   contributorsAssistants: number[]
+}
+
+export interface EventFilters {
+  eat?: boolean;
+  cook?: boolean;
+  public?: boolean;
+  missingLocation?: boolean;
+  missingFood?: boolean;
+  missingSkills?: boolean;
+  missingPeople?: boolean;
+  missingAssistants?: boolean;
+  published?: boolean;
+  unpublished?: boolean;
+  regular?: boolean;
+  startDate?: Date;
+  endDate?: Date;
 }
