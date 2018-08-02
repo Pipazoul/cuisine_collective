@@ -165,6 +165,38 @@
       "postgresql": {
         "dataType": "character varying"
       }
+    },
+    "missingLocation": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "missingFood": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "missingSkills": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "missingPeople": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "missingAssistants": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
+    "partnerInformations": {
+      "type": "string",
+      "length": 500,
+      "postgresql": {
+        "dataType": "character varying"
+      }
     }
   },
   "validations": [],

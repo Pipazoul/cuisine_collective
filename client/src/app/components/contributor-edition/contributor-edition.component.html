@@ -5,7 +5,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center center">
+  <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center start">
     <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
     <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()"
       (contributorSaved)="endCarousel()"></app-contributor-form>

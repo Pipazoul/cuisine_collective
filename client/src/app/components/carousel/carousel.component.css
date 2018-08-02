@@ -15,5 +15,5 @@ ul {
 
 .carousel-item {
     display: flex;
-    align-items: center;
+    align-items: start;
 }

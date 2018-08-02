@@ -1,0 +1,59 @@
+<form [formGroup]="eventMissingForm" (ngSubmit)="submitForm(eventMissingForm.value)" fxLayout="column" class="sidenav-body">
+
+  <h4 class="subtitle">Les ressources et partenaires manquants</h4>
+
+  <div fxLayout="column" fxLayoutAlign="space-between center">
+    <div fxFlexFill fxLayout="row">
+      <label class="services services-event" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+        <input type="checkbox" formControlName="missingLocation">
+        <i class="material-icons">kitchen</i>
+        Un lieu
+      </label>
+
+      <label class="services services-event" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+        <input type="checkbox" formControlName="missingFood">
+        <i class="material-icons">shopping_cart</i>
+        Des fournisseurs
+      </label>
+    </div>
+
+    <div fxFlexFill fxLayout="row">
+      <label class="services services-event" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+        <input type="checkbox" formControlName="missingSkills">
+        <i class="material-icons">school</i>
+        Des professionnels
+      </label>
+
+      <label class="services services-event" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+        <input type="checkbox" formControlName="missingPeople">
+        <i class="material-icons">people</i>
+        Des usagers
+      </label>
+    </div>
+
+    <label class="services services-assistants" fxLayout="column" fxLayoutAlign="center center">
+      <input type="checkbox" formControlName="missingAssistants">
+      <i class="material-icons">mood</i>
+      Des accompagnateurs
+    </label>
+  </div>
+
+  <mat-form-field>
+    <textarea matInput formControlName="partnerInformations" maxlength="500" placeholder="Informations utiles pour les partenaires potentiels"></textarea>
+  </mat-form-field>
+
+  <div fxLayout="row" fxLayoutGap="10px">
+    <button mat-button type="button" class="next-button background-red" fxFlex="36" (click)="goBackward()">
+      Précédent
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <button mat-button type="submit" class="next-button background-red" fxFlex="36" [disabled]="eventMissingForm.invalid">
+      Organiser
+      <mat-icon>settings</mat-icon>
+    </button>
+    <button mat-button type="submit" class="next-button background-blue-light" fxFlex="28" [disabled]="eventMissingForm.invalid">
+      Publier
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+</form>

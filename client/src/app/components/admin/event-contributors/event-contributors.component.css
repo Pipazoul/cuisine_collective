@@ -28,6 +28,10 @@ button.add-contributor {
     margin-top: 5px;
 }
 
+button.add-contributor.services-assistants {
+    background-color: #F9A755;
+}
+
 button.remove-contributor {
     background-color: #FF5555;
 }

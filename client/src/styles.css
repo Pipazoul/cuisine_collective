@@ -96,8 +96,8 @@ span.required:before {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
-    width: 400px;
-    max-width: 400px;
+    width: 420px;
+    max-width: 420px;
 }
 
 .mat-sidenav .sidenav-header {
@@ -116,6 +116,17 @@ span.required:before {
 
 .sidenav-body {
     margin: 30px;
+}
+
+.sidenav-body>*:first-child {
+    margin-top: 0;
+}
+
+.sidenav-body>.subtitle {
+    background-color: #6CCACC;
+    color: white;
+    margin: -30px -30px 0 -30px;
+    padding: 20px 30px;
 }
 
 /* ----- END SIDENAV ----- */
@@ -178,8 +189,9 @@ label {
 }
 
 .services {
-    padding: 15px;
+    margin: 15px;
 }
+
 .services i {
     cursor: pointer;
     color: white;
@@ -204,6 +216,12 @@ label {
 }
 .services.provided input:checked ~ i {
   background-color: #0d70cd;
+}
+.services.services-event input:checked ~ i {
+    background-color: #6CCACC;
+}
+.services.services-assistants input:checked ~ i {
+    background-color: #F9A755;
 }
 .full-width {
     width: 100%;
