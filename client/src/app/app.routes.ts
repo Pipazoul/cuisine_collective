@@ -17,27 +17,17 @@ import { EventEditionComponent } from './components/event-edition/event-edition.
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 
 const ROUTES: Routes = [{
-  path: 'home',
+  path: '',
   canActivate: [UnauthGuard],
   children: [
     {
       path: '',
       component: HomeFiltersComponent,
       outlet: "sidenav"
-    }
-  ]
-}, {
-  path: 'events/:id',
-  canActivate: [UnauthGuard],
-  children: [
-    {
-      path: '',
-      component: EventComponent,
-      outlet: "primary"
     }, {
-      path: '',
-      component: HomeFiltersComponent,
-      outlet: "sidenav"
+      path: 'events/:id',
+      canActivate: [UnauthGuard],
+      component: EventComponent
     }
   ]
 }, {
@@ -88,7 +78,7 @@ const ROUTES: Routes = [{
   ]
 }, {
   path: '**',
-  redirectTo: 'home'
+  redirectTo: ''
 }];
 
 export const appRoutingProviders: any[] = [];

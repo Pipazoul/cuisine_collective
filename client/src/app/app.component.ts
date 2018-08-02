@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   eventsLayer: ol.layer.Vector;
   contributorsLayer: ol.layer.Vector;
   selectInteraction: ol.interaction.Select;
-  currentRoute: any;
+  currentRouteWithNoSelection: ActivatedRoute;
 
   constructor(
     private router: Router,
@@ -79,6 +79,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
+  get routingUrls() {
+    const admin = 'admin';
+    const events = 'events';
+    const contributors = 'contributors';
+    const root = '';
+    
+    const routes = {
+      events: ['events'],
+      contributors: ['contributors'],
+      root: ['']
+    }
+    return routes.
+  }
+
   /**
    * Center the map on the given coordinates
    * @param coordinates coordinates
@@ -101,18 +115,18 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.selectCurrentMarker(currentUrl);
       this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(res => {
         const currentUrl = this.router.parseUrl((<NavigationEnd>res).urlAfterRedirects).root.children.primary;
-        this.currentRoute = this.activatedRoute.root.firstChild;
         this.selectCurrentMarker(currentUrl);
+        console.log(this.activatedRoute);
       });
     });
   }
 
   selectCurrentMarker(currentUrl) {
     this.selectInteraction.getFeatures().clear();
-    if (currentUrl.segments[0].path === 'events' && !isNaN(+currentUrl.segments[1].path)) {
+    if (currentUrl && currentUrl.segments[0].path === 'events' && !isNaN(+currentUrl.segments[1].path)) {
       this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
     }
-    else if (currentUrl.segments[0].path === 'contributors' && !isNaN(+currentUrl.segments[1].path)) {
+    else if (currentUrl && currentUrl.segments[0].path === 'contributors' && !isNaN(+currentUrl.segments[1].path)) {
       this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
     }
   }
@@ -189,16 +203,21 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
+      console.log('1');
       if (e.selected && e.target.getFeatures().item(0)) {
+        console.log('2');
         if (e.target.getFeatures().item(0).get('type') === 'event') {
-          this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id], {relativeTo: this.currentRoute});
+
+          this.router.navigate(['events', e.target.getFeatures().item(0).getProperties().id], { relativeTo: this.activatedRouteBeforePrimaryOutlet });
         }
         else if (e.target.getFeatures().item(0).get('type') === 'contributor') {
-          this.router.navigate(['contributors', e.target.getFeatures().item(0).getProperties().id], {relativeTo: this.currentRoute});
+          console.log('4');
+          this.router.navigate(['contributors', e.target.getFeatures().item(0).getProperties().id], { relativeTo: this.activatedRouteBeforePrimaryOutlet });
         }
       }
       else {
-        this.router.navigate(['home']);
+        console.log('5');
+        this.router.navigate();
       }
     });
 
@@ -262,4 +281,23 @@ export class AppComponent implements OnInit, AfterViewInit {
       }))
     );
   }
+
+  /*get activatedRouteBeforePrimaryOutlet() {
+    const root = this.activatedRoute.root;
+    let returnValue = this.findActivatedRouteBeforePrimaryOutlet(root);
+    return returnValue || this.activatedRoute;
+  }
+
+  findActivatedRouteBeforePrimaryOutlet(route: ActivatedRoute): ActivatedRoute {
+    if (route.children.some(x => x.outlet === 'primary' && x.component !== undefined)) {
+      return route;
+    }
+    else if (route.children && route.children.length) {
+      for (let childRoute of route.children) {
+        let value = this.findActivatedRouteBeforePrimaryOutlet(childRoute);
+        if (value) return value;
+      }
+    }
+    return null;
+  }*/
 }
