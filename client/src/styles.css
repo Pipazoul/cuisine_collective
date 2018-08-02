@@ -96,8 +96,7 @@ span.required:before {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
-    width: 420px;
-    max-width: 420px;
+    overflow-x: hidden;
 }
 
 .mat-sidenav .sidenav-header {
@@ -254,4 +253,9 @@ label {
     text-transform: uppercase;
     color: white;
     padding: 20px 0 20px 0;
+}
+
+.carousel-element {
+    height: 100%;
+    width: 420px;
 }
