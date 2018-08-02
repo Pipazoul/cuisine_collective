@@ -15,11 +15,11 @@ export abstract class AbstractContributorModifier {
     protected saveContributor(contributor: ContributorClass) {
         if (!this.contributor.id) {
             this.contributorService.create(contributor).subscribe(
-                (contributor) => { Object.assign(this.contributor, contributor); this.contributorSaved.emit(contributor); }
+                (contributor) => { /* Object.assign(this.contributor, contributor); */ this.contributorSaved.emit(contributor); }
             );
         } else {
             this.contributorService.update(contributor).subscribe(
-                (contributor) => { Object.assign(this.contributor, contributor); this.contributorSaved.emit(contributor); }
+                (contributor) => { /* Object.assign(this.contributor, contributor); */ this.contributorSaved.emit(contributor); }
             );
         }
     }

@@ -283,3 +283,7 @@ label {
     height: 100%;
     overflow-y: auto;
 }
+
+.text {
+    white-space: pre-line;
+}

@@ -1,6 +1,7 @@
 <div fxFlex fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
-    <span>{{'Créer un contributeur' | uppercase}}</span>
+    <span *ngIf="!contributor?.title">{{'Créer un contributeur' | uppercase}}</span>
+    <span *ngIf="contributor?.title">{{contributor.title | uppercase}}</span>
     <button type="button" mat-icon-button [routerLink]="'/admin'">
       <mat-icon>close</mat-icon>
     </button>
