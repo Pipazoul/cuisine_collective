@@ -2,7 +2,7 @@
 
   <h4 class="subtitle">Les ressources et partenaires déjà identifiés</h4>
 
-  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'kitchen', colorClass: 'services-event', title: 'Un lieu', menuLabel:'Ajouter un lieu', contributors: contributors.location, contributorsForm: eventContributorsForm.get('location').value, add: addContributorLocation.bind(this), remove: removeContributorLocation.bind(this) }"></ng-container>
+  <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'kitchen', colorClass: 'services-event', title: 'Un lieu', menuLabel:'Ajouter un lieu', contributors: contributors.location, contributorsForm: eventContributorsForm.get('location').value, maxItems: 1, add: addContributorLocation.bind(this), remove: removeContributorLocation.bind(this) }"></ng-container>
 
   <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'shopping_cart', colorClass: 'services-event', title: 'Des fournisseurs', menuLabel:'Ajouter un fournisseur', contributors: contributors.food, contributorsForm: eventContributorsForm.get('food').value, add: addContributorFood.bind(this), remove: removeContributorFood.bind(this) }"></ng-container>
 
@@ -25,7 +25,7 @@
 
   <!-- Template for a contributor category with add/remove/display list -->
   <ng-template #category let-icon="icon" let-colorClass="colorClass" let-title="title" let-menuLabel="menuLabel" let-menuColor="menuColor"
-    let-contributors="contributors" let-contributorsForm="contributorsForm" let-add="add" let-remove="remove">
+    let-contributors="contributors" let-contributorsForm="contributorsForm" let-maxItems="maxItems" let-add="add" let-remove="remove">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
       <label class="services" [ngClass]="colorClass" fxLayout="column" fxLayoutAlign="center center">
         <input type="checkbox" [checked]="contributorsForm.length" disabled>
@@ -41,7 +41,7 @@
           </button>
         </div>
 
-        <button mat-button type="button" class="add-contributor" [ngClass]="colorClass" fxLayout="row" fxLayoutAlign="start center"
+        <button *ngIf="!(maxItems && contributorsForm.length >= maxItems)" mat-button type="button" class="add-contributor" [ngClass]="colorClass" fxLayout="row" fxLayoutAlign="start center"
           [matMenuTriggerFor]="menu" [disabled]="!contributors.length">
           <mat-icon>add</mat-icon>
           {{menuLabel}}
