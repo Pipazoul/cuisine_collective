@@ -62,7 +62,7 @@ export class EventService {
             or: [{
               publish: filters && filters.published ? true : undefined
             }, {
-              unpublished: filters && filters.unpublished ? true : undefined
+              publish: filters && filters.unpublished ? false : undefined
             }]
           }, {
             occurenceType: filters && filters.regular ? { gt: 0 } : undefined
