@@ -19,6 +19,11 @@ export class UrlSettings {
   // Event
   public static readonly eventModel = 'events';
   public static readonly eventContributors = 'contributors';
+  public static readonly eventContributorsAssistants = 'contributorsAssistants';
+  public static readonly eventContributorsFood = 'contributorsFood';
+  public static readonly eventContributorsLocation = 'contributorsLocation';
+  public static readonly eventContributorsPeople = 'contributorsPeople';
+  public static readonly eventContributorsSkills = 'contributorsSkills';
 
   // User
   public static readonly userModel = 'Users';

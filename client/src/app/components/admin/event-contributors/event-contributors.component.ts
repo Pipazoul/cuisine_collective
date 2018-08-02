@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnChanges } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { EventService } from '../../../services/event.service';
 import { FormGroup, FormArray, FormControl } from '@angular/forms';
@@ -12,7 +12,7 @@ import * as _ from 'lodash';
   templateUrl: './event-contributors.component.html',
   styleUrls: ['./event-contributors.component.css']
 })
-export class EventContributorsComponent extends AbstractEventModifier implements OnInit, OnChanges {
+export class EventContributorsComponent extends AbstractEventModifier implements OnChanges {
 
   public eventContributorsForm: FormGroup;
   public contributors: ContributorGroups = { location: [], food: [], skills: [], people: [], assistants: [] };
@@ -22,12 +22,7 @@ export class EventContributorsComponent extends AbstractEventModifier implements
     super(eventService);
   }
 
-  ngOnInit() {
-    this.initForm();
-    this.loadContributors();
-  }
-
-  ngOnChanges() {
+  ngOnChanges(changes: SimpleChanges) {
     this.initForm();
     this.loadContributors();
   }

@@ -19,15 +19,4 @@ export class AddElementComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  /*public showCreateEvent() {
-    this.showContributor = false;
-    this.carousel.next();
-  }
-
-  public showCreateContributor() {
-    this.showEvent = false;
-    this.sidenavTitle = ;
-    this.carousel.next();
-  }*/
 }
