@@ -46,15 +46,15 @@ export class EventService {
           }, {
             public: filters ? filters.public : false
           }, {
-            location: filters && filters.location ? filters.location : undefined
+            missingLocation: filters && filters.missingLocation ? filters.missingLocation : undefined
           }, {
-            food: filters && filters.food ? filters.food : undefined
+            missingFood: filters && filters.missingFood ? filters.missingFood : undefined
           }, {
-            skills: filters && filters.skills ? filters.skills : undefined
+            missingSkills: filters && filters.missingSkills ? filters.missingSkills : undefined
           }, {
-            people: filters && filters.people ? filters.people : undefined
+            missingPeople: filters && filters.missingPeople ? filters.missingPeople : undefined
           }, {
-            assistants: filters && filters.assistants ? filters.assistants : undefined
+            missingAssistants: filters && filters.missingAssistants ? filters.missingAssistants : undefined
           }, {
             dateEnd: undefined
           }]

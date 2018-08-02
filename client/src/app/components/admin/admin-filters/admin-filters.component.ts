@@ -17,18 +17,18 @@ export class AdminFiltersComponent implements OnInit {
   public cookToggle: boolean = false;
   public publicToggle: boolean = false;
   public regularToggle: boolean = false;
-  public locationNeeded: boolean = false;
-  public foodNeeded: boolean = false;
-  public skillsNeeded: boolean = false;
-  public peopleNeeded: boolean = false;
-  public assistantsNeeded: boolean = false;
+  public missingLocation: boolean = false;
+  public missingFood: boolean = false;
+  public missingSkills: boolean = false;
+  public missingPeople: boolean = false;
+  public missingAssistants: boolean = false;
 
   // Contributor's filters
-  public locationProvided: boolean = false;
-  public foodProvided: boolean = false;
-  public skillsProvided: boolean = false;
-  public peopleProvided: boolean = false;
-  public assistantsProvided: boolean = false;
+  public location: boolean = false;
+  public food: boolean = false;
+  public skills: boolean = false;
+  public people: boolean = false;
+  public assistants: boolean = false;
 
   constructor() { }
 
@@ -36,14 +36,14 @@ export class AdminFiltersComponent implements OnInit {
   }
 
   onSlideToggleClick() {
-    this.applyEventFilters();
+    this.applyEventsFilters();
   }
 
   onCalendarClose() {
-    this.applyEventFilters();
+    this.applyEventsFilters();
   }
 
-  applyEventFilters() {
+  applyEventsFilters() {
     this.filterEvents.emit({
       eat: this.eatToggle,
       cook: this.cookToggle,
@@ -51,21 +51,21 @@ export class AdminFiltersComponent implements OnInit {
       regular: this.regularToggle,
       startDate: this.startDate,
       endDate: this.endDate,
-      location: this.locationNeeded,
-      food: this.foodNeeded,
-      skills: this.skillsNeeded,
-      people: this.peopleNeeded,
-      assistants: this.assistantsNeeded,
+      missingLocation: this.missingLocation,
+      missingFood: this.missingFood,
+      missingSkills: this.missingSkills,
+      missingPeople: this.missingPeople,
+      missingAssistants: this.missingAssistants,
     });
   }
 
   applyContributorsFilters() {
     this.filterContributors.emit({
-      location: this.locationProvided,
-      food: this.foodProvided,
-      skills: this.skillsProvided,
-      people: this.peopleProvided,
-      assistants: this.assistantsProvided,
+      location: this.location,
+      food: this.food,
+      skills: this.skills,
+      people: this.people,
+      assistants: this.assistants,
     });
   }
 }

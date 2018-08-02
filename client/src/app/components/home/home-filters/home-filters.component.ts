@@ -21,15 +21,7 @@ export class HomeFiltersComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSlideToggleClick() {
-    this.applyEventFilters();
-  }
-
-  onCalendarClose() {
-    this.applyEventFilters();
-  }
-
-  applyEventFilters() {
+  applyEventsFilters() {
     this.filterEvents.emit({
       eat: this.eatToggle,
       cook: this.cookToggle,
