@@ -26,7 +26,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('map') mapElement: ElementRef;
   title = 'client';
   initialCoordinates: [number, number] = [538262.3872128094, 5740786.2887582248];
-  initialZoom: number = 11;
+  initialZoom: number = 13;
   searchZoom: number = 16;
   map: ol.Map;
 
