@@ -90,8 +90,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     const routes = {
       events: this.authenticationService.isConnected ? [admin, events] : [events],
-      contributors: this.authenticationService.isConnected ? [admin, contributors] : [events],
-      root: this.authenticationService.isConnected ? [admin, root] : [events]
+      contributors: this.authenticationService.isConnected ? [admin, contributors] : [contributors],
+      root: this.authenticationService.isConnected ? [admin, root] : [root]
     }
     return routes;
   }
