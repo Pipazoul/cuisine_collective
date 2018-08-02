@@ -20,6 +20,17 @@ export class ContributorClass {
     public zipcode: string;
     public city: string;
 
+    get formattedAddress() {
+        if(this.street && this.zipcode && this.city) {
+            return (this.houseNumber ? this.houseNumber + ', ' : '')
+            + this.street
+            + ' - '
+            + this.zipcode
+            + ' '
+            + this.city;
+        }
+    }
+
     constructor(obj?: any) {
         Object.assign(this, obj);
     }
