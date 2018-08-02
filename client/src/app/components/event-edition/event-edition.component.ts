@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { EventClass } from '../../domain/event.class';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from '../../services/event.service';
+import { forkJoin } from 'rxjs';
+import { ContributorClass } from '../../domain/contributor.class';
 
 @Component({
   selector: 'app-event-edition',
@@ -10,21 +12,42 @@ import { EventService } from '../../services/event.service';
 })
 export class EventEditionComponent implements OnInit {
 
-  public event: EventClass = new EventClass();
+  public event: EventClass;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private eventService: EventService
-  ) { }
+  ) {
+    if (!this.route.snapshot.params['id']) {
+      this.event = new EventClass();
+    }
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.eventService.getById(params['id']).subscribe(event => {
-        this.event = event;
-      }, err => {
-        console.error(err);
-      })
+      if (!params['id']) {
+        return;
+      }
+      this.loadEventAndContributors(params['id']);
+    });
+  }
+
+  private loadEventAndContributors(eventId: number) {
+    forkJoin(
+      this.eventService.getById(eventId),
+      this.eventService.getContributorsAssistants(eventId),
+      this.eventService.getContributorsFood(eventId),
+      this.eventService.getContributorsLocation(eventId),
+      this.eventService.getContributorsPeople(eventId),
+      this.eventService.getContributorsSkills(eventId),
+    ).subscribe(([event, assistants, food, location, people, skills]: [EventClass, ContributorClass[], ContributorClass[], ContributorClass[], ContributorClass[], ContributorClass[]]) => {
+      event.contributorsAssistants = assistants;
+      event.contributorsFood = food;
+      event.contributorsLocation = location;
+      event.contributorsPeople = people;
+      event.contributorsSkills = skills;
+      this.event = event;
     });
   }
 

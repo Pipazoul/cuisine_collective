@@ -246,15 +246,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.map.hasFeatureAtPixel(pixel) ? mapDiv.classList.add("clickable") : mapDiv.classList.remove("clickable");
     });
-
-    /*var mousePosition = new ol.control.MousePosition({
-      coordinateFormat: ol.coordinate.createStringXY(10),
-      projection: 'EPSG:3857',
-      target: document.getElementById('myposition'),
-      undefinedHTML: '&nbsp;'
-    });
-
-    this.map.addControl(mousePosition);*/
   }
 
   onPrimaryRouterActivate(event) {
