@@ -17,6 +17,6 @@
 
     <app-event-contributors *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-contributors>
 
-    <div *carouselItem>Ressources et partenaire manquants</div>
+    <app-event-missing *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="endCarousel()"></app-event-missing>
   </app-carousel>
 </div>

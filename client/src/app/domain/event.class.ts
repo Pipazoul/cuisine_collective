@@ -20,6 +20,7 @@ export class EventClass {
     public occurenceType: OccurenceType;
     public locationLabel: string;
     public informations: string;
+    public partnerInformations: string;
     public eat: boolean = false;
     public cook: boolean = false;
     public public: boolean = false;
@@ -30,6 +31,12 @@ export class EventClass {
     public locationName: string;
     public locationPostcode: string;
     public locationStreet: string;
+    // All about missing items
+    public missingLocation: boolean = false;
+    public missingFood: boolean = false;
+    public missingSkills: boolean = false;
+    public missingPeople: boolean = false;
+    public missingAssistants: boolean = false;
     /**
      * Linked contributors
      */
