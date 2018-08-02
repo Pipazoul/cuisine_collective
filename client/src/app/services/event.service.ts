@@ -6,11 +6,14 @@ import { map } from 'rxjs/operators';
 import { UrlSettings } from '../config/url.settings';
 
 import { EventClass } from '../domain/event.class';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable()
 export class EventService {
 
-  constructor(private restangular: Restangular) {
+  constructor(
+    private restangular: Restangular,
+    private authenticateService: AuthenticationService) {
   }
 
   /**
@@ -59,7 +62,7 @@ export class EventService {
             dateEnd: undefined
           }, {
             or: [{
-              publish: filters && filters.published ? true : undefined
+              publish: (filters && filters.published) || !this.authenticateService.isConnected ? true : undefined
             }, {
               publish: filters && filters.unpublished ? false : undefined
             }]
