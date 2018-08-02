@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(res => {
         const currentUrl = this.router.parseUrl((<NavigationEnd>res).urlAfterRedirects).root.children.primary;
         this.selectCurrentMarker(currentUrl);
-        console.log(this.activatedRoute);
+
       });
     });
   }
@@ -219,20 +219,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
-      console.log('1');
+
       if (e.selected && e.target.getFeatures().item(0)) {
-        console.log('2');
+
         if (e.target.getFeatures().item(0).get('type') === 'event') {
 
           this.router.navigate([...this.routingUrls.events, e.target.getFeatures().item(0).getProperties().id]);
         }
         else if (e.target.getFeatures().item(0).get('type') === 'contributor') {
-          console.log('4');
+
           this.router.navigate([...this.routingUrls.contributors, e.target.getFeatures().item(0).getProperties().id]);
         }
       }
       else {
-        console.log('5');
+
         this.router.navigate(this.routingUrls.root);
       }
     });
