@@ -6,7 +6,7 @@
     </button>
   </div>
 
-  <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center center">
+  <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center start">
     <!-- All forms to create an event -->
 
     <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>

@@ -1,5 +1,7 @@
 <form [formGroup]="eventContributorsForm" (ngSubmit)="submitForm(eventContributorsForm.value)" fxLayout="column" class="sidenav-body">
 
+  <h4 class="subtitle">Les ressources et partenaires déjà identifiés</h4>
+
   <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'kitchen', title: 'Un lieu', menuLabel:'Ajouter un lieu', contributors: contributors.location, contributorsForm: eventContributorsForm.get('location').value, add: addContributorLocation.bind(this), remove: removeContributorLocation.bind(this) }"></ng-container>
 
   <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'shopping_cart', title: 'Des fournisseurs', menuLabel:'Ajouter un fournisseur', contributors: contributors.food, contributorsForm: eventContributorsForm.get('food').value, add: addContributorFood.bind(this), remove: removeContributorFood.bind(this) }"></ng-container>
@@ -25,7 +27,7 @@
   <ng-template #category let-icon="icon" let-title="title" let-menuLabel="menuLabel" let-menuColor="menuColor" let-contributors="contributors"
     let-contributorsForm="contributorsForm" let-add="add" let-remove="remove">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" class="contributors-category">
-      <label class="services" fxLayout="column" fxLayoutAlign="center center">
+      <label class="services services-event" fxLayout="column" fxLayoutAlign="center center">
         <input type="checkbox" [checked]="contributorsForm.length" disabled>
         <i class="material-icons">{{icon}}</i>
       </label>
