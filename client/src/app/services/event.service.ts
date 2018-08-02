@@ -35,8 +35,7 @@ export class EventService {
    * Get all events
    * @param filters 
    */
-  getAll(filters?): Observable<EventClass[]> {
-    console.log(filters);
+  getAll(filters?: EventFilters): Observable<EventClass[]> {
     let params = {
       filter: {
         where: {
@@ -111,4 +110,20 @@ export interface ContributorsIds {
   contributorsSkills: number[];
   contributorsPeople: number[];
   contributorsAssistants: number[]
+}
+
+export interface EventFilters {
+  eat?: boolean;
+  cook?: boolean;
+  public?: boolean;
+  missingLocation?: boolean;
+  missingFood?: boolean;
+  missingSkills?: boolean;
+  missingPeople?: boolean;
+  missingAssistants?: boolean;
+  published?: boolean;
+  unpublished?: boolean;
+  regular?: boolean;
+  startDate?: Date;
+  endDate?: Date;
 }
