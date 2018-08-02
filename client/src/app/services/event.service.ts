@@ -40,11 +40,11 @@ export class EventService {
       filter: {
         where: {
           and: [{
-            eat: filters ? filters.eat : false
+            eat: filters && filters.eat ? filters.eat : undefined
           }, {
-            cook: filters ? filters.cook : false
+            cook: filters && filters.cook ? filters.cook : undefined
           }, {
-            public: filters ? filters.public : false
+            public: filters && filters.public ? filters.public : undefined
           }, {
             missingLocation: filters && filters.missingLocation ? filters.missingLocation : undefined
           }, {
