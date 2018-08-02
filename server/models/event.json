@@ -85,12 +85,14 @@
     },
     "longitude": {
       "type": "number",
+      "default": "538262.3872128094",
       "postgresql": {
         "dataType": "double precision"
       }
     },
     "latitude": {
       "type": "number",
+      "default": "5740786.2887582248",
       "postgresql": {
         "dataType": "double precision"
       }
