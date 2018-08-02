@@ -130,19 +130,19 @@ export class AppComponent implements OnInit, AfterViewInit {
     let pathToCompare;
     let next;
     if (this.authenticationService.isConnected) {
-      pathToCompare = currentUrl.segments.slice(0, 1);
+      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 2);
       next = currentUrl.segments[2];
     }
     else {
-      pathToCompare = currentUrl.segments.slice(0, 0);
+      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 1);
       next = currentUrl.segments[1];
     }
 
     if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
-      this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
+      this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +next));
     }
     else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
-      this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +currentUrl.segments[1].path));
+      this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +next));
     }
   }
 
