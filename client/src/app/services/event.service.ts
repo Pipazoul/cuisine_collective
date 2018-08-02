@@ -36,6 +36,7 @@ export class EventService {
    * @param filters 
    */
   getAll(filters?): Observable<EventClass[]> {
+    console.log(filters);
     let params = {
       filter: {
         where: {
@@ -63,6 +64,8 @@ export class EventService {
             }, {
               unpublished: filters && filters.unpublished ? true : undefined
             }]
+          }, {
+            occurenceType: filters && filters.regular ? { gt: 0 } : undefined
           }]
         }
       }
