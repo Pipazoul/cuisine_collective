@@ -57,6 +57,8 @@ export class EventService {
             missingAssistants: filters && filters.missingAssistants ? filters.missingAssistants : undefined
           }, {
             dateEnd: undefined
+          }, {
+            publish: undefined
           }]
         }
       }
@@ -71,6 +73,20 @@ export class EventService {
     if (filters && filters.endDate) {
       params.filter.where.and.push({
         dateEnd: { lt: new Date(filters.endDate) }
+      });
+    }
+
+    if (!filters || ((!filters.published && !filters.unpublished) || (filters.published && !filters.unpublished))) {
+      // If no filters
+      // or no filters selected
+      // or only published is selected
+      params.filter.where.and.push({
+        publish: true
+      });
+    } else if (filters.unpublished && !filters.published) {
+      // If only unpublished is selected
+      params.filter.where.and.push({
+        publish: false
       });
     }
 
