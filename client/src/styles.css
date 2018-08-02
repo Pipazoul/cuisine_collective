@@ -96,8 +96,8 @@ span.required:before {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
-    width: 400px;
-    max-width: 400px;
+    width: 420px;
+    max-width: 420px;
 }
 
 .mat-sidenav .sidenav-header {
