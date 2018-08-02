@@ -1,4 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { EventFilters } from '../../../services/event.service';
+import { ContributorFilters } from '../../../services/contributor.service';
 
 @Component({
   selector: 'app-admin-filters',
@@ -7,8 +9,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class AdminFiltersComponent implements OnInit {
 
-  @Output() filterEvents: EventEmitter<any> = new EventEmitter<any>();
-  @Output() filterContributors: EventEmitter<any> = new EventEmitter<any>();
+  @Output() filterEvents: EventEmitter<EventFilters> = new EventEmitter();
+  @Output() filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
 
   // Event's filters
   public startDate: Date;

@@ -34,7 +34,7 @@ export class ContributorService {
   /**
    * Get all contributors
    */
-  getAll(filters?): Observable<ContributorClass[]> {
+  getAll(filters?: ContributorFilters): Observable<ContributorClass[]> {
     var params = {
       filter: {
         where: {
@@ -63,4 +63,12 @@ export class ContributorService {
     return this.restangular.all(UrlSettings.contributorModel).getList({filter: {where:{assistants:true}}})
     .pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
   }
+}
+
+export interface ContributorFilters {
+  location?: boolean;
+  food?: boolean;
+  skills?: boolean;
+  people?: boolean;
+  assistants?: boolean;
 }

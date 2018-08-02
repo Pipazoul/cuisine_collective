@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { EventService } from '../../../services/event.service';
 import { LocationClass } from '../../../domain/location.class';
@@ -15,7 +15,7 @@ import { CoordinatesClass } from '../../../domain/coordinates.class';
   templateUrl: './event-location-type.component.html',
   styleUrls: ['./event-location-type.component.css']
 })
-export class EventLocationTypeComponent extends AbstractEventModifier implements OnInit {
+export class EventLocationTypeComponent extends AbstractEventModifier implements OnInit, OnChanges {
 
   private static readonly RESULTS_LIMIT = 5;
 
@@ -29,6 +29,10 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
   }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  ngOnChanges() {
     this.initForm();
   }
 

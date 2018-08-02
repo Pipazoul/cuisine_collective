@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EventClass } from '../../domain/event.class';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { EventService } from '../../services/event.service';
 
 @Component({
   selector: 'app-event-edition',
@@ -11,9 +12,20 @@ export class EventEditionComponent implements OnInit {
 
   public event: EventClass = new EventClass();
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private eventService: EventService
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.eventService.getById(params['id']).subscribe(event => {
+        this.event = event;
+      }, err => {
+        console.error(err);
+      })
+    });
   }
 
   public endCarousel() {
