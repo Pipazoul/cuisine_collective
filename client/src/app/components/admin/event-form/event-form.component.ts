@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomRegExp } from '../../../util/CustomRegExp';
 import { EventService } from '../../../services/event.service';
@@ -10,7 +10,7 @@ import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier
   templateUrl: './event-form.component.html',
   styleUrls: ['./event-form.component.css']
 })
-export class EventFormComponent extends AbstractEventModifier implements OnInit {
+export class EventFormComponent extends AbstractEventModifier implements OnInit, OnChanges {
 
   public eventForm: FormGroup;
 
@@ -19,6 +19,10 @@ export class EventFormComponent extends AbstractEventModifier implements OnInit 
   }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  ngOnChanges() {
     this.initForm();
   }
 
