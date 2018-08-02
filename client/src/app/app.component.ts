@@ -125,6 +125,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   selectCurrentMarker(currentUrl: UrlSegmentGroup) {
+    if (!currentUrl) return;
+
     this.selectInteraction.getFeatures().clear();
 
     let pathToCompare;

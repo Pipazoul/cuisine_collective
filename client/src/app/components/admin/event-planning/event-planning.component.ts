@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { EventService } from '../../../services/event.service';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { OccurenceType } from '../../../enum/occurence-type.enum';
@@ -9,7 +9,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './event-planning.component.html',
   styleUrls: ['./event-planning.component.css']
 })
-export class EventPlanningComponent extends AbstractEventModifier implements OnInit {
+export class EventPlanningComponent extends AbstractEventModifier implements OnInit, OnChanges {
 
   public readonly OccurenceType = OccurenceType;
   public readonly minDate: Date = new Date();
@@ -20,6 +20,10 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   }
 
   ngOnInit() {
+    this.initForm();
+  }
+  
+  ngOnChanges() {
     this.initForm();
   }
 

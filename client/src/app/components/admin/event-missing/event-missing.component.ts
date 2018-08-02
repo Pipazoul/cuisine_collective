@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { EventService } from '../../../services/event.service';
 import { FormGroup, FormControl } from '@angular/forms';
@@ -8,7 +8,7 @@ import { FormGroup, FormControl } from '@angular/forms';
   templateUrl: './event-missing.component.html',
   styleUrls: ['./event-missing.component.css']
 })
-export class EventMissingComponent extends AbstractEventModifier implements OnInit {
+export class EventMissingComponent extends AbstractEventModifier implements OnInit, OnChanges {
 
   public eventMissingForm: FormGroup;
 
@@ -17,6 +17,10 @@ export class EventMissingComponent extends AbstractEventModifier implements OnIn
   }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  ngOnChanges() {
     this.initForm();
   }
 
