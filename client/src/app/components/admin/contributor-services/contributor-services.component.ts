@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 // Utils
@@ -16,7 +16,7 @@ import { ContributorClass } from '../../../domain/contributor.class';
   templateUrl: './contributor-services.component.html',
   styleUrls: ['./contributor-services.component.css']
 })
-export class ContributorServicesComponent extends AbstractContributorModifier implements OnInit {
+export class ContributorServicesComponent extends AbstractContributorModifier implements OnInit, OnChanges {
 
   public contributorForm: FormGroup;
 
@@ -25,6 +25,10 @@ export class ContributorServicesComponent extends AbstractContributorModifier im
   }
 
   ngOnInit() {
+    this.initForm();
+  }
+
+  ngOnChanges() {
     this.initForm();
   }
 

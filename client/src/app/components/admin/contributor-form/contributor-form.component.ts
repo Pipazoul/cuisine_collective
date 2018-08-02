@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { filter, debounceTime, switchMap } from 'rxjs/operators';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
@@ -22,7 +22,7 @@ import { LocationClass } from '../../../domain/location.class';
   templateUrl: './contributor-form.component.html',
   styleUrls: ['./contributor-form.component.css']
 })
-export class ContributorFormComponent extends AbstractContributorModifier implements OnInit {
+export class ContributorFormComponent extends AbstractContributorModifier implements OnInit, OnChanges {
 
   private static readonly RESULTS_LIMIT = 5;
 
@@ -37,7 +37,15 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
   }
 
   ngOnInit() {
-    const locationCtrl = new FormControl();
+    this.initializeForm();
+  }
+
+  ngOnChanges() {
+    this.initializeForm();
+  }
+
+  initializeForm() {
+    const locationCtrl = new FormControl(this.contributor.formattedAddress);
     locationCtrl.valueChanges.pipe(
       filter(data => {
         this.locations.length = 0;

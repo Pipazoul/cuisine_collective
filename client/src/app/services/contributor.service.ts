@@ -63,6 +63,14 @@ export class ContributorService {
     return this.restangular.all(UrlSettings.contributorModel).getList({filter: {where:{assistants:true}}})
     .pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
   }
+
+  /**
+   * Get a contributor by its id
+   * @param id contributor's id
+   */
+  getById(id: number): Observable<ContributorClass> {
+    return this.restangular.one(UrlSettings.contributorModel, id).get().pipe(map(contributor => new ContributorClass(contributor)));
+  }
 }
 
 export interface ContributorFilters {
