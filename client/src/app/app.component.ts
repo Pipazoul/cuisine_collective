@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angula
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
 import { ContributorClass } from './domain/contributor.class';
@@ -43,7 +44,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private eventService: EventService,
-    private contributorService: ContributorService
+    private contributorService: ContributorService,
+    private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -118,7 +120,8 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   initializeData() {
-    return zip(this.eventService.getAll(), this.contributorService.getAssistants());
+    return zip(this.eventService.getAll(), 
+      this.authenticationService.isConnected ? this.contributorService.getAll() : this.contributorService.getAssistants());
   }
 
   initializeMap() {
@@ -234,9 +237,17 @@ export class AppComponent implements OnInit, AfterViewInit {
    */
   onActivate(elementRef) {
     // Event filter of the sidenav
-    elementRef.filter.subscribe(filters => {
+    elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
         this.redrawEvents(events);
+      });
+    }, err => {
+      console.error(err);
+    });
+    elementRef.filterContributors.subscribe(filters => {
+      // TODO
+      this.contributorService.getAll(filters).subscribe(contributors => {
+        this.redrawContributors(contributors);
       });
     }, err => {
       console.error(err);
@@ -244,7 +255,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Remove all event from layer then add the new ones
+   * Remove all events from layer then add the new ones
    * @param events list of new events to draw
    */
   redrawEvents(events) {
@@ -259,6 +270,26 @@ export class AppComponent implements OnInit, AfterViewInit {
         geometry: new ol.geom.Point([event.longitude, event.latitude]),
         type: 'event',
         id: event.id
+      }))
+    );
+  }
+
+  /**
+   * Remove all contributors from layer then add the new ones
+   * @param contributors list of new contributors to draw
+   */
+  redrawContributors(contributors) {
+    // Removing all previous features of eventLayer
+    _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
+      this.contributorsLayer.getSource().removeFeature(feature);
+    });
+
+    // Adding all new features (contributors) of eventLayer
+    contributors.map((contributor) =>
+      this.contributorsLayer.getSource().addFeature(new ol.Feature({
+        geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+        type: 'contributor',
+        id: contributor.id
       }))
     );
   }

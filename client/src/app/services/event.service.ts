@@ -36,7 +36,7 @@ export class EventService {
    * @param filters 
    */
   getAll(filters?): Observable<EventClass[]> {
-    let params = {
+    let params: Params = {
       filter: {
         where: {
           and: [{

@@ -41,5 +41,4 @@ export class ContributorServicesComponent extends AbstractContributorModifier im
   public submitForm(value) {
     this.saveContributor(new ContributorClass(value));
   }
-
 }

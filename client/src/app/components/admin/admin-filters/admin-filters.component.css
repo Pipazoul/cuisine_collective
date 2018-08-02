@@ -1,17 +1,3 @@
-.left-content {
-    height: 100%;
-    background-color: #eaeaea;
-    -webkit-box-shadow: 6px 0 7px -4px #888;
-    box-shadow: 6px 0 7px -4px #888;
-}
-
-.content-title {
-    background-color: #6CCACC;
-    text-transform: uppercase;
-    color: white;
-    padding: 20px 0 20px 0;
-}
-
 .filters-container {
     height: 100%;
 }
