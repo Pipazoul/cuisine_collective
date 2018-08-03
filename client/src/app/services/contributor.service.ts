@@ -16,7 +16,7 @@ export class ContributorService {
   }
 
   /**
-   * Create an contributor
+   * Create a contributor
    * 
    * @param contributor
    */
@@ -25,12 +25,21 @@ export class ContributorService {
   }
 
   /**
-   * Update an contributor
+   * Update a contributor
    * 
    * @param contributor 
    */
   update(contributor: ContributorClass): Observable<ContributorClass> {
     return this.restangular.one(UrlSettings.contributorModel, contributor.id).patch(contributor).pipe(map(res => new ContributorClass(res)));
+  }
+
+  /**
+   * Delete a contributor
+   * 
+   * @param contributorId 
+   */
+  delete(contributorId: number): Observable<any> {
+    return this.restangular.one(UrlSettings.contributorModel, contributorId).remove();
   }
 
   /**

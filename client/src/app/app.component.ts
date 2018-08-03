@@ -247,11 +247,30 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onPrimaryRouterActivate(event) {
+  onPrimaryRouterActivate(elementRef) {
     this.showSidenav = true;
+
+    // Event filter of the sidenav
+    elementRef.removePoint.subscribe(params => {
+      if (params.type === EventClass) {
+        _.each(this.eventsLayer.getSource().getFeatures(), feature => {
+          if (feature.get('id') === params.id) {
+            this.eventsLayer.getSource().removeFeature(feature);
+          }
+        });
+      } else if (params.type === ContributorClass) {
+        _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
+          if (feature.get('id') === params.id) {
+            this.contributorsLayer.getSource().removeFeature(feature);
+          }
+        });
+      }
+    }, err => {
+      console.error(err);
+    });
   }
 
-  onPrimaryRouterDeactivate(event) {
+  onPrimaryRouterDeactivate(elementRef) {
     this.showSidenav = false;
   }
 
@@ -260,7 +279,7 @@ export class AppComponent implements OnInit, AfterViewInit {
    * @param elementRef sidenav
    */
   onActivate(elementRef) {
-    // Event filter of the sidenav
+    // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
         this.redrawEvents(events);
@@ -269,7 +288,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       console.error(err);
     });
     elementRef.filterContributors.subscribe(filters => {
-      // TODO
       this.contributorService.getAll(filters).subscribe(contributors => {
         this.redrawContributors(contributors);
       });

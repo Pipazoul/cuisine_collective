@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { EventClass } from '../../domain/event.class';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from '../../services/event.service';
@@ -12,6 +12,7 @@ import { ContributorClass } from '../../domain/contributor.class';
 })
 export class EventEditionComponent implements OnInit {
 
+  @Output() removePoint: EventEmitter<any> = new EventEmitter();
   public event: EventClass;
 
   constructor(
@@ -53,6 +54,15 @@ export class EventEditionComponent implements OnInit {
 
   public endCarousel() {
     this.router.navigate(['/admin']);
+  }
+
+  deleteEvent(eventId) {
+    this.eventService.delete(eventId).subscribe(res => {
+      this.removePoint.emit({type: EventClass, id: eventId});
+      this.router.navigate(['/admin']);
+    }, err => {
+      console.error(err);
+    })
   }
 
 }
