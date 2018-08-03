@@ -27,7 +27,7 @@
     </mat-radio-group>
 
     <div fxLayout="row" fxLayoutGap="10px" fxFlexOffset="15px">
-      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
+      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm(eventPlanningForm.value, true)">
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>
