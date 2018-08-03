@@ -11,6 +11,7 @@ import { ContributorService } from '../../services/contributor.service';
 export class ContributorEditionComponent implements OnInit {
 
   public contributor: ContributorClass = new ContributorClass();
+  public saved: boolean;
 
   constructor(private router: Router,
   private route: ActivatedRoute,
@@ -31,6 +32,7 @@ export class ContributorEditionComponent implements OnInit {
 
   public endCarousel() {
     this.router.navigate(['/admin']);
+    this.saved = true;
   }
 
 }

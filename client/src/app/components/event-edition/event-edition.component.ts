@@ -13,6 +13,7 @@ import { ContributorClass } from '../../domain/contributor.class';
 export class EventEditionComponent implements OnInit {
 
   public event: EventClass;
+  public saved: boolean;
 
   constructor(
     private router: Router,
@@ -53,6 +54,7 @@ export class EventEditionComponent implements OnInit {
 
   public endCarousel() {
     this.router.navigate(['/admin']);
+    this.saved = true;
   }
 
 }
