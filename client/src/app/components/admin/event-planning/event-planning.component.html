@@ -4,15 +4,15 @@
     <h4>Choisir une date ou une période :</h4>
 
     <mat-form-field>
-      <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="minDate" [max]="event.dateEnd" formControlName="dateStart"
-        placeholder="Date de début de l'évènement">
+      <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="minDate" [max]="eventPlanningForm.get('dateEnd').value"
+        formControlName="dateStart" placeholder="Date de début de l'évènement">
       <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
       <mat-datepicker #startPicker></mat-datepicker>
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="event.dateStart || minDate" formControlName="dateEnd"
-        placeholder="Date de fin de l'évènement">
+      <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="eventPlanningForm.get('dateStart').value || minDate"
+        formControlName="dateEnd" placeholder="Date de fin de l'évènement">
       <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
       <mat-datepicker #endPicker></mat-datepicker>
     </mat-form-field>
