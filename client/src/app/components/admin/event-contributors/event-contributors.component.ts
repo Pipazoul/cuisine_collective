@@ -133,7 +133,7 @@ export class EventContributorsComponent extends AbstractEventModifier implements
     contributorsFormArray.removeAt(_.findIndex(contributorsFormArray.controls, c => c.value.id === contributor.id));
   }
 
-  public submitForm(value) {
+  public submitForm(value, goBack: boolean = false) {
     Object.assign(this.event, {
       contributorsLocation: value.location,
       contributorsFood: value.food,
@@ -147,7 +147,7 @@ export class EventContributorsComponent extends AbstractEventModifier implements
       contributorsSkills: _.map(this.event.contributorsSkills, 'id'),
       contributorsPeople: _.map(this.event.contributorsPeople, 'id'),
       contributorsAssistants: _.map(this.event.contributorsAssistants, 'id')
-    }).subscribe(() => this.eventSaved.emit());
+    }).subscribe(() => goBack ? this.backwardPressed.emit() : this.eventSaved.emit(this.event));
   }
 
 }

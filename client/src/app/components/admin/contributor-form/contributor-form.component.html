@@ -1,5 +1,5 @@
 <form [formGroup]="contributorForm" (ngSubmit)="submitForm(contributorForm.value)" fxFlex fxLayout="column">
-  <mat-form-field>
+  <mat-form-field class="required">
     <input matInput type="text" autocomplete="new-password" formControlName="title" maxlength="100" placeholder="Titre">
   </mat-form-field>
 
@@ -25,7 +25,7 @@
 
   <!-- Search for location -->
   <mat-form-field>
-    <input matInput type="text" autocomplete="new-password" [matAutocomplete]="auto" formControlName="location" placeholder="Saisissez une adresse">
+    <input matInput type="text" autocomplete="new-password" [matAutocomplete]="auto" formControlName="address" placeholder="Saisissez une adresse">
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onLocationSelected($event)">
       <mat-option *ngIf="isLoading" disabled>Recherche en cours...</mat-option>
       <mat-option *ngFor="let location of locations" [value]="location">
@@ -36,7 +36,7 @@
   </mat-form-field>
 
   <div fxLayout="row" fxLayoutGap="10px">
-    <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
+    <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm(contributorForm.value, true)">
       Précédent
       <mat-icon>arrow_back</mat-icon>
     </button>

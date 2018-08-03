@@ -5,16 +5,18 @@ import { map } from 'rxjs/operators';
 
 import { UrlSettings } from '../config/url.settings';
 
+import { AuthenticationService } from './authentication.service';
 import { ContributorClass } from '../domain/contributor.class';
 
 @Injectable()
 export class ContributorService {
 
-  constructor(private restangular: Restangular) {
+  constructor(private restangular: Restangular,
+    private authenticateService: AuthenticationService) {
   }
 
   /**
-   * Create an contributor
+   * Create a contributor
    * 
    * @param contributor
    */
@@ -23,12 +25,21 @@ export class ContributorService {
   }
 
   /**
-   * Update an contributor
+   * Update a contributor
    * 
    * @param contributor 
    */
   update(contributor: ContributorClass): Observable<ContributorClass> {
     return this.restangular.one(UrlSettings.contributorModel, contributor.id).patch(contributor).pipe(map(res => new ContributorClass(res)));
+  }
+
+  /**
+   * Delete a contributor
+   * 
+   * @param contributorId 
+   */
+  delete(contributorId: number): Observable<any> {
+    return this.restangular.one(UrlSettings.contributorModel, contributorId).remove();
   }
 
   /**
@@ -48,6 +59,10 @@ export class ContributorService {
             people: filters && filters.people ? filters.people : undefined
           }, {
             assistants: filters && filters.assistants ? filters.assistants : undefined
+          }, {
+            assistants: !this.authenticateService.isConnected ? true : undefined
+          }, {
+            assistants: !this.authenticateService.isConnected && filters && !filters.assistants ? false : undefined
           }]
         }
       }

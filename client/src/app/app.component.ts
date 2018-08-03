@@ -52,6 +52,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    this.authenticationService.connectionStatusChanged.subscribe((connected) => {
+      if (connected === true || connected === false) {
+        this.eventService.getAll().subscribe(events => this.redrawEvents(events));
+      }
+      if (connected === true) {
+        this.contributorService.getAll().subscribe(contributors => this.redrawContributors(contributors));
+      } else if (connected === false) {
+        this.contributorService.getAssistants().subscribe(contributors => this.redrawContributors(contributors));
+      }
+    });
   }
 
   get eventStyle() {
@@ -151,8 +161,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   initializeData() {
-    return zip(this.eventService.getAll(),
-      this.authenticationService.isConnected ? this.contributorService.getAll() : this.contributorService.getAssistants());
+    return zip(this.eventService.getAll(), this.contributorService.getAll());
   }
 
   initializeMap() {
@@ -250,8 +259,27 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  onPrimaryRouterActivate(component) {
+  onPrimaryRouterActivate(elementRef) {
     this.showSidenav = true;
+
+    // Event filter of the sidenav
+    elementRef.removePoint.subscribe(params => {
+      if (params.type === EventClass) {
+        _.each(this.eventsLayer.getSource().getFeatures(), feature => {
+          if (feature.get('id') === params.id) {
+            this.eventsLayer.getSource().removeFeature(feature);
+          }
+        });
+      } else if (params.type === ContributorClass) {
+        _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
+          if (feature.get('id') === params.id) {
+            this.contributorsLayer.getSource().removeFeature(feature);
+          }
+        });
+      }
+    }, err => {
+      console.error(err);
+    });
   }
 
   onPrimaryRouterDeactivate(component) {
@@ -289,7 +317,7 @@ export class AppComponent implements OnInit, AfterViewInit {
    * @param elementRef sidenav
    */
   onActivate(elementRef) {
-    // Event filter of the sidenav
+    // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
         this.redrawEvents(events);
@@ -298,7 +326,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       console.error(err);
     });
     elementRef.filterContributors.subscribe(filters => {
-      // TODO
       this.contributorService.getAll(filters).subscribe(contributors => {
         this.redrawContributors(contributors);
       });

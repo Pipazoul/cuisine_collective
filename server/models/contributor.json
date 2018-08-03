@@ -8,8 +8,7 @@
   },
   "properties": {
     "title": {
-      "type": "string",
-      "default": "sans_nom"
+      "type": "string"
     },
     "description": {
       "type": "string"

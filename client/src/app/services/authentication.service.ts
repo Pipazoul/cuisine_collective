@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { tap, mergeMap } from 'rxjs/operators';
 import { Restangular } from 'ngx-restangular';
 
@@ -17,6 +17,8 @@ export class AuthenticationService {
 
   private static readonly ACCESS_TOKEN = 'access_token';
   private static readonly REGISTERED_USER = 'registered_user';
+
+  public readonly connectionStatusChanged = new BehaviorSubject<boolean>(null);
 
   constructor(private restangular: Restangular,
     private userService: UserService) { }
@@ -81,7 +83,11 @@ export class AuthenticationService {
         this.restangular.configuration.defaultHeaders = { 'Authorization': token['id'] };
       }),
       mergeMap((token: LoopbackToken) => this.userService.getById(token.userId).pipe(
-        tap((user) => localStorage.setItem(AuthenticationService.REGISTERED_USER, JSON.stringify(user)))
+        tap((user) => {
+          localStorage.setItem(AuthenticationService.REGISTERED_USER, JSON.stringify(user));
+          // Say we are connected
+          this.connectionStatusChanged.next(true);
+        })
       ))
     );
   }
@@ -91,7 +97,11 @@ export class AuthenticationService {
    */
   public signout(): Observable<any> {
     return this.restangular.all(UrlSettings.userModel).customPOST({}, UrlSettings.userLogout).pipe(
-      tap(() => this.resetSession())
+      tap(() => {
+        this.resetSession();
+        // Say we are disconnected
+        this.connectionStatusChanged.next(false);
+      })
     );
   }
 

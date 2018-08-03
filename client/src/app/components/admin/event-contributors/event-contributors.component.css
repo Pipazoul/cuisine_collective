@@ -22,6 +22,14 @@
     background-color: #CCCCCC;
 }
 
+.services:hover input:checked ~ i {
+    background-color: #6CCACC;
+}
+
+.services.services-assistants:hover input:checked ~ i {
+    background-color: #F9A755;
+}
+
 button.add-contributor {
     background-color: #6CCACC;
     color: white;

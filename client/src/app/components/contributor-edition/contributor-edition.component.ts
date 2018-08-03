@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ContributorClass } from '../../domain/contributor.class';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContributorService } from '../../services/contributor.service';
@@ -10,6 +10,7 @@ import { ContributorService } from '../../services/contributor.service';
 })
 export class ContributorEditionComponent implements OnInit {
 
+  @Output() removePoint: EventEmitter<any> = new EventEmitter();
   public contributor: ContributorClass = new ContributorClass();
   public saved: boolean;
 
@@ -33,6 +34,15 @@ export class ContributorEditionComponent implements OnInit {
   public endCarousel() {
     this.router.navigate(['/admin']);
     this.saved = true;
+  }
+
+  deleteContributor(contributorId) {
+    this.contributorService.delete(contributorId).subscribe(res => {
+      this.removePoint.emit({type: ContributorClass, id: contributorId});
+      this.router.navigate(['/admin']);
+    }, err => {
+      console.error(err);
+    })
   }
 
 }

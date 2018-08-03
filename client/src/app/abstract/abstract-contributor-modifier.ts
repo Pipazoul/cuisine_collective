@@ -5,26 +5,26 @@ import { ContributorService } from "../services/contributor.service";
 export abstract class AbstractContributorModifier {
 
     @Input() public contributor: ContributorClass;
+    @Output() public backwardPressed: EventEmitter<ContributorClass> = new EventEmitter();
     @Output() public contributorSaved: EventEmitter<ContributorClass> = new EventEmitter();
-    @Output() public backwardPressed: EventEmitter<any> = new EventEmitter();
 
-    constructor(private contributorService: ContributorService) {
-        
+    constructor(protected contributorService: ContributorService) {
+
     }
 
-    protected saveContributor(contributor: ContributorClass) {
+    protected saveContributor(contributorToSave: ContributorClass, goBack: boolean = false) {
+        this.saveAndEmit(contributorToSave, (contributor) => goBack ? this.backwardPressed.emit(contributor) : this.contributorSaved.emit(contributor));
+    }
+
+    private saveAndEmit(contributor: ContributorClass, eventEmitter: (contributor: ContributorClass) => void) {
         if (!this.contributor.id) {
             this.contributorService.create(contributor).subscribe(
-                (contributor) => { Object.assign(this.contributor, contributor); this.contributorSaved.emit(contributor); }
+                (contributor) => { Object.assign(this.contributor, contributor); eventEmitter(contributor); }
             );
         } else {
             this.contributorService.update(contributor).subscribe(
-                (contributor) => { Object.assign(this.contributor, contributor); this.contributorSaved.emit(contributor); }
+                (contributor) => { Object.assign(this.contributor, contributor); eventEmitter(contributor); }
             );
         }
-    }
-
-    public goBackward() {
-        this.backwardPressed.emit();
     }
 }

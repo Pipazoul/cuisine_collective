@@ -44,6 +44,15 @@ export class EventService {
   }
 
   /**
+   * Delete an event
+   * 
+   * @param eventId 
+   */
+  delete(eventId: number): Observable<any> {
+    return this.restangular.one(UrlSettings.eventModel, eventId).remove();
+  }
+
+  /**
    * Get all events
    * @param filters 
    */

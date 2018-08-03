@@ -45,8 +45,8 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
   }
 
   initializeForm() {
-    const locationCtrl = new FormControl(this.contributor.formattedAddress);
-    locationCtrl.valueChanges.pipe(
+    const addressCtrl = new FormControl(this.contributor.formattedAddress);
+    addressCtrl.valueChanges.pipe(
       filter(data => {
         this.locations.length = 0;
         return _.isString(data) && (data.trim().length ? true : false) && (this.isLoading = true)
@@ -63,7 +63,7 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
       'title': new FormControl(this.contributor.title, Validators.required),
       'description': new FormControl(this.contributor.description),
       'name': new FormControl(this.contributor.name),
-      'location': locationCtrl,
+      'address': addressCtrl,
       'hours': new FormControl(this.contributor.hours),
       'email': new FormControl(this.contributor.email, Validators.email),
       'phone': new FormControl(this.contributor.phone, Validators.pattern(CustomRegExp.PHONE))
@@ -77,7 +77,7 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
    */
   public onLocationSelected(event: MatAutocompleteSelectedEvent) {
     const location: LocationClass = event.option.value;
-    this.contributorForm.get('location').setValue(location.properties.label);
+    this.contributorForm.get('address').setValue(location.properties.label);
     const transformedLocation = ol.proj.fromLonLat(location.geometry.coordinates, 'EPSG:3857');
     Object.assign(this.contributor, {
       longitude: transformedLocation[0],
@@ -89,9 +89,9 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
     });
   }
 
-  public submitForm(value) {
+  public submitForm(value, goBack: boolean = false) {
     Object.assign(this.contributor, value);
-    this.saveContributor(this.contributor);
+    this.saveContributor(this.contributor, goBack);
   }
 
 }
