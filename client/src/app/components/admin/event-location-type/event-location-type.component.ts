@@ -83,7 +83,7 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
       locationHousenumber: location.properties.housenumber,
       locationName: location.properties.name,
       locationPostcode: location.properties.postcode,
-      locationStreet: location.properties.street
+      locationStreet: location.properties.name
     });
   }
 

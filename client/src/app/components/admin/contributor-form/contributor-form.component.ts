@@ -76,6 +76,7 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
    * @param event Clicked result
    */
   public onLocationSelected(event: MatAutocompleteSelectedEvent) {
+    console.log(event.option.value);
     const location: LocationClass = event.option.value;
     this.contributorForm.get('address').setValue(location.properties.label);
     const transformedLocation = ol.proj.fromLonLat(location.geometry.coordinates, 'EPSG:3857');
@@ -83,10 +84,11 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
       longitude: transformedLocation[0],
       latitude: transformedLocation[1],
       houseNumber: location.properties.housenumber,
-      street: location.properties.street,
-      zipcode: location.properties.citycode,
+        street: location.properties.name,
+      zipcode: location.properties.postcode,
       city: location.properties.city
     });
+    console.log(this.contributor);
   }
 
   public submitForm(value, goBack: boolean = false) {

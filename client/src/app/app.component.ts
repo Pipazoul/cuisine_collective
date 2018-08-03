@@ -10,6 +10,8 @@ import { zip } from 'rxjs';
 import { ContributorService } from './services/contributor.service';
 import { filter } from 'rxjs/operators';
 import { ArrayUtils } from './util/ArrayUtils';
+import { EventEditionComponent } from './components/event-edition/event-edition.component';
+import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 
 @Component({
   selector: 'app-root',
@@ -261,23 +263,25 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showSidenav = true;
 
     // Event filter of the sidenav
-    elementRef.removePoint.subscribe(params => {
-      if (params.type === EventClass) {
-        _.each(this.eventsLayer.getSource().getFeatures(), feature => {
-          if (feature.get('id') === params.id) {
-            this.eventsLayer.getSource().removeFeature(feature);
-          }
-        });
-      } else if (params.type === ContributorClass) {
-        _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
-          if (feature.get('id') === params.id) {
-            this.contributorsLayer.getSource().removeFeature(feature);
-          }
-        });
-      }
-    }, err => {
-      console.error(err);
-    });
+    if (elementRef instanceof EventEditionComponent || elementRef instanceof ContributorEditionComponent) {
+      elementRef.removePoint.subscribe(params => {
+        if (params.type === EventClass) {
+          _.each(this.eventsLayer.getSource().getFeatures(), feature => {
+            if (feature.get('id') === params.id) {
+              this.eventsLayer.getSource().removeFeature(feature);
+            }
+          });
+        } else if (params.type === ContributorClass) {
+          _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
+            if (feature.get('id') === params.id) {
+              this.contributorsLayer.getSource().removeFeature(feature);
+            }
+          });
+        }
+      }, err => {
+        console.error(err);
+      });
+    }
   }
 
   onPrimaryRouterDeactivate(elementRef) {
