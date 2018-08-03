@@ -50,6 +50,16 @@ export class AppComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit() {
+    this.authenticationService.connectionStatusChanged.subscribe((connected) => {
+      if (connected === true || connected === false) {
+        this.eventService.getAll().subscribe(events => this.redrawEvents(events));
+      }
+      if (connected === true) {
+        this.contributorService.getAll().subscribe(contributors => this.redrawContributors(contributors));
+      } else if (connected === false) {
+        this.contributorService.getAssistants().subscribe(contributors => this.redrawContributors(contributors));
+      }
+    });
   }
 
   get eventStyle() {
