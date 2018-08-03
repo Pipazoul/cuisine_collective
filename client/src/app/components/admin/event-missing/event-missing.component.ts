@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnChanges } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges, Input } from '@angular/core';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { EventService } from '../../../services/event.service';
 import { FormGroup, FormControl } from '@angular/forms';

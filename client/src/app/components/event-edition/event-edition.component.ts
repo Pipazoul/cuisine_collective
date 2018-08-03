@@ -14,6 +14,7 @@ export class EventEditionComponent implements OnInit {
 
   @Output() removePoint: EventEmitter<any> = new EventEmitter();
   public event: EventClass;
+  public saved: boolean;
 
   constructor(
     private router: Router,
@@ -54,6 +55,7 @@ export class EventEditionComponent implements OnInit {
 
   public endCarousel() {
     this.router.navigate(['/admin']);
+    this.saved = true;
   }
 
   deleteEvent(eventId) {

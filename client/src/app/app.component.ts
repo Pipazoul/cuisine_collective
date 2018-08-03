@@ -284,7 +284,33 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onPrimaryRouterDeactivate(elementRef) {
+  onPrimaryRouterDeactivate(component) {
+    if(component instanceof EventEditionComponent && component.saved) {
+      const event = this.events.find(x => x.id === component.event.id);
+      const index = this.events.indexOf(event);
+      if(event) {
+        this.events.splice(index, 1, component.event)
+      }
+      else {
+        this.events.push(component.event);
+      }
+
+      this.redrawEvents(this.events);
+    }
+
+    if(component instanceof ContributorEditionComponent && component.saved) {
+      const contributor = this.contributors.find(x => x.id === component.contributor.id);
+      const index = this.contributors.indexOf(contributor);
+      if(contributor) {
+        this.contributors.splice(index, 1, component.contributor)
+      }
+      else {
+        this.contributors.push(component.contributor);
+      }
+
+      this.redrawContributors(this.contributors);
+    }
+    
     this.showSidenav = false;
   }
 
