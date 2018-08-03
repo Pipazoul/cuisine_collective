@@ -37,6 +37,7 @@ export class EventMissingComponent extends AbstractEventModifier implements OnIn
 
   public submitForm(value) {
     Object.assign(this.event, value);
+    this.event.publish = false;
     this.saveEvent(this.event);
   }
 
