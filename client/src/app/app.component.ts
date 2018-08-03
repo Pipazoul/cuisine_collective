@@ -159,8 +159,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   initializeData() {
-    return zip(this.eventService.getAll(),
-      this.authenticationService.isConnected ? this.contributorService.getAll() : this.contributorService.getAssistants());
+    return zip(this.eventService.getAll(), this.contributorService.getAll());
   }
 
   initializeMap() {

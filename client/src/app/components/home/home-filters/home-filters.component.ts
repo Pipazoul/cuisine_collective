@@ -11,12 +11,17 @@ export class HomeFiltersComponent implements OnInit {
 
   @Output() filterEvents: EventEmitter<EventFilters> = new EventEmitter();
   @Output() filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+
+  // Event's filters
   public startDate: Date;
   public endDate: Date;
   public eatToggle: boolean = false;
   public cookToggle: boolean = false;
   public publicToggle: boolean = false;
   public regularToggle: boolean = false;
+
+  // Assistants' filters
+  public assistantsToggle: boolean = true;
 
   constructor() { }
 
@@ -31,6 +36,12 @@ export class HomeFiltersComponent implements OnInit {
       regular: this.regularToggle,
       startDate: this.startDate,
       endDate: this.endDate,
+    });
+  }
+
+  applyContributorsFilters() {
+    this.filterContributors.emit({
+      assistants: this.assistantsToggle,
     });
   }
 
