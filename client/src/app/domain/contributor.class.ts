@@ -22,9 +22,9 @@ export class ContributorClass {
 
     get formattedAddress() {
         if(this.street && this.zipcode && this.city) {
-            return (this.houseNumber ? this.houseNumber + ', ' : '')
+            return (this.houseNumber ? this.houseNumber + ' ' : '')
             + this.street
-            + ' - '
+            + ' '
             + this.zipcode
             + ' '
             + this.city;
