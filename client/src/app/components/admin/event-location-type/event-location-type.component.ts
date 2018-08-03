@@ -37,7 +37,12 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
   }
 
   private initForm() {
-    const locationCtrl = new FormControl();
+    const locationCtrl = new FormControl(_.join(_.without([
+      this.event.locationHousenumber,
+      this.event.locationStreet,
+      this.event.locationHousenumber && this.event.locationStreet ? this.event.locationPostcode : null,
+      this.event.locationCity
+    ], null), ' '));
     locationCtrl.valueChanges.pipe(
       filter(data => {
         this.locationsFound.length = 0;

@@ -1,21 +1,21 @@
 export class PropertiesClass {
 
-    public adm_weight: number;
-    public city: string;
-    public citycode: string;
-    public context: string;
-    public housenumber: string;
-    public id: number;
-    public importance: number;
-    public label: string;
-    public name: string;
-    public population: number;
-    public postcode: string;
-    public score: number;
-    public street: string;
-    public type: string;
-    public x: number;
-    public y: number;
+    public adm_weight: number = null;
+    public city: string = null;
+    public citycode: string = null;
+    public context: string = null;
+    public housenumber: string = null;
+    public id: number = null;
+    public importance: number = null;
+    public label: string = null;
+    public name: string = null;
+    public population: number = null;
+    public postcode: string = null;
+    public score: number = null;
+    public street: string = null;
+    public type: string = null;
+    public x: number = null;
+    public y: number = null;
 
     constructor(obj?: any) {
         Object.assign(this, obj);
