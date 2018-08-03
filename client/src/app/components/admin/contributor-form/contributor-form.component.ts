@@ -89,9 +89,9 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
     });
   }
 
-  public submitForm(value) {
+  public submitForm(value, goBack: boolean = false) {
     Object.assign(this.contributor, value);
-    this.saveContributor(this.contributor);
+    this.saveContributor(this.contributor, goBack);
   }
 
 }
