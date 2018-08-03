@@ -47,7 +47,7 @@
     </mat-form-field>
 
     <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="goBackward()">
+      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm(eventLocationForm.value, true)">
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>

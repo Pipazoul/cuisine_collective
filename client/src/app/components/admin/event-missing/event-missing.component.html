@@ -44,7 +44,7 @@
     </mat-form-field>
 
     <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-button type="button" class="next-button background-red" fxFlex="36" (click)="goBackward()">
+      <button mat-button type="button" class="next-button background-red" fxFlex="36" (click)="submitForm(eventMissingForm.value, true)">
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>
@@ -53,7 +53,7 @@
         <mat-icon>settings</mat-icon>
       </button>
       <button mat-button type="button" class="next-button background-blue-light" fxFlex="28" [disabled]="eventMissingForm.invalid"
-        (click)="publish()">
+        (click)="publish(eventMissingForm.value)">
         Publier
         <mat-icon>arrow_forward</mat-icon>
       </button>
