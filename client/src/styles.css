@@ -289,3 +289,7 @@ label {
 .text {
     white-space: pre-line;
 }
+
+.section-assistants .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
+    background-color: #F9A755;
+}

@@ -33,3 +33,9 @@
 mat-form-field {
     width: 200px;
 }
+
+.section-assistants {
+    padding: 20px;
+    background-color: #0d70cd;
+    color: white;
+}

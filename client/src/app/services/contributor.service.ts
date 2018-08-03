@@ -5,12 +5,14 @@ import { map } from 'rxjs/operators';
 
 import { UrlSettings } from '../config/url.settings';
 
+import { AuthenticationService } from './authentication.service';
 import { ContributorClass } from '../domain/contributor.class';
 
 @Injectable()
 export class ContributorService {
 
-  constructor(private restangular: Restangular) {
+  constructor(private restangular: Restangular,
+    private authenticateService: AuthenticationService) {
   }
 
   /**
@@ -48,6 +50,10 @@ export class ContributorService {
             people: filters && filters.people ? filters.people : undefined
           }, {
             assistants: filters && filters.assistants ? filters.assistants : undefined
+          }, {
+            assistants: !this.authenticateService.isConnected ? true : undefined
+          }, {
+            assistants: !this.authenticateService.isConnected && filters && !filters.assistants ? false : undefined
           }]
         }
       }
