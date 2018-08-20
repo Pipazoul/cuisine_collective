@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import * as _ from 'lodash';
-import * as ol from 'openlayers';
+import * as ol from 'openlayers/dist/ol-debug';
 import { Router, NavigationEnd, ActivatedRoute, UrlSegmentGroup } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
@@ -21,7 +21,7 @@ import { ContributorEditionComponent } from './components/contributor-edition/co
 export class AppComponent implements OnInit, AfterViewInit {
   eventColor = '#6CCACC';
   contributorColor = '#F9A755';
-  selectedEventColor = '#FF5555';
+  selectedColor = '#FF5555';
 
   events: EventClass[];
   contributors: ContributorClass[];
@@ -34,14 +34,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   map: ol.Map;
 
   public showSidenav: boolean = false;
-  eventsFeatures: ol.Feature[];
+  publishedEventsFeatures: ol.Feature[];
+  notPublishedEventsFeatures: ol.Feature[];
   contributorsFeatures: ol.Feature[];
-  eventsMarkerSource: ol.source.Vector;
+  publishedEventsMarkerSource: ol.source.Vector;
+  notPublishedEventsMarkerSource: ol.source.Vector;
   contributorsMarkerSource: ol.source.Vector;
-  eventsLayer: ol.layer.Vector;
+  publishedEventsLayer: ol.layer.Vector;
+  notPublishedEventsLayer: ol.layer.Vector;
   contributorsLayer: ol.layer.Vector;
   selectInteraction: ol.interaction.Select;
   currentRouteWithNoSelection: ActivatedRoute;
+
 
   constructor(
     private router: Router,
@@ -64,11 +68,21 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  get eventStyle() {
+  get publishedEventStyle() {
     return new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
         color: this.eventColor,
-        src: 'assets/pin.png',
+        src: 'assets/location_on.png',
+        anchor: [0.5, 1]
+      }))
+    });
+  }
+
+  get notPublishedEventStyle() {
+    return new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+        color: this.eventColor,
+        src: 'assets/edit_location.png',
         anchor: [0.5, 1]
       }))
     });
@@ -78,17 +92,27 @@ export class AppComponent implements OnInit, AfterViewInit {
     return new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
         color: this.contributorColor,
-        src: 'assets/pin.png',
+        src: 'assets/location_on.png',
         anchor: [0.5, 1]
       }))
     });
   }
 
-  get selectedEventStyle() {
+  get selectedLocationPinStyle() {
     return new ol.style.Style({
       image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-        color: this.selectedEventColor,
-        src: 'assets/pin.png',
+        color: this.selectedColor,
+        src: 'assets/location_on.png',
+        anchor: [0.5, 1]
+      }))
+    });
+  }
+
+  get selectedEditLocationPinStyle() {
+    return new ol.style.Style({
+      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+        color: this.selectedColor,
+        src: 'assets/edit_location.png',
         anchor: [0.5, 1]
       }))
     });
@@ -153,10 +177,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
-      this.selectInteraction.getFeatures().push(this.eventsFeatures.find(x => x.get('id') === +next));
+      let featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === +next) || this.notPublishedEventsFeatures.find(x => x.get('object').id === +next);
+      this.selectInteraction.getFeatures().push(featureToSelect);
     }
     else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
-      this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('id') === +next));
+      this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('object').id === +next));
     }
   }
 
@@ -165,23 +190,32 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   initializeMap() {
-    this.eventsFeatures = this.events.map((event) =>
+    this.publishedEventsFeatures = this.events.filter(x => x.publish).map((event) =>
       new ol.Feature({
         geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        type: 'event',
-        id: event.id
+        object: event
       })
     );
 
-    this.eventsMarkerSource = new ol.source.Vector({
-      features: this.eventsFeatures
+    this.publishedEventsMarkerSource = new ol.source.Vector({
+      features: this.publishedEventsFeatures
+    });
+
+    this.notPublishedEventsFeatures = this.events.filter(x => !x.publish).map((event) =>
+      new ol.Feature({
+        geometry: new ol.geom.Point([event.longitude, event.latitude]),
+        object: event,
+      })
+    );
+
+    this.notPublishedEventsMarkerSource = new ol.source.Vector({
+      features: this.notPublishedEventsFeatures
     });
 
     this.contributorsFeatures = this.contributors.map((contributor) =>
       new ol.Feature({
         geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
-        type: 'contributor',
-        id: contributor.id
+        object: contributor
       })
     );
 
@@ -189,9 +223,14 @@ export class AppComponent implements OnInit, AfterViewInit {
       features: this.contributorsFeatures
     });
 
-    this.eventsLayer = new ol.layer.Vector({
-      source: this.eventsMarkerSource,
-      style: this.eventStyle,
+    this.publishedEventsLayer = new ol.layer.Vector({
+      source: this.publishedEventsMarkerSource,
+      style: this.publishedEventStyle,
+    });
+
+    this.notPublishedEventsLayer = new ol.layer.Vector({
+      source: this.notPublishedEventsMarkerSource,
+      style: this.notPublishedEventStyle,
     });
 
     this.contributorsLayer = new ol.layer.Vector({
@@ -202,7 +241,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.selectInteraction = new ol.interaction.Select(
       {
         multi: false,
-        style: this.selectedEventStyle,
+        style: (feature: (ol.Feature | ol.render.Feature), resolution: number) => {
+          if(feature.getProperties().object instanceof EventClass && !feature.getProperties().object.publish) {
+            return this.selectedEditLocationPinStyle;
+          }
+          return this.selectedLocationPinStyle;
+        },
         hitTolerance: 10
       }
     );
@@ -212,7 +256,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         new ol.layer.Tile({
           source: new ol.source.OSM()
         }),
-        this.eventsLayer,
+        this.publishedEventsLayer,
+        this.notPublishedEventsLayer,
         this.contributorsLayer,
       ],
       target: this.mapElement.nativeElement,
@@ -232,20 +277,15 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
-
       if (e.selected && e.target.getFeatures().item(0)) {
-
-        if (e.target.getFeatures().item(0).get('type') === 'event') {
-
-          this.router.navigate([...this.routingUrls.events, e.target.getFeatures().item(0).getProperties().id]);
+        if (e.target.getFeatures().item(0).get('object') instanceof EventClass) {
+          this.router.navigate([...this.routingUrls.events, e.target.getFeatures().item(0).getProperties().object.id]);
         }
-        else if (e.target.getFeatures().item(0).get('type') === 'contributor') {
-
-          this.router.navigate([...this.routingUrls.contributors, e.target.getFeatures().item(0).getProperties().id]);
+        else if (e.target.getFeatures().item(0).get('object') instanceof ContributorClass) {
+          this.router.navigate([...this.routingUrls.contributors, e.target.getFeatures().item(0).getProperties().object.id]);
         }
       }
       else {
-
         this.router.navigate(this.routingUrls.root);
       }
     });
@@ -266,14 +306,19 @@ export class AppComponent implements OnInit, AfterViewInit {
     if (elementRef instanceof EventEditionComponent || elementRef instanceof ContributorEditionComponent) {
       elementRef.removePoint.subscribe(params => {
         if (params.type === EventClass) {
-          _.each(this.eventsLayer.getSource().getFeatures(), feature => {
-            if (feature.get('id') === params.id) {
-              this.eventsLayer.getSource().removeFeature(feature);
+          _.each(this.publishedEventsLayer.getSource().getFeatures(), feature => {
+            if (feature.get('object').id === params.id) {
+              this.publishedEventsLayer.getSource().removeFeature(feature);
+            }
+          });
+          _.each(this.notPublishedEventsLayer.getSource().getFeatures(), feature => {
+            if (feature.get('object').id === params.id) {
+              this.notPublishedEventsLayer.getSource().removeFeature(feature);
             }
           });
         } else if (params.type === ContributorClass) {
           _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
-            if (feature.get('id') === params.id) {
+            if (feature.get('object').id === params.id) {
               this.contributorsLayer.getSource().removeFeature(feature);
             }
           });
@@ -285,10 +330,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onPrimaryRouterDeactivate(component) {
-    if(component instanceof EventEditionComponent && component.saved) {
+    if (component instanceof EventEditionComponent && component.saved) {
       const event = this.events.find(x => x.id === component.event.id);
       const index = this.events.indexOf(event);
-      if(event) {
+      if (event) {
         this.events.splice(index, 1, component.event)
       }
       else {
@@ -298,10 +343,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.redrawEvents(this.events);
     }
 
-    if(component instanceof ContributorEditionComponent && component.saved) {
+    if (component instanceof ContributorEditionComponent && component.saved) {
       const contributor = this.contributors.find(x => x.id === component.contributor.id);
       const index = this.contributors.indexOf(contributor);
-      if(contributor) {
+      if (contributor) {
         this.contributors.splice(index, 1, component.contributor)
       }
       else {
@@ -310,7 +355,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
       this.redrawContributors(this.contributors);
     }
-    
+
     this.showSidenav = false;
   }
 
@@ -341,17 +386,29 @@ export class AppComponent implements OnInit, AfterViewInit {
    * @param events list of new events to draw
    */
   redrawEvents(events) {
-    // Removing all previous features of eventLayer
-    _.each(this.eventsLayer.getSource().getFeatures(), feature => {
-      this.eventsLayer.getSource().removeFeature(feature);
+    // Removing all previous features of publishedEventsLayer
+    _.each(this.publishedEventsLayer.getSource().getFeatures(), feature => {
+      this.publishedEventsLayer.getSource().removeFeature(feature);
     });
 
-    // Adding all new features (events) of eventLayer
-    events.map((event) =>
-      this.eventsLayer.getSource().addFeature(new ol.Feature({
+    // Removing all previous features of notPublishedEventsLayer
+    _.each(this.notPublishedEventsLayer.getSource().getFeatures(), feature => {
+      this.notPublishedEventsLayer.getSource().removeFeature(feature);
+    });
+
+    // Adding all new features (events) of publishedEventsLayer
+    events.filter(x => x.publish).map((event) =>
+      this.publishedEventsLayer.getSource().addFeature(new ol.Feature({
         geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        type: 'event',
-        id: event.id
+        object: event,
+      }))
+    );
+
+    // Adding all new features (events) of notPublishedEventsLayer
+    events.filter(x => !x.publish).map((event) =>
+      this.notPublishedEventsLayer.getSource().addFeature(new ol.Feature({
+        geometry: new ol.geom.Point([event.longitude, event.latitude]),
+        object: event,
       }))
     );
   }
@@ -370,8 +427,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     contributors.map((contributor) =>
       this.contributorsLayer.getSource().addFeature(new ol.Feature({
         geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
-        type: 'contributor',
-        id: contributor.id
+        object: contributor
       }))
     );
   }
