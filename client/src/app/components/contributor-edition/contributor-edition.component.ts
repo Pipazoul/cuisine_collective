@@ -2,21 +2,23 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { ContributorClass } from '../../domain/contributor.class';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContributorService } from '../../services/contributor.service';
+import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
 
 @Component({
   selector: 'app-contributor-edition',
   templateUrl: './contributor-edition.component.html',
   styleUrls: ['./contributor-edition.component.css']
 })
-export class ContributorEditionComponent implements OnInit {
+export class ContributorEditionComponent extends RepresentedOnMapComponent  implements OnInit {
 
-  @Output() removePoint: EventEmitter<any> = new EventEmitter();
   public contributor: ContributorClass = new ContributorClass();
   public saved: boolean;
 
   constructor(private router: Router,
   private route: ActivatedRoute,
-  private contributorService: ContributorService) { }
+  private contributorService: ContributorService) {
+    super();
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {

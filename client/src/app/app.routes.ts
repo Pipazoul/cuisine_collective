@@ -61,6 +61,9 @@ const ROUTES: Routes = [{
       component: AddElementComponent,
     }, {
       path: 'events/:id',
+      component: EventComponent,
+    }, {
+      path: 'events/:id/edit',
       component: EventEditionComponent,
     },
     {
@@ -69,7 +72,10 @@ const ROUTES: Routes = [{
     },
     {
       path: 'contributors/:id',
-      component: ContributorEditionComponent
+      component: ContributorComponent
+    }, {
+      path: 'contributors/:id/edit',
+      component: ContributorEditionComponent,
     },
     {
       path: 'contributors',

@@ -1,6 +1,10 @@
 <div fxFlex fxLayout="column" class="carousel-element">
   <ng-container *ngIf="contributor">
     <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
+      <div>
+        <i *ngIf="authService.isConnected" class="material-icons clickable" (click)="modifyContributor(contributor.id)" title="Modifier">settings</i>
+        <i *ngIf="authService.isConnected" class="material-icons clickable" (click)="deleteContributor(contributor.id)" title="Supprimer">delete</i>
+      </div>
       <span>{{contributor.title | uppercase}}</span>
       <button type="button" mat-icon-button [routerLink]="'/admin'">
         <mat-icon>close</mat-icon>

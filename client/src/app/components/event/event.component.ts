@@ -1,20 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { EventClass } from '../../domain/event.class';
+import { AuthenticationService } from '../../services/authentication.service';
+import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
 
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css']
 })
-export class EventComponent implements OnInit {
+export class EventComponent extends RepresentedOnMapComponent  implements OnInit {
 
   event: EventClass;
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService) { }
+    private eventService: EventService,
+    private router: Router,
+    public authService: AuthenticationService) {
+    super();
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -26,4 +32,16 @@ export class EventComponent implements OnInit {
     });
   }
 
+  deleteEvent(eventId) {
+    this.eventService.delete(eventId).subscribe(res => {
+      this.removePoint.emit({type: EventClass, id: eventId});
+      this.router.navigate(['/admin']);
+    }, err => {
+      console.error(err);
+    })
+  }
+
+  modifyEvent(eventId) {
+    this.router.navigate(['admin', 'events', eventId, 'edit']);
+  }
 }

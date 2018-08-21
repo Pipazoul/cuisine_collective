@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 import { ArrayUtils } from './util/ArrayUtils';
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
+import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 
 @Component({
   selector: 'app-root',
@@ -429,7 +430,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.showSidenav = true;
 
     // Event filter of the sidenav
-    if (elementRef instanceof EventEditionComponent || elementRef instanceof ContributorEditionComponent) {
+    if (elementRef instanceof RepresentedOnMapComponent) {
       elementRef.removePoint.subscribe(params => {
         if (params.type === EventClass) {
           _.each(this.publishedEventsLayer.getSource().getFeatures(), feature => {

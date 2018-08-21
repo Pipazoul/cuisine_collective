@@ -4,15 +4,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { forkJoin } from 'rxjs';
 import { ContributorClass } from '../../domain/contributor.class';
+import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
 
 @Component({
   selector: 'app-event-edition',
   templateUrl: './event-edition.component.html',
   styleUrls: ['./event-edition.component.css']
 })
-export class EventEditionComponent implements OnInit {
+export class EventEditionComponent extends RepresentedOnMapComponent  implements OnInit {
 
-  @Output() removePoint: EventEmitter<any> = new EventEmitter();
   public event: EventClass;
   public saved: boolean;
 
@@ -21,6 +21,7 @@ export class EventEditionComponent implements OnInit {
     private route: ActivatedRoute,
     private eventService: EventService
   ) {
+    super();
     if (!this.route.snapshot.params['id']) {
       this.event = new EventClass();
     }
