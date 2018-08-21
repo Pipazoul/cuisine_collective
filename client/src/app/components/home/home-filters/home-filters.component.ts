@@ -21,7 +21,7 @@ export class HomeFiltersComponent implements OnInit {
   public regularToggle: boolean = false;
 
   // Assistants' filters
-  public assistantsToggle: boolean = true;
+  public assistantsToggle: boolean = false;
 
   constructor() { }
 

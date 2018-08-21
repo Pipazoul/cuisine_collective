@@ -20,7 +20,7 @@ import { ContributorEditionComponent } from './components/contributor-edition/co
 })
 export class AppComponent implements OnInit, AfterViewInit {
   eventColor = '#6CCACC';
-  contributorColor = '#F9A755';
+  contributorColor = '#0D70CD';
   selectedColor = '#FF5555';
 
   events: EventClass[];
@@ -283,6 +283,34 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
+  unloadFileredEventOrContributor() {
+    const currentUrl = this.router.parseUrl(this.router.url).root.children.primary;
+
+    this.selectInteraction.getFeatures().clear();
+
+    let pathToCompare;
+    let next;
+    if (this.authenticationService.isConnected) {
+      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 2);
+      next = currentUrl.segments[2];
+    }
+    else {
+      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 1);
+      next = currentUrl.segments[1];
+    }
+
+    if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
+      if(this.events.find(x => x.id === +next)) {
+        this.router.navigate(this.routingUrls.root);
+      }
+    }
+    else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
+      if(this.contributors.find(x => x.id === +next)) {
+        this.router.navigate(this.routingUrls.root);
+      }
+    }
+  }
+
   initializeData() {
     return zip(this.eventService.getAll(), this.contributorService.getAll());
   }
@@ -465,6 +493,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
+        this.unloadFileredEventOrContributor();
         this.redrawEvents(events);
       });
     }, err => {
@@ -472,6 +501,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
+        this.unloadFileredEventOrContributor();
         this.redrawContributors(contributors);
       });
     }, err => {
