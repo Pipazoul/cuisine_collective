@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 import { ArrayUtils } from './util/ArrayUtils';
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
+import { resolve } from '../../node_modules/@types/q';
 
 @Component({
   selector: 'app-root',
@@ -45,6 +46,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   contributorsLayer: ol.layer.Vector;
   selectInteraction: ol.interaction.Select;
   currentRouteWithNoSelection: ActivatedRoute;
+  _publishedEventStyle: ol.style.Style;
+  _notPublishedEventStyle: ol.style.Style;
+  _contributorStyle: ol.style.Style;
+  _selectedLocationPinStyle: ol.style.Style;
+  _selectedEditLocationPinStyle: ol.style.Style;
 
 
   constructor(
@@ -66,56 +72,149 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.contributorService.getAssistants().subscribe(contributors => this.redrawContributors(contributors));
       }
     });
+
+    //Eagerly load styles to avoid rendering bugs when selecting a feature for the first time
+    this.publishedEventStyle;
+    this.notPublishedEventStyle;
+    this.contributorStyle;
+    this.selectedLocationPinStyle;
+    this.selectedEditLocationPinStyle;
   }
 
   get publishedEventStyle() {
-    return new ol.style.Style({
-      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-        color: this.eventColor,
-        src: 'assets/location_on.png',
-        anchor: [0.5, 1]
-      }))
-    });
+    if (!this._publishedEventStyle) {
+      let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.eventColor);
+
+      this._publishedEventStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+          img: canvas,
+          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
+          anchor: [0.5, 1]
+        }))
+      });
+    }
+    return this._publishedEventStyle;
   }
 
   get notPublishedEventStyle() {
-    return new ol.style.Style({
-      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-        color: this.eventColor,
-        src: 'assets/edit_location.png',
-        anchor: [0.5, 1]
-      }))
-    });
+    if (!this._notPublishedEventStyle) {
+      let canvas = this.addWhiteOutlineToMarker('assets/edit_location.svg', this.eventColor);
+
+      this._notPublishedEventStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+          img: canvas,
+          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
+          anchor: [0.5, 1]
+        }))
+      });
+    }
+    return this._notPublishedEventStyle;
   }
 
   get contributorStyle() {
-    return new ol.style.Style({
-      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-        color: this.contributorColor,
-        src: 'assets/location_on.png',
-        anchor: [0.5, 1]
-      }))
-    });
+    if (!this._contributorStyle) {
+      let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.contributorColor);
+
+      this._contributorStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+          img: canvas,
+          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
+          anchor: [0.5, 1]
+        }))
+      });
+    }
+    return this._contributorStyle;
   }
 
   get selectedLocationPinStyle() {
-    return new ol.style.Style({
-      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-        color: this.selectedColor,
-        src: 'assets/location_on.png',
-        anchor: [0.5, 1]
-      }))
-    });
+    if (!this._selectedLocationPinStyle) {
+      let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.selectedColor);
+
+      this._selectedLocationPinStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+          img: canvas,
+          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
+          anchor: [0.5, 1]
+        }))
+      });
+    }
+    return this._selectedLocationPinStyle;
   }
 
   get selectedEditLocationPinStyle() {
-    return new ol.style.Style({
-      image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-        color: this.selectedColor,
-        src: 'assets/edit_location.png',
-        anchor: [0.5, 1]
-      }))
+    if (!this._selectedEditLocationPinStyle) {
+      let canvas = this.addWhiteOutlineToMarker('assets/edit_location.svg', this.selectedColor);
+
+      this._selectedEditLocationPinStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+          img: canvas,
+          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
+          anchor: [0.5, 1]
+        }))
+      });
+    }
+    return this._selectedEditLocationPinStyle;
+  }
+
+  /**
+   * Adds a white outline to a given marker with a given color
+   * 
+   * @param src URL of the marker SVG file
+   * @param color Color of the marker
+   */
+  addWhiteOutlineToMarker(src, color) {
+    //Initialize canvas
+    var canvas = document.createElement('canvas');
+    canvas.height = 80;
+    canvas.width = 80;
+    var ctx = canvas.getContext('2d');
+
+    //Initialize images
+    var markerImage = new Image();
+    var backgroundImage = new Image();
+    
+    //Load marker image
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", src);
+    xhr.send();
+    xhr.onload = () => {
+      var svg = xhr.responseXML.documentElement;
+      svg.getElementsByTagName('path')[0].setAttribute('fill', color);
+      markerImage.src = 'data:image/svg+xml;base64,' + btoa(svg.outerHTML);
+    };
+
+    //Load background image
+    var xhr2 = new XMLHttpRequest();
+    xhr2.open("GET", 'assets/marker_background.svg');
+    xhr2.send();
+    xhr2.onload = () => {
+      var svg = xhr2.responseXML.documentElement;
+      backgroundImage.src = 'data:image/svg+xml;base64,' + btoa(svg.outerHTML);
+    };
+
+    //Wrap markerImage.onload into a Promise
+    var markerImageLoaded = new Promise((resolve, reject) => {
+      markerImage.onload = () => {
+        resolve();
+      };
     });
+    
+    //Wrap backgroundImage.onload into a Promise
+    var backgroundImageLoaded = new Promise((resolve, reject) => {
+      backgroundImage.onload = () => {
+        resolve();
+      };
+    });
+
+    //Draw canvas
+    Promise.all([markerImageLoaded, backgroundImageLoaded]).then(() => {
+      ctx.drawImage(backgroundImage, 0, 0);
+      ctx.globalCompositeOperation = "source-over";
+      //x offset: (88 - 72) / 2
+      //y offset: (88 - 72) * 0.38 because the center of the circle is approximately at 38% height from the top
+      ctx.drawImage(markerImage, 8, 6);
+    });
+    return canvas;
   }
 
   get routingUrls() {
@@ -242,7 +341,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       {
         multi: false,
         style: (feature: (ol.Feature | ol.render.Feature), resolution: number) => {
-          if(feature.getProperties().object instanceof EventClass && !feature.getProperties().object.publish) {
+          if (feature.getProperties().object instanceof EventClass && !feature.getProperties().object.publish) {
             return this.selectedEditLocationPinStyle;
           }
           return this.selectedLocationPinStyle;
