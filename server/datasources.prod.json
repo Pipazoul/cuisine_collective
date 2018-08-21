@@ -1,0 +1,12 @@
+{
+  "db": {
+    "host": "cc-db",
+    "port": 5432,
+    "database": "cuisine_collective_dev",
+    "password": "cuisine_collective_dev",
+    "name": "db",
+    "user": "cuisine_collective_dev",
+    "connector": "postgresql",
+    "schema": "cuisine_collective_dev"
+  }
+}

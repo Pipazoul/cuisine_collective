@@ -1,0 +1,17 @@
+FROM node:9.4.0-stretch
+
+# Install pm2 so we can run our application
+RUN npm i -g pm2
+
+# Add application files
+ADD ./server /applis/cuisine_collective/server
+ADD ./node_modules /applis/cuisine_collective/node_modules
+
+#Expose the port
+EXPOSE 3000
+
+COPY ./server/common.sh /
+COPY ./server/docker-entrypoint.sh /
+RUN chmod 755 /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
