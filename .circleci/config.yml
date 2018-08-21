@@ -1,0 +1,51 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-javascript/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:8.9.4-stretch
+      
+    branches:
+        only:
+          - master
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - run:
+          name: update-npm
+          command: 'sudo npm install -g npm@latest'
+      - run:
+          name: angular-cli
+          command: 'sudo npm install -g --unsafe-perm @angular/cli@latest'
+      - run:
+          name: install-npm-server
+          command: npm install
+      - run:
+          name: install-npm-client
+          command: cd client && npm install
+      - run:
+          name: build front
+          command: |
+            cd client && ng build --prod
+      - setup_remote_docker:   
+          docker_layer_caching: true 
+      - run: |
+          TAG=0.1.$CIRCLE_BUILD_NUM
+              docker build -t $DOCKER_REPO_PROD:server_latest -f server/Dockerfile-prod .
+              docker build -t $DOCKER_REPO_PROD:client_latest -f client/Dockerfile-prod .
+              docker build -t $DOCKER_REPO_PROD:base_latest -f base/Dockerfile-prod .
+              docker login -u $DOCKER_USER -p $DOCKER_PASS
+              docker push $DOCKER_REPO_PROD:server_latest
+              docker push $DOCKER_REPO_PROD:client_latest
+              docker push $DOCKER_REPO_PROD:base_latest

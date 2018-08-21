@@ -1,0 +1,6 @@
+FROM postgres:9.6.4
+
+# Scripts used to initialized DB
+ADD ./base/scripts/1-create_user.sql /docker-entrypoint-initdb.d/
+ADD ./base/scripts/2-create-database.sql /docker-entrypoint-initdb.d/
+ADD ./base/scripts/3-create_schema.sql /docker-entrypoint-initdb.d/
