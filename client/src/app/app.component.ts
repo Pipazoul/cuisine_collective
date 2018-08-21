@@ -1,6 +1,6 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import * as _ from 'lodash';
-import * as ol from 'openlayers/dist/ol-debug';
+import * as ol from 'openlayers';
 import { Router, NavigationEnd, ActivatedRoute, UrlSegmentGroup } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
@@ -12,7 +12,6 @@ import { filter } from 'rxjs/operators';
 import { ArrayUtils } from './util/ArrayUtils';
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
-import { resolve } from '../../node_modules/@types/q';
 
 @Component({
   selector: 'app-root',
@@ -55,7 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
-    private activatedRoute: ActivatedRoute,
     private eventService: EventService,
     private contributorService: ContributorService,
     private authenticationService: AuthenticationService
@@ -161,8 +159,9 @@ export class AppComponent implements OnInit, AfterViewInit {
    * 
    * @param src URL of the marker SVG file
    * @param color Color of the marker
+   * @returns The canvas to render
    */
-  addWhiteOutlineToMarker(src, color) {
+  addWhiteOutlineToMarker(src: string, color: string): HTMLCanvasElement {
     //Initialize canvas
     var canvas = document.createElement('canvas');
     canvas.height = 80;
