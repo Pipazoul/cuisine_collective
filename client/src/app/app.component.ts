@@ -172,7 +172,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     //Initialize images
     var markerImage = new Image();
     var backgroundImage = new Image();
-    
+
     //Load marker image
     var xhr = new XMLHttpRequest();
     xhr.open("GET", src);
@@ -198,7 +198,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         resolve();
       };
     });
-    
+
     //Wrap backgroundImage.onload into a Promise
     var backgroundImageLoaded = new Promise((resolve, reject) => {
       backgroundImage.onload = () => {
@@ -284,30 +284,33 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
-  unloadFileredEventOrContributor() {
+  unloadFilteredEventOrContributor() {
     const currentUrl = this.router.parseUrl(this.router.url).root.children.primary;
+    if (currentUrl) {
 
-    this.selectInteraction.getFeatures().clear();
+      this.selectInteraction.getFeatures().clear();
 
-    let pathToCompare;
-    let next;
-    if (this.authenticationService.isConnected) {
-      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 2);
-      next = currentUrl.segments[2];
-    }
-    else {
-      pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 1);
-      next = currentUrl.segments[1];
-    }
+      let pathToCompare;
+      let next;
 
-    if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
-      if(this.events.find(x => x.id === +next)) {
-        this.router.navigate(this.routingUrls.root);
+      if (this.authenticationService.isConnected) {
+        pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 2);
+        next = currentUrl.segments[2];
       }
-    }
-    else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
-      if(this.contributors.find(x => x.id === +next)) {
-        this.router.navigate(this.routingUrls.root);
+      else {
+        pathToCompare = currentUrl.segments.map(x => x.path).slice(0, 1);
+        next = currentUrl.segments[1];
+      }
+
+      if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
+        if (this.events.find(x => x.id === +next)) {
+          this.router.navigate(this.routingUrls.root);
+        }
+      }
+      else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
+        if (this.contributors.find(x => x.id === +next)) {
+          this.router.navigate(this.routingUrls.root);
+        }
       }
     }
   }
@@ -494,7 +497,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
-        this.unloadFileredEventOrContributor();
+        this.unloadFilteredEventOrContributor();
         this.redrawEvents(events);
       });
     }, err => {
@@ -502,7 +505,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
-        this.unloadFileredEventOrContributor();
+        this.unloadFilteredEventOrContributor();
         this.redrawContributors(contributors);
       });
     }, err => {
