@@ -6,7 +6,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { UnauthGuard } from './guards/unauth.guard';
 
 // Components
-import { HomeComponent } from './components/home/home.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { HomeFiltersComponent } from './components/home/home-filters/home-filters.component';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
@@ -28,20 +27,10 @@ const ROUTES: Routes = [{
       path: 'events/:id',
       canActivate: [UnauthGuard],
       component: EventComponent
-    }
-  ]
-}, {
-  path: 'contributors/:id',
-  canActivate: [UnauthGuard],
-  children: [
-    {
-      path: '',
-      component: ContributorComponent,
-      outlet: "primary"
     }, {
-      path: '',
-      component: HomeFiltersComponent,
-      outlet: "sidenav"
+      path: 'contributors/:id',
+      canActivate: [UnauthGuard],
+      component: ContributorComponent
     }
   ]
 }, {

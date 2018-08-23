@@ -63,8 +63,6 @@ export class ContributorService {
             assistants: !this.authenticateService.isConnected ? true : undefined
           }, {
             assistants: !this.authenticateService.isConnected && filters && filters.assistants ? filters.assistants : false
-            //old Condition
-            //assistants: !this.authenticateService.isConnected && filters && !filters.assistants ? false : undefined
           }]
         }
       }

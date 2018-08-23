@@ -68,7 +68,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (connected === true) {
         this.contributorService.getAll().subscribe(contributors => this.redrawContributors(contributors));
       } else if (connected === false) {
-        this.contributorService.getAssistants().subscribe(contributors => this.redrawContributors(contributors));
+        // We don't load any contributor
+        this.redrawContributors([]);
       }
     });
 
@@ -303,12 +304,12 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
 
       if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
-        if (this.events.find(x => x.id === +next)) {
+        if (!this.events.find(x => x.id === +next)) {
           this.router.navigate(this.routingUrls.root);
         }
       }
       else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
-        if (this.contributors.find(x => x.id === +next)) {
+        if (!this.contributors.find(x => x.id === +next)) {
           this.router.navigate(this.routingUrls.root);
         }
       }
@@ -497,16 +498,32 @@ export class AppComponent implements OnInit, AfterViewInit {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
+        this.events = events;
         this.unloadFilteredEventOrContributor();
         this.redrawEvents(events);
+
+        this.publishedEventsFeatures = events.filter(x => x.publish).map((event) =>
+          new ol.Feature({
+            geometry: new ol.geom.Point([event.longitude, event.latitude]),
+            object: event
+          })
+        );
       });
     }, err => {
       console.error(err);
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
+        this.contributors = contributors;
         this.unloadFilteredEventOrContributor();
         this.redrawContributors(contributors);
+
+        this.contributorsFeatures = contributors.map((contributor) =>
+          new ol.Feature({
+            geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+            object: contributor
+          })
+        );
       });
     }, err => {
       console.error(err);
