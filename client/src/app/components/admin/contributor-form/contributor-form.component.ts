@@ -66,7 +66,7 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
       'address': addressCtrl,
       'hours': new FormControl(this.contributor.hours),
       'email': new FormControl(this.contributor.email, Validators.email),
-      'phone': new FormControl(this.contributor.phone, Validators.pattern(CustomRegExp.PHONE))
+      'phone': new FormControl(this.contributor.phone)
     });
   }
 

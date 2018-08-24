@@ -35,7 +35,7 @@ export class EventFormComponent extends AbstractEventModifier implements OnInit,
       'planner': new FormControl(this.event.planner),
       'referent': new FormControl(this.event.referent),
       'email': new FormControl(this.event.email, Validators.email),
-      'phone': new FormControl(this.event.phone, Validators.pattern(CustomRegExp.PHONE)),
+      'phone': new FormControl(this.event.phone),
       'url': new FormControl(this.event.url, Validators.pattern(CustomRegExp.URL)),
     });
   }
