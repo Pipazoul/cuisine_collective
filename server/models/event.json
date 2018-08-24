@@ -55,7 +55,7 @@
     },
     "phone": {
       "type": "string",
-      "length": 10,
+      "length": 20,
       "postgresql": {
         "dataType": "character varying"
       }
