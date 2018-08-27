@@ -767,12 +767,13 @@ export class AppComponent implements OnInit, AfterViewInit {
       }))
     );
 
-    this.sameLocationItemFeatures = this.sameLocationItems.map((item) =>
-      new ol.Feature({
+    this.sameLocationItemFeatures = this.sameLocationItems.map((item) => {
+      // TODO : Add overlay for the item list count
+      return new ol.Feature({
         geometry: new ol.geom.Point([item.longitude, item.latitude]),
         object: item
       })
-    );
+    });
   }
 
   filterItems() {
