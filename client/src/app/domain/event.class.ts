@@ -23,6 +23,7 @@ export class EventClass {
     public partnerInformations: string;
     public eat: boolean = false;
     public cook: boolean = false;
+    public inscription: boolean = false;
     /* public public: boolean = false; */
     // All about location from API
     public locationCity: string;

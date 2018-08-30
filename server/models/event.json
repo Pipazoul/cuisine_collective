@@ -126,6 +126,11 @@
       "required": true,
       "default": false
     },
+    "inscription": {
+      "type": "boolean",
+      "required": true,
+      "default": false
+    },
     "locationCity": {
       "type": "string",
       "length": 50,
