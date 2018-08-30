@@ -1,7 +1,7 @@
 <div class="overflowable">
   <form [formGroup]="eventMissingForm" (ngSubmit)="submitForm(eventMissingForm.value)" fxLayout="column" class="sidenav-body">
 
-    <h4 class="subtitle">Les ressources et partenaires manquants</h4>
+    <h4 class="subtitle">Mes besoins pour organiser l'évènement</h4>
 
     <div fxLayout="column" fxLayoutAlign="space-between center">
       <div fxFlexFill fxLayout="row">
@@ -14,7 +14,7 @@
         <label class="services services-event" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
           <input type="checkbox" formControlName="missingFood">
           <i class="material-icons">shopping_cart</i>
-          Des fournisseurs
+          Des aliments
         </label>
       </div>
 
@@ -44,19 +44,21 @@
     </mat-form-field>
 
     <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-button type="button" class="next-button background-red" fxFlex="36" (click)="submitForm(eventMissingForm.value, true)">
+      <button mat-button type="button" fxFlex="50" class="next-button background-red" (click)="submitForm(eventMissingForm.value, true)">
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <button mat-button type="submit" class="next-button background-red" fxFlex="36" [disabled]="eventMissingForm.invalid">
-        Organiser
+      <button mat-button type="submit" fxFlex="50" class="next-button background-red" [disabled]="eventMissingForm.invalid">
+        Enregistrer
         <mat-icon>settings</mat-icon>
       </button>
-      <button mat-button type="button" class="next-button background-blue-light" fxFlex="28" [disabled]="eventMissingForm.invalid"
-        (click)="publish(eventMissingForm.value)">
-        Publier
-        <mat-icon>arrow_forward</mat-icon>
-      </button>
     </div>
+      
+    <br>
+    <button mat-button type="button" class="next-button background-blue-light" fxFlex="28" [disabled]="eventMissingForm.invalid"
+      (click)="publish(eventMissingForm.value)">
+      L'événement est prêt : le publier
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
   </form>
 </div>

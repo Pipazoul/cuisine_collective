@@ -1,6 +1,6 @@
 <div class="left-content" fxLayout="column">
   <div class="content-title bold">
-    Filtrer ma recherche
+    Filtrer les évènements
   </div>
   <mat-accordion multi="true">
     <mat-expansion-panel>
@@ -85,7 +85,7 @@
         <div fxLayout="row" class="full-width">
           <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
             <input type="checkbox" [(ngModel)]="missingSkills" (change)="applyEventsFilters()">
-            <i class="material-icons">school</i>Des compétences
+            <i class="material-icons">school</i>Des professionnels
           </label>
           <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
             <input type="checkbox" [(ngModel)]="missingPeople" (change)="applyEventsFilters()">
@@ -126,7 +126,7 @@
         <div fxLayout="row" class="full-width">
           <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
             <input type="checkbox" [(ngModel)]="skills" (change)="applyContributorsFilters()">
-            <i class="material-icons">school</i>Des compétences
+            <i class="material-icons">school</i>Des professionnels
           </label>
           <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
             <input type="checkbox" [(ngModel)]="people" (change)="applyContributorsFilters()">
