@@ -204,6 +204,41 @@
       "type": "boolean",
       "required": true,
       "default": false
+    },
+    "monday": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "tuesday": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "wednesday": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "thursday": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "friday": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "saturday": {
+      "type": "boolean",
+      "required": true,
+      "default": true
+    },
+    "sunday": {
+      "type": "boolean",
+      "required": true,
+      "default": true
     }
   },
   "validations": [],
