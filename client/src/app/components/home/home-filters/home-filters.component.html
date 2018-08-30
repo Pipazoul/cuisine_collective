@@ -1,6 +1,6 @@
 <div class="left-content" fxLayout="column">
   <div class="content-title bold">
-    Filtrer ma recherche
+    Filtrer les évènements
   </div>
   <div class="filters-container" fxLayout="column" fxLayoutAlign="start center">
     <div class="section-header">
@@ -13,13 +13,13 @@
       </div>
       <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
         <mat-form-field>
-          <input matInput autocomplete="new-password" [matDatepicker]="startPicker" placeholder="Date de départ" [(ngModel)]="startDate"
+          <input matInput autocomplete="new-password" [matDatepicker]="startPicker" placeholder="A partir de" [(ngModel)]="startDate"
             (blur)="applyEventsFilters()">
           <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
           <mat-datepicker #startPicker (closed)="applyEventsFilters()"></mat-datepicker>
         </mat-form-field>
         <mat-form-field>
-          <input matInput autocomplete="new-password" [matDatepicker]="endPicker" placeholder="Date d'arrivée" [(ngModel)]="endDate"
+          <input matInput autocomplete="new-password" [matDatepicker]="endPicker" placeholder="Jusqu'au" [(ngModel)]="endDate"
             (blur)="applyEventsFilters()">
           <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
           <mat-datepicker #endPicker (closed)="applyEventsFilters()"></mat-datepicker>
@@ -38,13 +38,13 @@
         <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
           <label for="eat-input">Manger ensemble</label>
           <label for="cook-input">Cuisiner ensemble</label>
-          <label for="public-input">Tout public</label>
+          <!-- <label for="public-input">Tout public</label> -->
           <label for="regular-input">Récurrent</label>
         </div>
         <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
           <mat-slide-toggle id="eat" [(ngModel)]="eatToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
           <mat-slide-toggle id="cook" [(ngModel)]="cookToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
-          <mat-slide-toggle id="public" [(ngModel)]="publicToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
+          <!-- <mat-slide-toggle id="public" [(ngModel)]="publicToggle" (change)="applyEventsFilters()"></mat-slide-toggle> -->
           <mat-slide-toggle id="regular" [(ngModel)]="regularToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
         </div>
       </div>
