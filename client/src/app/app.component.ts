@@ -691,6 +691,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   redrawAll() {
+    this.selectInteraction.getFeatures().clear();
     this.filterItems();
     this.redrawPublishedEvents();
     this.redrawUnpublishedEvents();
