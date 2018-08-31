@@ -1,0 +1,10 @@
+<div fxLayout="row">
+  <button type="button" [class.disabled]="disabled" [class.selected]="value.MONDAY" (click)="toggleDay('MONDAY')">L</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value.TUESDAY" (click)="toggleDay('TUESDAY')">M</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value.WEDNESDAY" (click)="toggleDay('WEDNESDAY')">M</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value.THURSDAY" (click)="toggleDay('THURSDAY')">J</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value.FRIDAY" (click)="toggleDay('FRIDAY')">V</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value.SATURDAY" (click)="toggleDay('SATURDAY')">S</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value.SUNDAY" (click)="toggleDay('SUNDAY')">D</button>
+</div>
+
