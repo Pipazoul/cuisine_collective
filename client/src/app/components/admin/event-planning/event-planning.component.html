@@ -5,7 +5,7 @@
 
     <mat-radio-group fxLayout="column" fxLayoutGap="10px" (change)="selectionTypeChanged($event)">
       <form [formGroup]="oneDateForm" (ngSubmit)="submitForm()" fxLayout="column">
-        <mat-radio-button [value]="1">Choisir une date</mat-radio-button>
+        <mat-radio-button [value]="1" [checked]="oneDateFormSelected">Choisir une date</mat-radio-button>
         <mat-form-field>
           <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="minDate" [max]="oneDateForm.get('dateEnd').value"
             formControlName="dateStart" placeholder="Date de début de l'évènement">
@@ -21,7 +21,7 @@
           <mat-radio-button [value]="1">Jamais</mat-radio-button>
           <div>
             <mat-radio-button [value]="2">Le</mat-radio-button>
-            <mat-form-field>
+            <mat-form-field class="inline-input">
               <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="oneDateForm.get('dateStart').value || minDate"
                 formControlName="dateEnd" placeholder="Date de fin de l'évènement">
               <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
@@ -32,7 +32,7 @@
       </form>
       <mat-radio-button [value]="2">Choisir plusieurs dates</mat-radio-button>
       <form [formGroup]="dateRangeForm" (ngSubmit)="submitForm()" fxLayout="column">
-        <mat-radio-button [value]="3">Choisir une période</mat-radio-button>
+        <mat-radio-button [value]="3" [checked]="dateRangeFormSelected">Choisir une période</mat-radio-button>
         <mat-form-field>
           <input matInput autocomplete="new-password" [matDatepicker]="dateRangeStartPicker" [min]="minDate" [max]="dateRangeForm.get('dateEnd').value"
             formControlName="dateStart" placeholder="Date de début de l'évènement">
@@ -53,7 +53,7 @@
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <button mat-button type="submit" class="next-button background-red" fxFlex="50" [disabled]="oneDateForm.invalid">
+      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm()" [disabled]="currentForm.invalid">
         Suivant
         <mat-icon>arrow_forward</mat-icon>
       </button>
