@@ -77,13 +77,36 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (connected === true || connected === false) {
         this.eventService.getAll().subscribe(events => {
           this.events = events;
+          this.unloadFilteredEventOrContributor();
           this.redrawAll();
+
+          this.publishedEventsFeatures = events.filter(x => x.publish).map((event) =>
+            new ol.Feature({
+              geometry: new ol.geom.Point([event.longitude, event.latitude]),
+              object: event
+            })
+          );
+
+          this.notPublishedEventsFeatures = this.events.filter(x => !x.publish).map((event) =>
+            new ol.Feature({
+              geometry: new ol.geom.Point([event.longitude, event.latitude]),
+              object: event,
+            })
+          );
         });
       }
       if (connected === true) {
         this.contributorService.getAll().subscribe(contributors => {
           this.contributors = contributors;
+          this.unloadFilteredEventOrContributor();
           this.redrawAll();
+
+          this.contributorsFeatures = contributors.map((contributor) =>
+            new ol.Feature({
+              geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+              object: contributor
+            })
+          );
         });
       } else if (connected === false) {
         // We don't load any contributor
@@ -304,9 +327,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initializeData().subscribe(pair => {
-      this.events = pair[0];
-      this.contributors = pair[1];
+    this.initializeData().subscribe(([events, contributors]) => {
+      this.events = events;
+      this.contributors = contributors;
 
       // Compute items list of same coordinate elements
       this.filterItems();
@@ -668,6 +691,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   redrawAll() {
+    this.selectInteraction.getFeatures().clear();
     this.filterItems();
     this.redrawPublishedEvents();
     this.redrawUnpublishedEvents();

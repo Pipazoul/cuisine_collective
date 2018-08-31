@@ -13,6 +13,7 @@ export class AdminFiltersComponent implements OnInit {
   @Output() filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
 
   // Event's filters
+  public readonly today = new Date();
   public startDate: Date;
   public endDate: Date;
   public eatToggle: boolean = false;
