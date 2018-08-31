@@ -43,7 +43,7 @@
         </mat-form-field>
         <mat-form-field>
           <input matInput autocomplete="new-password" [matDatepicker]="dateRangeEndPicker" [min]="dateRangeForm.get('dateStart').value || minDate"
-            formControlName="dateStart" placeholder="Date de fin de l'évènement">
+            formControlName="dateEnd" placeholder="Date de fin de l'évènement">
           <mat-datepicker-toggle matSuffix [for]="dateRangeEndPicker"></mat-datepicker-toggle>
           <mat-datepicker #dateRangeEndPicker></mat-datepicker>
         </mat-form-field>

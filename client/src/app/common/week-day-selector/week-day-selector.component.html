@@ -1,10 +1,11 @@
 <div fxLayout="row">
-  <button type="button" [class.disabled]="disabled" [class.selected]="value.MONDAY" (click)="toggleDay('MONDAY')">L</button>
-  <button type="button" [class.disabled]="disabled" [class.selected]="value.TUESDAY" (click)="toggleDay('TUESDAY')">M</button>
-  <button type="button" [class.disabled]="disabled" [class.selected]="value.WEDNESDAY" (click)="toggleDay('WEDNESDAY')">M</button>
-  <button type="button" [class.disabled]="disabled" [class.selected]="value.THURSDAY" (click)="toggleDay('THURSDAY')">J</button>
-  <button type="button" [class.disabled]="disabled" [class.selected]="value.FRIDAY" (click)="toggleDay('FRIDAY')">V</button>
-  <button type="button" [class.disabled]="disabled" [class.selected]="value.SATURDAY" (click)="toggleDay('SATURDAY')">S</button>
-  <button type="button" [class.disabled]="disabled" [class.selected]="value.SUNDAY" (click)="toggleDay('SUNDAY')">D</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value[WeekDays.MONDAY]" (click)="toggleDay(WeekDays.MONDAY)">L</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value[WeekDays.TUESDAY]" (click)="toggleDay(WeekDays.TUESDAY)">M</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value[WeekDays.WEDNESDAY]" (click)="toggleDay(WeekDays.WEDNESDAY)">M</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value[WeekDays.THURSDAY]" (click)="toggleDay(WeekDays.THURSDAY)">J</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value[WeekDays.FRIDAY]" (click)="toggleDay(WeekDays.FRIDAY)">V</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value[WeekDays.SATURDAY]" (click)="toggleDay(WeekDays.SATURDAY)">S</button>
+  <button type="button" [class.disabled]="disabled" [class.selected]="value[WeekDays.SUNDAY]" (click)="toggleDay(WeekDays.SUNDAY)">D</button>
 </div>
+
 
