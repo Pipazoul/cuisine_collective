@@ -15,6 +15,13 @@ export class EventClass {
     public url: string;
     public dateStart: Date;
     public dateEnd: Date;
+    public monday: string;
+    public tuesday: string;
+    public wednesday: string;
+    public thursday: string;
+    public friday: string;
+    public saturday: string;
+    public sunday: string;
     public longitude: number;
     public latitude: number;
     public occurenceType: OccurenceType;
@@ -23,7 +30,7 @@ export class EventClass {
     public partnerInformations: string;
     public eat: boolean = false;
     public cook: boolean = false;
-    public public: boolean = false;
+    /* public public: boolean = false; */
     // All about location from API
     public locationCity: string;
     public locationCitycode: string;

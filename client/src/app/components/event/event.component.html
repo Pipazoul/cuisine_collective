@@ -20,8 +20,8 @@
         <div class="bold">Type d'évènement</div>
         <div>
           <span *ngIf="event.eat">manger ensemble, </span>
-          <span *ngIf="event.cook">cuisiner ensemble, </span>
-          <span *ngIf="event.public">tous publics</span>
+          <span *ngIf="event.cook">cuisiner ensemble </span>
+          <!-- <span *ngIf="event.public">tous publics</span> -->
         </div>
       </div>
       <div class="event-section">
@@ -51,6 +51,14 @@
           <div>{{event.locationHousenumber}} {{event.locationStreet}}</div>
           <div>{{event.locationPostcode}} {{event.locationCity}}</div>
         </div>
+      </div>
+      <div class="contributor-section">
+        <div class="bold">Autres informations</div>
+        <div class="text">{{event.informations}}</div>
+      </div>
+      <div *ngIf="authService.isConnected" class="contributor-section">
+        <div class="bold">Informations à destination des contributeurs</div>
+        <div class="text">{{event.partnerInformations}}</div>
       </div>
     </div>
 

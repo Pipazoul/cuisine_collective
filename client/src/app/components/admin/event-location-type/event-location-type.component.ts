@@ -61,8 +61,8 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
       'location': locationCtrl,
       'informations': new FormControl(this.event.informations),
       'eat': new FormControl(this.event.eat),
-      'cook': new FormControl(this.event.cook),
-      'public': new FormControl(this.event.public)
+      'cook': new FormControl(this.event.cook)
+      //'public': new FormControl(this.event.public)
     });
   }
 

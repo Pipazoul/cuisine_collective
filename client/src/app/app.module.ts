@@ -72,6 +72,7 @@ import { ContributorEditionComponent } from './components/contributor-edition/co
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { EventMissingComponent } from './components/admin/event-missing/event-missing.component';
 import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
+import { WeekDaySelectorComponent } from './common/week-day-selector/week-day-selector.component';
 
 /**
  * Function for settting the default restangular configuration
@@ -140,7 +141,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     EventContributorsComponent,
     ContributorEditionComponent,
     EventEditionComponent,
-    EventMissingComponent
+    EventMissingComponent,
+    WeekDaySelectorComponent
   ],
   entryComponents: [
     PopupSigninComponent,

@@ -17,7 +17,7 @@ export class HomeFiltersComponent implements OnInit {
   public endDate: Date;
   public eatToggle: boolean = false;
   public cookToggle: boolean = false;
-  public publicToggle: boolean = false;
+  /* public publicToggle: boolean = false; */
   public regularToggle: boolean = false;
 
   // Assistants' filters
@@ -32,7 +32,7 @@ export class HomeFiltersComponent implements OnInit {
     this.filterEvents.emit({
       eat: this.eatToggle,
       cook: this.cookToggle,
-      public: this.publicToggle,
+      /* public: this.publicToggle, */
       regular: this.regularToggle,
       startDate: this.startDate,
       endDate: this.endDate,

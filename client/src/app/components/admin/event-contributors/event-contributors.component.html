@@ -5,7 +5,7 @@
 
     <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'kitchen', colorClass: 'services-event', title: 'Un lieu', menuLabel:'Ajouter un lieu', contributors: contributors.location, contributorsForm: eventContributorsForm.get('location').value, maxItems: 1, add: addContributorLocation.bind(this), remove: removeContributorLocation.bind(this) }"></ng-container>
 
-    <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'shopping_cart', colorClass: 'services-event', title: 'Des fournisseurs', menuLabel:'Ajouter un fournisseur', contributors: contributors.food, contributorsForm: eventContributorsForm.get('food').value, add: addContributorFood.bind(this), remove: removeContributorFood.bind(this) }"></ng-container>
+    <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'shopping_cart', colorClass: 'services-event', title: 'Des aliments', menuLabel:'Ajouter un aliment', contributors: contributors.food, contributorsForm: eventContributorsForm.get('food').value, add: addContributorFood.bind(this), remove: removeContributorFood.bind(this) }"></ng-container>
 
     <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'school', colorClass: 'services-event', title: 'Des professionnels', menuLabel:'Ajouter un professionnel', contributors: contributors.skills, contributorsForm: eventContributorsForm.get('skills').value, add: addContributorSkills.bind(this), remove: removeContributorSkills.bind(this) }"></ng-container>
 

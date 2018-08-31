@@ -64,9 +64,9 @@ export class EventService {
             eat: filters && filters.eat ? filters.eat : undefined
           }, {
             cook: filters && filters.cook ? filters.cook : undefined
-          }, {
+          }, /* {
             public: filters && filters.public ? filters.public : undefined
-          }, {
+          },  */{
             missingLocation: filters && filters.missingLocation ? true : undefined
           }, {
             missingFood: filters && filters.missingFood ? true : undefined
@@ -178,7 +178,7 @@ export interface ContributorsIds {
 export interface EventFilters {
   eat?: boolean;
   cook?: boolean;
-  public?: boolean;
+  /* public?: boolean; */
   missingLocation?: boolean;
   missingFood?: boolean;
   missingSkills?: boolean;
