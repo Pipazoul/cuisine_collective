@@ -38,7 +38,8 @@
       </div>
       <div class="event-section">
         <div class="bold">Date</div>
-        <div>{{event.timeSlot}}</div>
+        <div *ngIf="event.hasRange()">{{event.getDateRange()}}</div>
+        <div *ngIf="event.isRecurrent()">{{event.getRecurrency()}}</div>
       </div>
       <div class="event-section">
         <div class="bold">Contact</div>

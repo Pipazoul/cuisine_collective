@@ -1,3 +1,4 @@
+import * as moment from 'moment';
 import { OccurenceType } from "../enum/occurence-type.enum";
 import { ContributorClass } from "./contributor.class";
 
@@ -66,5 +67,33 @@ export class EventClass {
             contributorsPeople: obj && obj.contributorsPeople ? obj.contributorsPeople.map(c => new ContributorClass(c)) : [],
             contributorsAssistants: obj && obj.contributorsAssistants ? obj.contributorsAssistants.map(c => new ContributorClass(c)) : []
         });
+    }
+
+    hasRange() {
+        return this.dateStart || this.dateEnd;
+    }
+
+    isRecurrent() {
+        return this.monday || this.tuesday || this.wednesday || this.thursday || this.friday || this.saturday || this.sunday;
+    }
+
+    getDateRange() {
+        return this.dateStart && this.dateEnd ?
+            'Du ' + moment(this.dateStart).format('DD/MM/YYYY') + ' au ' + moment(this.dateEnd).format('DD/MM/YYYY') :
+            'A partir du ' + moment(this.dateStart).format('DD/MM/YYYY')
+    }
+
+    getRecurrency() {
+        let days = []
+
+        if (this.monday) days.push('lundi');
+        if (this.tuesday) days.push('mardi');
+        if (this.wednesday) days.push('mercredi');
+        if (this.thursday) days.push('jeudi');
+        if (this.friday) days.push('vendredi');
+        if (this.saturday) days.push('samedi');
+        if (this.sunday) days.push('dimanche');
+
+        return 'Tous les ' + days.join(', ');
     }
 }
