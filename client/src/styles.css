@@ -144,13 +144,17 @@ span.required:before {
 
 /* ----- END BUTTONS ----- */
 
-/* ------ Radio button ------- */
+/* ------ Material button ------- */
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
     border-color: #6CCACC;
 }
 
 .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: #6CCACC;
+}
+
+.mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color: #6CCACC;
 }
   
@@ -304,9 +308,25 @@ label {
 }
 
 .items-list .item {
+    justify-content: space-between;
+    display: flex;
     padding: 5px 10px 5px 10px;
     color: #6CCACC;
     cursor: pointer;
+}
+
+.items-list .item.event {
+    color: #6CCACC;
+}
+
+.items-list .item.contributor {
+    color: #0d70cd;
+}
+
+.items-list .item span {
+    display: flex;
+    place-content: start;
+    align-items: center;
 }
 
 .items-list .item.selected {

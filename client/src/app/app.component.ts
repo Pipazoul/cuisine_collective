@@ -863,7 +863,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     _.each(feature.get('object').itemsList, (item) => {
       const type = item instanceof EventClass ? 'event' : 'contributor';
       const id = type + '-' + item.id;
-      theHtmlString += '<div class="item ' + (id == elementId ? 'selected ' : '') + type + '" id="' + id + '">' + item.name + '</div>';
+      theHtmlString += '<div class="item ' + (id == elementId ? 'selected ' : '') + type + '"><span class="' + type + '" id="' + id + '">';
+      if (item instanceof EventClass) {
+        theHtmlString += item.publish ? '<i class="material-icons">location_on</i>' : '<i class="material-icons">edit_location</i>';
+      } else {
+        theHtmlString += '<i class="material-icons">location_on</i>';
+      }
+      theHtmlString += item.name + '</span><i class="material-icons">keyboard_arrow_right</i>';
+      theHtmlString += '</div>';
     });
 
     this.popupContent = this.transform(theHtmlString);
