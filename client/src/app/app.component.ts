@@ -63,10 +63,39 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.authenticationService.connectionStatusChanged.subscribe((connected) => {
       if (connected === true || connected === false) {
-        this.eventService.getAll().subscribe(events => this.redrawEvents(events));
+        this.eventService.getAll().subscribe(events => {
+          this.events = events;
+          this.unloadFilteredEventOrContributor();
+          this.redrawEvents(events);
+
+          this.publishedEventsFeatures = events.filter(x => x.publish).map((event) =>
+            new ol.Feature({
+              geometry: new ol.geom.Point([event.longitude, event.latitude]),
+              object: event
+            })
+          );
+
+          this.notPublishedEventsFeatures = this.events.filter(x => !x.publish).map((event) =>
+            new ol.Feature({
+              geometry: new ol.geom.Point([event.longitude, event.latitude]),
+              object: event,
+            })
+          );
+        });
       }
       if (connected === true) {
-        this.contributorService.getAll().subscribe(contributors => this.redrawContributors(contributors));
+        this.contributorService.getAll().subscribe(contributors => {
+          this.contributors = contributors;
+          this.unloadFilteredEventOrContributor();
+          this.redrawContributors(contributors);
+
+          this.contributorsFeatures = contributors.map((contributor) =>
+            new ol.Feature({
+              geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+              object: contributor
+            })
+          );
+        });
       } else if (connected === false) {
         // We don't load any contributor
         this.redrawContributors([]);
@@ -244,9 +273,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initializeData().subscribe(pair => {
-      this.events = pair[0];
-      this.contributors = pair[1];
+    this.initializeData().subscribe(([events, contributors]) => {
+      this.events = events;
+      this.contributors = contributors;
       this.initializeMap();
 
       //Select the right marker when URL is "/events/:id" or "/contributors/:id"
@@ -277,11 +306,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
 
     if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
-      let featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === +next) || this.notPublishedEventsFeatures.find(x => x.get('object').id === +next);
-      this.selectInteraction.getFeatures().push(featureToSelect);
+      const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === +next) || this.notPublishedEventsFeatures.find(x => x.get('object').id === +next);
+      if (featureToSelect) {
+        this.selectInteraction.getFeatures().push(featureToSelect);
+      }
     }
     else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
-      this.selectInteraction.getFeatures().push(this.contributorsFeatures.find(x => x.get('object').id === +next));
+      const featureToSelect = this.contributorsFeatures.find(x => x.get('object').id === +next);
+      if (featureToSelect) {
+        this.selectInteraction.getFeatures().push(featureToSelect);
+      }
     }
   }
 
