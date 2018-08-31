@@ -29,12 +29,14 @@
       <div class="section-header">
         <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
           <mat-form-field>
-            <input matInput autocomplete="new-password" [matDatepicker]="startPicker" placeholder="A partir de" [(ngModel)]="startDate" (blur)="applyEventsFilters()">
+            <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="today" [max]="endDate" placeholder="A partir de"
+              [(ngModel)]="startDate" (blur)="applyEventsFilters()">
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
             <mat-datepicker #startPicker (closed)="applyEventsFilters()"></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <input matInput autocomplete="new-password" [matDatepicker]="endPicker" placeholder="Jusqu'au" [(ngModel)]="endDate" (blur)="applyEventsFilters()">
+            <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="startDate || today" placeholder="Jusqu'au"
+              [(ngModel)]="endDate" (blur)="applyEventsFilters()">
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
             <mat-datepicker #endPicker (closed)="applyEventsFilters()"></mat-datepicker>
           </mat-form-field>
