@@ -213,37 +213,37 @@
     "monday": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": false
     },
     "tuesday": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": false
     },
     "wednesday": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": false
     },
     "thursday": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": false
     },
     "friday": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": false
     },
     "saturday": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": false
     },
     "sunday": {
       "type": "boolean",
       "required": true,
-      "default": true
+      "default": false
     }
   },
   "validations": [],

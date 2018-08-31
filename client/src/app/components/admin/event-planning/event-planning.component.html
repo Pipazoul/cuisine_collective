@@ -4,8 +4,8 @@
 
 
     <mat-radio-group fxLayout="column" fxLayoutGap="10px" (change)="selectionTypeChanged($event)">
-      <form [formGroup]="oneDateForm" (ngSubmit)="submitForm()" fxLayout="column">
-        <mat-radio-button [value]="1" [checked]="oneDateFormSelected">Choisir une date</mat-radio-button>
+      <form [formGroup]="oneDateForm" (ngSubmit)="submitForm()" fxLayoutGap="10px" fxLayout="column">
+        <mat-radio-button [value]="1" [checked]="oneDateFormSelected"><strong>Choisir une date</strong></mat-radio-button>
         <mat-form-field>
           <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="minDate" [max]="oneDateForm.get('dateEnd').value"
             formControlName="dateStart" placeholder="Date de début de l'évènement">
@@ -15,9 +15,9 @@
 
         <app-week-day-selector formControlName="weekDays"></app-week-day-selector>
 
-        <h4>Se termine</h4>
+        <span>Se termine</span>
 
-        <mat-radio-group fxLayout="column" formControlName="radioGroup">
+        <mat-radio-group fxLayout="column" formControlName="radioGroup" fxLayoutGap="10px">
           <mat-radio-button [value]="1">Jamais</mat-radio-button>
           <div>
             <mat-radio-button [value]="2">Le</mat-radio-button>
@@ -30,9 +30,11 @@
           </div>
         </mat-radio-group>
       </form>
-      <mat-radio-button [value]="2">Choisir plusieurs dates</mat-radio-button>
-      <form [formGroup]="dateRangeForm" (ngSubmit)="submitForm()" fxLayout="column">
-        <mat-radio-button [value]="3" [checked]="dateRangeFormSelected">Choisir une période</mat-radio-button>
+      <br><br>
+      <mat-radio-button [value]="2"><strong>Choisir plusieurs dates</strong></mat-radio-button>
+      <br><br>
+      <form [formGroup]="dateRangeForm" (ngSubmit)="submitForm()" fxLayout="column" fxLayoutGap="10px">
+        <mat-radio-button [value]="3" [checked]="dateRangeFormSelected"><strong>Choisir une période</strong></mat-radio-button>
         <mat-form-field>
           <input matInput autocomplete="new-password" [matDatepicker]="dateRangeStartPicker" [min]="minDate" [max]="dateRangeForm.get('dateEnd').value"
             formControlName="dateStart" placeholder="Date de début de l'évènement">

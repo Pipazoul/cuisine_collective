@@ -65,6 +65,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       'dateEnd': new FormControl(this.event.dateEnd)
     });
 
+    this.currentForm = this.oneDateForm;
     this.oneDateForm.disable();
     this.dateRangeForm.disable();
   }
@@ -74,7 +75,6 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     let otherControl: FormControl;
 
     return function matchOther(control: FormControl) {
-      debugger;
       if (!control.parent) {
         return null;
       }

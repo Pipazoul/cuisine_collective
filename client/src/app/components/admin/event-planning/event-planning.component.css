@@ -1,3 +1,7 @@
 .inline-input {
     margin-left: 1em;
 }
+
+form>*:not(:first-child) {
+    margin-left: 15px;
+}

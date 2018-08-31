@@ -308,9 +308,25 @@ label {
 }
 
 .items-list .item {
+    justify-content: space-between;
+    display: flex;
     padding: 5px 10px 5px 10px;
     color: #6CCACC;
     cursor: pointer;
+}
+
+.items-list .item.event {
+    color: #6CCACC;
+}
+
+.items-list .item.contributor {
+    color: #0d70cd;
+}
+
+.items-list .item span {
+    display: flex;
+    place-content: start;
+    align-items: center;
 }
 
 .items-list .item.selected {
