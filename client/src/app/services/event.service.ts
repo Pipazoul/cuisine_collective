@@ -60,47 +60,55 @@ export class EventService {
     let params = {
       filter: {
         where: {
-          and: [{
-            eat: filters && filters.eat ? filters.eat : undefined
-          }, {
-            cook: filters && filters.cook ? filters.cook : undefined
-          }, /* {
-            public: filters && filters.public ? filters.public : undefined
-          },  */{
-            missingLocation: filters && filters.missingLocation ? true : undefined
-          }, {
-            missingFood: filters && filters.missingFood ? true : undefined
-          }, {
-            missingSkills: filters && filters.missingSkills ? true : undefined
-          }, {
-            missingPeople: filters && filters.missingPeople ? true : undefined
-          }, {
-            missingAssistants: filters && filters.missingAssistants ? true : undefined
-          }, {
-            dateEnd: undefined
-          }, {
-            or: [{
-              publish: (filters && filters.published) || !this.authenticateService.isConnected ? true : undefined
-            }, {
-              publish: filters && filters.unpublished ? false : undefined
-            }]
-          }, {
-            occurenceType: filters && filters.regular ? { gt: 0 } : undefined
-          }]
+          and: []
         }
       }
     };
 
+    params.filter.where.and.push({
+      eat: filters && filters.eat ? filters.eat : undefined
+    }, {
+        cook: filters && filters.cook ? filters.cook : undefined
+      }, /* {
+      public: filters && filters.public ? filters.public : undefined
+    },  */{
+        missingLocation: filters && filters.missingLocation ? true : undefined
+      }, {
+        missingFood: filters && filters.missingFood ? true : undefined
+      }, {
+        missingSkills: filters && filters.missingSkills ? true : undefined
+      }, {
+        missingPeople: filters && filters.missingPeople ? true : undefined
+      }, {
+        missingAssistants: filters && filters.missingAssistants ? true : undefined
+      }, {
+        dateEnd: undefined
+      }, {
+        or: [{
+          publish: (filters && filters.published) || !this.authenticateService.isConnected ? true : undefined
+        }, {
+          publish: filters && filters.unpublished ? false : undefined
+        }]
+      }, {
+        occurenceType: filters && filters.regular ? { gt: 0 } : undefined
+      });
+
     if (filters && filters.startDate) {
       params.filter.where.and.push({
-        dateEnd: { gt: new Date(filters.startDate) }
+        or: [{
+          dateEnd: { gt: new Date(filters.startDate) }
+        }, {
+          dateEnd: null
+        }]
       });
     }
 
     if (filters && filters.endDate) {
       params.filter.where.and.push({
-        dateEnd: { lt: new Date(filters.endDate) }
-      });
+        dateEnd: { neq: null }
+      }, {
+          dateEnd: { lt: new Date(filters.endDate) }
+        });
     }
 
     return this.restangular.all(UrlSettings.eventModel).getList(params).pipe(map((res: Array<any>) => res.map(event => new EventClass(event))));
