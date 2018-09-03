@@ -238,10 +238,7 @@ label {
   background-color: #0d70cd;
 }
 .services.services-event input:checked ~ i {
-    background-color: #6CCACC;
-}
-.services.services-assistants input:checked ~ i {
-    background-color: #F9A755;
+    background-color: #0d70cd;
 }
 .full-width {
     width: 100%;

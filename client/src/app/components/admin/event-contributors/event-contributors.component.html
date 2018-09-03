@@ -11,7 +11,7 @@
 
     <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'people', colorClass: 'services-event', title: 'Des relais participants', menuLabel:'Ajouter un relai participants', contributors: contributors.people, contributorsForm: eventContributorsForm.get('people').value, add: addContributorPeople.bind(this), remove: removeContributorPeople.bind(this) }"></ng-container>
 
-    <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'mood', colorClass: 'services-assistants', title: 'Des accompagnateurs', menuLabel:'Ajouter un accompagnateur', menuColor: '#F9A755', contributors: contributors.assistants, contributorsForm: eventContributorsForm.get('assistants').value, add: addContributorAssistants.bind(this), remove: removeContributorAssistants.bind(this) }"></ng-container>
+    <ng-container [ngTemplateOutlet]="category" [ngTemplateOutletContext]="{ icon: 'mood', colorClass: 'services-event', title: 'Des accompagnateurs', menuLabel:'Ajouter un accompagnateur', menuColor: '#F9A755', contributors: contributors.assistants, contributorsForm: eventContributorsForm.get('assistants').value, add: addContributorAssistants.bind(this), remove: removeContributorAssistants.bind(this) }"></ng-container>
 
     <div fxLayout="row" fxLayoutGap="10px">
       <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm(eventContributorsForm.value, true)">
