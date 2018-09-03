@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { WeekDays } from '../../enum/week-days';
 
 @Component({
   selector: 'app-week-day-selector',
@@ -16,9 +17,10 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class WeekDaySelectorComponent implements OnInit, ControlValueAccessor {
 
   disabled: boolean;
-  value: { [key: string]: boolean };
+  value: object;
   valueChanged: Function;
   touched: Function;
+  WeekDays = WeekDays;
 
   constructor() { }
 
