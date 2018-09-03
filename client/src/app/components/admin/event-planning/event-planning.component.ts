@@ -2,8 +2,8 @@ import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { EventService } from '../../../services/event.service';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { OccurenceType } from '../../../enum/occurence-type.enum';
-import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
-import { MatRadioChange } from '@angular/material';
+import { FormGroup, FormControl, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { MatRadioChange, MatDatepickerInputEvent } from '@angular/material';
 import { WeekDays } from '../../../enum/week-days';
 
 @Component({
@@ -16,12 +16,13 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   public readonly OccurenceType = OccurenceType;
   public readonly minDate: Date = new Date();
   public oneDateForm: FormGroup;
-  public serveralDatesForm: FormGroup;
+  public severalDatesForm: FormGroup;
   public dateRangeForm: FormGroup;
   public currentForm: FormGroup;
   public submitForm: Function;
   public oneDateFormSelected: boolean;
   public dateRangeFormSelected: boolean;
+  public severalDatesFormSelected: boolean;
 
   constructor(@Inject(EventService) eventService: EventService) {
     super(eventService);
@@ -42,6 +43,9 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     }
     else if (this.event.dateEnd && this.event.dateStart) {
       this.activateForm(3);
+    }
+    else if (this.event.dates && this.event.dates.length) {
+      this.activateForm(2);
     }
   }
 
@@ -66,6 +70,10 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       'dateEnd': new FormControl(this.event.dateEnd, Validators.required)
     });
 
+    this.severalDatesForm = new FormGroup({
+      'dates': new FormArray((this.event.dates && this.event.dates.length) ? this.event.dates.map(x => new FormControl(x)) : [])
+    });
+
     this.currentForm = this.oneDateForm;
     this.oneDateForm.disable();
     this.dateRangeForm.disable();
@@ -85,7 +93,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
         // Get the other control from the parent
         otherControl = control.parent.get(otherControlName) as FormControl;
         if (!otherControl) {
-          throw new Error('matchOtherValidator(): other control is not found in parent group');
+          throw new Error('checkIfOtherControlHasValue(): other control is not found in parent group');
         }
         // If other control change, we must compute again the validity
         otherControl.valueChanges.subscribe(() => {
@@ -113,7 +121,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       this.activateOneDateForm();
     }
     else if (index === 2) {
-      
+      this.activateSeveralDatesForm();
     }
     else if (index === 3) {
       this.activateDateRangeForm();
@@ -123,13 +131,15 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   activateOneDateForm() {
     this.oneDateFormSelected = true;
     this.dateRangeFormSelected = false;
+    this.severalDatesFormSelected = false;
     this.oneDateForm.enable();
-    //this.serveralDatesForm.disable();
+    this.severalDatesForm.disable();
     this.dateRangeForm.disable();
     this.currentForm = this.oneDateForm;
     this.submitForm = (goBack: boolean = false) => {
       if (this.oneDateForm.valid) {
         Object.assign(this.event, {
+          dates: null,
           dateStart: this.oneDateForm.value.dateStart,
           dateEnd: this.oneDateForm.value.dateEnd,
           monday: !!this.oneDateForm.value.weekDays[WeekDays.MONDAY],
@@ -148,21 +158,42 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   activateSeveralDatesForm() {
     this.oneDateFormSelected = false;
     this.dateRangeFormSelected = false;
+    this.severalDatesFormSelected = true;
     this.oneDateForm.disable();
-    //this.serveralDatesForm.enable();
+    this.severalDatesForm.enable();
     this.dateRangeForm.disable();
+    this.currentForm = this.severalDatesForm;
+    this.submitForm = (goBack: boolean = false) => {
+      if (this.severalDatesForm.valid) {
+        Object.assign(this.event, {
+          dates: (<FormArray>this.severalDatesForm.get('dates')).controls.map(x => x.value),
+          dateStart: null,
+          dateEnd: null,
+          monday: true,
+          tuesday: true,
+          wednesday: true,
+          thursday: true,
+          friday: true,
+          saturday: true,
+          sunday: true,
+        });
+        this.saveEvent(this.event, goBack);
+      }
+    };
   }
 
   activateDateRangeForm() {
     this.oneDateFormSelected = false;
     this.dateRangeFormSelected = true;
+    this.severalDatesFormSelected = false;
     this.oneDateForm.disable();
-    //this.serveralDatesForm.disable();
+    this.severalDatesForm.disable();
     this.dateRangeForm.enable();
     this.currentForm = this.dateRangeForm;
     this.submitForm = (goBack: boolean = false) => {
       if (this.dateRangeForm.valid) {
         Object.assign(this.event, {
+          dates: null,
           dateStart: this.dateRangeForm.value.dateStart,
           dateEnd: this.dateRangeForm.value.dateEnd,
           monday: true,
@@ -176,5 +207,16 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
         this.saveEvent(this.event, goBack);
       }
     };
+  }
+
+  removeDate(event) {
+    this.event.dates.splice(this.event.dates.indexOf(event))
+  }
+
+  addDate(event: MatDatepickerInputEvent<Date>) {
+    if (!(<FormArray>this.severalDatesForm.get('dates')).length 
+    || !(<FormArray>this.severalDatesForm.get('dates')).controls.some(x => x.value.getTime() === event.value.getTime()))
+    (<FormArray>this.severalDatesForm.get('dates')).controls.push(new FormControl(event.value));
+    event.target.value = null;
   }
 }

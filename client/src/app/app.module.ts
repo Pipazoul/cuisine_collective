@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
@@ -20,7 +20,8 @@ import {
   MatRadioModule,
   MatSidenavModule,
   MatSlideToggleModule,
-  DateAdapter
+  DateAdapter,
+  MatChipsModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -73,6 +74,11 @@ import { EventEditionComponent } from './components/event-edition/event-edition.
 import { EventMissingComponent } from './components/admin/event-missing/event-missing.component';
 import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 import { WeekDaySelectorComponent } from './common/week-day-selector/week-day-selector.component';
+
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr);
 
 /**
  * Function for settting the default restangular configuration
@@ -170,6 +176,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     MatRadioModule,
     MatSidenavModule,
     MatSlideToggleModule,
+    MatChipsModule,
     // Importing RestangularModule and making default configs for restanglar
     RestangularModule.forRoot(RestangularConfigFactory),
     routing
@@ -193,7 +200,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     ContributorService,
     UserService,
     AuthGuard,
-    UnauthGuard
+    UnauthGuard,
+    { provide: LOCALE_ID, useValue: 'fr' },
   ],
   bootstrap: [AppComponent]
 })

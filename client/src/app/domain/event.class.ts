@@ -16,6 +16,7 @@ export class EventClass {
     public url: string;
     public dateStart: Date;
     public dateEnd: Date;
+    public dates: Date[];
     public monday: string;
     public tuesday: string;
     public wednesday: string;

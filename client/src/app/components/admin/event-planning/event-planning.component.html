@@ -31,7 +31,20 @@
         </mat-radio-group>
       </form>
       <br><br>
-      <mat-radio-button [value]="2"><strong>Choisir plusieurs dates</strong></mat-radio-button>
+      <form [formGroup]="severalDatesForm" (ngSubmit)="submitForm()" fxLayoutGap="10px" fxLayout="column">
+        <mat-radio-button [value]="2" [checked]="severalDatesFormSelected"><strong>Choisir plusieurs dates</strong></mat-radio-button>
+        <mat-form-field class="example-chip-list">
+          <mat-chip-list #chipList>
+            <mat-chip *ngFor="let date of severalDatesForm.get('dates').controls" removable="true" (removed)="removeDate(event)">
+              {{date.value | date:'mediumDate'}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="Nouvelle date..." [disabled]="severalDatesForm.disabled" (dateChange)="addDate($event)" [matDatepicker]="datePicker" [matChipInputFor]="chipList">
+            <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <mat-datepicker #datePicker></mat-datepicker>
+          </mat-chip-list>
+        </mat-form-field>
+      </form>
       <br><br>
       <form [formGroup]="dateRangeForm" (ngSubmit)="submitForm()" fxLayout="column" fxLayoutGap="10px">
         <mat-radio-button [value]="3" [checked]="dateRangeFormSelected"><strong>Choisir une période</strong></mat-radio-button>
