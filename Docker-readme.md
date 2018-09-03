@@ -14,16 +14,16 @@ Commandes utiles :
 Récupérer les images depuis le serveur cible
 Se placer à l'emplacement où se situe le docker-compose :
 ```
-docker-compose pull lc-db
-docker-compose pull lc-server
-docker-compose pull lc-client
+docker-compose pull cc-db
+docker-compose pull cc-server
+docker-compose pull cc-client
 ```
 
 Monter les images dockers
 ```
-docker-compose up lc-db
-docker-compose up lc-server
-docker-compose up lc-client
+docker-compose up cc-db
+docker-compose up cc-server
+docker-compose up cc-client
 ```
 
 Erreur possible : les scripts d'init de bbd ne se sont pas exécutés, le serveur ne se lance pas.
