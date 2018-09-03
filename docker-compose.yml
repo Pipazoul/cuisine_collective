@@ -1,0 +1,56 @@
+version: "3"
+services:
+  cc-client:
+    image: makeitici/cuisine_collective:client_latest
+    hostname: cc-client
+    ports:
+      - 3001:3001
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - cc-server
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  cc-server:
+    image: makeitici/cuisine_collective:server_latest
+    hostname: cc-server
+    volumes:
+      - /data/nodejs:/applis/cuisine_collective/data/storage
+    networks:
+      - backend
+    depends_on:
+      - cc-db
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+
+  cc-db:
+    image: makeitici/cuisine_collective:base_latest
+    hostname: cc-db
+    environment: 
+     PGUSER: postgres
+     PGPORT: 5432
+     PGPASSWORD: postgrespassord
+     PGDATA: /var/lib/postgresql/data
+    volumes:
+      - /data/postgresql:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+networks:
+    frontend:
+    backend:
