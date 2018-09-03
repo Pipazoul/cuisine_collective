@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, Renderer2 } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
@@ -68,8 +68,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private eventService: EventService,
     private contributorService: ContributorService,
     private authenticationService: AuthenticationService,
-    private domSanitizer: DomSanitizer,
-    private renderer: Renderer2
+    private domSanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -77,41 +76,29 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (connected === true || connected === false) {
         this.eventService.getAll().subscribe(events => {
           this.events = events;
-          this.unloadFilteredEventOrContributor();
-          this.redrawAll();
 
-          this.publishedEventsFeatures = events.filter(x => x.publish).map((event) =>
-            new ol.Feature({
-              geometry: new ol.geom.Point([event.longitude, event.latitude]),
-              object: event
-            })
-          );
-
-          this.notPublishedEventsFeatures = this.events.filter(x => !x.publish).map((event) =>
-            new ol.Feature({
-              geometry: new ol.geom.Point([event.longitude, event.latitude]),
-              object: event,
-            })
-          );
+          if (connected === true) {
+            this.contributorService.getAll().subscribe(contributors => {
+              this.contributors = contributors;
+              this.sameLocationItems.length = 0;
+              this.unloadFilteredEventOrContributor();
+              this.redrawAll();
+    
+              this.contributorsFeatures = contributors.map((contributor) =>
+                new ol.Feature({
+                  geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
+                  object: contributor
+                })
+              );
+            });
+          } else if (connected === false) {
+            // We don't load any contributor
+            this.contributors = [];
+            this.removeEventsFromItemsList();
+            this.unloadFilteredEventOrContributor();
+            this.redrawAll();
+          }
         });
-      }
-      if (connected === true) {
-        this.contributorService.getAll().subscribe(contributors => {
-          this.contributors = contributors;
-          this.unloadFilteredEventOrContributor();
-          this.redrawAll();
-
-          this.contributorsFeatures = contributors.map((contributor) =>
-            new ol.Feature({
-              geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
-              object: contributor
-            })
-          );
-        });
-      } else if (connected === false) {
-        // We don't load any contributor
-        this.contributors = [];
-        this.redrawAll();
       }
     });
 
@@ -332,6 +319,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.contributors = contributors;
 
       // Compute items list of same coordinate elements
+      this.sameLocationItems.length = 0;
       this.filterItems();
 
       this.initializeMap();
@@ -625,11 +613,17 @@ export class AppComponent implements OnInit, AfterViewInit {
               this.notPublishedEventsLayer.getSource().removeFeature(feature);
             }
           });
+          _.each(this.sameLocationItems, item => {
+            _.remove(item.itemsList, element => element instanceof EventClass && element.id === params.id);
+          });
         } else if (params.type === ContributorClass) {
           _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
             if (feature.get('object').id === params.id) {
               this.contributorsLayer.getSource().removeFeature(feature);
             }
+          });
+          _.each(this.sameLocationItems, item => {
+            _.remove(item.itemsList, element => element instanceof ContributorClass && element.id === params.id);
           });
         }
       }, err => {
@@ -674,6 +668,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.eventService.getAll(filters).subscribe(events => {
         this.events = events;
         this.unloadFilteredEventOrContributor();
+        this.removeEventsFromItemsList();
         this.redrawAll();
       });
     }, err => {
@@ -683,6 +678,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.contributorService.getAll(filters).subscribe(contributors => {
         this.contributors = contributors;
         this.unloadFilteredEventOrContributor();
+        this.removeContributorsFromItemsList();
         this.redrawAll();
       });
     }, err => {
@@ -874,5 +870,17 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.popupContent = this.transform(theHtmlString);
+  }
+
+  removeEventsFromItemsList() {
+    _.each(this.sameLocationItems, item => {
+      _.remove(item.itemsList, element => element instanceof EventClass)
+    })
+  }
+
+  removeContributorsFromItemsList() {
+    _.each(this.sameLocationItems, item => {
+      _.remove(item.itemsList, element => element instanceof ContributorClass)
+    })
   }
 }
