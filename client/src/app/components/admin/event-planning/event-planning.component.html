@@ -35,7 +35,7 @@
         <mat-radio-button [value]="2" [checked]="severalDatesFormSelected"><strong>Choisir plusieurs dates</strong></mat-radio-button>
         <mat-form-field class="example-chip-list">
           <mat-chip-list #chipList>
-            <mat-chip *ngFor="let date of severalDatesForm.get('dates').controls" removable="true" (removed)="removeDate(event)">
+            <mat-chip *ngFor="let date of severalDatesForm.get('dates').controls" removable="true" (removed)="removeDate(date)">
               {{date.value | date:'mediumDate'}}
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>

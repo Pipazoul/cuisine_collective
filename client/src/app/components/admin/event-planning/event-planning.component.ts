@@ -210,7 +210,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   }
 
   removeDate(event) {
-    this.event.dates.splice(this.event.dates.indexOf(event))
+    (<FormArray>this.severalDatesForm.get('dates')).controls.splice((<FormArray>this.severalDatesForm.get('dates')).controls.indexOf(event));
   }
 
   addDate(event: MatDatepickerInputEvent<Date>) {
