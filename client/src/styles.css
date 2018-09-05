@@ -170,6 +170,11 @@ span.required:before {
     background-color: #cccccc;
 }
 
+.mat-chip.mat-standard-chip {
+    background-color: #6CCACC;
+    color: white;
+}
+
 label {
     cursor: pointer;
 }

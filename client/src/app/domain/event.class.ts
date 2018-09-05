@@ -71,11 +71,15 @@ export class EventClass {
     }
 
     hasRange() {
-        return this.dateStart || this.dateEnd;
+        return (this.dateStart || this.dateEnd) && !this.dates;
     }
 
     isRecurrent() {
         return this.monday || this.tuesday || this.wednesday || this.thursday || this.friday || this.saturday || this.sunday;
+    }
+
+    hasManyDates() {
+        return this.dates;
     }
 
     getDateRange() {

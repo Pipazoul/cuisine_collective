@@ -2,9 +2,10 @@ import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { EventService } from '../../../services/event.service';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { OccurenceType } from '../../../enum/occurence-type.enum';
-import { FormGroup, FormControl, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatRadioChange, MatDatepickerInputEvent } from '@angular/material';
 import { WeekDays } from '../../../enum/week-days';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-event-planning',
@@ -20,9 +21,9 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   public dateRangeForm: FormGroup;
   public currentForm: FormGroup;
   public submitForm: Function;
-  public oneDateFormSelected: boolean;
-  public dateRangeFormSelected: boolean;
-  public severalDatesFormSelected: boolean;
+  public oneDateFormSelected: boolean = false;
+  public dateRangeFormSelected: boolean = false;
+  public severalDatesFormSelected: boolean = false;
 
   constructor(@Inject(EventService) eventService: EventService) {
     super(eventService);
@@ -30,23 +31,10 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
 
   ngOnInit() {
     this.initForms();
-    this.guessWhichFormToActivate();
   }
 
   ngOnChanges() {
     this.initForms();
-  }
-
-  guessWhichFormToActivate() {
-    if (!(this.event.monday && this.event.tuesday && this.event.wednesday && this.event.thursday && this.event.friday && this.event.saturday && this.event.sunday)) {
-      this.activateForm(1);
-    }
-    else if (this.event.dateEnd && this.event.dateStart) {
-      this.activateForm(3);
-    }
-    else if (this.event.dates && this.event.dates.length) {
-      this.activateForm(2);
-    }
   }
 
   private initForms() {
@@ -74,9 +62,25 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       'dates': new FormArray((this.event.dates && this.event.dates.length) ? this.event.dates.map(x => new FormControl(x)) : [])
     });
 
-    this.currentForm = this.oneDateForm;
+    // Disable all form
     this.oneDateForm.disable();
     this.dateRangeForm.disable();
+    this.severalDatesForm.disable();
+
+    // Choose right initial form and enable it
+    if (this.event.dates) {
+      this.currentForm = this.severalDatesForm;
+      this.severalDatesForm.enable();
+      this.severalDatesFormSelected = true;
+    } else if (this.event.dateStart && this.event.dateEnd) {
+      this.currentForm = this.dateRangeForm;
+      this.dateRangeForm.enable();
+      this.dateRangeFormSelected = true;
+    } else if (this.event.monday || this.event.tuesday || this.event.wednesday || this.event.thursday || this.event.friday || this.event.saturday || this.event.sunday) {
+      this.currentForm = this.oneDateForm;
+      this.oneDateForm.enable();
+      this.oneDateFormSelected = true;
+    }
   }
 
   private checkIfOtherControlHasValue(otherControlName: string, value: any) {
@@ -106,11 +110,6 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       return (otherControl.value !== value || thisControl.value) ? null : { matchOther: true };
     }
   }
-
-  /*public submitForm(goBack: boolean = false) {
-    Object.assign(this.event, value);
-    this.saveEvent(this.event, goBack);
-  }*/
 
   selectionTypeChanged(event: MatRadioChange) {
     this.activateForm(event.value);
@@ -167,15 +166,15 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       if (this.severalDatesForm.valid) {
         Object.assign(this.event, {
           dates: (<FormArray>this.severalDatesForm.get('dates')).controls.map(x => x.value),
-          dateStart: null,
-          dateEnd: null,
-          monday: true,
-          tuesday: true,
-          wednesday: true,
-          thursday: true,
-          friday: true,
-          saturday: true,
-          sunday: true,
+          dateStart: (<FormArray>this.severalDatesForm.get('dates')).controls[0].value,
+          dateEnd: (<FormArray>this.severalDatesForm.get('dates')).controls[(<FormArray>this.severalDatesForm.get('dates')).controls.length - 1].value,
+          monday: false,
+          tuesday: false,
+          wednesday: false,
+          thursday: false,
+          friday: false,
+          saturday: false,
+          sunday: false,
         });
         this.saveEvent(this.event, goBack);
       }
@@ -196,13 +195,13 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           dates: null,
           dateStart: this.dateRangeForm.value.dateStart,
           dateEnd: this.dateRangeForm.value.dateEnd,
-          monday: true,
-          tuesday: true,
-          wednesday: true,
-          thursday: true,
-          friday: true,
-          saturday: true,
-          sunday: true,
+          monday: false,
+          tuesday: false,
+          wednesday: false,
+          thursday: false,
+          friday: false,
+          saturday: false,
+          sunday: false,
         });
         this.saveEvent(this.event, goBack);
       }
@@ -210,13 +209,14 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   }
 
   removeDate(event) {
-    (<FormArray>this.severalDatesForm.get('dates')).controls.splice((<FormArray>this.severalDatesForm.get('dates')).controls.indexOf(event));
+    _.remove((<FormArray>this.severalDatesForm.get('dates')).controls, { value: event.value });
   }
 
   addDate(event: MatDatepickerInputEvent<Date>) {
-    if (!(<FormArray>this.severalDatesForm.get('dates')).length 
-    || !(<FormArray>this.severalDatesForm.get('dates')).controls.some(x => x.value.getTime() === event.value.getTime()))
-    (<FormArray>this.severalDatesForm.get('dates')).controls.push(new FormControl(event.value));
+    if (!(<FormArray>this.severalDatesForm.get('dates')).length
+      || !(<FormArray>this.severalDatesForm.get('dates')).controls.some(x => x.value.getTime() === event.value.getTime()))
+      (<FormArray>this.severalDatesForm.get('dates')).controls.push(new FormControl(event.value));
     event.target.value = null;
+    (<FormArray>this.severalDatesForm.get('dates')).controls = _.sortBy((<FormArray>this.severalDatesForm.get('dates')).controls, 'value');
   }
 }

@@ -1,65 +1,72 @@
 <div class="overflowable">
   <div fxLayout="column" class="sidenav-body">
     <!-- Date -->
-
-
     <mat-radio-group fxLayout="column" fxLayoutGap="10px" (change)="selectionTypeChanged($event)">
       <form [formGroup]="oneDateForm" (ngSubmit)="submitForm()" fxLayoutGap="10px" fxLayout="column">
         <mat-radio-button [value]="1" [checked]="oneDateFormSelected"><strong>Choisir une date</strong></mat-radio-button>
-        <mat-form-field>
-          <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="minDate" [max]="oneDateForm.get('dateEnd').value"
-            formControlName="dateStart" placeholder="Date de début de l'évènement">
-          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-          <mat-datepicker #startPicker></mat-datepicker>
-        </mat-form-field>
+        <ng-container *ngIf="oneDateFormSelected">
+          <mat-form-field>
+            <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="minDate" [max]="oneDateForm.get('dateEnd').value"
+              formControlName="dateStart" placeholder="Date de début de l'évènement">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
 
-        <app-week-day-selector formControlName="weekDays"></app-week-day-selector>
-
-        <span>Se termine</span>
-
-        <mat-radio-group fxLayout="column" formControlName="radioGroup" fxLayoutGap="10px">
-          <mat-radio-button [value]="1">Jamais</mat-radio-button>
-          <div>
-            <mat-radio-button [value]="2">Le</mat-radio-button>
-            <mat-form-field class="inline-input">
-              <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="oneDateForm.get('dateStart').value || minDate"
-                formControlName="dateEnd" placeholder="Date de fin de l'évènement">
-              <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-              <mat-datepicker #endPicker></mat-datepicker>
-            </mat-form-field>
+          <div fxLayoutAlign="start center" fxLayoutGap="10px">
+            <span>Répéter le</span>
+            <app-week-day-selector formControlName="weekDays"></app-week-day-selector>
           </div>
-        </mat-radio-group>
+
+          <span>Se termine</span>
+          <mat-radio-group fxLayout="column" formControlName="radioGroup" fxLayoutGap="10px">
+            <mat-radio-button [value]="1">Jamais</mat-radio-button>
+            <div>
+              <mat-radio-button [value]="2">Le</mat-radio-button>
+              <mat-form-field class="inline-input">
+                <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="oneDateForm.get('dateStart').value || minDate"
+                  formControlName="dateEnd" placeholder="Date de fin de l'évènement">
+                <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </mat-radio-group>
+        </ng-container>
       </form>
       <br><br>
       <form [formGroup]="severalDatesForm" (ngSubmit)="submitForm()" fxLayoutGap="10px" fxLayout="column">
         <mat-radio-button [value]="2" [checked]="severalDatesFormSelected"><strong>Choisir plusieurs dates</strong></mat-radio-button>
-        <mat-form-field class="example-chip-list">
-          <mat-chip-list #chipList>
-            <mat-chip *ngFor="let date of severalDatesForm.get('dates').controls" removable="true" (removed)="removeDate(date)">
-              {{date.value | date:'mediumDate'}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <input placeholder="Nouvelle date..." [disabled]="severalDatesForm.disabled" (dateChange)="addDate($event)" [matDatepicker]="datePicker" [matChipInputFor]="chipList">
-            <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-            <mat-datepicker #datePicker></mat-datepicker>
-          </mat-chip-list>
-        </mat-form-field>
+        <ng-container *ngIf="severalDatesFormSelected">
+          <mat-form-field class="example-chip-list">
+            <mat-chip-list #chipList>
+              <mat-chip *ngFor="let date of severalDatesForm.get('dates').controls" removable="true" (removed)="removeDate(date)">
+                {{date.value | date:'mediumDate'}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input placeholder="Dates choisies" [disabled]="severalDatesForm.disabled" (dateChange)="addDate($event)" [matDatepicker]="datePicker"
+                [matChipInputFor]="chipList">
+              <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+              <mat-datepicker #datePicker></mat-datepicker>
+            </mat-chip-list>
+          </mat-form-field>
+        </ng-container>
       </form>
       <br><br>
       <form [formGroup]="dateRangeForm" (ngSubmit)="submitForm()" fxLayout="column" fxLayoutGap="10px">
-        <mat-radio-button [value]="3" [checked]="dateRangeFormSelected"><strong>Choisir une période</strong></mat-radio-button>
-        <mat-form-field>
-          <input matInput autocomplete="new-password" [matDatepicker]="dateRangeStartPicker" [min]="minDate" [max]="dateRangeForm.get('dateEnd').value"
-            formControlName="dateStart" placeholder="Date de début de l'évènement">
-          <mat-datepicker-toggle matSuffix [for]="dateRangeStartPicker"></mat-datepicker-toggle>
-          <mat-datepicker #dateRangeStartPicker></mat-datepicker>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput autocomplete="new-password" [matDatepicker]="dateRangeEndPicker" [min]="dateRangeForm.get('dateStart').value || minDate"
-            formControlName="dateEnd" placeholder="Date de fin de l'évènement">
-          <mat-datepicker-toggle matSuffix [for]="dateRangeEndPicker"></mat-datepicker-toggle>
-          <mat-datepicker #dateRangeEndPicker></mat-datepicker>
-        </mat-form-field>
+        <mat-radio-button [value]="3" [checked]="dateRangeFormSelected"><strong>Choisir une période</strong> (pas encore de date définie)</mat-radio-button>
+        <ng-container *ngIf="dateRangeFormSelected">
+          <mat-form-field>
+            <input matInput autocomplete="new-password" [matDatepicker]="dateRangeStartPicker" [min]="minDate" [max]="dateRangeForm.get('dateEnd').value"
+              formControlName="dateStart" placeholder="Du">
+            <mat-datepicker-toggle matSuffix [for]="dateRangeStartPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dateRangeStartPicker></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput autocomplete="new-password" [matDatepicker]="dateRangeEndPicker" [min]="dateRangeForm.get('dateStart').value || minDate"
+              formControlName="dateEnd" placeholder="Au">
+            <mat-datepicker-toggle matSuffix [for]="dateRangeEndPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dateRangeEndPicker></mat-datepicker>
+          </mat-form-field>
+        </ng-container>
       </form>
     </mat-radio-group>
 
