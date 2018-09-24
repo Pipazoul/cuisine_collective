@@ -1,4 +1,5 @@
 export const environment = {
-  baseUrl: 'https://chat-int.lyve-lyon.alpha.grandlyon.com',
+  baseUrl: 'http://docker.erasme.org:8081',
+  // baseUrl: 'https://chat-int.lyve-lyon.alpha.grandlyon.com',
   production: true
 };
