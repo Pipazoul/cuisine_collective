@@ -62,24 +62,13 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       'dates': new FormArray((this.event.dates && this.event.dates.length) ? this.event.dates.map(x => new FormControl(x)) : [])
     });
 
-    // Disable all form
-    this.oneDateForm.disable();
-    this.dateRangeForm.disable();
-    this.severalDatesForm.disable();
-
     // Choose right initial form and enable it
     if (this.event.dates) {
-      this.currentForm = this.severalDatesForm;
-      this.severalDatesForm.enable();
-      this.severalDatesFormSelected = true;
+      this.activateSeveralDatesForm();
     } else if (this.event.dateStart && this.event.dateEnd) {
-      this.currentForm = this.dateRangeForm;
-      this.dateRangeForm.enable();
-      this.dateRangeFormSelected = true;
-    } else if (this.event.monday || this.event.tuesday || this.event.wednesday || this.event.thursday || this.event.friday || this.event.saturday || this.event.sunday) {
-      this.currentForm = this.oneDateForm;
-      this.oneDateForm.enable();
-      this.oneDateFormSelected = true;
+      this.activateDateRangeForm();
+    } else {
+      this.activateOneDateForm();
     }
   }
 
