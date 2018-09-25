@@ -137,6 +137,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           friday: !!this.oneDateForm.value.weekDays[WeekDays.FRIDAY],
           saturday: !!this.oneDateForm.value.weekDays[WeekDays.SATURDAY],
           sunday: !!this.oneDateForm.value.weekDays[WeekDays.SUNDAY],
+          occurenceType: OccurenceType.RECURRENT,
         });
         this.saveEvent(this.event, goBack);
       }
@@ -164,6 +165,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           friday: false,
           saturday: false,
           sunday: false,
+          occurenceType: OccurenceType.RECURRENT,
         });
         this.saveEvent(this.event, goBack);
       }
@@ -191,6 +193,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           friday: false,
           saturday: false,
           sunday: false,
+          occurenceType: OccurenceType.NONE,
         });
         this.saveEvent(this.event, goBack);
       }
