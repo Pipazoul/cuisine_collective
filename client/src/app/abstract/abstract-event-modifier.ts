@@ -13,17 +13,17 @@ export abstract class AbstractEventModifier {
     }
 
     protected saveEvent(eventToSave: EventClass, goBack: boolean = false) {
-        this.saveAndEmit(eventToSave, (event) => goBack ? this.backwardPressed.emit(event) : this.eventSaved.emit(event));
+        this.saveAndEmit(eventToSave, goBack ? this.backwardPressed : this.eventSaved);
     }
 
-    private saveAndEmit(event: EventClass, eventEmitter: (event: EventClass) => void) {
+    private saveAndEmit(event: EventClass, eventEmitter: EventEmitter<EventClass>) {
         if (!this.event.id) {
             this.eventService.create(event).subscribe(
-                (event) => { Object.assign(this.event, event); eventEmitter(event); }
+                (event) => { Object.assign(this.event, event); eventEmitter.emit(event); }
             );
         } else {
             this.eventService.update(event).subscribe(
-                (event) => { Object.assign(this.event, event); eventEmitter(event); }
+                (event) => { Object.assign(this.event, event); eventEmitter.emit(event); }
             );
         }
     }

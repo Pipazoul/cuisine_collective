@@ -20,7 +20,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   public severalDatesForm: FormGroup;
   public dateRangeForm: FormGroup;
   public currentForm: FormGroup;
-  public submitForm: Function;
+  public submitForm: Function = (goBack: boolean = false) => this.saveEvent(this.event, goBack);
   public oneDateFormSelected: boolean = false;
   public dateRangeFormSelected: boolean = false;
   public severalDatesFormSelected: boolean = false;
@@ -71,14 +71,17 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       this.currentForm = this.severalDatesForm;
       this.severalDatesForm.enable();
       this.severalDatesFormSelected = true;
+      this.activateSeveralDatesForm();
     } else if (this.event.dateStart && this.event.dateEnd) {
       this.currentForm = this.dateRangeForm;
       this.dateRangeForm.enable();
       this.dateRangeFormSelected = true;
+      this.activateDateRangeForm();
     } else if (this.event.monday || this.event.tuesday || this.event.wednesday || this.event.thursday || this.event.friday || this.event.saturday || this.event.sunday) {
       this.currentForm = this.oneDateForm;
       this.oneDateForm.enable();
       this.oneDateFormSelected = true;
+      this.activateOneDateForm();
     }
   }
 
@@ -110,11 +113,11 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     }
   }
 
-  selectionTypeChanged(event: MatRadioChange) {
+  public selectionTypeChanged(event: MatRadioChange) {
     this.activateForm(event.value);
   }
 
-  activateForm(index: number) {
+  private activateForm(index: number) {
     if (index === 1) {
       this.activateOneDateForm();
     }
@@ -126,7 +129,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     }
   }
 
-  activateOneDateForm() {
+  private activateOneDateForm() {
     this.oneDateFormSelected = true;
     this.dateRangeFormSelected = false;
     this.severalDatesFormSelected = false;
@@ -153,7 +156,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     };
   }
 
-  activateSeveralDatesForm() {
+  private activateSeveralDatesForm() {
     this.oneDateFormSelected = false;
     this.dateRangeFormSelected = false;
     this.severalDatesFormSelected = true;
@@ -180,7 +183,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     };
   }
 
-  activateDateRangeForm() {
+  private activateDateRangeForm() {
     this.oneDateFormSelected = false;
     this.dateRangeFormSelected = true;
     this.severalDatesFormSelected = false;
