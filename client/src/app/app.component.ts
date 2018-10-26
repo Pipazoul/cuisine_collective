@@ -132,9 +132,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.events.push(event);
         this.redrawAll();
         // Re-select
-        const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id) || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id);
-        this.selectInteraction.getFeatures().push(featureToSelect);
-        this.goTo([event.longitude, event.latitude], 'EPSG:4326');
+        this.selectEventAndGoTo(event);
       }
     });
 
@@ -150,13 +148,22 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           oldEvent.publish = event.publish;
           this.redrawAll();
           // Re-select
-          const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id) || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id);
-          this.selectInteraction.getFeatures().push(featureToSelect);
-          this.goTo([event.longitude, event.latitude], 'EPSG:4326');
+          this.selectEventAndGoTo(event);
         }
 
       }
     });
+  }
+
+  private selectEventAndGoTo(event: EventClass) {
+    const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id)
+      || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id)
+      || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof EventClass && i.id === event.id));
+    if (featureToSelect) {
+      this.selectInteraction.getFeatures().push(featureToSelect);
+    }
+    // Go to point
+    this.goTo([event.longitude, event.latitude], 'EPSG:4326');
   }
 
   ngOnDestroy() {
