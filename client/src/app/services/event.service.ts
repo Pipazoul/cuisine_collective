@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Restangular } from 'ngx-restangular';
 import { map } from 'rxjs/operators';
 
@@ -11,6 +11,9 @@ import { ContributorClass } from '../domain/contributor.class';
 
 @Injectable()
 export class EventService {
+
+  public eventLocationChanged = new BehaviorSubject<EventClass>(null);
+  public eventPublishStatusChanged = new BehaviorSubject<EventClass>(null);
 
   constructor(
     private restangular: Restangular,

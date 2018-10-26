@@ -54,7 +54,8 @@ export class EventEditionComponent extends RepresentedOnMapComponent  implements
     });
   }
 
-  public endCarousel() {
+  public endCarousel(event: EventClass) {
+    this.eventService.eventPublishStatusChanged.next(event);
     this.router.navigate(['/admin']);
     this.saved = true;
   }

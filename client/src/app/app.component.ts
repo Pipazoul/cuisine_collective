@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
@@ -7,7 +7,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
 import { ContributorClass } from './domain/contributor.class';
-import { zip } from 'rxjs';
+import { zip, Subscription } from 'rxjs';
 import { ContributorService } from './services/contributor.service';
 import { filter } from 'rxjs/operators';
 import { ArrayUtils } from './util/ArrayUtils';
@@ -21,13 +21,14 @@ import { ItemClass } from './domain/items-list.class';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit, AfterViewInit {
-  eventColor = '#6CCACC';
-  contributorColor = '#0D70CD';
-  selectedColor = '#FF5555';
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  events: EventClass[];
-  contributors: ContributorClass[];
+  private eventColor = '#6CCACC';
+  private contributorColor = '#0D70CD';
+  private selectedColor = '#FF5555';
+
+  private events: EventClass[];
+  private contributors: ContributorClass[];
 
   @ViewChild('itemsList') itemsList: ElementRef;
   @ViewChild('map') mapElement: ElementRef;
@@ -63,13 +64,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   _selectedEditLocationPinStyle: ol.style.Style;
   _selectedSameLocationPinStyle: ol.style.Style;
 
+  private subscriptionEventLocationChanged: Subscription;
+  private subscriptionEventPublishStatusChanged: Subscription;
+
   constructor(
     private router: Router,
     private eventService: EventService,
     private contributorService: ContributorService,
     private authenticationService: AuthenticationService,
     private domSanitizer: DomSanitizer
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.authenticationService.connectionStatusChanged.subscribe((connected) => {
@@ -83,7 +88,7 @@ export class AppComponent implements OnInit, AfterViewInit {
               this.sameLocationItems.length = 0;
               this.unloadFilteredEventOrContributor();
               this.redrawAll();
-    
+
               this.contributorsFeatures = contributors.map((contributor) =>
                 new ol.Feature({
                   geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
@@ -119,6 +124,42 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.selectedLocationPinStyle;
     this.selectedEditLocationPinStyle;
     this.selectedSameLocationPinStyle;
+
+    this.subscriptionEventLocationChanged = this.eventService.eventLocationChanged.subscribe((event) => {
+      if (event) {
+        // Update in array and redraw
+        _.remove(this.events, { id: event.id });
+        this.events.push(event);
+        this.redrawAll();
+        // Re-select
+        const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id) || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id);
+        this.selectInteraction.getFeatures().push(featureToSelect);
+      }
+    });
+
+    this.subscriptionEventPublishStatusChanged = this.eventService.eventPublishStatusChanged.subscribe((event) => {
+      if (event) {
+        const oldEvent = _.find(this.events, { id: event.id });
+        if (!oldEvent) {
+          this.events.push(event);
+        } else if (oldEvent.publish === event.publish) {
+          // If event already displayed and publish status not changed, do nothing
+          return;
+        } else {
+          oldEvent.publish = event.publish;
+          this.redrawAll();
+          // Re-select
+          const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id) || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id);
+          this.selectInteraction.getFeatures().push(featureToSelect);
+        }
+
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscriptionEventLocationChanged.unsubscribe();
+    this.subscriptionEventPublishStatusChanged.unsubscribe();
   }
 
   get publishedEventStyle() {
@@ -686,7 +727,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  redrawAll() {
+  private redrawAll() {
     this.selectInteraction.getFeatures().clear();
     this.filterItems();
     this.redrawPublishedEvents();
@@ -796,7 +837,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
   }
 
-  filterItems() {
+  private filterItems() {
     var itemsList: ItemClass[] = this.sameLocationItems;
 
     // Group events by coordinate

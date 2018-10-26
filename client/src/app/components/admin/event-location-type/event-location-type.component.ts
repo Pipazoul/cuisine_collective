@@ -88,7 +88,7 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
 
   public submitForm(value, goBack: boolean = false) {
     Object.assign(this.event, value);
-    this.saveEvent(this.event, goBack).subscribe();
+    this.saveEvent(this.event, goBack).subscribe((event) => this.eventService.eventLocationChanged.next(event));
   }
 
 }
