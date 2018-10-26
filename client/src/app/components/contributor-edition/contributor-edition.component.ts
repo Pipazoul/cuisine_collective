@@ -9,14 +9,14 @@ import { RepresentedOnMapComponent } from '../base/represented-on-map/represente
   templateUrl: './contributor-edition.component.html',
   styleUrls: ['./contributor-edition.component.css']
 })
-export class ContributorEditionComponent extends RepresentedOnMapComponent  implements OnInit {
+export class ContributorEditionComponent extends RepresentedOnMapComponent implements OnInit {
 
   public contributor: ContributorClass = new ContributorClass();
   public saved: boolean;
 
   constructor(private router: Router,
-  private route: ActivatedRoute,
-  private contributorService: ContributorService) {
+    private route: ActivatedRoute,
+    private contributorService: ContributorService) {
     super();
   }
 
@@ -40,7 +40,7 @@ export class ContributorEditionComponent extends RepresentedOnMapComponent  impl
 
   deleteContributor(contributorId) {
     this.contributorService.delete(contributorId).subscribe(res => {
-      this.removePoint.emit({type: ContributorClass, id: contributorId});
+      this.removePoint.emit({ type: ContributorClass, id: contributorId });
       this.router.navigate(['/admin']);
     }, err => {
       console.error(err);

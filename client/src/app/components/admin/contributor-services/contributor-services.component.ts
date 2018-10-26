@@ -44,6 +44,6 @@ export class ContributorServicesComponent extends AbstractContributorModifier im
 
   public submitForm(value) {
     Object.assign(this.contributor, value);
-    this.saveContributor(this.contributor);
+    this.saveContributor(this.contributor).subscribe();
   }
 }

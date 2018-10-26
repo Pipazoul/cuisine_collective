@@ -65,6 +65,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   _selectedSameLocationPinStyle: ol.style.Style;
 
   private subscriptionEventLocationChanged: Subscription;
+  private subscriptionContributorLocationChanged: Subscription;
   private subscriptionEventPublishStatusChanged: Subscription;
 
   constructor(
@@ -132,7 +133,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.events.push(event);
         this.redrawAll();
         // Re-select
-        this.selectEventAndGoTo(event);
+        this.selectEventAndGoToEvent(event);
+      }
+    });
+
+    this.subscriptionContributorLocationChanged = this.contributorService.contributorLocationChanged.subscribe((contributor) => {
+      if (contributor) {
+        // Update in array and redraw
+        _.remove(this.contributors, { id: contributor.id });
+        this.contributors.push(contributor);
+        this.redrawAll();
+        // Re-select
+        this.selectEventAndGoToContributor(contributor);
       }
     });
 
@@ -148,14 +160,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           oldEvent.publish = event.publish;
           this.redrawAll();
           // Re-select
-          this.selectEventAndGoTo(event);
+          this.selectEventAndGoToEvent(event);
         }
 
       }
     });
   }
 
-  private selectEventAndGoTo(event: EventClass) {
+  private selectEventAndGoToEvent(event: EventClass) {
     const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id)
       || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id)
       || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof EventClass && i.id === event.id));
@@ -164,6 +176,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     }
     // Go to point
     this.goTo([event.longitude, event.latitude], 'EPSG:4326');
+  }
+
+  private selectEventAndGoToContributor(contributor: ContributorClass) {
+    const featureToSelect = this.contributorsFeatures.find(x => x.get('object').id === contributor.id)
+      || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof ContributorClass && i.id === contributor.id));
+    if (featureToSelect) {
+      this.selectInteraction.getFeatures().push(featureToSelect);
+    }
+    // Go to point
+    this.goTo([contributor.longitude, contributor.latitude], 'EPSG:4326');
   }
 
   ngOnDestroy() {

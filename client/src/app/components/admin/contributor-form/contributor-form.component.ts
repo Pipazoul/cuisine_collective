@@ -62,7 +62,7 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
     this.contributorForm = new FormGroup({
       'title': new FormControl(this.contributor.title, Validators.required),
       'description': new FormControl(this.contributor.description),
-      'name': new FormControl(this.contributor.name),
+      'name': new FormControl(this.contributor.name, Validators.required),
       'address': addressCtrl,
       'hours': new FormControl(this.contributor.hours),
       'email': new FormControl(this.contributor.email, Validators.email),
@@ -80,8 +80,8 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
     this.contributorForm.get('address').setValue(location.properties.label);
     const transformedLocation = ol.proj.fromLonLat(location.geometry.coordinates, 'EPSG:3857');
     Object.assign(this.contributor, {
-      longitude: transformedLocation[0],
-      latitude: transformedLocation[1],
+      longitude: Math.round(transformedLocation[0]),
+      latitude: Math.round(transformedLocation[1]),
       houseNumber: location.properties.housenumber,
       street: location.properties.street ? location.properties.street : location.properties.name,
       zipcode: location.properties.postcode,
@@ -91,7 +91,7 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
 
   public submitForm(value, goBack: boolean = false) {
     Object.assign(this.contributor, value);
-    this.saveContributor(this.contributor, goBack);
+    this.saveContributor(this.contributor, goBack).subscribe((contributor) => this.contributorService.contributorLocationChanged.next(contributor));
   }
 
 }

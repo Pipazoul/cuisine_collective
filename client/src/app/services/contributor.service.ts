@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { Restangular } from 'ngx-restangular';
 import { map } from 'rxjs/operators';
 
@@ -10,6 +10,8 @@ import { ContributorClass } from '../domain/contributor.class';
 
 @Injectable()
 export class ContributorService {
+
+  public contributorLocationChanged = new BehaviorSubject<ContributorClass>(null);
 
   constructor(private restangular: Restangular,
     private authenticateService: AuthenticationService) {
@@ -75,8 +77,8 @@ export class ContributorService {
    * Get all guides
    */
   getAssistants(): Observable<ContributorClass[]> {
-    return this.restangular.all(UrlSettings.contributorModel).getList({filter: {where:{assistants:true}}})
-    .pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
+    return this.restangular.all(UrlSettings.contributorModel).getList({ filter: { where: { assistants: true } } })
+      .pipe(map((res: Array<any>) => res.map(contributor => new ContributorClass(contributor))));
   }
 
   /**
