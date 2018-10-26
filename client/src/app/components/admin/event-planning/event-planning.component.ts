@@ -20,7 +20,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   public severalDatesForm: FormGroup;
   public dateRangeForm: FormGroup;
   public currentForm: FormGroup;
-  public submitForm: Function = (goBack: boolean = false) => this.saveEvent(this.event, goBack);
+  public submitForm: Function = (goBack: boolean = false) => this.saveEvent(this.event, goBack).subscribe();
   public oneDateFormSelected: boolean = false;
   public dateRangeFormSelected: boolean = false;
   public severalDatesFormSelected: boolean = false;
@@ -151,7 +151,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           saturday: !!this.oneDateForm.value.weekDays[WeekDays.SATURDAY],
           sunday: !!this.oneDateForm.value.weekDays[WeekDays.SUNDAY],
         });
-        this.saveEvent(this.event, goBack);
+        this.saveEvent(this.event, goBack).subscribe();
       }
     };
   }
@@ -178,7 +178,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           saturday: false,
           sunday: false,
         });
-        this.saveEvent(this.event, goBack);
+        this.saveEvent(this.event, goBack).subscribe();
       }
     };
   }
@@ -205,7 +205,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           saturday: false,
           sunday: false,
         });
-        this.saveEvent(this.event, goBack);
+        this.saveEvent(this.event, goBack).subscribe();
       }
     };
   }

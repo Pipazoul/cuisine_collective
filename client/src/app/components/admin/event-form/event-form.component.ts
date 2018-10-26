@@ -43,7 +43,7 @@ export class EventFormComponent extends AbstractEventModifier implements OnInit,
 
   public submitForm(value) {
     Object.assign(this.event, value);
-    this.saveEvent(this.event);
+    this.saveEvent(this.event).subscribe();
   }
 
 }

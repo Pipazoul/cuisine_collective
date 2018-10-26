@@ -1,6 +1,8 @@
 import { Input, EventEmitter, Output } from "@angular/core";
 import { EventClass } from "../domain/event.class";
 import { EventService } from "../services/event.service";
+import { Observable } from "rxjs";
+import { tap } from "rxjs/operators";
 
 export abstract class AbstractEventModifier {
 
@@ -12,19 +14,18 @@ export abstract class AbstractEventModifier {
 
     }
 
-    protected saveEvent(eventToSave: EventClass, goBack: boolean = false) {
-        this.saveAndEmit(eventToSave, goBack ? this.backwardPressed : this.eventSaved);
+    protected saveEvent(eventToSave: EventClass, goBack: boolean = false): Observable<EventClass> {
+        return this.saveAndEmit(eventToSave, goBack ? this.backwardPressed : this.eventSaved);
     }
 
-    private saveAndEmit(event: EventClass, eventEmitter: EventEmitter<EventClass>) {
+    private saveAndEmit(event: EventClass, eventEmitter: EventEmitter<EventClass>): Observable<EventClass> {
         if (!this.event.id) {
-            this.eventService.create(event).subscribe(
-                (event) => { Object.assign(this.event, event); eventEmitter.emit(event); }
-            );
-        } else {
-            this.eventService.update(event).subscribe(
-                (event) => { Object.assign(this.event, event); eventEmitter.emit(event); }
+            return this.eventService.create(event).pipe(
+                tap((event) => { Object.assign(this.event, event); eventEmitter.emit(event); })
             );
         }
+        return this.eventService.update(event).pipe(
+            tap((event) => { Object.assign(this.event, event); eventEmitter.emit(event); })
+        );
     }
 }

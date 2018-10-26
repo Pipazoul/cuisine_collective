@@ -8,7 +8,6 @@ import { LocationService } from '../../../services/location.service';
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { CoordinatesClass } from '../../../domain/coordinates.class';
 
 @Component({
   selector: 'app-event-location-type',
@@ -89,7 +88,7 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
 
   public submitForm(value, goBack: boolean = false) {
     Object.assign(this.event, value);
-    this.saveEvent(this.event, goBack);
+    this.saveEvent(this.event, goBack).subscribe();
   }
 
 }
