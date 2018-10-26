@@ -134,6 +134,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         // Re-select
         const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id) || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id);
         this.selectInteraction.getFeatures().push(featureToSelect);
+        this.goTo([event.longitude, event.latitude], 'EPSG:4326');
       }
     });
 
@@ -151,6 +152,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           // Re-select
           const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id) || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id);
           this.selectInteraction.getFeatures().push(featureToSelect);
+          this.goTo([event.longitude, event.latitude], 'EPSG:4326');
         }
 
       }
@@ -345,11 +347,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * Center the map on the given coordinates
-   * @param coordinates coordinates
+   * 
+   * @param coordinates coordinates (longitude - latitude)
    */
-  goTo(coordinates: [number, number]) {
+  goTo(coordinates: [number, number], projection: string | ol.proj.Projection = 'EPSG:3857') {
     this.map.set('view', new ol.View({
-      center: ol.proj.fromLonLat(coordinates, 'EPSG:3857'),
+      center: ol.proj.fromLonLat(coordinates, projection),
       zoom: this.searchZoom
     }));
   }
