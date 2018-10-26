@@ -14,7 +14,8 @@
       "type": "string"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "hours": {
       "type": "string"
