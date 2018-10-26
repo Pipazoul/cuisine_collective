@@ -30,7 +30,6 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   }
 
   ngOnInit() {
-    this.initForms();
   }
 
   ngOnChanges() {

@@ -42,8 +42,8 @@
                 {{date.value | date:'mediumDate'}}
                 <mat-icon matChipRemove>cancel</mat-icon>
               </mat-chip>
-              <input placeholder="Dates choisies" [disabled]="severalDatesForm.disabled" (dateChange)="addDate($event)" [matDatepicker]="datePicker"
-                [matChipInputFor]="chipList">
+              <input placeholder="Dates choisies" [disabled]="severalDatesForm.disabled" (dateChange)="addDate($event)"
+                [matDatepicker]="datePicker" [matChipInputFor]="chipList">
               <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
               <mat-datepicker #datePicker></mat-datepicker>
             </mat-chip-list>
@@ -52,7 +52,8 @@
       </form>
       <br><br>
       <form [formGroup]="dateRangeForm" (ngSubmit)="submitForm()" fxLayout="column" fxLayoutGap="10px">
-        <mat-radio-button [value]="3" [checked]="dateRangeFormSelected"><strong>Choisir une période</strong> (pas encore de date définie)</mat-radio-button>
+        <mat-radio-button [value]="3" [checked]="dateRangeFormSelected"><strong>Choisir une période</strong> (pas
+          encore de date définie)</mat-radio-button>
         <ng-container *ngIf="dateRangeFormSelected">
           <mat-form-field>
             <input matInput autocomplete="new-password" [matDatepicker]="dateRangeStartPicker" [min]="minDate" [max]="dateRangeForm.get('dateEnd').value"
@@ -75,7 +76,7 @@
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm()" [disabled]="currentForm.invalid">
+      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm()" [disabled]="!currentForm || currentForm.invalid">
         Suivant
         <mat-icon>arrow_forward</mat-icon>
       </button>
