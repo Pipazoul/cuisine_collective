@@ -47,22 +47,27 @@
     },
     "location": {
       "type": "boolean",
+      "required": true,
       "default": false
     },
     "food": {
       "type": "boolean",
+      "required": true,
       "default": false
     },
     "skills": {
       "type": "boolean",
+      "required": true,
       "default": false
     },
     "people": {
       "type": "boolean",
+      "required": true,
       "default": false
     },
     "assistants": {
       "type": "boolean",
+      "required": true,
       "default": false
     }
   },
