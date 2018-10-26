@@ -75,8 +75,8 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
     this.eventLocationForm.get('location').setValue(location.properties.label);
     const transformedLocation = ol.proj.fromLonLat(location.geometry.coordinates, 'EPSG:3857');
     Object.assign(this.event, {
-      longitude: transformedLocation[0],
-      latitude: transformedLocation[1],
+      longitude: Math.round(transformedLocation[0]),
+      latitude: Math.round(transformedLocation[1]),
       locationCity: location.properties.city,
       locationCitycode: location.properties.citycode,
       locationHousenumber: location.properties.housenumber,
