@@ -62,8 +62,6 @@ export class HeaderComponent implements OnInit {
         this.authenticationService.signout().subscribe(
           res => {
             this.router.navigate(this.authenticationService.homePage);
-          }, err => {
-            console.error(err);
           }
         )
       }

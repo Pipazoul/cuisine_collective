@@ -26,8 +26,6 @@ export class EventComponent extends RepresentedOnMapComponent  implements OnInit
     this.route.params.subscribe(params => {
       this.eventService.getById(params['id']).subscribe(event => {
         this.event = event;
-      }, err => {
-        console.error(err);
       })
     });
   }
@@ -36,8 +34,6 @@ export class EventComponent extends RepresentedOnMapComponent  implements OnInit
     this.eventService.delete(eventId).subscribe(res => {
       this.removePoint.emit({type: EventClass, id: eventId});
       this.router.navigate(['/admin']);
-    }, err => {
-      console.error(err);
     })
   }
 

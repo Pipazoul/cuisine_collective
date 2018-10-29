@@ -62,8 +62,6 @@ export class SearchBarComponent implements OnInit {
     if (window.navigator.geolocation) {
       window.navigator.geolocation.getCurrentPosition(position => {
         this.goTo.emit([position.coords.longitude, position.coords.latitude]);
-      }, error => {
-        console.error(error);
       });
     };
   }

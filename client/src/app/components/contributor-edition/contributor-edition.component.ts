@@ -27,8 +27,6 @@ export class ContributorEditionComponent extends RepresentedOnMapComponent imple
       }
       this.contributorService.getById(params['id']).subscribe(event => {
         this.contributor = event;
-      }, err => {
-        console.error(err);
       })
     });
   }
@@ -42,8 +40,6 @@ export class ContributorEditionComponent extends RepresentedOnMapComponent imple
     this.contributorService.delete(contributorId).subscribe(res => {
       this.removePoint.emit({ type: ContributorClass, id: contributorId });
       this.router.navigate(['/admin']);
-    }, err => {
-      console.error(err);
     })
   }
 

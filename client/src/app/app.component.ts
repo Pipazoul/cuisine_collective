@@ -700,8 +700,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
             _.remove(item.itemsList, element => element instanceof ContributorClass && element.id === params.id);
           });
         }
-      }, err => {
-        console.error(err);
       });
     }
   }
@@ -745,8 +743,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.removeEventsFromItemsList();
         this.redrawAll();
       });
-    }, err => {
-      console.error(err);
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
@@ -755,8 +751,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.removeContributorsFromItemsList();
         this.redrawAll();
       });
-    }, err => {
-      console.error(err);
     });
   }
 

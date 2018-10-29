@@ -27,7 +27,6 @@ export class PopupSigninComponent implements OnInit {
         this.dialogRef.close(res);
       }, (err) => {
         this.showError = true;
-        console.error(err);
       }
     );
   }

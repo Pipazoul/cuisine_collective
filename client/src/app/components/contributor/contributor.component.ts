@@ -27,8 +27,6 @@ export class ContributorComponent extends RepresentedOnMapComponent implements O
     this.route.params.subscribe(params => {
       this.contributorService.getById(params['id']).subscribe(contributor => {
         this.contributor = contributor;
-      }, err => {
-        console.error(err);
       })
     });
   }
@@ -37,8 +35,6 @@ export class ContributorComponent extends RepresentedOnMapComponent implements O
     this.contributorService.delete(contributorId).subscribe(res => {
       this.removePoint.emit({type: ContributorClass, id: contributorId});
       this.router.navigate(['/admin']);
-    }, err => {
-      console.error(err);
     })
   }
 
