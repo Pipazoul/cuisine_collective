@@ -4,21 +4,24 @@ import { EventService } from '../../services/event.service';
 import { EventClass } from '../../domain/event.class';
 import { AuthenticationService } from '../../services/authentication.service';
 import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
+import { MatDialog } from '@angular/material';
+import { DialogComponent, DialogParams } from '../common/dialog/dialog.component';
 
 @Component({
   selector: 'app-event',
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css']
 })
-export class EventComponent extends RepresentedOnMapComponent  implements OnInit {
+export class EventComponent extends RepresentedOnMapComponent implements OnInit {
 
   event: EventClass;
 
   constructor(
+    private dialog: MatDialog,
     private route: ActivatedRoute,
-    private eventService: EventService,
     private router: Router,
-    public authService: AuthenticationService) {
+    public authService: AuthenticationService,
+    private eventService: EventService) {
     super();
   }
 
@@ -30,14 +33,25 @@ export class EventComponent extends RepresentedOnMapComponent  implements OnInit
     });
   }
 
-  deleteEvent(eventId) {
-    this.eventService.delete(eventId).subscribe(res => {
-      this.removePoint.emit({type: EventClass, id: eventId});
-      this.router.navigate(['/admin']);
-    })
+  public deleteEvent(eventId) {
+    this.dialog.open<DialogComponent, DialogParams>(DialogComponent, {
+      width: '550px',
+      panelClass: 'dialog',
+      data: {
+        title: 'Suppression',
+        body: 'Êtes-vous sûr de vouloir supprimer cet événement ?'
+      }
+    }).afterClosed().subscribe((res: boolean) => {
+      if (res) {
+        this.eventService.delete(eventId).subscribe(res => {
+          this.removePoint.emit({ type: EventClass, id: eventId });
+          this.router.navigate(['/admin']);
+        });
+      }
+    });
   }
 
-  modifyEvent(eventId) {
+  public modifyEvent(eventId) {
     this.router.navigate(['admin', 'events', eventId, 'edit']);
   }
 }

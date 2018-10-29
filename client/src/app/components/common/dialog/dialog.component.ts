@@ -9,8 +9,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 export class DialogComponent {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<DialogComponent>
+    @Inject(MAT_DIALOG_DATA) public data: DialogParams,
+    private dialogRef: MatDialogRef<DialogComponent, boolean>
   ) { }
 
   onCancelClick(): void {
@@ -20,4 +20,9 @@ export class DialogComponent {
   onOkClick(): void {
     this.dialogRef.close(true);
   }
+}
+
+export interface DialogParams {
+  title: string;
+  body?: string;
 }

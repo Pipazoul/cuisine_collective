@@ -16,8 +16,8 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class HeaderComponent implements OnInit {
 
-  signinDialog: MatDialogRef<PopupSigninComponent, any>;
-  signoutDialog: MatDialogRef<DialogComponent, any>;
+  private signinDialog: MatDialogRef<PopupSigninComponent, boolean>;
+  private signoutDialog: MatDialogRef<DialogComponent, boolean>;
 
   constructor(
     private dialog: MatDialog,
