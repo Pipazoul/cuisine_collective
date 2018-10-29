@@ -1,6 +1,5 @@
 <div class="event-edition" fxFlex fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
-    <i *ngIf="event?.id" class="material-icons clickable" (click)="deleteEvent(event.id)" title="Supprimer">delete</i>
     <span *ngIf="!event?.name">{{'Créer un évènement' | uppercase}}</span>
     <span *ngIf="event?.name">{{event.name | uppercase}}</span>
     <button type="button" mat-icon-button [routerLink]="'/admin'">

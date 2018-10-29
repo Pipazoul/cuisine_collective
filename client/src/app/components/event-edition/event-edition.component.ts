@@ -60,11 +60,4 @@ export class EventEditionComponent extends RepresentedOnMapComponent  implements
     this.saved = true;
   }
 
-  deleteEvent(eventId) {
-    this.eventService.delete(eventId).subscribe(res => {
-      this.removePoint.emit({type: EventClass, id: eventId});
-      this.router.navigate(['/admin']);
-    })
-  }
-
 }
