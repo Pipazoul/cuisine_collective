@@ -643,7 +643,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       target: this.mapElement.nativeElement,
       controls: ol.control.defaults({
         attribution: false,
-        zoom: false,
+        zoom: true,
         rotate: false
       }),
       interactions:
