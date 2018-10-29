@@ -6,6 +6,7 @@ import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { MatRadioChange, MatDatepickerInputEvent } from '@angular/material';
 import { WeekDays } from '../../../enum/week-days';
 import * as _ from 'lodash';
+import { CustomValidators } from 'src/app/util/CustomValidators';
 
 @Component({
   selector: 'app-event-planning',
@@ -39,7 +40,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   private initForms() {
     this.oneDateForm = new FormGroup({
       'dateStart': new FormControl(this.event.dateStart, Validators.required),
-      'dateEnd': new FormControl(this.event.dateEnd, this.checkIfOtherControlHasValue('radioGroup', 2)),
+      'dateEnd': new FormControl(this.event.dateEnd, CustomValidators.checkIfOtherControlHasValue('radioGroup', 2)),
       'weekDays': new FormControl({
         [WeekDays.MONDAY]: !!this.event.monday,
         [WeekDays.TUESDAY]: !!this.event.tuesday,
@@ -58,7 +59,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     });
 
     this.severalDatesForm = new FormGroup({
-      'dates': new FormArray((this.event.dates && this.event.dates.length) ? this.event.dates.map(x => new FormControl(x)) : [])
+      'dates': new FormArray(this.event.dates ? this.event.dates.map(x => new FormControl(x)) : [], CustomValidators.minLengthArray(1))
     });
 
     // Disable all form
@@ -82,34 +83,6 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       this.oneDateForm.enable();
       this.oneDateFormSelected = true;
       this.activateOneDateForm();
-    }
-  }
-
-  private checkIfOtherControlHasValue(otherControlName: string, value: any) {
-    let thisControl: FormControl;
-    let otherControl: FormControl;
-
-    return function matchOther(control: FormControl) {
-      if (!control.parent) {
-        return null;
-      }
-      // Initializing the validator.
-      if (!thisControl) {
-        thisControl = control;
-        // Get the other control from the parent
-        otherControl = control.parent.get(otherControlName) as FormControl;
-        if (!otherControl) {
-          throw new Error('checkIfOtherControlHasValue(): other control is not found in parent group');
-        }
-        // If other control change, we must compute again the validity
-        otherControl.valueChanges.subscribe(() => {
-          thisControl.updateValueAndValidity();
-        });
-      }
-      if (!otherControl) {
-        return null;
-      }
-      return (otherControl.value !== value || thisControl.value) ? null : { matchOther: true };
     }
   }
 
@@ -212,6 +185,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
 
   removeDate(event) {
     _.remove((<FormArray>this.severalDatesForm.get('dates')).controls, { value: event.value });
+    this.severalDatesForm.get('dates').updateValueAndValidity();
   }
 
   addDate(event: MatDatepickerInputEvent<Date>) {
@@ -220,5 +194,6 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       (<FormArray>this.severalDatesForm.get('dates')).controls.push(new FormControl(event.value));
     event.target.value = null;
     (<FormArray>this.severalDatesForm.get('dates')).controls = _.sortBy((<FormArray>this.severalDatesForm.get('dates')).controls, 'value');
+    this.severalDatesForm.get('dates').updateValueAndValidity();
   }
 }
