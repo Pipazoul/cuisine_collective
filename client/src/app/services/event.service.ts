@@ -95,6 +95,12 @@ export class EventService {
         }]
       }, {
         occurenceType: filters && filters.regular ? { gt: 0 } : undefined
+      }, {
+        or: [{
+          name: filters && filters.searchString ? {ilike: '%' + filters.searchString + '%'} : undefined
+        }, {
+          description: filters && filters.searchString ? {ilike: '%' + filters.searchString + '%'} : undefined
+        }]
       });
 
     if (filters && filters.startDate) {
@@ -201,4 +207,5 @@ export interface EventFilters {
   regular?: boolean;
   startDate?: Date;
   endDate?: Date;
+  searchString?: string;
 }
