@@ -41,6 +41,10 @@
         </ng-container>
       </div>
       <div class="event-section">
+        <div class="bold">Horaires / durée de l'évènement</div>
+        <div class="text">{{event.timeSlot}}</div>
+      </div>
+      <div class="event-section">
         <div class="bold">Contact</div>
         <div>
           <div>{{event.referent}}</div>
@@ -56,13 +60,39 @@
           <div>{{event.locationPostcode}} {{event.locationCity}}</div>
         </div>
       </div>
-      <div class="contributor-section">
+      <div class="event-section">
         <div class="bold">Autres informations</div>
         <div class="text">{{event.informations}}</div>
       </div>
-      <div *ngIf="authService.isConnected" class="contributor-section">
+      <div *ngIf="authService.isConnected" class="event-section">
         <div class="bold">Informations à destination des contributeurs</div>
         <div class="text">{{event.partnerInformations}}</div>
+      </div>
+      <!-- Missing needs -->
+      <div *ngIf="authService.isConnected" class="event-section">
+        <div class="bold">Besoins manquants</div>
+        <div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
+          <div *ngIf="event.missingLocation" class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">kitchen</i>
+            Un lieu
+          </div>
+          <div *ngIf="event.missingFood" class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">shopping_cart</i>
+            Des aliments
+          </div>
+          <div *ngIf="event.missingSkills" class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">school</i>
+            Des professionnels
+          </div>
+          <div *ngIf="event.missingPeople" class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">people</i>
+            Des participants
+          </div>
+          <div *ngIf="event.missingAssistants" class="services needed" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">mood</i>
+            Des accompagnateurs
+          </div>
+        </div>
       </div>
     </div>
 

@@ -62,13 +62,56 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       'dates': new FormArray(this.event.dates ? this.event.dates.map(x => new FormControl(x)) : [], CustomValidators.minLengthArray(1))
     });
 
-    // Disable all form
-    this.oneDateForm.disable();
-    this.dateRangeForm.disable();
-    this.severalDatesForm.disable();
-
     // Choose right initial form and enable it
     if (this.event.dates) {
+<<<<<<< HEAD
+=======
+      this.activateSeveralDatesForm();
+    } else if (this.event.dateStart && this.event.dateEnd) {
+      this.activateDateRangeForm();
+    } else {
+      this.activateOneDateForm();
+    }
+  }
+
+  private checkIfOtherControlHasValue(otherControlName: string, value: any) {
+    let thisControl: FormControl;
+    let otherControl: FormControl;
+
+    return function matchOther(control: FormControl) {
+      if (!control.parent) {
+        return null;
+      }
+      // Initializing the validator.
+      if (!thisControl) {
+        thisControl = control;
+        // Get the other control from the parent
+        otherControl = control.parent.get(otherControlName) as FormControl;
+        if (!otherControl) {
+          throw new Error('checkIfOtherControlHasValue(): other control is not found in parent group');
+        }
+        // If other control change, we must compute again the validity
+        otherControl.valueChanges.subscribe(() => {
+          thisControl.updateValueAndValidity();
+        });
+      }
+      if (!otherControl) {
+        return null;
+      }
+      return (otherControl.value !== value || thisControl.value) ? null : { matchOther: true };
+    }
+  }
+
+  selectionTypeChanged(event: MatRadioChange) {
+    this.activateForm(event.value);
+  }
+
+  activateForm(index: number) {
+    if (index === 1) {
+      this.activateOneDateForm();
+    }
+    else if (index === 2) {
+>>>>>>> master
       this.activateSeveralDatesForm();
     } else if (this.event.dateStart && this.event.dateEnd) {
       this.activateDateRangeForm();
@@ -98,6 +141,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           friday: !!this.oneDateForm.value.weekDays[WeekDays.FRIDAY],
           saturday: !!this.oneDateForm.value.weekDays[WeekDays.SATURDAY],
           sunday: !!this.oneDateForm.value.weekDays[WeekDays.SUNDAY],
+          occurenceType: OccurenceType.RECURRENT,
         });
         this.saveEvent(this.event, goBack).subscribe();
       }
@@ -125,6 +169,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           friday: false,
           saturday: false,
           sunday: false,
+          occurenceType: OccurenceType.RECURRENT,
         });
         this.saveEvent(this.event, goBack).subscribe();
       }
@@ -152,6 +197,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           friday: false,
           saturday: false,
           sunday: false,
+          occurenceType: OccurenceType.NONE,
         });
         this.saveEvent(this.event, goBack).subscribe();
       }

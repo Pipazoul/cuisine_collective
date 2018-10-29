@@ -31,6 +31,32 @@
           <div>{{contributor.zipcode}} {{contributor.city}}</div>
         </div>
       </div>
+      <!-- Missing needs -->
+      <div *ngIf="authService.isConnected" class="contributor-section">
+        <div class="bold">Services proposés</div>
+        <div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
+          <div *ngIf="contributor.location" class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">kitchen</i>
+            Un lieu
+          </div>
+          <div *ngIf="contributor.food" class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">shopping_cart</i>
+            Des aliments
+          </div>
+          <div *ngIf="contributor.skills" class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">school</i>
+            Des professionnels
+          </div>
+          <div *ngIf="contributor.people" class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">people</i>
+            Des participants
+          </div>
+          <div *ngIf="contributor.assistants" class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+            <i class="material-icons checked">mood</i>
+            Des accompagnateurs
+          </div>
+        </div>
+      </div>
     </div>
 
     <div fxFlex="60px" fxLayoutAlign="row" class="sidenav-footer">

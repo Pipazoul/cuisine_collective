@@ -111,7 +111,7 @@ export class EventService {
       params.filter.where.and.push({
         dateEnd: { neq: null }
       }, {
-          dateEnd: { lt: new Date(filters.endDate) }
+          dateEnd: { lte: new Date(filters.endDate) }
         });
     }
 

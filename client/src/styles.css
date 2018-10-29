@@ -226,10 +226,9 @@ label {
 }
 
 .services {
-    margin: 15px;
+    margin: 15px 0 15px 0;
 }
 .services i {
-    cursor: pointer;
     color: white;
     background-color: #cccccc;
     border-radius: 50%;
@@ -237,6 +236,9 @@ label {
     height: 50px;
     font-size: 50px;
     padding: 10px;
+}
+.services input ~ i {
+    cursor: pointer;
 }
 .services input, .status input {
     z-index: -1;
@@ -246,15 +248,13 @@ label {
     cursor: pointer;
 }
 .services:hover input ~ i {
-  background-color: #aaa;
+    background-color: #aaa;
 }
-.services.needed input:checked ~ i, .status.needed input:checked ~ i {
-  background-color: #6CCACC;
+.services.needed input:checked ~ i, .status.needed input:checked ~ i,
+.services.needed i.checked {
+    background-color: #6CCACC;
 }
-.services.provided input:checked ~ i {
-  background-color: #0d70cd;
-}
-.services.services-event input:checked ~ i {
+.services.provided input:checked ~ i, .services.provided i.checked {
     background-color: #0d70cd;
 }
 .full-width {

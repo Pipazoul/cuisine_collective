@@ -951,7 +951,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         theHtmlString += '<i class="material-icons">location_on</i>';
       }
-      theHtmlString += item.name + '</span><i class="material-icons">keyboard_arrow_right</i>';
+      theHtmlString += item.name ? item.name : 'Sans nom' + '</span><i class="material-icons">keyboard_arrow_right</i>';
       theHtmlString += '</div>';
     });
 
