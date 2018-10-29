@@ -69,36 +69,11 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
 
     // Choose right initial form and enable it
     if (this.event.dates) {
-      this.currentForm = this.severalDatesForm;
-      this.severalDatesForm.enable();
-      this.severalDatesFormSelected = true;
       this.activateSeveralDatesForm();
     } else if (this.event.dateStart && this.event.dateEnd) {
-      this.currentForm = this.dateRangeForm;
-      this.dateRangeForm.enable();
-      this.dateRangeFormSelected = true;
       this.activateDateRangeForm();
     } else if (this.event.monday || this.event.tuesday || this.event.wednesday || this.event.thursday || this.event.friday || this.event.saturday || this.event.sunday) {
-      this.currentForm = this.oneDateForm;
-      this.oneDateForm.enable();
-      this.oneDateFormSelected = true;
       this.activateOneDateForm();
-    }
-  }
-
-  public selectionTypeChanged(event: MatRadioChange) {
-    this.activateForm(event.value);
-  }
-
-  private activateForm(index: number) {
-    if (index === 1) {
-      this.activateOneDateForm();
-    }
-    else if (index === 2) {
-      this.activateSeveralDatesForm();
-    }
-    else if (index === 3) {
-      this.activateDateRangeForm();
     }
   }
 
@@ -183,12 +158,28 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
     };
   }
 
-  removeDate(event) {
+  public selectionTypeChanged(event: MatRadioChange) {
+    this.activateForm(event.value);
+  }
+
+  private activateForm(index: number) {
+    if (index === 1) {
+      this.activateOneDateForm();
+    }
+    else if (index === 2) {
+      this.activateSeveralDatesForm();
+    }
+    else if (index === 3) {
+      this.activateDateRangeForm();
+    }
+  }
+
+  public removeDate(event) {
     _.remove((<FormArray>this.severalDatesForm.get('dates')).controls, { value: event.value });
     this.severalDatesForm.get('dates').updateValueAndValidity();
   }
 
-  addDate(event: MatDatepickerInputEvent<Date>) {
+  public addDate(event: MatDatepickerInputEvent<Date>) {
     if (!(<FormArray>this.severalDatesForm.get('dates')).length
       || !(<FormArray>this.severalDatesForm.get('dates')).controls.some(x => x.value.getTime() === event.value.getTime()))
       (<FormArray>this.severalDatesForm.get('dates')).controls.push(new FormControl(event.value));
