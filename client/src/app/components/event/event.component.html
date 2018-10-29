@@ -1,10 +1,6 @@
 <div fxFlex fxLayout="column" class="carousel-element">
   <ng-container *ngIf="event">
     <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
-      <div>
-        <i *ngIf="authService.isConnected" class="material-icons clickable" (click)="modifyEvent(event.id)" title="Modifier">settings</i>
-        <i *ngIf="authService.isConnected" class="material-icons clickable" (click)="deleteEvent(event.id)" title="Supprimer">delete</i>
-      </div>
       <span>{{event.name | uppercase}}</span>
       <button type="button" mat-icon-button [routerLink]="'/admin'">
         <mat-icon>close</mat-icon>
@@ -70,8 +66,15 @@
       </div>
     </div>
 
-    <div fxFlex="55px" class="sidenav-footer">
+    <div fxFlex="60px" fxLayoutAlign="row" class="sidenav-footer">
       <button mat-button fxFlex type="button" class="next-button background-red" [routerLink]="'/admin'">OK</button>
+      <button *ngIf="authService.isConnected" mat-button fxFlex type="button" class="update-button" (click)="modifyEvent(event.id)">
+        <mat-icon class="material-icons">edit</mat-icon>
+        Modifier
+      </button>
+      <button *ngIf="authService.isConnected" mat-icon-button type="button" class="delete-button" (click)="deleteEvent(event.id)">
+        <mat-icon class="material-icons">delete</mat-icon>
+      </button>
     </div>
   </ng-container>
 </div>
