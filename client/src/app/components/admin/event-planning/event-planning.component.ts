@@ -64,54 +64,6 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
 
     // Choose right initial form and enable it
     if (this.event.dates) {
-<<<<<<< HEAD
-=======
-      this.activateSeveralDatesForm();
-    } else if (this.event.dateStart && this.event.dateEnd) {
-      this.activateDateRangeForm();
-    } else {
-      this.activateOneDateForm();
-    }
-  }
-
-  private checkIfOtherControlHasValue(otherControlName: string, value: any) {
-    let thisControl: FormControl;
-    let otherControl: FormControl;
-
-    return function matchOther(control: FormControl) {
-      if (!control.parent) {
-        return null;
-      }
-      // Initializing the validator.
-      if (!thisControl) {
-        thisControl = control;
-        // Get the other control from the parent
-        otherControl = control.parent.get(otherControlName) as FormControl;
-        if (!otherControl) {
-          throw new Error('checkIfOtherControlHasValue(): other control is not found in parent group');
-        }
-        // If other control change, we must compute again the validity
-        otherControl.valueChanges.subscribe(() => {
-          thisControl.updateValueAndValidity();
-        });
-      }
-      if (!otherControl) {
-        return null;
-      }
-      return (otherControl.value !== value || thisControl.value) ? null : { matchOther: true };
-    }
-  }
-
-  selectionTypeChanged(event: MatRadioChange) {
-    this.activateForm(event.value);
-  }
-
-  activateForm(index: number) {
-    if (index === 1) {
-      this.activateOneDateForm();
-    }
-    else if (index === 2) {
->>>>>>> master
       this.activateSeveralDatesForm();
     } else if (this.event.dateStart && this.event.dateEnd) {
       this.activateDateRangeForm();
