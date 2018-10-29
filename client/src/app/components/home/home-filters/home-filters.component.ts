@@ -20,6 +20,7 @@ export class HomeFiltersComponent implements OnInit {
   public cookToggle: boolean = false;
   /* public publicToggle: boolean = false; */
   public regularToggle: boolean = false;
+  public searchString: string;
 
   // Assistants' filters
   public assistantsToggle: boolean = false;
@@ -37,6 +38,7 @@ export class HomeFiltersComponent implements OnInit {
       regular: this.regularToggle,
       startDate: this.startDate,
       endDate: this.endDate,
+      searchString: this.searchString,
     });
   }
 
@@ -45,5 +47,4 @@ export class HomeFiltersComponent implements OnInit {
       assistants: this.assistantsToggle,
     });
   }
-
 }

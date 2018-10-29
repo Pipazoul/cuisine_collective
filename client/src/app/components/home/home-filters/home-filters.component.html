@@ -7,6 +7,21 @@
       <div fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex="20%" class="title-decoration"></div>
         <div class="section-title" fxFlex="60%">
+          Recherche par mot clé
+        </div>
+        <div fxFlex="20%" class="title-decoration"></div>
+      </div>
+      <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <div fxLayout="row" class="search-input" fxLayoutAlign="center center">
+          <i class="material-icons">search</i>
+          <input type="text" [(ngModel)]="searchString" placeholder="Placeholder ?" (blur)="applyEventsFilters()">
+        </div>
+      </div>
+    </div>
+    <div class="section-header">
+      <div fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="20%" class="title-decoration"></div>
+        <div class="section-title" fxFlex="60%">
           Date ou période
         </div>
         <div fxFlex="20%" class="title-decoration"></div>

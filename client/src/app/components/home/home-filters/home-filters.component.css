@@ -39,3 +39,20 @@ mat-form-field {
     background-color: #0d70cd;
     color: white;
 }
+
+.search-input {
+    border-radius: 10px;
+    background-color: white;
+    color: #c6c6c6;
+    height: 35px;
+}
+
+.search-input>i {
+    border-radius: 10px 0 0 10px;
+    padding: 0 7px 0 10px;
+}
+
+.search-input input {
+    border: none;
+    width: 100%;
+}
