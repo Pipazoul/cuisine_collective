@@ -72,7 +72,7 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
       this.activateSeveralDatesForm();
     } else if (this.event.dateStart && this.event.dateEnd) {
       this.activateDateRangeForm();
-    } else if (this.event.monday || this.event.tuesday || this.event.wednesday || this.event.thursday || this.event.friday || this.event.saturday || this.event.sunday) {
+    } else if (this.event.dateStart) {
       this.activateOneDateForm();
     }
   }
