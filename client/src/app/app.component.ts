@@ -139,7 +139,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.allEvents.push(event);
         this.redrawAll();
         // Re-select
-        this.selectEventAndGoToEvent(event);
+        this.selectAndGoToEvent(event);
       }
     });
 
@@ -150,7 +150,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.allContributors.push(contributor);
         this.redrawAll();
         // Re-select
-        this.selectEventAndGoToContributor(contributor);
+        this.selectAndGoToContributor(contributor);
       }
     });
 
@@ -168,13 +168,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         this.redrawAll();
         // Re-select
-        this.selectEventAndGoToEvent(event);
+        this.selectAndGoToEvent(event);
       }
     });
 
     this.subscriptionEventDeleted = this.eventService.eventDeleted.subscribe((eventId) => {
       if (eventId) {
         _.remove(this.events, { id: eventId });
+        this.selectInteraction.getFeatures().clear();
         this.redrawAll();
       }
     });
@@ -182,15 +183,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionContributorDeleted = this.contributorService.contributorDeleted.subscribe((contributorId) => {
       if (contributorId) {
         _.remove(this.contributors, { id: contributorId });
+        this.selectInteraction.getFeatures().clear();
         this.redrawAll();
       }
     });
   }
 
-  private selectEventAndGoToEvent(event: EventClass) {
+  private selectAndGoToEvent(event: EventClass) {
     const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id)
       || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id)
       || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof EventClass && i.id === event.id));
+    this.selectInteraction.getFeatures().clear();
+    this.popupContent = '';
     if (featureToSelect) {
       this.selectInteraction.getFeatures().push(featureToSelect);
     }
@@ -198,9 +202,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.goTo([event.longitude, event.latitude], 'EPSG:4326');
   }
 
-  private selectEventAndGoToContributor(contributor: ContributorClass) {
+  private selectAndGoToContributor(contributor: ContributorClass) {
     const featureToSelect = this.contributorsFeatures.find(x => x.get('object').id === contributor.id)
       || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof ContributorClass && i.id === contributor.id));
+    this.selectInteraction.getFeatures().clear();
+    this.popupContent = '';
     if (featureToSelect) {
       this.selectInteraction.getFeatures().push(featureToSelect);
     }
