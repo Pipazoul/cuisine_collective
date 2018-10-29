@@ -67,6 +67,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private subscriptionEventLocationChanged: Subscription;
   private subscriptionContributorLocationChanged: Subscription;
   private subscriptionEventPublishStatusChanged: Subscription;
+  private subscriptionEventDeleted: Subscription;
+  private subscriptionContributorDeleted: Subscription;
 
   constructor(
     private router: Router,
@@ -165,6 +167,20 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
       }
     });
+
+    this.subscriptionEventDeleted = this.eventService.eventDeleted.subscribe((eventId) => {
+      if (eventId) {
+        _.remove(this.events, { id: eventId });
+        this.redrawAll();
+      }
+    });
+
+    this.subscriptionContributorDeleted = this.contributorService.contributorDeleted.subscribe((contributorId) => {
+      if (contributorId) {
+        _.remove(this.contributors, { id: contributorId });
+        this.redrawAll();
+      }
+    });
   }
 
   private selectEventAndGoToEvent(event: EventClass) {
@@ -192,6 +208,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionEventLocationChanged.unsubscribe();
     this.subscriptionContributorLocationChanged.unsubscribe();
     this.subscriptionEventPublishStatusChanged.unsubscribe();
+    this.subscriptionEventDeleted.unsubscribe();
+    this.subscriptionContributorDeleted.unsubscribe();
   }
 
   get publishedEventStyle() {

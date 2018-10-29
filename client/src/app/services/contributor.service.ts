@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Restangular } from 'ngx-restangular';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { UrlSettings } from '../config/url.settings';
 
@@ -12,6 +12,7 @@ import { ContributorClass } from '../domain/contributor.class';
 export class ContributorService {
 
   public contributorLocationChanged = new BehaviorSubject<ContributorClass>(null);
+  public contributorDeleted = new BehaviorSubject<number>(null);
 
   constructor(private restangular: Restangular,
     private authenticateService: AuthenticationService) {
@@ -41,7 +42,7 @@ export class ContributorService {
    * @param contributorId 
    */
   delete(contributorId: number): Observable<any> {
-    return this.restangular.one(UrlSettings.contributorModel, contributorId).remove();
+    return this.restangular.one(UrlSettings.contributorModel, contributorId).remove().pipe(tap(() => this.contributorDeleted.next(contributorId)));
   }
 
   /**

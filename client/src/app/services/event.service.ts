@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Restangular } from 'ngx-restangular';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { UrlSettings } from '../config/url.settings';
 
@@ -14,6 +14,7 @@ export class EventService {
 
   public eventLocationChanged = new BehaviorSubject<EventClass>(null);
   public eventPublishStatusChanged = new BehaviorSubject<EventClass>(null);
+  public eventDeleted = new BehaviorSubject<number>(null);
 
   constructor(
     private restangular: Restangular,
@@ -52,7 +53,7 @@ export class EventService {
    * @param eventId 
    */
   delete(eventId: number): Observable<any> {
-    return this.restangular.one(UrlSettings.eventModel, eventId).remove();
+    return this.restangular.one(UrlSettings.eventModel, eventId).remove().pipe(tap(() => this.eventDeleted.next(eventId)));
   }
 
   /**
