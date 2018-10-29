@@ -190,6 +190,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy() {
     this.subscriptionEventLocationChanged.unsubscribe();
+    this.subscriptionContributorLocationChanged.unsubscribe();
     this.subscriptionEventPublishStatusChanged.unsubscribe();
   }
 
