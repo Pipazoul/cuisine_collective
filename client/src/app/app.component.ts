@@ -28,7 +28,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private selectedColor = '#FF5555';
 
   private events: EventClass[];
+  private allEvents: EventClass[];
   private contributors: ContributorClass[];
+  private allContributors: ContributorClass[];
 
   @ViewChild('itemsList') itemsList: ElementRef;
   @ViewChild('map') mapElement: ElementRef;
@@ -83,11 +85,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.authenticationService.connectionStatusChanged.subscribe((connected) => {
       if (connected === true || connected === false) {
         this.eventService.getAll().subscribe(events => {
-          this.events = events;
+          this.allEvents = events;
 
           if (connected === true) {
             this.contributorService.getAll().subscribe(contributors => {
-              this.contributors = contributors;
+              this.allContributors = contributors;
+
               this.sameLocationItems.length = 0;
               this.unloadFilteredEventOrContributor();
               this.redrawAll();
@@ -102,6 +105,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           } else if (connected === false) {
             // We don't load any contributor
             this.contributors = [];
+            this.allContributors = [];
             this.removeEventsFromItemsList();
             this.unloadFilteredEventOrContributor();
             this.redrawAll();
@@ -131,8 +135,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionEventLocationChanged = this.eventService.eventLocationChanged.subscribe((event) => {
       if (event) {
         // Update in array and redraw
-        _.remove(this.events, { id: event.id });
-        this.events.push(event);
+        _.remove(this.allEvents, { id: event.id });
+        this.allEvents.push(event);
         this.redrawAll();
         // Re-select
         this.selectEventAndGoToEvent(event);
@@ -142,8 +146,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionContributorLocationChanged = this.contributorService.contributorLocationChanged.subscribe((contributor) => {
       if (contributor) {
         // Update in array and redraw
-        _.remove(this.contributors, { id: contributor.id });
-        this.contributors.push(contributor);
+        _.remove(this.allContributors, { id: contributor.id });
+        this.allContributors.push(contributor);
         this.redrawAll();
         // Re-select
         this.selectEventAndGoToContributor(contributor);
@@ -152,19 +156,19 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptionEventPublishStatusChanged = this.eventService.eventPublishStatusChanged.subscribe((event) => {
       if (event) {
-        const oldEvent = _.find(this.events, { id: event.id });
+        const oldEvent = _.find(this.allEvents, { id: event.id });
         if (!oldEvent) {
-          this.events.push(event);
+          this.allEvents.push(event);
         } else if (oldEvent.publish === event.publish) {
           // If event already displayed and publish status not changed, do nothing
           return;
         } else {
           oldEvent.publish = event.publish;
-          this.redrawAll();
-          // Re-select
-          this.selectEventAndGoToEvent(event);
-        }
 
+        }
+        this.redrawAll();
+        // Re-select
+        this.selectEventAndGoToEvent(event);
       }
     });
 
@@ -212,7 +216,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionContributorDeleted.unsubscribe();
   }
 
-  get publishedEventStyle() {
+  private get publishedEventStyle() {
     if (!this._publishedEventStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.eventColor);
 
@@ -227,7 +231,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return this._publishedEventStyle;
   }
 
-  get notPublishedEventStyle() {
+  private get notPublishedEventStyle() {
     if (!this._notPublishedEventStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/edit_location.svg', this.eventColor);
 
@@ -242,7 +246,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return this._notPublishedEventStyle;
   }
 
-  get contributorStyle() {
+  private get contributorStyle() {
     if (!this._contributorStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.contributorColor);
 
@@ -257,7 +261,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return this._contributorStyle;
   }
 
-  get sameLocationItemStyle() {
+  private get sameLocationItemStyle() {
     if (!this._sameLocationItemStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/add_location.svg', this.eventColor);
 
@@ -272,7 +276,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return this._sameLocationItemStyle;
   }
 
-  get selectedLocationPinStyle() {
+  private get selectedLocationPinStyle() {
     if (!this._selectedLocationPinStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.selectedColor);
 
@@ -287,7 +291,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return this._selectedLocationPinStyle;
   }
 
-  get selectedEditLocationPinStyle() {
+  private get selectedEditLocationPinStyle() {
     if (!this._selectedEditLocationPinStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/edit_location.svg', this.selectedColor);
 
@@ -302,7 +306,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return this._selectedEditLocationPinStyle;
   }
 
-  get selectedSameLocationPinStyle() {
+  private get selectedSameLocationPinStyle() {
     if (!this._selectedSameLocationPinStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/add_location.svg', this.selectedColor);
 
@@ -324,7 +328,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param color Color of the marker
    * @returns The canvas to render
    */
-  addWhiteOutlineToMarker(src: string, color: string): HTMLCanvasElement {
+  private addWhiteOutlineToMarker(src: string, color: string): HTMLCanvasElement {
     //Initialize canvas
     var canvas = document.createElement('canvas');
     canvas.height = 80;
@@ -379,7 +383,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return canvas;
   }
 
-  get routingUrls() {
+  private get routingUrls() {
     const admin = 'admin';
     const events = 'events';
     const contributors = 'contributors';
@@ -398,7 +402,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    * 
    * @param coordinates coordinates (longitude - latitude)
    */
-  goTo(coordinates: [number, number], projection: string | ol.proj.Projection = 'EPSG:3857') {
+  public goTo(coordinates: [number, number], projection: string | ol.proj.Projection = 'EPSG:3857') {
     this.map.set('view', new ol.View({
       center: ol.proj.fromLonLat(coordinates, projection),
       zoom: this.searchZoom
@@ -407,8 +411,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initializeData().subscribe(([events, contributors]) => {
-      this.events = events;
-      this.contributors = contributors;
+      this.allEvents = events;
+      this.allContributors = contributors;
 
       // Compute items list of same coordinate elements
       this.sameLocationItems.length = 0;
@@ -426,7 +430,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  selectCurrentMarker(currentUrl: UrlSegmentGroup) {
+  private selectCurrentMarker(currentUrl: UrlSegmentGroup) {
     if (!currentUrl) return;
 
     this.selectInteraction.getFeatures().clear();
@@ -493,7 +497,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  unloadFilteredEventOrContributor() {
+  private unloadFilteredEventOrContributor() {
     const currentUrl = this.router.parseUrl(this.router.url).root.children.primary;
     if (currentUrl) {
 
@@ -546,11 +550,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  initializeData() {
+  private initializeData() {
     return zip(this.eventService.getAll(), this.contributorService.getAll());
   }
 
-  initializeMap() {
+  private initializeMap() {
     this.publishedEventsFeatures = this.events.filter(x => x.publish).map((event) =>
       new ol.Feature({
         geometry: new ol.geom.Point([event.longitude, event.latitude]),
@@ -684,7 +688,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  transform(html: string): SafeHtml {
+  private transform(html: string): SafeHtml {
     return this.domSanitizer.bypassSecurityTrustHtml(html);
   }
 
@@ -756,7 +760,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
-        this.events = events;
+        this.allEvents = events;
         this.unloadFilteredEventOrContributor();
         this.removeEventsFromItemsList();
         this.redrawAll();
@@ -764,7 +768,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
-        this.contributors = contributors;
+        this.allContributors = contributors;
         this.unloadFilteredEventOrContributor();
         this.removeContributorsFromItemsList();
         this.redrawAll();
@@ -784,11 +788,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Remove all published events from layer then add the new ones
    */
-  redrawPublishedEvents() {
-    // Removing all previous features of publishedEventsLayer
-    _.each(this.publishedEventsLayer.getSource().getFeatures(), feature => {
-      this.publishedEventsLayer.getSource().removeFeature(feature);
-    });
+  private redrawPublishedEvents() {
+    this.publishedEventsLayer.getSource().clear();
 
     // Adding all new features (events) of publishedEventsLayer
     this.events.filter(x => x.publish).map((event) =>
@@ -809,11 +810,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Remove all unpublished events from layer then add the new ones
    */
-  redrawUnpublishedEvents() {
-    // Removing all previous features of notPublishedEventsLayer
-    _.each(this.notPublishedEventsLayer.getSource().getFeatures(), feature => {
-      this.notPublishedEventsLayer.getSource().removeFeature(feature);
-    });
+  private redrawUnpublishedEvents() {
+    this.notPublishedEventsLayer.getSource().clear();
 
     // Adding all new features (events) of notPublishedEventsLayer
     this.events.filter(x => !x.publish).map((event) =>
@@ -834,11 +832,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Remove all contributors from layer then add the new ones
    */
-  redrawContributors() {
-    // Removing all previous features
-    _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
-      this.contributorsLayer.getSource().removeFeature(feature);
-    });
+  private redrawContributors() {
+    this.contributorsLayer.getSource().clear();
 
     // Adding all new features
     this.contributors.map((contributor) =>
@@ -859,11 +854,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   /**
    * Remove all same location items from layer then add the new ones
    */
-  redrawSameLocationItems() {
-    // Removing all previous features
-    _.each(this.sameLocationItemLayer.getSource().getFeatures(), feature => {
-      this.sameLocationItemLayer.getSource().removeFeature(feature);
-    });
+  private redrawSameLocationItems() {
+    this.sameLocationItemLayer.getSource().clear();
 
     // Adding all new features
     this.sameLocationItems.map((item) =>
@@ -883,6 +875,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private filterItems() {
+    this.events = [].concat(this.allEvents);
+    this.contributors = [].concat(this.allContributors);
+    this.sameLocationItems = [];
+
     var itemsList: ItemClass[] = this.sameLocationItems;
 
     // Group events by coordinate
