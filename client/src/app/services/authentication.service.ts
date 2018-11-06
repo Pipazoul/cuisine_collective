@@ -1,13 +1,15 @@
-import { Injectable, Inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { tap, mergeMap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Observable, BehaviorSubject, forkJoin } from 'rxjs';
+import { tap, mergeMap, map } from 'rxjs/operators';
 import { Restangular } from 'ngx-restangular';
+import * as _ from 'lodash';
 
 import { UrlSettings } from '../config/url.settings';
 
 import { UserClass } from '../domain/user.class';
 
 import { UserService } from './user.service';
+import { RoleClass } from '../domain/role.class';
 
 @Injectable()
 export class AuthenticationService {
@@ -17,6 +19,7 @@ export class AuthenticationService {
 
   private static readonly ACCESS_TOKEN = 'access_token';
   private static readonly REGISTERED_USER = 'registered_user';
+  private static readonly REGISTERED_ROLES = 'roles';
 
   public readonly connectionStatusChanged = new BehaviorSubject<boolean>(null);
 
@@ -27,14 +30,21 @@ export class AuthenticationService {
    * Are we connected or not ?
    */
   public get isConnected(): boolean {
-    return !!localStorage[AuthenticationService.ACCESS_TOKEN];
+    return !!localStorage.getItem(AuthenticationService.ACCESS_TOKEN);
   }
 
   /**
    * Authenticated user's ID
    */
   public get user(): UserClass {
-    return localStorage[AuthenticationService.REGISTERED_USER] ? JSON.parse(localStorage[AuthenticationService.REGISTERED_USER]) : null;
+    return localStorage.getItem(AuthenticationService.REGISTERED_USER) ? JSON.parse(localStorage.getItem(AuthenticationService.REGISTERED_USER)) : null;
+  }
+
+  /**
+   * Is authenticated user an admin ?
+   */
+  public get isAdmin(): boolean {
+    return localStorage.getItem(AuthenticationService.REGISTERED_ROLES) ? _.includes(JSON.parse(localStorage.getItem(AuthenticationService.REGISTERED_ROLES)), RoleClass.ROLES.ADMIN) : false;
   }
 
   /**
@@ -82,13 +92,19 @@ export class AuthenticationService {
         // Set Restangular header's configuration with new autorization key
         this.restangular.configuration.defaultHeaders = { 'Authorization': token['id'] };
       }),
-      mergeMap((token: LoopbackToken) => this.userService.getById(token.userId).pipe(
-        tap((user) => {
-          localStorage.setItem(AuthenticationService.REGISTERED_USER, JSON.stringify(user));
-          // Say we are connected
-          this.connectionStatusChanged.next(true);
-        })
-      ))
+      mergeMap((token: LoopbackToken) =>
+        forkJoin(
+          this.userService.getById(token.userId),
+          this.userService.getRoles(token.userId)
+        ).pipe(
+          map(([user, roles]) => {
+            localStorage.setItem(AuthenticationService.REGISTERED_USER, JSON.stringify(user));
+            localStorage.setItem(AuthenticationService.REGISTERED_ROLES, JSON.stringify(roles));
+            this.connectionStatusChanged.next(true);
+            return token;
+          })
+        )
+      )
     );
   }
 
@@ -113,8 +129,9 @@ export class AuthenticationService {
    */
   private resetSession() {
     // Clear local storage
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('registered_user');
+    localStorage.removeItem(AuthenticationService.ACCESS_TOKEN);
+    localStorage.removeItem(AuthenticationService.REGISTERED_USER);
+    localStorage.removeItem(AuthenticationService.REGISTERED_ROLES);
     // Clear Restangular header's configuration
     this.restangular.configuration.defaultHeaders = {};
   }

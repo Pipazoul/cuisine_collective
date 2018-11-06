@@ -30,4 +30,5 @@ export class UrlSettings {
   public static readonly userAccessTokens = 'accessTokens';
   public static readonly userLogin = 'login';
   public static readonly userLogout = 'logout';
+  public static readonly userRoles = 'roles';
 }

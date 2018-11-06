@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { UrlSettings } from '../config/url.settings';
 
 import { UserClass } from '../domain/user.class';
+import { RoleClass } from '../domain/role.class';
 
 @Injectable()
 export class UserService {
@@ -21,5 +22,15 @@ export class UserService {
   getById(userId: number): Observable<UserClass> {
     return this.restangular.one(UrlSettings.userModel, userId).get().pipe(
       map(res => new UserClass(res)));
+  }
+
+  /**
+   * Get user's roles
+   * 
+   * @param userId
+   */
+  getRoles(userId: number): Observable<RoleClass[]> {
+    return this.restangular.one(UrlSettings.userModel, userId).all(UrlSettings.userRoles).getList().pipe(
+      map((res: []) => res.map(item => new RoleClass(item))));
   }
 }
