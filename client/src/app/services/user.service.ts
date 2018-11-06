@@ -31,6 +31,6 @@ export class UserService {
    */
   getRoles(userId: number): Observable<RoleClass[]> {
     return this.restangular.one(UrlSettings.userModel, userId).all(UrlSettings.userRoles).getList().pipe(
-      map((res: []) => res.map(item => new RoleClass(item))));
+      map((res: any[]) => res.map(item => new RoleClass(item))));
   }
 }

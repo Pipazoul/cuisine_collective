@@ -44,7 +44,7 @@ export class AuthenticationService {
    * Is authenticated user an admin ?
    */
   public get isAdmin(): boolean {
-    return localStorage.getItem(AuthenticationService.REGISTERED_ROLES) ? _.includes(JSON.parse(localStorage.getItem(AuthenticationService.REGISTERED_ROLES)), RoleClass.ROLES.ADMIN) : false;
+    return localStorage.getItem(AuthenticationService.REGISTERED_ROLES) ? !!_.find(JSON.parse(localStorage.getItem(AuthenticationService.REGISTERED_ROLES)), {name: RoleClass.ROLES.ADMIN}) : false;
   }
 
   /**
