@@ -1,5 +1,8 @@
 <div fxLayout="column" fxLayoutGap="10px">
   <div *ngFor="let user of users | async" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <span>{{user.username}}</span>
+    <button mat-mini-fab type="button" (click)="deleteUser(user)">
+      <mat-icon>delete</mat-icon>
+    </button>
   </div>
 </div>

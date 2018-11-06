@@ -20,4 +20,8 @@ export class UsersListComponent implements OnInit {
   ngOnInit() {
   }
 
+  public deleteUser(user: UserClass) {
+    this.userService.deleteById(user.id);
+  }
+
 }

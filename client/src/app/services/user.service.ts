@@ -33,4 +33,20 @@ export class UserService {
     return this.restangular.one(UrlSettings.userModel, userId).all(UrlSettings.userRoles).getList().pipe(
       map((res: any[]) => res.map(item => new RoleClass(item))));
   }
+
+  /**
+   * Get all users in database
+   */
+  getAll(): Observable<UserClass[]> {
+    return this.restangular.all(UrlSettings.userModel).getList().pipe(map((res: any[]) => res.map(item => new UserClass(item))));
+  }
+
+  /**
+   * Remove a user
+   * 
+   * @param userId 
+   */
+  deleteById(userId: number): Observable<void> {
+    return this.restangular.one(UrlSettings.userModel, userId).remove();
+  }
 }
