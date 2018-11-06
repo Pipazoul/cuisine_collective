@@ -15,6 +15,7 @@ import { ContributorComponent } from './components/contributor/contributor.compo
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 import { UsersListComponent } from './components/admin/users-list/users-list.component';
+import { UserFormComponent } from './components/admin/user-form/user-form.component';
 
 const ROUTES: Routes = [{
   path: '',
@@ -64,7 +65,13 @@ const ROUTES: Routes = [{
     component: ContributorEditionComponent
   }, {
     path: 'users',
-    component: UsersListComponent
+    children: [{
+      path: '',
+      component: UsersListComponent,
+    }, {
+      path: 'add',
+      component: UserFormComponent
+    }]
   }]
 }, {
   path: '**',

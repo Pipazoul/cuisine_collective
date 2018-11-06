@@ -20,8 +20,7 @@ export class UserService {
    * @param userId
    */
   getById(userId: number): Observable<UserClass> {
-    return this.restangular.one(UrlSettings.userModel, userId).get().pipe(
-      map(res => new UserClass(res)));
+    return this.restangular.one(UrlSettings.userModel, userId).get().pipe(map(res => new UserClass(res)));
   }
 
   /**
@@ -39,6 +38,15 @@ export class UserService {
    */
   getAll(): Observable<UserClass[]> {
     return this.restangular.all(UrlSettings.userModel).getList().pipe(map((res: any[]) => res.map(item => new UserClass(item))));
+  }
+
+  /**
+   * Create a user
+   * 
+   * @param user 
+   */
+  create(user: UserClass): Observable<UserClass> {
+    return this.restangular.all(UrlSettings.userModel).post(user).pipe(map(res => new UserClass(res)));
   }
 
   /**

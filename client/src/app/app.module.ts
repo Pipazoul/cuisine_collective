@@ -78,6 +78,7 @@ import { WeekDaySelectorComponent } from './common/week-day-selector/week-day-se
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { UsersListComponent } from './components/admin/users-list/users-list.component';
+import { UserFormComponent } from './components/admin/user-form/user-form.component';
 
 registerLocaleData(localeFr);
 
@@ -150,7 +151,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     EventEditionComponent,
     EventMissingComponent,
     WeekDaySelectorComponent,
-    UsersListComponent
+    UsersListComponent,
+    UserFormComponent
   ],
   entryComponents: [
     PopupSigninComponent,

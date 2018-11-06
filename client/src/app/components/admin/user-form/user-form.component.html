@@ -1,0 +1,26 @@
+<div class="overflowable">
+  <form [formGroup]="userForm" (ngSubmit)="submitForm(userForm.value)" fxLayout="column" class="sidenav-body">
+
+    <mat-form-field class="required">
+      <input matInput type="text" formControlName="username" maxlength="50" placeholder="Nom d'utilisateur">
+    </mat-form-field>
+
+    <mat-form-field class="required">
+      <input matInput type="text" formControlName="email" maxlength="100" placeholder="Adresse mail">
+    </mat-form-field>
+
+    <mat-form-field class="required">
+      <input matInput type="password" formControlName="password" maxlength="30" placeholder="Mot de passe">
+    </mat-form-field>
+
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <a [routerLink]="['/admin', 'users']">
+        <button mat-button type="button" class="next-button background-red">Annuler</button>
+      </a>
+
+      <button mat-button type="submit" class="next-button background-red" [disabled]="userForm.invalid">
+        Créer
+      </button>
+    </div>
+  </form>
+</div>
