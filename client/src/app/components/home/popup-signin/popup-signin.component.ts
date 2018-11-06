@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material';
 
 // Services
 import { AuthenticationService } from '../../../services/authentication.service';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-popup-signin',
@@ -11,17 +12,23 @@ import { AuthenticationService } from '../../../services/authentication.service'
 })
 export class PopupSigninComponent implements OnInit {
 
+  public loginForm: FormGroup;
   public showError: boolean = false;
+
   constructor(
-    private dialogRef: MatDialogRef<PopupSigninComponent>,
+    private dialogRef: MatDialogRef<PopupSigninComponent, LoopbackToken>,
     private authenticationService: AuthenticationService
   ) { }
 
   ngOnInit() {
+    this.loginForm = new FormGroup({
+      'email': new FormControl('', [Validators.required, Validators.email]),
+      'password': new FormControl('', Validators.required)
+    });
   }
 
-  signin(code) {
-    this.authenticationService.signin('admin@admin.com', code).subscribe(
+  public signin(credentials: Credentials) {
+    this.authenticationService.signin(credentials.email, credentials.password).subscribe(
       (res) => {
         this.showError = false;
         this.dialogRef.close(res);
@@ -32,8 +39,13 @@ export class PopupSigninComponent implements OnInit {
     );
   }
 
-  close() {
+  public close() {
     this.dialogRef.close();
   }
 
+}
+
+interface Credentials {
+  email: string;
+  password: string;
 }

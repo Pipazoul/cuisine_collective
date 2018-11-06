@@ -8,21 +8,23 @@
       <i class="material-icons">close</i>
     </a>
   </div>
-  <div class="popup-body" fxLayout="column" fxLayoutGap="30px" fxLayoutAlign="center center">
-    <div fxLayout="column" class="authentication-input">
-      <label for="code">Renseignez le code de connexion</label>
-      <input #code id="code" type="password" (keydown.enter)="signin(code.value)">
-      <span *ngIf="showError" class="error-message">Le code saisi est incorrect</span>
-    </div>
-    <button mat-button type="submit" (click)="signin(code.value)" class="authentication-button uppercase">
-      Se connecter
-    </button>
-    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="5px">
-      <div class="bold">Je souhaite que l'on me transmette le code de connexion :</div>
-      <div>
-        Envoyez un courrier à
-        <a href="mailto:conferencesdesfinanceurs@grandlyon.com">conferencesdesfinanceurs@grandlyon.com</a>
-      </div>
-    </div>
+  <div class="popup-body">
+    <!-- Authentication -->
+    <form [formGroup]="loginForm" (ngSubmit)="signin(loginForm.value)" fxLayout="column" fxLayoutGap="30px"
+      fxLayoutAlign="center center">
+      <span>Saisissez vos identifiants</span>
+
+      <mat-form-field>
+        <input matInput type="email" formControlName="email" placeholder="Email">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" formControlName="password" placeholder="Mot de passe">
+      </mat-form-field>
+      <span *ngIf="showError" class="error-message">Identifiants invalides</span>
+
+      <button mat-button type="submit" class="authentication-button uppercase" [disabled]="loginForm.invalid">
+        Se connecter
+      </button>
+    </form>
   </div>
 </div>

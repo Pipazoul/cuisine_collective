@@ -72,11 +72,4 @@ export class HeaderComponent implements OnInit {
   public get isConnected() {
     return this.authenticationService.isConnected;
   }
-
-  /**
-   * Is connected user an admin ?
-   */
-  public get isAdmin() {
-    return this.authenticationService.isAdmin;
-  }
 }
