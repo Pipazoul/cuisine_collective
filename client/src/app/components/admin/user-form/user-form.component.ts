@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as _ from 'lodash';
@@ -14,18 +14,18 @@ import { UserClass } from 'src/app/domain/user.class';
 })
 export class UserFormComponent implements OnInit {
 
+  @Output() private userCreated: EventEmitter<UserClass> = new EventEmitter();
+  @Output() private userUpdated: EventEmitter<UserClass> = new EventEmitter();
   public userForm: FormGroup;
   private user: UserClass;
 
   constructor(private route: ActivatedRoute,
-    private router: Router,
     private userService: UserService) {
     this.user = this.route.snapshot.data['user'] || new UserClass();
   }
 
   ngOnInit() {
     this.userForm = new FormGroup({
-      'username': new FormControl(this.user.username, Validators.required),
       'email': new FormControl(this.user.email, [Validators.required, Validators.email]),
       'password': new FormControl(null, this.user.id ? null : Validators.required)
     });
@@ -35,11 +35,11 @@ export class UserFormComponent implements OnInit {
     Object.assign(this.user, value);
     if (this.user.id) {
       this.userService.update(this.user).subscribe(
-        () => this.router.navigate(['/admin', 'users']),
+        (user) => this.userUpdated.emit(user),
         (err) => this.handleError(err));
     } else {
       this.userService.create(this.user).subscribe(
-        () => this.router.navigate(['/admin', 'users']),
+        (user) => this.userCreated.emit(Object.assign(this.user, user)),
         (err) => this.handleError(err));
     }
   }

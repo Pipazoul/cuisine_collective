@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
    */
   public openSigninDialog(): void {
     this.signinDialog = this.dialog.open(PopupSigninComponent, {
-      width: '550px',
+      width: '400px',
       panelClass: "dialog"
     });
     this.signinDialog.afterClosed().subscribe((res) => {

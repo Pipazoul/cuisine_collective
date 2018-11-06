@@ -1,20 +1,7 @@
-<div fxFlex fxLayout="column" class="carousel-element">
-  <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
-    <span>Ajout/modification d'un utilisateur</span>
-    <button type="button" mat-icon-button routerLink="/admin">
-      <mat-icon>close</mat-icon>
-    </button>
-  </div>
-
-  <form [formGroup]="userForm" (ngSubmit)="submitForm(userForm.value)" fxLayout="column" class="sidenav-body">
-
+<form [formGroup]="userForm" (ngSubmit)="submitForm(userForm.value)" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+  <div fxLayout="column">
     <mat-form-field class="required">
-      <input matInput type="text" formControlName="username" maxlength="50" placeholder="Nom d'utilisateur">
-    </mat-form-field>
-    <app-form-error [field]="userForm.controls.username"></app-form-error>
-
-    <mat-form-field class="required">
-      <input matInput type="text" formControlName="email" maxlength="100" placeholder="Adresse mail">
+      <input matInput type="text" formControlName="email" maxlength="100" placeholder="Email">
     </mat-form-field>
     <app-form-error [field]="userForm.controls.email"></app-form-error>
 
@@ -22,15 +9,7 @@
       <input matInput type="password" formControlName="password" maxlength="30" placeholder="Mot de passe">
     </mat-form-field>
     <app-form-error [field]="userForm.controls.password"></app-form-error>
+  </div>
 
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-      <a [routerLink]="['/admin', 'users']">
-        <button mat-button type="button" class="next-button background-red">Annuler</button>
-      </a>
-
-      <button mat-button type="submit" class="next-button background-red" [disabled]="userForm.invalid">
-        {{user.id ? 'Modifier' : 'Créer'}}
-      </button>
-    </div>
-  </form>
-</div>
+  <button mat-button type="submit" [disabled]="userForm.invalid">Créer</button>
+</form>

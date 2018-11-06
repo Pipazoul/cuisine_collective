@@ -1,18 +1,18 @@
-input:focus {
-    outline: initial;
-    outline-color: #FF5555;
-}
-
 .popup-body {
     padding: 30px;
 }
 
-.authentication-input {
-    width: 300px;
+::ng-deep .mat-form-field {
+    width: 200px;
 }
 
 .authentication-button {
     width: 150px;
     background-color: #FF5555;
     color: white;
+}
+
+.create-account {
+    color: 6CCACC;
+    cursor: pointer;
 }

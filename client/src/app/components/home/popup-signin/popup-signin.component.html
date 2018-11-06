@@ -1,30 +1,40 @@
 <div class="popup">
   <div class="popup-header" fxLayout="row" fxLayoutAlign="space-between center">
     <div class="uppercase" fxLayoutAlign="space-around center">
-      <i class="material-icons">people</i>
-      &nbsp;Professionnels
+      <mat-icon>people</mat-icon>
+      &nbsp;{{showCreateAccount ? 'Création de compte' : 'Connexion'}}
     </div>
     <a class="clickable" (click)="close()">
       <i class="material-icons">close</i>
     </a>
   </div>
-  <div class="popup-body">
-    <!-- Authentication -->
-    <form [formGroup]="loginForm" (ngSubmit)="signin(loginForm.value)" fxLayout="column" fxLayoutGap="30px"
+  <!-- Authentication -->
+  <div [hidden]="showCreateAccount" class="popup-body">
+    <form [formGroup]="loginForm" (ngSubmit)="signin(loginForm.value)" fxLayout="column" fxLayoutGap="20px"
       fxLayoutAlign="center center">
-      <span>Saisissez vos identifiants</span>
+      <div fxLayout="column">
+        <mat-form-field class="required">
+          <input matInput type="email" formControlName="email" placeholder="Email">
+        </mat-form-field>
+        <app-form-error [field]="loginForm.controls.email"></app-form-error>
 
-      <mat-form-field>
-        <input matInput type="email" formControlName="email" placeholder="Email">
-      </mat-form-field>
-      <mat-form-field>
-        <input matInput type="password" formControlName="password" placeholder="Mot de passe">
-      </mat-form-field>
+        <mat-form-field class="required">
+          <input matInput type="password" formControlName="password" placeholder="Mot de passe">
+        </mat-form-field>
+        <app-form-error [field]="loginForm.controls.password"></app-form-error>
+      </div>
+
       <span *ngIf="showError" class="error-message">Identifiants invalides</span>
+
+      <span class="create-account" (click)="createAccount()">Créer mon compte</span>
 
       <button mat-button type="submit" class="authentication-button uppercase" [disabled]="loginForm.invalid">
         Se connecter
       </button>
     </form>
+  </div>
+  <!-- Account creation -->
+  <div [hidden]="!showCreateAccount" class="popup-body">
+    <app-user-form (userCreated)="onUserCreated($event)"></app-user-form>
   </div>
 </div>

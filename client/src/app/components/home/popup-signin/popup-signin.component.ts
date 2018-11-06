@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material';
 // Services
 import { AuthenticationService } from '../../../services/authentication.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { UserClass } from 'src/app/domain/user.class';
 
 @Component({
   selector: 'app-popup-signin',
@@ -14,6 +15,7 @@ export class PopupSigninComponent implements OnInit {
 
   public loginForm: FormGroup;
   public showError: boolean = false;
+  public showCreateAccount: boolean = false;
 
   constructor(
     private dialogRef: MatDialogRef<PopupSigninComponent, LoopbackToken>,
@@ -37,6 +39,14 @@ export class PopupSigninComponent implements OnInit {
         this.showError = true;
       }
     );
+  }
+
+  public createAccount() {
+    this.showCreateAccount = true;
+  }
+
+  public onUserCreated(user: UserClass) {
+    this.authenticationService.signin(user.email, user.password).subscribe((res) => this.dialogRef.close(res));
   }
 
   public close() {
