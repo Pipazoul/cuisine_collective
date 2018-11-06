@@ -19,7 +19,7 @@
       </a>
 
       <button mat-button type="submit" class="next-button background-red" [disabled]="userForm.invalid">
-        Créer
+        {{user.id ? 'Modifier' : 'Créer'}}
       </button>
     </div>
   </form>

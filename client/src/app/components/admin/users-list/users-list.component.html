@@ -2,9 +2,11 @@
   <div *ngFor="let user of users" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
     <span>{{user.username}}</span>
     <span>{{user.email}}</span>
-    <button mat-mini-fab type="button">
-      <mat-icon>edit</mat-icon>
-    </button>
+    <a [routerLink]="['/admin', 'users', user.id]">
+      <button mat-mini-fab type="button">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </a>
     <button mat-mini-fab type="button" (click)="deleteUser(user)">
       <mat-icon>delete</mat-icon>
     </button>

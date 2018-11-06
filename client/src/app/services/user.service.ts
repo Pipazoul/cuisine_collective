@@ -50,6 +50,15 @@ export class UserService {
   }
 
   /**
+   * Create a user
+   * 
+   * @param user 
+   */
+  update(user: UserClass): Observable<UserClass> {
+    return this.restangular.one(UrlSettings.userModel, user.id).patch(user).pipe(map(res => new UserClass(res)));
+  }
+
+  /**
    * Remove a user
    * 
    * @param userId 

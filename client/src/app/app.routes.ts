@@ -16,6 +16,7 @@ import { EventEditionComponent } from './components/event-edition/event-edition.
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 import { UsersListComponent } from './components/admin/users-list/users-list.component';
 import { UserFormComponent } from './components/admin/user-form/user-form.component';
+import { UserResolver } from './resolver/user.resolver';
 
 const ROUTES: Routes = [{
   path: '',
@@ -71,6 +72,10 @@ const ROUTES: Routes = [{
     }, {
       path: 'add',
       component: UserFormComponent
+    }, {
+      path: ':userId',
+      component: UserFormComponent,
+      resolve: { user: UserResolver }
     }]
   }]
 }, {

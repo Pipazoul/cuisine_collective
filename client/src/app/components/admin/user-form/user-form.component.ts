@@ -24,14 +24,14 @@ export class UserFormComponent implements OnInit {
     this.userForm = new FormGroup({
       'username': new FormControl(this.user.username, Validators.required),
       'email': new FormControl(this.user.email, [Validators.required, Validators.email]),
-      'password': new FormControl(null, Validators.required)
+      'password': new FormControl(null, this.user.id ? null : Validators.required)
     });
   }
 
   public submitForm(value) {
     Object.assign(this.user, value);
     if (this.user.id) {
-
+      this.userService.update(this.user).subscribe(() => this.router.navigate(['/admin', 'users']));
     } else {
       this.userService.create(this.user).subscribe(() => this.router.navigate(['/admin', 'users']));
     }

@@ -47,6 +47,9 @@ import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { UnauthGuard } from './guards/unauth.guard';
 
+// Resolvers
+import { UserResolver } from './resolver/user.resolver';
+
 // Components
 import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -205,6 +208,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     UserService,
     AuthGuard,
     UnauthGuard,
+    UserResolver,
     { provide: LOCALE_ID, useValue: 'fr' },
   ],
   bootstrap: [AppComponent]
