@@ -28,7 +28,16 @@
         "permission": "ALLOW",
         "property": "*"
       }
-    ]
+    ],
+    "relations": {
+      "roles": {
+        "type": "hasMany",
+        "model": "Role",
+        "foreignKey": "principalId",
+        "through": "RoleMapping",
+        "keyThrough": "roleId"
+      }
+    }
   },
   "AccessToken": {
     "dataSource": "db",
