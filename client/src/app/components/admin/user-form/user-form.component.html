@@ -1,4 +1,11 @@
-<div class="overflowable">
+<div fxFlex fxLayout="column" class="carousel-element">
+  <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
+    <span>Ajout/modification d'un utilisateur</span>
+    <button type="button" mat-icon-button routerLink="/admin">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
   <form [formGroup]="userForm" (ngSubmit)="submitForm(userForm.value)" fxLayout="column" class="sidenav-body">
 
     <mat-form-field class="required">
