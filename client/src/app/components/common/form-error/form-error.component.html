@@ -1,0 +1,7 @@
+<ng-container *ngIf="field.invalid && (field.dirty || field.touched)">
+  <ng-container *ngFor="let key of keys">
+    <small *ngIf="field.errors[key]" class="text-error">
+      {{errors[key]}}
+    </small>
+  </ng-container>
+</ng-container>

@@ -4,14 +4,17 @@
     <mat-form-field class="required">
       <input matInput type="text" formControlName="username" maxlength="50" placeholder="Nom d'utilisateur">
     </mat-form-field>
+    <app-form-error [field]="userForm.controls.username"></app-form-error>
 
     <mat-form-field class="required">
       <input matInput type="text" formControlName="email" maxlength="100" placeholder="Adresse mail">
     </mat-form-field>
+    <app-form-error [field]="userForm.controls.email"></app-form-error>
 
     <mat-form-field class="required">
       <input matInput type="password" formControlName="password" maxlength="30" placeholder="Mot de passe">
     </mat-form-field>
+    <app-form-error [field]="userForm.controls.password"></app-form-error>
 
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <a [routerLink]="['/admin', 'users']">

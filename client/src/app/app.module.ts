@@ -82,6 +82,7 @@ import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { UsersListComponent } from './components/admin/users-list/users-list.component';
 import { UserFormComponent } from './components/admin/user-form/user-form.component';
+import { FormErrorComponent } from './components/common/form-error/form-error.component';
 
 registerLocaleData(localeFr);
 
@@ -155,7 +156,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     EventMissingComponent,
     WeekDaySelectorComponent,
     UsersListComponent,
-    UserFormComponent
+    UserFormComponent,
+    FormErrorComponent
   ],
   entryComponents: [
     PopupSigninComponent,
