@@ -7,6 +7,7 @@ module.exports = {
     const User = app.models.User;
 
     const user = [{
+      'username': 'Admin',
       'password': 'Gestion',
       'email': 'admin@admin.com',
       'emailVerified': true,

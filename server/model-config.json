@@ -27,6 +27,13 @@
         "principalId": "$owner",
         "permission": "ALLOW",
         "property": "*"
+      },
+      {
+        "accessType": "*",
+        "principalType": "ROLE",
+        "principalId": "admin",
+        "permission": "ALLOW",
+        "property": "*"
       }
     ],
     "relations": {
