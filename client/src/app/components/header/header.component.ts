@@ -31,12 +31,11 @@ export class HeaderComponent implements OnInit {
   /**
    * Open the signin popup dialog
    */
-  openSigninDialog(): void {
+  public openSigninDialog(): void {
     this.signinDialog = this.dialog.open(PopupSigninComponent, {
       width: '550px',
       panelClass: "dialog"
-    })
-
+    });
     this.signinDialog.afterClosed().subscribe((res) => {
       if (res) {
         this.router.navigate(this.authenticationService.homePage);
@@ -47,7 +46,7 @@ export class HeaderComponent implements OnInit {
   /**
    * Open the signout popup dialog
    */
-  openSignoutDialog(): void {
+  public openSignoutDialog(): void {
     this.signoutDialog = this.dialog.open(DialogComponent, {
       width: '300px',
       panelClass: "dialog",
@@ -55,8 +54,7 @@ export class HeaderComponent implements OnInit {
         title: 'Déconnexion',
         body: 'Merci de confirmer la déconnexion.'
       }
-    })
-
+    });
     this.signoutDialog.afterClosed().subscribe((res) => {
       if (res) {
         this.authenticationService.signout().subscribe(
@@ -71,7 +69,14 @@ export class HeaderComponent implements OnInit {
   /**
    * To know if we are logged in or not or not
    */
-  isConnected() {
+  public get isConnected() {
     return this.authenticationService.isConnected;
+  }
+
+  /**
+   * Is connected user an admin ?
+   */
+  public get isAdmin() {
+    return this.authenticationService.isAdmin;
   }
 }
