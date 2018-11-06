@@ -18,59 +18,50 @@ import { ContributorEditionComponent } from './components/contributor-edition/co
 const ROUTES: Routes = [{
   path: '',
   canActivate: [UnauthGuard],
-  children: [
-    {
-      path: '',
-      component: HomeFiltersComponent,
-      outlet: "sidenav"
-    }, {
-      path: 'events/:id',
-      canActivate: [UnauthGuard],
-      component: EventComponent
-    }, {
-      path: 'contributors/:id',
-      canActivate: [UnauthGuard],
-      component: ContributorComponent
-    }
-  ]
+  children: [{
+    path: '',
+    component: HomeFiltersComponent,
+    outlet: "sidenav"
+  }, {
+    path: 'events/:id',
+    component: EventComponent
+  }, {
+    path: 'contributors/:id',
+    component: ContributorComponent
+  }]
 }, {
   path: 'admin',
   canActivate: [AuthGuard],
-  children: [
-    {
-      path: '',
-      component: AdminFiltersComponent,
-      outlet: "sidenav"
-    }, {
-      path: '',
-      component: AdminComponent,
-      outlet: "mapOverlay"
-    }, {
-      path: 'addElement',
-      component: AddElementComponent,
-    }, {
-      path: 'events/:id',
-      component: EventComponent,
-    }, {
-      path: 'events/:id/edit',
-      component: EventEditionComponent,
-    },
-    {
-      path: 'events',
-      component: EventEditionComponent
-    },
-    {
-      path: 'contributors/:id',
-      component: ContributorComponent
-    }, {
-      path: 'contributors/:id/edit',
-      component: ContributorEditionComponent,
-    },
-    {
-      path: 'contributors',
-      component: ContributorEditionComponent
-    }
-  ]
+  children: [{
+    path: '',
+    component: AdminFiltersComponent,
+    outlet: "sidenav"
+  }, {
+    path: '',
+    component: AdminComponent,
+    outlet: "mapOverlay"
+  }, {
+    path: 'addElement',
+    component: AddElementComponent,
+  }, {
+    path: 'events/:id',
+    component: EventComponent,
+  }, {
+    path: 'events/:id/edit',
+    component: EventEditionComponent,
+  }, {
+    path: 'events',
+    component: EventEditionComponent
+  }, {
+    path: 'contributors/:id',
+    component: ContributorComponent
+  }, {
+    path: 'contributors/:id/edit',
+    component: ContributorEditionComponent,
+  }, {
+    path: 'contributors',
+    component: ContributorEditionComponent
+  }]
 }, {
   path: '**',
   redirectTo: ''
