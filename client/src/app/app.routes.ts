@@ -64,19 +64,6 @@ const ROUTES: Routes = [{
   }, {
     path: 'contributors',
     component: ContributorEditionComponent
-  }, {
-    path: 'users',
-    children: [{
-      path: '',
-      component: UsersListComponent,
-    }, {
-      path: 'add',
-      component: UserFormComponent
-    }, {
-      path: ':userId',
-      component: UserFormComponent,
-      resolve: { user: UserResolver }
-    }]
   }]
 }, {
   path: '**',
