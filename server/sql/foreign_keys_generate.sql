@@ -17,6 +17,9 @@ OPEN data;
 
 -- Custom indexes (execution first to override auto-generated index if necessary)
 
+-- Email unique indexes with insensitive case
+EXECUTE 'CREATE UNIQUE INDEX user_email_index ON ' || default_schema || '.user (lower(email))';
+
 -- Iterate and create foreign keys + indexes
 LOOP
 	FETCH data INTO fetched_row;
