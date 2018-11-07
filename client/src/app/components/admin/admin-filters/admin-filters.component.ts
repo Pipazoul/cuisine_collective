@@ -43,14 +43,24 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
   public people: boolean = false;
   public assistants: boolean = false;
 
-  public selectedType: TabSelectionType;
+  public selectedType: TabSelectionType = TabSelectionType.EVENTS;
   private onHeaderTabChanged: Subscription;
 
   constructor(private headerTabService: HeaderTabService) {
   }
 
   ngOnInit() {
-    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => this.selectedType = res);
+    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => {
+      if (!res) {
+        return;
+      }
+      this.selectedType = res;
+      if (this.selectedType === TabSelectionType.CONTRIBUTORS) {
+        this.applyContributorsFilters();
+      } else if (this.selectedType === TabSelectionType.EVENTS) {
+        this.applyEventsFilters();
+      }
+    });
   }
 
   ngOnDestroy() {

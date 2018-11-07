@@ -84,32 +84,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.authenticationService.connectionStatusChanged.subscribe((connected) => {
       if (connected === true || connected === false) {
+        // Load only events & clean contributors from screen
         this.eventService.getAll().subscribe(events => {
           this.allEvents = events;
+          this.contributors = [];
+          this.allContributors = [];
 
-          if (connected === true) {
-            this.contributorService.getAll().subscribe(contributors => {
-              this.allContributors = contributors;
-
-              this.sameLocationItems.length = 0;
-              this.unloadFilteredEventOrContributor();
-              this.redrawAll();
-
-              this.contributorsFeatures = contributors.map((contributor) =>
-                new ol.Feature({
-                  geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
-                  object: contributor
-                })
-              );
-            });
-          } else if (connected === false) {
-            // We don't load any contributor
-            this.contributors = [];
-            this.allContributors = [];
-            this.removeEventsFromItemsList();
-            this.unloadFilteredEventOrContributor();
-            this.redrawAll();
-          }
+          this.removeEventsFromItemsList();
+          this.unloadFilteredEventOrContributor();
+          this.redrawAll();
         });
       }
     });
@@ -416,9 +399,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.initializeData().subscribe(([events, contributors]) => {
+    this.eventService.getAll().subscribe((events) => {
       this.allEvents = events;
-      this.allContributors = contributors;
+      this.allContributors = [];
 
       // Compute items list of same coordinate elements
       this.sameLocationItems.length = 0;
@@ -554,10 +537,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.popupContent = '';
       }
     }
-  }
-
-  private initializeData() {
-    return zip(this.eventService.getAll(), this.contributorService.getAll());
   }
 
   private initializeMap() {
@@ -762,6 +741,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
+        // Clean contributors
+        this.allContributors = [];
+        this.removeContributorsFromItemsList();
+        // Redraw events
         this.allEvents = events;
         this.unloadFilteredEventOrContributor();
         this.removeEventsFromItemsList();
@@ -770,6 +753,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
+        // Clean events
+        this.allEvents = [];
+        this.removeEventsFromItemsList();
+        // Redraw contributors
         this.allContributors = contributors;
         this.unloadFilteredEventOrContributor();
         this.removeContributorsFromItemsList();

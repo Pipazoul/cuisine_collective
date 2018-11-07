@@ -13,7 +13,7 @@ export class HeaderTabComponent implements OnInit {
   public selectionType: TabSelectionType = TabSelectionType.EVENTS;
 
   constructor(private headerTabService: HeaderTabService) {
-    this.headerTabService.typeChanged.next(this.selectionType);
+
   }
 
   ngOnInit() {
