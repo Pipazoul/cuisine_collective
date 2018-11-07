@@ -205,7 +205,7 @@ label {
 }
 
 .mat-expansion-panel-header.filters-events {
-    background-color: #6CCACC;
+    background-color: #6CCACC !important;
 }
 
 .mat-expansion-panel-header.filters-events:hover {
@@ -213,7 +213,7 @@ label {
 }
 
 .mat-expansion-panel-header.filters-contributors {
-    background-color: #0D70CD;
+    background-color: #0D70CD !important;
 }
 
 .mat-expansion-panel-header.filters-contributors:hover {
