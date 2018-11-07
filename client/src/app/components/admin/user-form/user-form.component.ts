@@ -6,6 +6,7 @@ import * as _ from 'lodash';
 import { UserService } from 'src/app/services/user.service';
 
 import { UserClass } from 'src/app/domain/user.class';
+import { CustomValidators } from 'src/app/util/CustomValidators';
 
 @Component({
   selector: 'app-user-form',
@@ -15,33 +16,30 @@ import { UserClass } from 'src/app/domain/user.class';
 export class UserFormComponent implements OnInit {
 
   @Output() private userCreated: EventEmitter<UserClass> = new EventEmitter();
-  @Output() private userUpdated: EventEmitter<UserClass> = new EventEmitter();
   public userForm: FormGroup;
   private user: UserClass;
 
   constructor(private route: ActivatedRoute,
     private userService: UserService) {
-    this.user = this.route.snapshot.data['user'] || new UserClass();
+    this.user = new UserClass();
   }
 
   ngOnInit() {
     this.userForm = new FormGroup({
       'email': new FormControl(this.user.email, [Validators.required, Validators.email]),
-      'password': new FormControl(null, this.user.id ? null : Validators.required)
+      'passwords': new FormGroup({
+        'password': new FormControl('', Validators.required),
+        'passwordConfirm': new FormControl('', [Validators.required, CustomValidators.matchOther('password')])
+      })
     });
   }
 
   public submitForm(value) {
-    Object.assign(this.user, value);
-    if (this.user.id) {
-      this.userService.update(this.user).subscribe(
-        (user) => this.userUpdated.emit(user),
-        (err) => this.handleError(err));
-    } else {
-      this.userService.create(this.user).subscribe(
-        (user) => this.userCreated.emit(Object.assign(this.user, user)),
-        (err) => this.handleError(err));
-    }
+    this.user.email = value.email;
+    this.user.password = value.passwords.password;
+    this.userService.create(this.user).subscribe(
+      (user) => this.userCreated.emit(Object.assign(this.user, user)),
+      (err) => this.handleError(err));
   }
 
   private handleError(err) {

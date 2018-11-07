@@ -36,6 +36,41 @@ export class CustomValidators {
         }
     }
 
+
+    /**
+     * Assert that a control contains the same value as an another control.
+     * The other control must be a sibling of the control, in the same form
+     *
+     * @param otherControlName
+     */
+    public static matchOther(otherControlName: string): ValidatorFn {
+        let thisControl: AbstractControl;
+        let otherControl: AbstractControl;
+
+        return function matchOther(control: AbstractControl): ValidationErrors | null {
+            if (!control.parent) {
+                return null;
+            }
+            // Initializing the validator.
+            if (!thisControl) {
+                thisControl = control;
+                // Get the other control from the parent
+                otherControl = control.parent.get(otherControlName);
+                if (!otherControl) {
+                    throw new Error('matchOtherValidator(): other control is not found in parent group');
+                }
+                // If other control change, we must compute again the validity
+                otherControl.valueChanges.subscribe(() => {
+                    thisControl.updateValueAndValidity();
+                });
+            }
+            if (!otherControl) {
+                return null;
+            }
+            return (otherControl.value === thisControl.value) ? null : { matchOther: true };
+        }
+    }
+
     /**
      * Assert that array length is equal or higher than given length
      * 
