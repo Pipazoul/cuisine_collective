@@ -52,7 +52,6 @@ import { UnauthGuard } from './guards/unauth.guard';
 import { UserResolver } from './resolver/user.resolver';
 
 // Components
-import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
@@ -132,7 +131,6 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
   declarations: [
     AppComponent,
     HeaderComponent,
-    HomeComponent,
     PopupSigninComponent,
     DialogComponent,
     AdminComponent,
