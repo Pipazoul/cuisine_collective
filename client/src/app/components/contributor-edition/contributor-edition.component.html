@@ -1,6 +1,9 @@
 <div class="contributor-edition" fxFlex fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-blue-dark">
-    <span *ngIf="!contributor || !contributor.title">{{'Créer un contributeur' | uppercase}}</span>
+    <div *ngIf="!contributor || !contributor.title" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+      <mat-icon>add_circle</mat-icon>
+      <span>Ajouter un contributeur sur la carte</span>
+    </div>
     <span *ngIf="contributor?.title">{{contributor.title | uppercase}}</span>
     <button type="button" mat-icon-button [routerLink]="'/admin'">
       <mat-icon>close</mat-icon>

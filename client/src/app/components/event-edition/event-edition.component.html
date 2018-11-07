@@ -1,6 +1,9 @@
 <div class="event-edition" fxFlex fxLayout="column">
   <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-blue-light">
-    <span *ngIf="!event?.name">{{'Créer un évènement' | uppercase}}</span>
+    <div *ngIf="!event?.name" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+      <mat-icon>add_circle</mat-icon>
+      <span>Ajouter un événement sur la carte</span>
+    </div>
     <span *ngIf="event?.name">{{event.name | uppercase}}</span>
     <button type="button" mat-icon-button [routerLink]="'/admin'">
       <mat-icon>close</mat-icon>
