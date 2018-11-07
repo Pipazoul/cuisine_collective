@@ -14,6 +14,8 @@ export class AdminFiltersComponent implements OnInit {
 
   // Event's filters
   public readonly today = new Date();
+  public mine: boolean = false;
+  public others: boolean = false;
   public startDate: Date;
   public endDate: Date;
   public eatToggle: boolean = false;
@@ -50,6 +52,8 @@ export class AdminFiltersComponent implements OnInit {
 
   applyEventsFilters() {
     this.filterEvents.emit({
+      mine: this.mine,
+      others: this.others,
       eat: this.eatToggle,
       cook: this.cookToggle,
       /* public: this.publicToggle, */

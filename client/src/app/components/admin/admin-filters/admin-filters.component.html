@@ -6,6 +6,23 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
+          ???
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
+          <label for="mine">Mes événements</label>
+          <label for="others">Les événements des autres</label>
+        </div>
+        <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <mat-slide-toggle id="mine" [(ngModel)]="mine" (change)="applyEventsFilters()"></mat-slide-toggle>
+          <mat-slide-toggle id="others" [(ngModel)]="others" (change)="applyEventsFilters()"></mat-slide-toggle>
+        </div>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
           Statut
         </mat-panel-title>
       </mat-expansion-panel-header>
@@ -26,21 +43,19 @@
           Date ou période
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <div class="section-header">
-        <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-          <mat-form-field>
-            <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="today" [max]="endDate" placeholder="A partir de"
-              [(ngModel)]="startDate" (blur)="applyEventsFilters()">
-            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-            <mat-datepicker #startPicker (closed)="applyEventsFilters()"></mat-datepicker>
-          </mat-form-field>
-          <mat-form-field>
-            <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="startDate || today" placeholder="Jusqu'au"
-              [(ngModel)]="endDate" (blur)="applyEventsFilters()">
-            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-            <mat-datepicker #endPicker (closed)="applyEventsFilters()"></mat-datepicker>
-          </mat-form-field>
-        </div>
+      <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+        <mat-form-field>
+          <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="today" [max]="endDate"
+            placeholder="A partir de" [(ngModel)]="startDate" (blur)="applyEventsFilters()">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker (closed)="applyEventsFilters()"></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="startDate || today"
+            placeholder="Jusqu'au" [(ngModel)]="endDate" (blur)="applyEventsFilters()">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker (closed)="applyEventsFilters()"></mat-datepicker>
+        </mat-form-field>
       </div>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -50,14 +65,14 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
-        <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+        <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
           <label for="eat-input">Manger ensemble</label>
           <label for="cook-input">Cuisiner ensemble</label>
           <!-- Masqué pour le proto -->
           <!-- <label for="public-input">Tout public</label> -->
           <label for="regular-input">Récurrent</label>
         </div>
-        <div fxFlex="40%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+        <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
           <mat-slide-toggle id="eat" [(ngModel)]="eatToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
           <mat-slide-toggle id="cook" [(ngModel)]="cookToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
           <!-- Masqué pour le proto -->
@@ -72,7 +87,6 @@
           Besoins
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <!-- <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px"> -->
       <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
         <div fxLayout="row" class="full-width">
           <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
