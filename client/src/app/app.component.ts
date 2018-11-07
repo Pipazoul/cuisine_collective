@@ -61,7 +61,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   _publishedEventStyle: ol.style.Style;
   _notPublishedEventStyle: ol.style.Style;
   _contributorStyle: ol.style.Style;
-  _sameLocationItemStyle: ol.style.Style;
+  _sameLocationEventStyle: ol.style.Style;
+  _sameLocationContributorStyle: ol.style.Style;
   _selectedLocationPinStyle: ol.style.Style;
   _selectedEditLocationPinStyle: ol.style.Style;
   _selectedSameLocationPinStyle: ol.style.Style;
@@ -86,6 +87,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       if (connected === true || connected === false) {
         // Load only events & clean contributors from screen
         this.eventService.getAll().subscribe(events => {
+          this.sameLocationItemLayer.setStyle(this.sameLocationEventStyle);
           this.allEvents = events;
           this.contributors = [];
           this.allContributors = [];
@@ -113,7 +115,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.publishedEventStyle;
     this.notPublishedEventStyle;
     this.contributorStyle;
-    this.sameLocationItemStyle;
+    this.sameLocationEventStyle;
+    this.sameLocationContributorStyle;
     this.selectedLocationPinStyle;
     this.selectedEditLocationPinStyle;
     this.selectedSameLocationPinStyle;
@@ -253,11 +256,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     return this._contributorStyle;
   }
 
-  private get sameLocationItemStyle() {
-    if (!this._sameLocationItemStyle) {
+  private get sameLocationEventStyle() {
+    if (!this._sameLocationEventStyle) {
       let canvas = this.addWhiteOutlineToMarker('assets/add_location.svg', this.eventColor);
 
-      this._sameLocationItemStyle = new ol.style.Style({
+      this._sameLocationEventStyle = new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
           img: canvas,
           imgSize: canvas ? [canvas.width, canvas.height] : undefined,
@@ -265,7 +268,22 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         }))
       });
     }
-    return this._sameLocationItemStyle;
+    return this._sameLocationEventStyle;
+  }
+
+  private get sameLocationContributorStyle() {
+    if (!this._sameLocationContributorStyle) {
+      let canvas = this.addWhiteOutlineToMarker('assets/add_location.svg', this.contributorColor);
+
+      this._sameLocationContributorStyle = new ol.style.Style({
+        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
+          img: canvas,
+          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
+          anchor: [0.5, 1]
+        }))
+      });
+    }
+    return this._sameLocationContributorStyle;
   }
 
   private get selectedLocationPinStyle() {
@@ -604,7 +622,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.sameLocationItemLayer = new ol.layer.Vector({
       source: this.sameLocationItemMarkerSource,
-      style: this.sameLocationItemStyle,
+      style: this.sameLocationEventStyle,
     });
 
     this.selectInteraction = new ol.interaction.Select(
@@ -744,6 +762,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
+        this.sameLocationItemLayer.setStyle(this.sameLocationEventStyle);
         // Clean contributors
         this.allContributors = [];
         this.removeContributorsFromItemsList();
@@ -756,6 +775,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
+        this.sameLocationItemLayer.setStyle(this.sameLocationContributorStyle);
         // Clean events
         this.allEvents = [];
         this.removeEventsFromItemsList();
