@@ -8,10 +8,11 @@
         <mat-option *ngFor="let result of results" [value]="result">
           {{result.properties.label}}
         </mat-option>
-        <mat-option *ngIf="locationForm.controls.location.value && !results.length && !isLoading" disabled>Aucun résultat</mat-option>
+        <mat-option *ngIf="locationForm.controls.location.value && !results.length && !isLoading" disabled>Aucun
+          résultat</mat-option>
       </mat-autocomplete>
     </div>
-    <button fxFlex="30%" mat-button type="button" (click)="locateUser()">
+    <button fxFlex="30%" mat-button type="button" (click)="locateUser()" [ngClass]="{'background-blue-light': selectedType === TabSelectionType.EVENTS, 'background-blue-dark': selectedType === TabSelectionType.CONTRIBUTORS}">
       Utiliser ma position
       <i class="material-icons">my_location</i>
     </button>

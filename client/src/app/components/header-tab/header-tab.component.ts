@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { HeaderTabService, TabSelectionType } from 'src/app/services/header-tab.service';
+import { HeaderTabService } from 'src/app/services/header-tab.service';
+import { TabSelectionType } from 'src/app/enum/tab-selection-type.enum';
 
 @Component({
   selector: 'app-header-tab',
@@ -10,7 +11,7 @@ export class HeaderTabComponent implements OnInit {
 
   public readonly TabSelectionType = TabSelectionType;
 
-  public selectionType: TabSelectionType = TabSelectionType.EVENTS;
+  public selectionType: TabSelectionType = HeaderTabService.DEFAULT_TYPE;
 
   constructor(private headerTabService: HeaderTabService) {
 

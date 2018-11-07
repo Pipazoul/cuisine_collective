@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { filter, switchMap, debounceTime } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -7,13 +7,16 @@ import * as _ from 'lodash';
 import { LocationClass } from '../../../domain/location.class';
 import { LocationService } from '../../../services/location.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { Subscription } from 'rxjs';
+import { TabSelectionType } from 'src/app/enum/tab-selection-type.enum';
+import { HeaderTabService } from 'src/app/services/header-tab.service';
 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css']
 })
-export class SearchBarComponent implements OnInit {
+export class SearchBarComponent implements OnInit, OnDestroy {
 
   private static readonly RESULTS_LIMIT = 5;
 
@@ -24,7 +27,12 @@ export class SearchBarComponent implements OnInit {
   public coordinates: [number, number];
   public results: LocationClass[] = [];
 
-  constructor(private locationService: LocationService) { }
+  public readonly TabSelectionType = TabSelectionType;
+  public selectedType: TabSelectionType = HeaderTabService.DEFAULT_TYPE;
+  private onHeaderTabChanged: Subscription;
+
+  constructor(private locationService: LocationService,
+    private headerTabService: HeaderTabService) { }
 
   ngOnInit() {
     // location control with value changes listener
@@ -42,6 +50,17 @@ export class SearchBarComponent implements OnInit {
         this.results = data.features;
       });
     this.locationForm = new FormGroup({ 'location': locationCtrl });
+
+    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => {
+      if (!res) {
+        return;
+      }
+      this.selectedType = res;
+    });
+  }
+
+  ngOnDestroy() {
+    this.onHeaderTabChanged.unsubscribe();
   }
 
   /**

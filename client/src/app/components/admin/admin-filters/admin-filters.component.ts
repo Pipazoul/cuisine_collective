@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/cor
 import { EventFilters } from '../../../services/event.service';
 import { ContributorFilters } from '../../../services/contributor.service';
 import { Subscription } from 'rxjs';
-import { HeaderTabService, TabSelectionType } from 'src/app/services/header-tab.service';
+import { HeaderTabService } from 'src/app/services/header-tab.service';
+import { TabSelectionType } from 'src/app/enum/tab-selection-type.enum';
 
 @Component({
   selector: 'app-admin-filters',
@@ -43,7 +44,7 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
   public people: boolean = false;
   public assistants: boolean = false;
 
-  public selectedType: TabSelectionType = TabSelectionType.EVENTS;
+  public selectedType: TabSelectionType = HeaderTabService.DEFAULT_TYPE;
   private onHeaderTabChanged: Subscription;
 
   constructor(private headerTabService: HeaderTabService) {
