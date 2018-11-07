@@ -37,6 +37,16 @@
       }
     ],
     "relations": {
+      "contributors": {
+        "type": "hasMany",
+        "model": "contributor",
+        "foreignKey": "userId"
+      },
+      "events": {
+        "type": "hasMany",
+        "model": "event",
+        "foreignKey": "userId"
+      },
       "roles": {
         "type": "hasMany",
         "model": "Role",

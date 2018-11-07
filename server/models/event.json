@@ -241,10 +241,19 @@
     },
     "dates": {
       "type": "json"
+    },
+    "userId": {
+      "type": "number",
+      "required": true
     }
   },
   "validations": [],
   "relations": {
+    "owner": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "userId"
+    },
     "contributorsLocation": {
       "type": "hasMany",
       "model": "contributor",

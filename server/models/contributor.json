@@ -69,10 +69,20 @@
       "type": "boolean",
       "required": true,
       "default": false
+    },
+    "userId": {
+      "type": "number",
+      "required": true
     }
   },
   "validations": [],
-  "relations": {},
+  "relations": {
+    "owner": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "userId"
+    }
+  },
   "acls": [],
   "methods": {}
 }

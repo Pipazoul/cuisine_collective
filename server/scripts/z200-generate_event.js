@@ -30,6 +30,7 @@ module.exports = {
       'missingSkills': true,
       'missingPeople': false,
       'missingAssistants': true,
+      'userId': 1,
     }];
 
     return entityUtils.createInOrder(Event, event);
