@@ -1,23 +1,16 @@
-.filters-container {
-    height: 100%;
-}
-
-.section-header {
+.filters-title {
+    background-color: white;
     padding: 20px 0 20px 0;
-    width: 100%
-}
-
-.section-header>div {
     text-align: center;
+    text-transform: uppercase;
 }
 
-.title-decoration {
-    background-color: #f4f4f4;
-    height: 12px;
-}
-
-.section-title {
+.filters-title.filters-events {
     color: #6CCACC;
+}
+
+.filters-title.filters-contributors {
+    color: #0D70CD;
 }
 
 .section-filters {
@@ -26,13 +19,4 @@
 
 mat-form-field {
     width: 200px;
-}
-
-img {
-    padding: 10px 15px 5px 15px;
-    width: 100px;
-}
-
-.content-title.contributors {
-    background-color: #0d70cd;
 }

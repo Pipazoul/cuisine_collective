@@ -9,11 +9,12 @@ import { ContributorFilters } from '../../../services/contributor.service';
 })
 export class AdminFiltersComponent implements OnInit {
 
-  @Output() filterEvents: EventEmitter<EventFilters> = new EventEmitter();
-  @Output() filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+  @Output() private filterEvents: EventEmitter<EventFilters> = new EventEmitter();
+  @Output() private filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+
+  public readonly today = new Date();
 
   // Event's filters
-  public readonly today = new Date();
   public eventMine: boolean = false;
   public eventOthers: boolean = false;
   public startDate: Date;
@@ -44,15 +45,7 @@ export class AdminFiltersComponent implements OnInit {
   ngOnInit() {
   }
 
-  onSlideToggleClick() {
-    this.applyEventsFilters();
-  }
-
-  onCalendarClose() {
-    this.applyEventsFilters();
-  }
-
-  applyEventsFilters() {
+  public applyEventsFilters() {
     this.filterEvents.emit({
       mine: this.eventMine,
       others: this.eventOthers,
@@ -72,7 +65,7 @@ export class AdminFiltersComponent implements OnInit {
     });
   }
 
-  applyContributorsFilters() {
+  public applyContributorsFilters() {
     this.filterContributors.emit({
       mine: this.contribMine,
       others: this.contribOthers,
