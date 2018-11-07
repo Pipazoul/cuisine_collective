@@ -4,6 +4,7 @@ import { CustomRegExp } from '../../../util/CustomRegExp';
 import { EventService } from '../../../services/event.service';
 import { EventClass } from '../../../domain/event.class';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-event-form',
@@ -14,8 +15,9 @@ export class EventFormComponent extends AbstractEventModifier implements OnInit,
 
   public eventForm: FormGroup;
 
-  constructor(@Inject(EventService) eventService: EventService) {
-    super(eventService);
+  constructor(@Inject(EventService) eventService: EventService,
+    @Inject(AuthenticationService) authenticationService: AuthenticationService) {
+    super(eventService, authenticationService);
   }
 
   ngOnInit() {

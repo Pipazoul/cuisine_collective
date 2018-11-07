@@ -8,6 +8,7 @@ import { LocationService } from '../../../services/location.service';
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-event-location-type',
@@ -23,8 +24,9 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
   public isLoading: boolean = false;
 
   constructor(@Inject(EventService) eventService: EventService,
+    @Inject(AuthenticationService) authenticationService: AuthenticationService,
     private locationService: LocationService) {
-    super(eventService);
+    super(eventService, authenticationService);
   }
 
   ngOnInit() {

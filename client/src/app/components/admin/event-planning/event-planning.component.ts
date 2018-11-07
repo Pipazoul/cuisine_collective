@@ -7,6 +7,7 @@ import { MatRadioChange, MatDatepickerInputEvent } from '@angular/material';
 import { WeekDays } from '../../../enum/week-days';
 import * as _ from 'lodash';
 import { CustomValidators } from 'src/app/util/CustomValidators';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-event-planning',
@@ -26,8 +27,9 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   public dateRangeFormSelected: boolean = false;
   public severalDatesFormSelected: boolean = false;
 
-  constructor(@Inject(EventService) eventService: EventService) {
-    super(eventService);
+  constructor(@Inject(EventService) eventService: EventService,
+    @Inject(AuthenticationService) authenticationService: AuthenticationService) {
+    super(eventService, authenticationService);
   }
 
   ngOnInit() {

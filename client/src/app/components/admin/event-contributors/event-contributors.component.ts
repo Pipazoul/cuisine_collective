@@ -6,6 +6,7 @@ import { ContributorService } from '../../../services/contributor.service';
 import { ContributorClass } from '../../../domain/contributor.class';
 import { MatSelectChange } from '@angular/material';
 import * as _ from 'lodash';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-event-contributors',
@@ -18,8 +19,9 @@ export class EventContributorsComponent extends AbstractEventModifier implements
   public contributors: ContributorGroups = { location: [], food: [], skills: [], people: [], assistants: [] };
 
   constructor(@Inject(EventService) eventService: EventService,
+    @Inject(AuthenticationService) authenticationService: AuthenticationService,
     private contributorService: ContributorService) {
-    super(eventService);
+    super(eventService, authenticationService);
   }
 
   ngOnChanges(changes: SimpleChanges) {

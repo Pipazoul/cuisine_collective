@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, OnChanges, Input } from '@angular/core';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { EventService } from '../../../services/event.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-event-missing',
@@ -12,8 +13,9 @@ export class EventMissingComponent extends AbstractEventModifier implements OnIn
 
   public eventMissingForm: FormGroup;
 
-  constructor(@Inject(EventService) eventService: EventService) {
-    super(eventService);
+  constructor(@Inject(EventService) eventService: EventService,
+    @Inject(AuthenticationService) authenticationService: AuthenticationService) {
+    super(eventService, authenticationService);
   }
 
   ngOnInit() {

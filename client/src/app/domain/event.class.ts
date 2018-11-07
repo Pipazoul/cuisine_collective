@@ -33,7 +33,7 @@ export class EventClass {
     public eat: boolean = false;
     public cook: boolean = false;
     public inscription: boolean = false;
-    /* public public: boolean = false; */
+    public userId: number;
     // All about location from API
     public locationCity: string;
     public locationCitycode: string;

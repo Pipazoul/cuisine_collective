@@ -3,6 +3,7 @@ import { EventClass } from "../domain/event.class";
 import { EventService } from "../services/event.service";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import { AuthenticationService } from "../services/authentication.service";
 
 export abstract class AbstractEventModifier {
 
@@ -10,7 +11,8 @@ export abstract class AbstractEventModifier {
     @Output() public backwardPressed: EventEmitter<EventClass> = new EventEmitter();
     @Output() public eventSaved: EventEmitter<EventClass> = new EventEmitter();
 
-    constructor(protected eventService: EventService) {
+    constructor(protected eventService: EventService,
+        protected authenticationService: AuthenticationService) {
 
     }
 
@@ -20,6 +22,7 @@ export abstract class AbstractEventModifier {
 
     private saveAndEmit(event: EventClass, eventEmitter: EventEmitter<EventClass>): Observable<EventClass> {
         if (!this.event.id) {
+            event.userId = this.authenticationService.user.id;
             return this.eventService.create(event).pipe(
                 tap((event) => { Object.assign(this.event, event); eventEmitter.emit(event); })
             );
