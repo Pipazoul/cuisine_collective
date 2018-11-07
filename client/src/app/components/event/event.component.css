@@ -7,3 +7,15 @@
     font-weight: bold;
     margin: 0 30px;
 }
+
+.update-button {
+    background-color: white;
+    border: 3px solid #6CCACC !important;
+    color: #6CCACC !important;
+}
+
+.delete-button {
+    border-radius: 0 !important;
+    color: white;
+    background-color: #6CCACC;
+}

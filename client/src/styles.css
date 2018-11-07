@@ -142,18 +142,6 @@ span.required:before {
     background-color: #eaeaea;
 }
 
-.update-button {
-    background-color: white;
-    border: 3px solid #FF5555 !important;
-    color: #FF5555 !important;
-}
-
-.delete-button {
-    border-radius: 0 !important;
-    color: white;
-    background-color: #FF5555;
-}
-
 /* ----- END BUTTONS ----- */
 
 /* ------ Material button ------- */
