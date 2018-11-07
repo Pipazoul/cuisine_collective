@@ -99,6 +99,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // To handle click on popup results
     this.itemsList.nativeElement.addEventListener('click', (e) => {
+      if (!e.target.id) {
+        return;
+      }
       if (e.target.className.indexOf('event') >= 0) {
         this.router.navigate([...this.routingUrls.events, e.target.id.split('-')[1]]);
       } else if (e.target.className.indexOf('contributor') >= 0) {
