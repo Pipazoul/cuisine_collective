@@ -19,6 +19,7 @@ export class ContributorClass {
     public street: string;
     public zipcode: string;
     public city: string;
+    public userId: number;
 
     get formattedAddress() {
         if (this.street && this.zipcode && this.city) {

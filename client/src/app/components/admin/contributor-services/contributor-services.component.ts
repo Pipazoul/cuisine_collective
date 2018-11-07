@@ -10,6 +10,7 @@ import { ContributorService } from '../../../services/contributor.service';
 
 // Classes
 import { ContributorClass } from '../../../domain/contributor.class';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-contributor-services',
@@ -20,8 +21,9 @@ export class ContributorServicesComponent extends AbstractContributorModifier im
 
   public contributorForm: FormGroup;
 
-  constructor(@Inject(ContributorService) contributorService: ContributorService) {
-    super(contributorService);
+  constructor(@Inject(ContributorService) contributorService: ContributorService,
+    @Inject(AuthenticationService) authenticationService: AuthenticationService) {
+    super(contributorService, authenticationService);
   }
 
   ngOnInit() {

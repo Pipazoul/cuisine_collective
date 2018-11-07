@@ -16,6 +16,7 @@ import { LocationService } from '../../../services/location.service';
 // Classes
 import { ContributorClass } from '../../../domain/contributor.class';
 import { LocationClass } from '../../../domain/location.class';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
   selector: 'app-contributor-form',
@@ -32,8 +33,9 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
 
   constructor(
     @Inject(ContributorService) contributorService: ContributorService,
+    @Inject(AuthenticationService) authenticationService: AuthenticationService,
     private locationService: LocationService) {
-    super(contributorService);
+    super(contributorService, authenticationService);
   }
 
   ngOnInit() {

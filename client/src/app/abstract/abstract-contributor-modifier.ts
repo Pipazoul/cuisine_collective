@@ -3,6 +3,7 @@ import { ContributorClass } from "../domain/contributor.class";
 import { ContributorService } from "../services/contributor.service";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
+import { AuthenticationService } from "../services/authentication.service";
 
 export abstract class AbstractContributorModifier {
 
@@ -10,7 +11,8 @@ export abstract class AbstractContributorModifier {
     @Output() private backwardPressed: EventEmitter<ContributorClass> = new EventEmitter();
     @Output() private contributorSaved: EventEmitter<ContributorClass> = new EventEmitter();
 
-    constructor(protected contributorService: ContributorService) {
+    constructor(protected contributorService: ContributorService,
+        protected authenticationService: AuthenticationService) {
 
     }
 
@@ -20,6 +22,7 @@ export abstract class AbstractContributorModifier {
 
     private saveAndEmit(contributor: ContributorClass, eventEmitter: EventEmitter<ContributorClass>): Observable<ContributorClass> {
         if (!this.contributor.id) {
+            contributor.userId = this.authenticationService.user.id;
             return this.contributorService.create(contributor).pipe(
                 tap((contributor) => { Object.assign(this.contributor, contributor); eventEmitter.emit(contributor); })
             );
