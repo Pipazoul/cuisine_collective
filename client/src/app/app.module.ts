@@ -57,7 +57,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { EventFormComponent } from './components/admin/event-form/event-form.component';
 import { ContributorFormComponent } from './components/admin/contributor-form/contributor-form.component';
-import { AddElementComponent } from './components/admin/add-element/add-element.component';
 import { CarouselComponent, CarouselItemElement } from './components/carousel/carousel.component';
 
 // Dialogs
@@ -139,7 +138,6 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     AdminComponent,
     EventFormComponent,
     ContributorFormComponent,
-    AddElementComponent,
     CarouselComponent,
     CarouselItemDirective,
     CarouselItemElement,
@@ -162,8 +160,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
   ],
   entryComponents: [
     PopupSigninComponent,
-    DialogComponent,
-    AddElementComponent
+    DialogComponent
   ],
   imports: [
     BrowserModule,

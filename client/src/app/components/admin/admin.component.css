@@ -1,11 +1,10 @@
 .add-element {
     color: white;
     font-weight: bold;
-    line-height: 20px;
-    position: absolute;
-    left: 25%;
-    top: calc(100% / 2 - 50px);
-    height: 100px;
-    width: 100px;
+    text-transform: uppercase;
+    width: 75%;
     z-index: 2;
+    position: absolute;
+    bottom: 58px;
+    left: 25%;
 }

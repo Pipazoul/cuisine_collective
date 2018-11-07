@@ -51,12 +51,7 @@ export class SearchBarComponent implements OnInit, OnDestroy {
       });
     this.locationForm = new FormGroup({ 'location': locationCtrl });
 
-    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => {
-      if (!res) {
-        return;
-      }
-      this.selectedType = res;
-    });
+    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => res && (this.selectedType = res));
   }
 
   ngOnDestroy() {

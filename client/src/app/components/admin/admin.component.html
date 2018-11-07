@@ -1,11 +1,13 @@
-<!-- Button to add an element on the map -->
-<button type="button" mat-button class="add-element background-red" [routerLink]="['/admin', 'addElement']">
-  <div fxLayout="column" fxLayoutAlign="start center">
-    <mat-icon>add_circle</mat-icon>
-    <span class="add-element-text">
-      Ajouter un
-      <br>élément sur
-      <br>la carte
-    </span>
-  </div>
+<!-- Button to add an event on the map -->
+<button *ngIf="selectedType === TabSelectionType.EVENTS" type="button" mat-button class="add-element background-blue-light"
+  [routerLink]="['/admin', 'events']">
+  <mat-icon>add_circle</mat-icon>
+  <span>Ajouter un événement sur la carte</span>
+</button>
+
+<!-- Button to add a contributor on the map -->
+<button *ngIf="selectedType === TabSelectionType.CONTRIBUTORS" type="button" mat-button class="add-element background-blue-dark"
+  [routerLink]="['/admin', 'contributors']">
+  <mat-icon>add_circle</mat-icon>
+  <span>Ajouter un contributeur sur la carte</span>
 </button>
