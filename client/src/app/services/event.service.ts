@@ -69,65 +69,62 @@ export class EventService {
       }
     };
 
-    if (filters) {
+    params.filter.where.and.push({
+      or: [{
+        userId: filters && filters.mine && this.authenticateService.isConnected ? this.authenticateService.user.id : undefined
+      }, {
+        userId: filters && filters.others && this.authenticateService.isConnected ? { neq: this.authenticateService.user.id } : undefined
+      }],
+    }, {
+        eat: filters && filters.eat ? filters.eat : undefined
+      }, {
+        cook: filters && filters.cook ? filters.cook : undefined
+      }, /* {
+      public: filters && filters.public ? filters.public : undefined
+    },  */{
+        missingLocation: filters && filters.missingLocation ? true : undefined
+      }, {
+        missingFood: filters && filters.missingFood ? true : undefined
+      }, {
+        missingSkills: filters && filters.missingSkills ? true : undefined
+      }, {
+        missingPeople: filters && filters.missingPeople ? true : undefined
+      }, {
+        missingAssistants: filters && filters.missingAssistants ? true : undefined
+      }, {
+        dateEnd: undefined
+      }, {
+        or: [{
+          publish: (filters && filters.published) || !this.authenticateService.isConnected ? true : undefined
+        }, {
+          publish: filters && filters.unpublished ? false : undefined
+        }]
+      }, {
+        occurenceType: filters && filters.regular ? { gt: 0 } : undefined
+      }, {
+        or: [{
+          name: filters && filters.searchString ? { ilike: '%' + filters.searchString + '%' } : undefined
+        }, {
+          description: filters && filters.searchString ? { ilike: '%' + filters.searchString + '%' } : undefined
+        }]
+      });
+
+    if (filters && filters.startDate) {
       params.filter.where.and.push({
         or: [{
-          userId: filters.mine && this.authenticateService.isConnected ? this.authenticateService.user.id : undefined
+          dateEnd: { gt: new Date(filters.startDate) }
         }, {
-          userId: filters.others && this.authenticateService.isConnected ? { neq: this.authenticateService.user.id } : undefined
-        }],
+          dateEnd: null
+        }]
+      });
+    }
+
+    if (filters && filters.endDate) {
+      params.filter.where.and.push({
+        dateEnd: { neq: null }
       }, {
-          eat: filters.eat ? filters.eat : undefined
-        }, {
-          cook: filters.cook ? filters.cook : undefined
-        }, /* {
-      public: filters.public ? filters.public : undefined
-    },  */{
-          missingLocation: filters.missingLocation ? true : undefined
-        }, {
-          missingFood: filters.missingFood ? true : undefined
-        }, {
-          missingSkills: filters.missingSkills ? true : undefined
-        }, {
-          missingPeople: filters.missingPeople ? true : undefined
-        }, {
-          missingAssistants: filters.missingAssistants ? true : undefined
-        }, {
-          dateEnd: undefined
-        }, {
-          or: [{
-            publish: (filters.published) || !this.authenticateService.isConnected ? true : undefined
-          }, {
-            publish: filters.unpublished ? false : undefined
-          }]
-        }, {
-          occurenceType: filters.regular ? { gt: 0 } : undefined
-        }, {
-          or: [{
-            name: filters.searchString ? { ilike: '%' + filters.searchString + '%' } : undefined
-          }, {
-            description: filters.searchString ? { ilike: '%' + filters.searchString + '%' } : undefined
-          }]
+          dateEnd: { lte: new Date(filters.endDate) }
         });
-
-      if (filters.startDate) {
-        params.filter.where.and.push({
-          or: [{
-            dateEnd: { gt: new Date(filters.startDate) }
-          }, {
-            dateEnd: null
-          }]
-        });
-      }
-
-      if (filters.endDate) {
-        params.filter.where.and.push({
-          dateEnd: { neq: null }
-        }, {
-            dateEnd: { lte: new Date(filters.endDate) }
-          });
-      }
-
     }
 
     return this.restangular.all(UrlSettings.eventModel).getList(params).pipe(map((res: Array<any>) => res.map(event => new EventClass(event))));
