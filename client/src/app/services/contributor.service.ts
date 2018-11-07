@@ -53,6 +53,12 @@ export class ContributorService {
       filter: {
         where: {
           and: [{
+            or: [{
+              userId: filters && filters.mine && this.authenticateService.isConnected ? this.authenticateService.user.id : undefined
+            }, {
+              userId: filters && filters.others && this.authenticateService.isConnected ? { neq: this.authenticateService.user.id } : undefined
+            }],
+          }, {
             location: filters && filters.location ? filters.location : undefined
           }, {
             food: filters && filters.food ? filters.food : undefined
@@ -92,6 +98,8 @@ export class ContributorService {
 }
 
 export interface ContributorFilters {
+  mine?: boolean;
+  others?: boolean;
   location?: boolean;
   food?: boolean;
   skills?: boolean;

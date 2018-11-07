@@ -11,12 +11,12 @@
       </mat-expansion-panel-header>
       <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
-          <label for="mine">Mes événements</label>
-          <label for="others">Les événements des autres</label>
+          <label for="eventMine">Mes événements</label>
+          <label for="eventOthers">Les événements des autres</label>
         </div>
         <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-          <mat-slide-toggle id="mine" [(ngModel)]="mine" (change)="applyEventsFilters()"></mat-slide-toggle>
-          <mat-slide-toggle id="others" [(ngModel)]="others" (change)="applyEventsFilters()"></mat-slide-toggle>
+          <mat-slide-toggle id="eventMine" [(ngModel)]="eventMine" (change)="applyEventsFilters()"></mat-slide-toggle>
+          <mat-slide-toggle id="eventOthers" [(ngModel)]="eventOthers" (change)="applyEventsFilters()"></mat-slide-toggle>
         </div>
       </div>
     </mat-expansion-panel>
@@ -122,6 +122,23 @@
     Filtrer les contributeurs
   </div>
   <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header class="contributors">
+        <mat-panel-title>
+          ???
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
+          <label for="contribMine">Mes contributions</label>
+          <label for="contribOthers">Les contributions des autres</label>
+        </div>
+        <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <mat-slide-toggle id="contribMine" [(ngModel)]="contribMine" (change)="applyContributorsFilters()"></mat-slide-toggle>
+          <mat-slide-toggle id="contribOthers" [(ngModel)]="contribOthers" (change)="applyContributorsFilters()"></mat-slide-toggle>
+        </div>
+      </div>
+    </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header class="contributors">
         <mat-panel-title>

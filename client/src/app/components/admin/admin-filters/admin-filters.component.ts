@@ -14,8 +14,8 @@ export class AdminFiltersComponent implements OnInit {
 
   // Event's filters
   public readonly today = new Date();
-  public mine: boolean = false;
-  public others: boolean = false;
+  public eventMine: boolean = false;
+  public eventOthers: boolean = false;
   public startDate: Date;
   public endDate: Date;
   public eatToggle: boolean = false;
@@ -31,6 +31,8 @@ export class AdminFiltersComponent implements OnInit {
   public unpublished: boolean = false;
 
   // Contributor's filters
+  public contribMine: boolean = false;
+  public contribOthers: boolean = false;
   public location: boolean = false;
   public food: boolean = false;
   public skills: boolean = false;
@@ -52,8 +54,8 @@ export class AdminFiltersComponent implements OnInit {
 
   applyEventsFilters() {
     this.filterEvents.emit({
-      mine: this.mine,
-      others: this.others,
+      mine: this.eventMine,
+      others: this.eventOthers,
       eat: this.eatToggle,
       cook: this.cookToggle,
       /* public: this.publicToggle, */
@@ -72,6 +74,8 @@ export class AdminFiltersComponent implements OnInit {
 
   applyContributorsFilters() {
     this.filterContributors.emit({
+      mine: this.contribMine,
+      others: this.contribOthers,
       location: this.location,
       food: this.food,
       skills: this.skills,
