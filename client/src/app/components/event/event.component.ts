@@ -6,6 +6,7 @@ import { AuthenticationService } from '../../services/authentication.service';
 import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
 import { MatDialog } from '@angular/material';
 import { DialogComponent, DialogParams } from '../common/dialog/dialog.component';
+import { UserClass } from 'src/app/domain/user.class';
 
 @Component({
   selector: 'app-event',
@@ -14,15 +15,17 @@ import { DialogComponent, DialogParams } from '../common/dialog/dialog.component
 })
 export class EventComponent extends RepresentedOnMapComponent implements OnInit {
 
-  event: EventClass;
+  public event: EventClass;
+  public readonly connectedUser: UserClass;
 
   constructor(
     private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    public authService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private eventService: EventService) {
     super();
+    this.connectedUser = this.authenticationService.user;
   }
 
   ngOnInit() {
@@ -53,5 +56,9 @@ export class EventComponent extends RepresentedOnMapComponent implements OnInit 
 
   public modifyEvent(eventId) {
     this.router.navigate(['admin', 'events', eventId, 'edit']);
+  }
+
+  public get isConnected() {
+    return this.authenticationService.isConnected;
   }
 }

@@ -6,6 +6,7 @@ import { RepresentedOnMapComponent } from '../base/represented-on-map/represente
 import { AuthenticationService } from '../../services/authentication.service';
 import { DialogComponent, DialogParams } from '../common/dialog/dialog.component';
 import { MatDialog } from '@angular/material';
+import { UserClass } from 'src/app/domain/user.class';
 
 @Component({
   selector: 'app-contributor',
@@ -14,15 +15,17 @@ import { MatDialog } from '@angular/material';
 })
 export class ContributorComponent extends RepresentedOnMapComponent implements OnInit {
 
-  contributor: ContributorClass;
+  public contributor: ContributorClass;
+  public readonly connectedUser: UserClass;
 
   constructor(private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
-    public authService: AuthenticationService,
+    private authenticationService: AuthenticationService,
     private contributorService: ContributorService
   ) {
     super();
+    this.connectedUser = this.authenticationService.user;
   }
 
   ngOnInit() {
@@ -53,5 +56,9 @@ export class ContributorComponent extends RepresentedOnMapComponent implements O
 
   public modifyContributor(contributorId) {
     this.router.navigate(['admin', 'contributors', contributorId, 'edit']);
+  }
+
+  public get isConnected() {
+    return this.authenticationService.isConnected;
   }
 }

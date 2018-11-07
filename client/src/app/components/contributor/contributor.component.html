@@ -32,7 +32,7 @@
         </div>
       </div>
       <!-- Missing needs -->
-      <div *ngIf="authService.isConnected" class="contributor-section">
+      <div *ngIf="isConnected" class="contributor-section">
         <div class="bold">Services proposés</div>
         <div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
           <div *ngIf="contributor.location" class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
@@ -61,11 +61,11 @@
 
     <div fxFlex="60px" fxLayoutAlign="row" class="sidenav-footer">
       <button mat-button fxFlex type="button" class="next-button background-red" [routerLink]="'/admin'">OK</button>
-      <button *ngIf="authService.isConnected" mat-button fxFlex type="button" class="update-button" (click)="modifyContributor(contributor.id)">
+      <button *ngIf="isConnected && connectedUser?.id === contributor.userId" mat-button fxFlex type="button" class="update-button" (click)="modifyContributor(contributor.id)">
         <mat-icon class="material-icons">edit</mat-icon>
         Modifier
       </button>
-      <button *ngIf="authService.isConnected" mat-icon-button type="button" class="delete-button" (click)="deleteContributor(contributor.id)">
+      <button *ngIf="isConnected && connectedUser?.id === contributor.userId" mat-icon-button type="button" class="delete-button" (click)="deleteContributor(contributor.id)">
         <mat-icon class="material-icons">delete</mat-icon>
       </button>
     </div>

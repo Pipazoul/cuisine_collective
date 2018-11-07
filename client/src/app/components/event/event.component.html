@@ -64,12 +64,12 @@
         <div class="bold">Autres informations</div>
         <div class="text">{{event.informations}}</div>
       </div>
-      <div *ngIf="authService.isConnected" class="event-section">
+      <div *ngIf="isConnected" class="event-section">
         <div class="bold">Informations à destination des contributeurs</div>
         <div class="text">{{event.partnerInformations}}</div>
       </div>
       <!-- Missing needs -->
-      <div *ngIf="authService.isConnected" class="event-section">
+      <div *ngIf="isConnected" class="event-section">
         <div class="bold">Besoins manquants</div>
         <div fxFlexFill fxLayout="row wrap" fxLayoutAlign="center">
           <div *ngIf="event.missingLocation" class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
@@ -98,11 +98,13 @@
 
     <div fxFlex="60px" fxLayoutAlign="row" class="sidenav-footer">
       <button mat-button fxFlex type="button" class="next-button background-red" [routerLink]="'/admin'">OK</button>
-      <button *ngIf="authService.isConnected" mat-button fxFlex type="button" class="update-button" (click)="modifyEvent(event.id)">
+      <button *ngIf="isConnected && connectedUser?.id === event.userId" mat-button fxFlex type="button" class="update-button"
+        (click)="modifyEvent(event.id)">
         <mat-icon class="material-icons">edit</mat-icon>
         Modifier
       </button>
-      <button *ngIf="authService.isConnected" mat-icon-button type="button" class="delete-button" (click)="deleteEvent(event.id)">
+      <button *ngIf="isConnected && connectedUser?.id === event.userId" mat-icon-button type="button" class="delete-button"
+        (click)="deleteEvent(event.id)">
         <mat-icon class="material-icons">delete</mat-icon>
       </button>
     </div>
