@@ -290,6 +290,35 @@
       "keyThrough": "contributorId"
     }
   },
-  "acls": [],
+  "acls": [
+    {
+      "accessType": "*",
+      "permission": "DENY",
+      "principalId": "$everyone",
+      "principalType": "ROLE",
+      "property": "*"
+    },
+    {
+      "accessType": "READ",
+      "permission": "ALLOW",
+      "principalId": "$everyone",
+      "principalType": "ROLE",
+      "property": "*"
+    },
+    {
+      "accessType": "WRITE",
+      "permission": "ALLOW",
+      "principalId": "$authenticated",
+      "principalType": "ROLE",
+      "property": "create"
+    },
+    {
+      "accessType": "WRITE",
+      "permission": "ALLOW",
+      "principalId": "$owner",
+      "principalType": "ROLE",
+      "property": "*"
+    }
+  ],
   "methods": {}
 }
