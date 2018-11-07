@@ -138,7 +138,7 @@ span.required:before {
     color: white;
 }
 
-.next-button.background-red:disabled {
+.next-button:disabled {
     background-color: #eaeaea;
 }
 

@@ -72,11 +72,12 @@
     </mat-radio-group>
 
     <div fxLayout="row" fxLayoutGap="10px" fxFlexOffset="15px">
-      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm(true)">
+      <button mat-button type="button" class="next-button background-blue-light" fxFlex="50" (click)="submitForm(true)">
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <button mat-button type="button" class="next-button background-red" fxFlex="50" (click)="submitForm()" [disabled]="!currentForm || currentForm.invalid">
+      <button mat-button type="button" class="next-button background-blue-light" fxFlex="50" (click)="submitForm()"
+        [disabled]="!currentForm || currentForm.invalid">
         Suivant
         <mat-icon>arrow_forward</mat-icon>
       </button>

@@ -44,16 +44,16 @@
     </mat-form-field>
 
     <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-button type="button" fxFlex="50" class="next-button background-red" (click)="submitForm(eventMissingForm.value, true)">
+      <button mat-button type="button" fxFlex="50" class="next-button background-blue-light" (click)="submitForm(eventMissingForm.value, true)">
         Précédent
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <button mat-button type="submit" fxFlex="50" class="next-button background-red" [disabled]="eventMissingForm.invalid">
+      <button mat-button type="submit" fxFlex="50" class="next-button background-blue-light" [disabled]="eventMissingForm.invalid">
         Enregistrer
         <mat-icon>settings</mat-icon>
       </button>
     </div>
-      
+
     <br>
     <button mat-button type="button" class="next-button background-blue-light" fxFlex="28" [disabled]="eventMissingForm.invalid"
       (click)="publish(eventMissingForm.value)">

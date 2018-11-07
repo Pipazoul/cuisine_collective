@@ -9,7 +9,8 @@
     </mat-form-field>
 
     <mat-form-field>
-      <input matInput type="text" autocomplete="new-password" formControlName="participantsAmount" max="100" placeholder="Nombre de participants">
+      <input matInput type="text" autocomplete="new-password" formControlName="participantsAmount" max="100"
+        placeholder="Nombre de participants">
     </mat-form-field>
 
     <mat-checkbox formControlName="inscription" labelPosition="before">Inscription obligatoire</mat-checkbox>
@@ -38,7 +39,7 @@
       <input matInput type="text" autocomplete="new-password" formControlName="url" max="200" placeholder="Site internet">
     </mat-form-field>
 
-    <button mat-button type="submit" class="next-button background-red" [disabled]="eventForm.invalid">
+    <button mat-button type="submit" class="next-button background-blue-light" [disabled]="eventForm.invalid">
       Suivant
       <mat-icon>arrow_forward</mat-icon>
     </button>

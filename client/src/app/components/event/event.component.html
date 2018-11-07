@@ -1,6 +1,6 @@
 <div fxFlex fxLayout="column" class="carousel-element">
   <ng-container *ngIf="event">
-    <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-red">
+    <div fxFlex="40px" fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-blue-light">
       <span>{{event.name | uppercase}}</span>
       <button type="button" mat-icon-button [routerLink]="'/admin'">
         <mat-icon>close</mat-icon>
@@ -97,7 +97,7 @@
     </div>
 
     <div fxFlex="60px" fxLayoutAlign="row" class="sidenav-footer">
-      <button mat-button fxFlex type="button" class="next-button background-red" [routerLink]="'/admin'">OK</button>
+      <button mat-button fxFlex type="button" class="next-button background-blue-light" [routerLink]="'/admin'">OK</button>
       <button *ngIf="isConnected && connectedUser?.id === event.userId" mat-button fxFlex type="button" class="update-button"
         (click)="modifyEvent(event.id)">
         <mat-icon class="material-icons">edit</mat-icon>
