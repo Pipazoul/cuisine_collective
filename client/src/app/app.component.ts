@@ -15,6 +15,7 @@ import { EventEditionComponent } from './components/event-edition/event-edition.
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 import { ItemClass } from './domain/items-list.class';
+import { TabSelectionType } from './components/header-tab/header-tab.component';
 
 @Component({
   selector: 'app-root',
@@ -694,11 +695,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private transform(html: string): SafeHtml {
-    return this.domSanitizer.bypassSecurityTrustHtml(html);
-  }
-
-  onPrimaryRouterActivate(elementRef) {
+  public onPrimaryRouterActivate(elementRef) {
     this.showSidenav = true;
 
     // Event filter of the sidenav
@@ -732,7 +729,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  onPrimaryRouterDeactivate(component) {
+  public onPrimaryRouterDeactivate(component) {
     if (component instanceof EventEditionComponent && component.saved) {
       const event = this.events.find(x => x.id === component.event.id);
       const index = this.events.indexOf(event);
@@ -762,7 +759,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    * Subscribe to router outlet's child component's event
    * @param elementRef sidenav
    */
-  onActivate(elementRef) {
+  public onActivate(elementRef) {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
@@ -780,6 +777,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.redrawAll();
       });
     });
+  }
+
+  private removeEventsFromItemsList() {
+    _.each(this.sameLocationItems, item => {
+      _.remove(item.itemsList, element => element instanceof EventClass)
+    })
+  }
+
+  private removeContributorsFromItemsList() {
+    _.each(this.sameLocationItems, item => {
+      _.remove(item.itemsList, element => element instanceof ContributorClass)
+    })
   }
 
   private redrawAll() {
@@ -931,7 +940,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  initPopupContent(feature, elementId?) {
+  private initPopupContent(feature, elementId?) {
     // Add new overlay
     this.popup = new ol.Overlay({
       element: document.getElementById('itemsList')
@@ -960,15 +969,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.popupContent = this.transform(theHtmlString);
   }
 
-  removeEventsFromItemsList() {
-    _.each(this.sameLocationItems, item => {
-      _.remove(item.itemsList, element => element instanceof EventClass)
-    })
+  private transform(html: string): SafeHtml {
+    return this.domSanitizer.bypassSecurityTrustHtml(html);
   }
 
-  removeContributorsFromItemsList() {
-    _.each(this.sameLocationItems, item => {
-      _.remove(item.itemsList, element => element instanceof ContributorClass)
-    })
+  public onHeaderTabChanged(type: TabSelectionType) {
+    console.log(type);
+  }
+
+  public get isConnected() {
+    return this.authenticationService.isConnected;
   }
 }

@@ -1,17 +1,23 @@
 <app-header></app-header>
 <div class="full-page-container">
+    <!-- Header tab to select between events & contributors -->
+    <app-header-tab *ngIf="isConnected" (tabChanged)="onHeaderTabChanged($event)"></app-header-tab>
+    <!-- Map in background + left (fixed) sidenav + right (collapsable) sidenav-->
     <mat-sidenav-container>
         <mat-sidenav-content fxLayout="row">
+            <!-- Left fixed sidenav -->
             <div fxFlex="25%">
                 <router-outlet name="sidenav" (activate)="onActivate($event)"></router-outlet>
             </div>
+            <!-- Map -->
             <div class="map-container" #map fxFlex="75%">
                 <app-search-bar (goTo)=goTo($event)></app-search-bar>
                 <router-outlet name="mapOverlay"></router-outlet>
             </div>
+            <!-- Items on map -->
             <div id="itemsList" #itemsList class="items-list" [innerHTML]="popupContent" fxLayout="column"></div>
-            <!-- <div id="myposition"></div> -->
         </mat-sidenav-content>
+        <!-- Sidenav to create/edit events/contributors -->
         <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end">
             <router-outlet (activate)='onPrimaryRouterActivate($event)' (deactivate)='onPrimaryRouterDeactivate($event)'></router-outlet>
         </mat-sidenav>

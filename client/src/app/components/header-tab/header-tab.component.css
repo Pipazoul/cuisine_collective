@@ -1,0 +1,24 @@
+span {
+    background-color: #F0F0F0;
+    color: #909090;
+    cursor: pointer;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 10px 0;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+span.selected {
+    background-color: white;
+}
+
+span.tab-event.selected {
+    border-bottom: 10px solid #6CCACC;
+    color: #6CCACC;
+}
+
+span.tab-contributor.selected {
+    border-bottom: 10px solid #0D70CD;
+    color: #0D70CD;
+}
