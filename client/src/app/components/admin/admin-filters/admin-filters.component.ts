@@ -1,18 +1,21 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { EventFilters } from '../../../services/event.service';
 import { ContributorFilters } from '../../../services/contributor.service';
+import { Subscription } from 'rxjs';
+import { HeaderTabService, TabSelectionType } from 'src/app/services/header-tab.service';
 
 @Component({
   selector: 'app-admin-filters',
   templateUrl: './admin-filters.component.html',
   styleUrls: ['./admin-filters.component.css']
 })
-export class AdminFiltersComponent implements OnInit {
+export class AdminFiltersComponent implements OnInit, OnDestroy {
 
   @Output() private filterEvents: EventEmitter<EventFilters> = new EventEmitter();
   @Output() private filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
 
   public readonly today = new Date();
+  public readonly TabSelectionType = TabSelectionType;
 
   // Event's filters
   public eventMine: boolean = false;
@@ -40,9 +43,18 @@ export class AdminFiltersComponent implements OnInit {
   public people: boolean = false;
   public assistants: boolean = false;
 
-  constructor() { }
+  public selectedType: TabSelectionType;
+  private onHeaderTabChanged: Subscription;
+
+  constructor(private headerTabService: HeaderTabService) {
+  }
 
   ngOnInit() {
+    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => this.selectedType = res);
+  }
+
+  ngOnDestroy() {
+    this.onHeaderTabChanged.unsubscribe();
   }
 
   public applyEventsFilters() {

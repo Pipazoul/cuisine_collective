@@ -40,6 +40,7 @@ import { CarouselItemDirective } from './directive/carousel-item.directive';
 import { AuthenticationService } from './services/authentication.service';
 import { ContributorService } from './services/contributor.service';
 import { EventService } from './services/event.service';
+import { HeaderTabService } from './services/header-tab.service';
 import { LocationService } from './services/location.service';
 import { UserService } from './services/user.service';
 
@@ -205,6 +206,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     appRoutingProviders,
     AuthenticationService,
     EventService,
+    HeaderTabService,
     LocationService,
     ContributorService,
     UserService,

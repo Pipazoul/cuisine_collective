@@ -15,7 +15,6 @@ import { EventEditionComponent } from './components/event-edition/event-edition.
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 import { ItemClass } from './domain/items-list.class';
-import { TabSelectionType } from './components/header-tab/header-tab.component';
 
 @Component({
   selector: 'app-root',
@@ -971,10 +970,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private transform(html: string): SafeHtml {
     return this.domSanitizer.bypassSecurityTrustHtml(html);
-  }
-
-  public onHeaderTabChanged(type: TabSelectionType) {
-    console.log(type);
   }
 
   public get isConnected() {

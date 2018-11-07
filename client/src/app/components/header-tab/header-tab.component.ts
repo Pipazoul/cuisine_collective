@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { HeaderTabService, TabSelectionType } from 'src/app/services/header-tab.service';
 
 @Component({
   selector: 'app-header-tab',
@@ -9,29 +10,25 @@ export class HeaderTabComponent implements OnInit {
 
   public readonly TabSelectionType = TabSelectionType;
 
-  @Output() public tabChanged: EventEmitter<TabSelectionType> = new EventEmitter();
   public selectionType: TabSelectionType = TabSelectionType.EVENTS;
 
-  constructor() { }
+  constructor(private headerTabService: HeaderTabService) {
+    this.headerTabService.typeChanged.next(this.selectionType);
+  }
 
   ngOnInit() {
   }
 
   public selectEvents() {
     if (this.selectionType !== TabSelectionType.EVENTS) {
-      this.tabChanged.emit(this.selectionType = TabSelectionType.EVENTS);
+      this.headerTabService.typeChanged.next(this.selectionType = TabSelectionType.EVENTS);
     }
   }
 
   public selectContributors() {
     if (this.selectionType !== TabSelectionType.CONTRIBUTORS) {
-      this.tabChanged.emit(this.selectionType = TabSelectionType.CONTRIBUTORS);
+      this.headerTabService.typeChanged.next(this.selectionType = TabSelectionType.CONTRIBUTORS);
     }
   }
 
-}
-
-export enum TabSelectionType {
-  EVENTS = 1,
-  CONTRIBUTORS = 2
 }
