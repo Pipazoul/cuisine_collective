@@ -14,9 +14,6 @@ import { AddElementComponent } from './components/admin/add-element/add-element.
 import { ContributorComponent } from './components/contributor/contributor.component';
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
-import { UsersListComponent } from './components/admin/users-list/users-list.component';
-import { UserFormComponent } from './components/admin/user-form/user-form.component';
-import { UserResolver } from './resolver/user.resolver';
 
 const ROUTES: Routes = [{
   path: '',
