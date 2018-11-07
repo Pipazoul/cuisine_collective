@@ -3,6 +3,10 @@
     height: calc(100% - 60px);
 }
 
+.full-page-container.connected {
+    height: calc(100% - 60px - 58px);
+}
+
 .map-container {
     z-index: -1;
 }
