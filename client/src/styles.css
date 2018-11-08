@@ -101,7 +101,7 @@ span.required:before {
     overflow-x: hidden;
 }
 
-.mat-sidenav.full-width {
+.mat-sidenav.full-sidenav {
     width: 100%;
     max-width: 100%;
 }
