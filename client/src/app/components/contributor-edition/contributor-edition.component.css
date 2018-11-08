@@ -2,6 +2,10 @@
     height: 100%;
 }
 
+.carousel-element {
+    width: 700px;
+}
+
 .mat-button {
     color: white;
     font-weight: bold;

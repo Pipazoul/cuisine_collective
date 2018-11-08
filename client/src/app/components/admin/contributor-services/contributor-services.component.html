@@ -1,40 +1,41 @@
-<form [formGroup]="contributorForm" (ngSubmit)="submitForm(contributorForm.value)" fxFlex fxLayout="column">
+<div class="overflowable">
+  <form [formGroup]="contributorForm" (ngSubmit)="submitForm(contributorForm.value)" fxLayout="column" class="sidenav-body">
+    <h4>Vous pouvez proposer :</h4>
 
-  <div class="content-title">
-    Vous pouvez proposer :
-  </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxLayout="row" class="full-width">
+        <label class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+          <input type="checkbox" formControlName="location">
+          <i class="material-icons">kitchen</i>Un lieu
+        </label>
 
-  <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-    <div fxLayout="row" class="full-width">
-      <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-        <input type="checkbox" formControlName="location">
-        <i class="material-icons">kitchen</i>Un lieu
-      </label>
-      <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-        <input type="checkbox" formControlName="food">
-        <i class="material-icons">shopping_cart</i>Des aliments
-      </label>
-    </div>
-    <div fxLayout="row" class="full-width">
-      <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-        <input type="checkbox" formControlName="skills">
-        <i class="material-icons">school</i>Des professionnels
-      </label>
-      <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-        <input type="checkbox" formControlName="people">
-        <i class="material-icons">people</i>Des participants
-      </label>
-    </div>
-    <div fxLayout="row">
-      <label class="services provided" fxLayout="column" fxLayoutAlign="center center">
-        <input type="checkbox" formControlName="assistants">
-        <i class="material-icons">mood</i>Des accompagnateurs
-      </label>
-    </div>
-  </div>
+        <label class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+          <input type="checkbox" formControlName="food">
+          <i class="material-icons">shopping_cart</i>Des aliments
+        </label>
 
-  <button mat-button type="submit" class="next-button background-blue-dark" [disabled]="contributorForm.invalid">
-    Suivant
-    <mat-icon>arrow_forward</mat-icon>
-  </button>
-</form>
+        <label class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+          <input type="checkbox" formControlName="skills">
+          <i class="material-icons">school</i>Des professionnels
+        </label>
+      </div>
+
+      <div fxLayout="row" class="full-width">
+        <label class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+          <input type="checkbox" formControlName="people">
+          <i class="material-icons">people</i>Des participants
+        </label>
+
+        <label class="services provided" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
+          <input type="checkbox" formControlName="assistants">
+          <i class="material-icons">mood</i>Des accompagnateurs
+        </label>
+      </div>
+    </div>
+
+    <button mat-button type="submit" class="next-button background-blue-dark" [disabled]="contributorForm.invalid">
+      Suivant
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </form>
+</div>

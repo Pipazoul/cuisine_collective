@@ -30,16 +30,14 @@
     <!-- Event type -->
     <h4>Type d'évènement</h4>
 
-    <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
-      <div fxFlex="40%" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
+    <div class="section-filters" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxFlex="50" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
         <label for="eat-input">Manger ensemble</label>
-        <label for="cook-input">Cuisiner ensemble</label>
-        <!-- <label for="public-input">Tout public</label> -->
-      </div>
-      <div fxFlex="40%" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center center">
         <mat-slide-toggle id="eat" formControlName="eat"></mat-slide-toggle>
+      </div>
+      <div fxFlex="50" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+        <label for="cook-input">Cuisiner ensemble</label>
         <mat-slide-toggle id="cook" formControlName="cook"></mat-slide-toggle>
-        <!-- <mat-slide-toggle id="public" formControlName="public"></mat-slide-toggle> -->
       </div>
     </div>
 

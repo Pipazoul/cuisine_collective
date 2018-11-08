@@ -1,10 +1,10 @@
 <div class="overflowable">
   <form [formGroup]="eventMissingForm" (ngSubmit)="submitForm(eventMissingForm.value)" fxLayout="column" class="sidenav-body">
 
-    <h4 class="subtitle">Mes besoins pour organiser l'évènement</h4>
+    <h4>Mes besoins pour organiser l'évènement</h4>
 
-    <div fxLayout="column" fxLayoutAlign="space-between center">
-      <div fxFlexFill fxLayout="row">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <div fxLayout="row" class="full-width">
         <label class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
           <input type="checkbox" formControlName="missingLocation">
           <i class="material-icons">kitchen</i>
@@ -16,27 +16,27 @@
           <i class="material-icons">shopping_cart</i>
           Des aliments
         </label>
-      </div>
 
-      <div fxFlexFill fxLayout="row">
         <label class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
           <input type="checkbox" formControlName="missingSkills">
           <i class="material-icons">school</i>
           Des professionnels
         </label>
+      </div>
 
+      <div fxLayout="row" class="full-width">
         <label class="services needed" fxFlex="50" fxLayout="column" fxLayoutAlign="center center">
           <input type="checkbox" formControlName="missingPeople">
           <i class="material-icons">people</i>
           Des participants
         </label>
-      </div>
 
-      <label class="services needed" fxLayout="column" fxLayoutAlign="center center">
-        <input type="checkbox" formControlName="missingAssistants">
-        <i class="material-icons">mood</i>
-        Des accompagnateurs
-      </label>
+        <label class="services needed" fxLayout="column" fxLayoutAlign="center center">
+          <input type="checkbox" formControlName="missingAssistants">
+          <i class="material-icons">mood</i>
+          Des accompagnateurs
+        </label>
+      </div>
     </div>
 
     <mat-form-field>

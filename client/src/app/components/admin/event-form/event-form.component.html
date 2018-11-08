@@ -1,43 +1,49 @@
 <div class="overflowable">
   <form [formGroup]="eventForm" (ngSubmit)="submitForm(eventForm.value)" fxLayout="column" class="sidenav-body">
-    <mat-form-field class="required">
-      <input matInput type="text" autocomplete="new-password" formControlName="name" maxlength="100" placeholder="Nom de l'évènement">
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="40px">
+      <div fxFlex="50" fxLayout="column">
+        <mat-form-field class="required">
+          <input matInput type="text" autocomplete="new-password" formControlName="name" maxlength="100" placeholder="Nom de l'évènement">
+        </mat-form-field>
 
-    <mat-form-field>
-      <textarea matInput formControlName="description" maxlength="500" placeholder="Description de l'évènement"></textarea>
-    </mat-form-field>
+        <mat-form-field>
+          <textarea matInput formControlName="description" maxlength="500" placeholder="Description de l'évènement"></textarea>
+        </mat-form-field>
 
-    <mat-form-field>
-      <input matInput type="text" autocomplete="new-password" formControlName="participantsAmount" max="100"
-        placeholder="Nombre de participants">
-    </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" autocomplete="new-password" formControlName="participantsAmount" max="100"
+            placeholder="Nombre de participants">
+        </mat-form-field>
 
-    <mat-checkbox formControlName="inscription" labelPosition="before">Inscription obligatoire</mat-checkbox>
+        <mat-checkbox formControlName="inscription" labelPosition="before">Inscription obligatoire</mat-checkbox>
 
-    <mat-form-field>
-      <input matInput type="text" autocomplete="new-password" formControlName="timeSlot" max="200" placeholder="Horaires / durée de l'évènement">
-    </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" autocomplete="new-password" formControlName="timeSlot" max="200" placeholder="Horaires / durée de l'évènement">
+        </mat-form-field>
+      </div>
 
-    <mat-form-field>
-      <input matInput type="text" autocomplete="new-password" formControlName="planner" max="100" placeholder="Organisme organisateur">
-    </mat-form-field>
+      <div fxFlex="50" fxLayout="column">
+        <mat-form-field>
+          <input matInput type="text" autocomplete="new-password" formControlName="planner" max="100" placeholder="Organisme organisateur">
+        </mat-form-field>
 
-    <mat-form-field>
-      <input matInput type="text" autocomplete="name" formControlName="referent" max="50" placeholder="Nom du contact référent">
-    </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" autocomplete="name" formControlName="referent" max="50" placeholder="Nom du contact référent">
+        </mat-form-field>
 
-    <mat-form-field>
-      <input matInput type="text" autocomplete="email" formControlName="email" max="100" placeholder="Adresse email">
-    </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" autocomplete="email" formControlName="email" max="100" placeholder="Adresse email">
+        </mat-form-field>
 
-    <mat-form-field>
-      <input matInput type="text" autocomplete="tel" formControlName="phone" max="20" placeholder="Numéro de téléphone">
-    </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" autocomplete="tel" formControlName="phone" max="20" placeholder="Numéro de téléphone">
+        </mat-form-field>
 
-    <mat-form-field>
-      <input matInput type="text" autocomplete="new-password" formControlName="url" max="200" placeholder="Site internet">
-    </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" autocomplete="new-password" formControlName="url" max="200" placeholder="Site internet">
+        </mat-form-field>
+      </div>
+    </div>
 
     <button mat-button type="submit" class="next-button background-blue-light" [disabled]="eventForm.invalid">
       Suivant
