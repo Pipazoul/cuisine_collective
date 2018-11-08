@@ -15,7 +15,9 @@ export class HeaderTabService {
     constructor(private authenticationService: AuthenticationService) {
         this.authenticationService.connectionStatusChanged.subscribe((connected) => {
             if (connected === true || connected === false) {
-                this.setCurrentType(HeaderTabService.DEFAULT_TYPE);
+                // Change type and reset typeChanged event
+                this.currentType = HeaderTabService.DEFAULT_TYPE;
+                this.typeChanged.next(null);
             }
         });
     }

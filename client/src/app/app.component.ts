@@ -15,6 +15,7 @@ import { EventEditionComponent } from './components/event-edition/event-edition.
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 import { ItemClass } from './domain/items-list.class';
+import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 
 @Component({
   selector: 'app-root',
@@ -758,7 +759,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    * Subscribe to router outlet's child component's event
    * @param elementRef sidenav
    */
-  public onActivate(elementRef) {
+  public onActivate(elementRef: AdminFiltersComponent) {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {

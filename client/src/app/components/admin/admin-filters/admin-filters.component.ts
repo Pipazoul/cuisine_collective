@@ -12,8 +12,8 @@ import { TabSelectionType } from 'src/app/enum/tab-selection-type.enum';
 })
 export class AdminFiltersComponent implements OnInit, OnDestroy {
 
-  @Output() private filterEvents: EventEmitter<EventFilters> = new EventEmitter();
-  @Output() private filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+  @Output() public filterEvents: EventEmitter<EventFilters> = new EventEmitter();
+  @Output() public filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
 
   public readonly today = new Date();
 
