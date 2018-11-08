@@ -1,17 +1,18 @@
-<div class="contributor-edition" fxFlex fxLayout="column">
-  <div fxLayout="row" fxLayoutAlign="space-between center" class="sidenav-header background-blue-dark">
-    <div *ngIf="!contributor || !contributor.title" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
-      <mat-icon>add_circle</mat-icon>
-      <span>Ajouter un contributeur sur la carte</span>
+<div class="contributor-edition" fxFlex fxLayout="row">
+  <app-sidenav-return-home fxFlex="420px"></app-sidenav-return-home>
+  <div fxFlex fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="center center" class="sidenav-header background-blue-dark">
+      <div *ngIf="!contributor || !contributor.title" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="start center">
+        <mat-icon>add_circle</mat-icon>
+        <span>Ajouter un contributeur sur la carte</span>
+      </div>
+      <span *ngIf="contributor?.title">{{contributor.title | uppercase}}</span>
     </div>
-    <span *ngIf="contributor?.title">{{contributor.title | uppercase}}</span>
-    <button type="button" mat-icon-button [routerLink]="'/admin'">
-      <mat-icon>close</mat-icon>
-    </button>
+
+    <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center start">
+      <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
+      <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()"
+        (contributorSaved)="endCarousel()"></app-contributor-form>
+    </app-carousel>
   </div>
-  <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center start">
-    <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
-    <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()"
-      (contributorSaved)="endCarousel()"></app-contributor-form>
-  </app-carousel>
 </div>

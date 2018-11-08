@@ -82,6 +82,7 @@ import localeFr from '@angular/common/locales/fr';
 import { UserFormComponent } from './components/admin/user-form/user-form.component';
 import { FormErrorComponent } from './components/common/form-error/form-error.component';
 import { HeaderTabComponent } from './components/header-tab/header-tab.component';
+import { SidenavReturnHomeComponent } from './components/common/sidenav-return-home/sidenav-return-home.component';
 
 registerLocaleData(localeFr);
 
@@ -154,7 +155,8 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     WeekDaySelectorComponent,
     UserFormComponent,
     FormErrorComponent,
-    HeaderTabComponent
+    HeaderTabComponent,
+    SidenavReturnHomeComponent
   ],
   entryComponents: [
     PopupSigninComponent,
