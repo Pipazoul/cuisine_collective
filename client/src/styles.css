@@ -96,9 +96,14 @@ span.required:before {
 /* ----- SIDENAV ----- */
 
 .mat-sidenav {
+    width: 420px;
+    max-width: 420px;
+    overflow-x: hidden;
+}
+
+.mat-sidenav.full-width {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
 }
 
 .mat-sidenav .sidenav-header {

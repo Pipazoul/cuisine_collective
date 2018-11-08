@@ -18,7 +18,7 @@
             <div id="itemsList" #itemsList class="items-list" [innerHTML]="popupContent" fxLayout="column"></div>
         </mat-sidenav-content>
         <!-- Sidenav to create/edit events/contributors -->
-        <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end">
+        <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end" [ngClass]="{'full-width': sidenavEdition}">
             <router-outlet (activate)='onPrimaryRouterActivate($event)' (deactivate)='onPrimaryRouterDeactivate($event)'></router-outlet>
         </mat-sidenav>
     </mat-sidenav-container>

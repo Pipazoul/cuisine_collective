@@ -7,7 +7,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
 import { ContributorClass } from './domain/contributor.class';
-import { zip, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ContributorService } from './services/contributor.service';
 import { filter } from 'rxjs/operators';
 import { ArrayUtils } from './util/ArrayUtils';
@@ -32,6 +32,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private allEvents: EventClass[];
   private contributors: ContributorClass[];
   private allContributors: ContributorClass[];
+
+  public sidenavEdition: boolean = false;
 
   @ViewChild('itemsList') itemsList: ElementRef;
   @ViewChild('map') mapElement: ElementRef;
@@ -696,6 +698,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public onPrimaryRouterActivate(elementRef) {
+    if (elementRef instanceof ContributorEditionComponent || elementRef instanceof EventEditionComponent) {
+      this.sidenavEdition = true;
+    } else {
+      this.sidenavEdition = false;
+    }
     this.showSidenav = true;
 
     // Event filter of the sidenav
