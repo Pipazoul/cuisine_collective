@@ -97,8 +97,8 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           sunday: !!this.oneDateForm.value.weekDays[WeekDays.SUNDAY],
           occurenceType: OccurenceType.RECURRENT,
         });
-        this.saveEvent(this.event, goBack).subscribe();
       }
+      this.saveEvent(this.event, goBack).subscribe();
     };
   }
 
@@ -125,8 +125,8 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           sunday: false,
           occurenceType: OccurenceType.RECURRENT,
         });
-        this.saveEvent(this.event, goBack).subscribe();
       }
+      this.saveEvent(this.event, goBack).subscribe();
     };
   }
 
@@ -153,8 +153,8 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
           sunday: false,
           occurenceType: OccurenceType.NONE,
         });
-        this.saveEvent(this.event, goBack).subscribe();
       }
+      this.saveEvent(this.event, goBack).subscribe();
     };
   }
 

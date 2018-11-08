@@ -1,5 +1,7 @@
 <div class="overflowable">
   <div fxLayout="column" class="sidenav-body">
+    <h4>Quand aura lieu l'événement ?</h4>
+
     <!-- Date -->
     <mat-radio-group fxLayout="column" fxLayoutGap="10px" (change)="selectionTypeChanged($event)">
       <form [formGroup]="oneDateForm" (ngSubmit)="submitForm()" fxLayoutGap="10px" fxLayout="column">
