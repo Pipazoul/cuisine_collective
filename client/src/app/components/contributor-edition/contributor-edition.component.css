@@ -11,3 +11,8 @@
     font-weight: bold;
     margin: 0 30px;
 }
+
+.contributor-edition ::ng-deep .mat-form-field-ripple,
+.contributor-edition ::ng-deep .mat-form-field-underline {
+    background-color: #0D70CD !important;
+}

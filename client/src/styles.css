@@ -390,3 +390,12 @@ label {
     border-top: 1px solid black;
     border-radius: 0 0 10px 10px;
 }
+
+/* ----- Forms ----- */
+
+.mat-focused .mat-form-field-label {
+    color: black !important;
+    font-weight: bold;
+}
+
+/* ----- Forms ----- */
