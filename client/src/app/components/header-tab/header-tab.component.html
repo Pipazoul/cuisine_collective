@@ -1,8 +1,8 @@
 <div fxLayout="row">
-  <span fxFlex="50" (click)="selectEvents()" class="tab-event" [ngClass]="{'selected': selectionType === TabSelectionType.EVENTS}">
+  <span fxFlex="50" (click)="selectEvents()" class="tab-event" [ngClass]="{'selected': isTypeEvents}">
     Les événements
   </span>
-  <span fxFlex="50" (click)="selectContributors()" class="tab-contributor" [ngClass]="{'selected': selectionType === TabSelectionType.CONTRIBUTORS}">
+  <span fxFlex="50" (click)="selectContributors()" class="tab-contributor" [ngClass]="{'selected': isTypeContributors}">
     Les contributeurs
   </span>
 </div>

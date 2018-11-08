@@ -1,5 +1,5 @@
 <div class="left-content">
-  <div [hidden]="selectedType !== TabSelectionType.EVENTS">
+  <div [hidden]="!isTypeEvents">
     <div class="filters-title filters-events bold">
       Filtrer les évènements
     </div>
@@ -120,7 +120,7 @@
     </mat-accordion>
   </div>
 
-  <div [hidden]="selectedType !== TabSelectionType.CONTRIBUTORS">
+  <div [hidden]="!isTypeContributors">
     <div class="filters-title filters-contributors bold">
       Filtrer les contributeurs
     </div>

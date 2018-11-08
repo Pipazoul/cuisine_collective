@@ -10,10 +10,6 @@ import { Router } from '@angular/router';
 })
 export class HeaderTabComponent implements OnInit {
 
-  public readonly TabSelectionType = TabSelectionType;
-
-  public selectionType: TabSelectionType = HeaderTabService.DEFAULT_TYPE;
-
   constructor(private router: Router,
     private headerTabService: HeaderTabService) {
 
@@ -23,17 +19,25 @@ export class HeaderTabComponent implements OnInit {
   }
 
   public selectEvents() {
-    if (this.selectionType !== TabSelectionType.EVENTS) {
+    if (!this.headerTabService.isTypeEvents()) {
       this.router.navigate(['/admin']);
-      this.headerTabService.typeChanged.next(this.selectionType = TabSelectionType.EVENTS);
+      this.headerTabService.setCurrentType(TabSelectionType.EVENTS);
     }
   }
 
   public selectContributors() {
-    if (this.selectionType !== TabSelectionType.CONTRIBUTORS) {
+    if (!this.headerTabService.isTypeContributors()) {
       this.router.navigate(['/admin']);
-      this.headerTabService.typeChanged.next(this.selectionType = TabSelectionType.CONTRIBUTORS);
+      this.headerTabService.setCurrentType(TabSelectionType.CONTRIBUTORS);
     }
+  }
+
+  public get isTypeEvents(): boolean {
+    return this.headerTabService.isTypeEvents();
+  }
+
+  public get isTypeContributors(): boolean {
+    return this.headerTabService.isTypeContributors();
   }
 
 }

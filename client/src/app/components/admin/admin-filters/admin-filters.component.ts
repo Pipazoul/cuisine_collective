@@ -16,7 +16,6 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
   @Output() private filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
 
   public readonly today = new Date();
-  public readonly TabSelectionType = TabSelectionType;
 
   // Event's filters
   public eventMine: boolean = false;
@@ -44,21 +43,19 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
   public people: boolean = false;
   public assistants: boolean = false;
 
-  public selectedType: TabSelectionType = HeaderTabService.DEFAULT_TYPE;
   private onHeaderTabChanged: Subscription;
 
   constructor(private headerTabService: HeaderTabService) {
   }
 
   ngOnInit() {
-    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => {
-      if (!res) {
+    this.onHeaderTabChanged = this.headerTabService.onTypeChanged((type) => {
+      if (!type) {
         return;
       }
-      this.selectedType = res;
-      if (this.selectedType === TabSelectionType.CONTRIBUTORS) {
+      if (type === TabSelectionType.CONTRIBUTORS) {
         this.applyContributorsFilters();
-      } else if (this.selectedType === TabSelectionType.EVENTS) {
+      } else if (type === TabSelectionType.EVENTS) {
         this.applyEventsFilters();
       }
     });
@@ -98,5 +95,13 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
       people: this.people,
       assistants: this.assistants,
     });
+  }
+
+  public get isTypeEvents(): boolean {
+    return this.headerTabService.isTypeEvents();
+  }
+
+  public get isTypeContributors(): boolean {
+    return this.headerTabService.isTypeContributors();
   }
 }

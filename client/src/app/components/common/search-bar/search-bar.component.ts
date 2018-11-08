@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { filter, switchMap, debounceTime } from 'rxjs/operators';
 import * as _ from 'lodash';
@@ -7,8 +7,6 @@ import * as _ from 'lodash';
 import { LocationClass } from '../../../domain/location.class';
 import { LocationService } from '../../../services/location.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { Subscription } from 'rxjs';
-import { TabSelectionType } from 'src/app/enum/tab-selection-type.enum';
 import { HeaderTabService } from 'src/app/services/header-tab.service';
 
 @Component({
@@ -16,7 +14,7 @@ import { HeaderTabService } from 'src/app/services/header-tab.service';
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css']
 })
-export class SearchBarComponent implements OnInit, OnDestroy {
+export class SearchBarComponent implements OnInit {
 
   private static readonly RESULTS_LIMIT = 5;
 
@@ -26,10 +24,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public coordinates: [number, number];
   public results: LocationClass[] = [];
-
-  public readonly TabSelectionType = TabSelectionType;
-  public selectedType: TabSelectionType = HeaderTabService.DEFAULT_TYPE;
-  private onHeaderTabChanged: Subscription;
 
   constructor(private locationService: LocationService,
     private headerTabService: HeaderTabService) { }
@@ -50,12 +44,6 @@ export class SearchBarComponent implements OnInit, OnDestroy {
         this.results = data.features;
       });
     this.locationForm = new FormGroup({ 'location': locationCtrl });
-
-    this.onHeaderTabChanged = this.headerTabService.typeChanged.subscribe((res) => res && (this.selectedType = res));
-  }
-
-  ngOnDestroy() {
-    this.onHeaderTabChanged.unsubscribe();
   }
 
   /**
@@ -78,5 +66,13 @@ export class SearchBarComponent implements OnInit, OnDestroy {
         this.goTo.emit([position.coords.longitude, position.coords.latitude]);
       });
     };
+  }
+
+  public get isTypeEvents(): boolean {
+    return this.headerTabService.isTypeEvents();
+  }
+
+  public get isTypeContributors(): boolean {
+    return this.headerTabService.isTypeContributors();
   }
 }

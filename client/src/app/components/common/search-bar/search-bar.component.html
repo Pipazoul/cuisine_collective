@@ -12,7 +12,7 @@
           résultat</mat-option>
       </mat-autocomplete>
     </div>
-    <button fxFlex="30%" mat-button type="button" (click)="locateUser()" [ngClass]="{'background-blue-light': selectedType === TabSelectionType.EVENTS, 'background-blue-dark': selectedType === TabSelectionType.CONTRIBUTORS}">
+    <button fxFlex="30%" mat-button type="button" (click)="locateUser()" [ngClass]="{'background-blue-light': isTypeEvents, 'background-blue-dark': isTypeContributors}">
       Utiliser ma position
       <i class="material-icons">my_location</i>
     </button>
