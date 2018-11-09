@@ -3,15 +3,11 @@
     <div fxLayout="row" fxLayoutGap="40px">
       <div fxFlex="50" fxLayout="column">
         <mat-form-field class="required">
-          <input matInput type="text" autocomplete="new-password" formControlName="title" maxlength="100" placeholder="Titre">
+          <input matInput type="text" autocomplete="new-password" formControlName="title" maxlength="100" placeholder="Nom de la structure">
         </mat-form-field>
 
         <mat-form-field>
           <textarea matInput formControlName="description" maxlength="500" placeholder="Description"></textarea>
-        </mat-form-field>
-
-        <mat-form-field class="required">
-          <input matInput type="text" autocomplete="new-password" formControlName="name" maxlength="100" placeholder="Nom">
         </mat-form-field>
 
         <mat-form-field>
@@ -20,6 +16,10 @@
       </div>
 
       <div fxFlex="50" fxLayout="column">
+        <mat-form-field class="required">
+          <input matInput type="text" autocomplete="new-password" formControlName="name" maxlength="100" placeholder="Nom du contact">
+        </mat-form-field>
+
         <mat-form-field>
           <input matInput type="text" autocomplete="email" formControlName="email" max="100" placeholder="Adresse email">
         </mat-form-field>
