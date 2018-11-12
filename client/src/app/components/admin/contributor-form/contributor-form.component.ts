@@ -17,6 +17,7 @@ import { LocationService } from '../../../services/location.service';
 import { ContributorClass } from '../../../domain/contributor.class';
 import { LocationClass } from '../../../domain/location.class';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-contributor-form',
@@ -34,8 +35,9 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
   constructor(
     @Inject(ContributorService) contributorService: ContributorService,
     @Inject(AuthenticationService) authenticationService: AuthenticationService,
+    @Inject(NotificationsService) notificationsService: NotificationsService,
     private locationService: LocationService) {
-    super(contributorService, authenticationService);
+    super(contributorService, authenticationService, notificationsService);
   }
 
   ngOnInit() {
@@ -96,7 +98,8 @@ export class ContributorFormComponent extends AbstractContributorModifier implem
     if (this.contributorForm.get('title').invalid || this.contributorForm.get('name').invalid) {
       this.backwardPressed.emit(this.contributor);
     } else {
-      this.saveContributor(this.contributor, goBack).subscribe((contributor) => this.contributorService.contributorLocationChanged.next(contributor));
+      this.saveContributor(this.contributor, goBack).subscribe((contributor) =>
+        this.contributorService.contributorLocationChanged.next(contributor));
     }
   }
 

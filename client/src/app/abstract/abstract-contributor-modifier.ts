@@ -2,8 +2,9 @@ import { Input, EventEmitter, Output } from "@angular/core";
 import { ContributorClass } from "../domain/contributor.class";
 import { ContributorService } from "../services/contributor.service";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, catchError } from "rxjs/operators";
 import { AuthenticationService } from "../services/authentication.service";
+import { NotificationsService } from "angular2-notifications";
 
 export abstract class AbstractContributorModifier {
 
@@ -12,12 +13,16 @@ export abstract class AbstractContributorModifier {
     @Output() protected contributorChanged: EventEmitter<ContributorClass> = new EventEmitter();
 
     constructor(protected contributorService: ContributorService,
-        protected authenticationService: AuthenticationService) {
+        protected authenticationService: AuthenticationService,
+        protected notificationsService: NotificationsService) {
 
     }
 
     protected saveContributor(contributorToSave: ContributorClass, goBack: boolean = false): Observable<ContributorClass> {
-        return this.saveAndEmit(contributorToSave, goBack ? this.backwardPressed : this.contributorChanged);
+        return this.saveAndEmit(contributorToSave, goBack ? this.backwardPressed : this.contributorChanged).pipe(catchError((err) => {
+            this.notificationsService.error('Erreur', 'Erreur lors de l\'enregistrement du contributeur');
+            throw err;
+        }));
     }
 
     private saveAndEmit(contributor: ContributorClass, eventEmitter: EventEmitter<ContributorClass>): Observable<ContributorClass> {

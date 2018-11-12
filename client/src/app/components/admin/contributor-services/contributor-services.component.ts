@@ -2,15 +2,14 @@ import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 // Utils
-import { CustomRegExp } from '../../../util/CustomRegExp';
 import { AbstractContributorModifier } from '../../../abstract/abstract-contributor-modifier';
 
 // Services
 import { ContributorService } from '../../../services/contributor.service';
 
 // Classes
-import { ContributorClass } from '../../../domain/contributor.class';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-contributor-services',
@@ -22,8 +21,9 @@ export class ContributorServicesComponent extends AbstractContributorModifier im
   public contributorForm: FormGroup;
 
   constructor(@Inject(ContributorService) contributorService: ContributorService,
-    @Inject(AuthenticationService) authenticationService: AuthenticationService) {
-    super(contributorService, authenticationService);
+    @Inject(AuthenticationService) authenticationService: AuthenticationService,
+    @Inject(NotificationsService) notificationsService: NotificationsService) {
+    super(contributorService, authenticationService, notificationsService);
   }
 
   ngOnInit() {
