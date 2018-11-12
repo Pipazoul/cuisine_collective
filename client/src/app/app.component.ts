@@ -451,84 +451,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initializeMap() {
-    this.publishedEventsFeatures = this.events.filter(x => x.publish).map((event) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        object: event
-      })
-    );
-
-    const publishedEventsMarkerSource = new ol.source.Vector({
-      features: this.publishedEventsFeatures
-    });
-
-    this.publishedEventsLayer = new ol.layer.Vector({
-      source: publishedEventsMarkerSource,
-      style: this.publishedEventStyle,
-    });
-
-    this.notPublishedEventsFeatures = this.events.filter(x => !x.publish).map((event) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        object: event,
-      })
-    );
-
-    const notPublishedEventsMarkerSource = new ol.source.Vector({
-      features: this.notPublishedEventsFeatures
-    });
-
-    this.notPublishedEventsLayer = new ol.layer.Vector({
-      source: notPublishedEventsMarkerSource,
-      style: this.notPublishedEventStyle,
-    });
-
-    this.contributorsFeatures = this.contributors.map((contributor) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
-        object: contributor
-      })
-    );
-
-    const contributorsMarkerSource = new ol.source.Vector({
-      features: this.contributorsFeatures
-    });
-
-    this.contributorsLayer = new ol.layer.Vector({
-      source: contributorsMarkerSource,
-      style: this.contributorStyle,
-    });
-
-    this.sameLocationItemFeatures = this.sameLocationItems.map((item) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point([item.longitude, item.latitude]),
-        object: item
-      })
-    );
-
-    const sameLocationItemMarkerSource = new ol.source.Vector({
-      features: this.sameLocationItemFeatures
-    });
-
-    this.sameLocationItemLayer = new ol.layer.Vector({
-      source: sameLocationItemMarkerSource,
-      style: this.sameLocationEventStyle,
-    });
-
-    this.selectInteraction = new ol.interaction.Select(
-      {
-        multi: false,
-        style: (feature: (ol.Feature | ol.render.Feature), resolution: number) => {
-          if (feature.getProperties().object instanceof ItemClass) {
-            return this.selectedSameLocationPinStyle;
-          } else if (feature.getProperties().object instanceof EventClass && !feature.getProperties().object.publish) {
-            return this.selectedEditLocationPinStyle;
-          }
-          return this.selectedLocationPinStyle;
-        },
-        hitTolerance: 10
-      }
-    );
+    this.initializeSelectInteraction();
+    this.initFeaturesAndLayers();
 
     this.map = new ol.Map({
       layers: [
@@ -556,6 +480,29 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     });
 
+    // change mouse cursor when over marker
+    this.map.on('pointermove', (e) => {
+      var pixel = this.map.getEventPixel(e['originalEvent']);
+      var mapDiv = (this.map.getTarget() as Element)
+
+      this.map.hasFeatureAtPixel(pixel) ? mapDiv.classList.add("clickable") : mapDiv.classList.remove("clickable");
+    });
+  }
+
+  private initializeSelectInteraction() {
+    this.selectInteraction = new ol.interaction.Select({
+      multi: false,
+      style: (feature: (ol.Feature | ol.render.Feature), resolution: number) => {
+        if (feature.getProperties().object instanceof ItemClass) {
+          return this.selectedSameLocationPinStyle;
+        } else if (feature.getProperties().object instanceof EventClass && !feature.getProperties().object.publish) {
+          return this.selectedEditLocationPinStyle;
+        }
+        return this.selectedLocationPinStyle;
+      },
+      hitTolerance: 10
+    });
+
     this.selectInteraction.on('select', (e: ol.interaction.Select.Event) => {
       if (e.selected && e.target.getFeatures().item(0)) {
         if (e.target.getFeatures().item(0).get('object') instanceof EventClass) {
@@ -574,13 +521,36 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.router.navigate(this.routingUrls.root);
       }
     });
+  }
 
-    // change mouse cursor when over marker
-    this.map.on('pointermove', (e) => {
-      var pixel = this.map.getEventPixel(e['originalEvent']);
-      var mapDiv = (this.map.getTarget() as Element)
+  private initFeaturesAndLayers() {
+    this.publishedEventsFeatures = this.initFeatures(this.events.filter(x => x.publish));
+    this.publishedEventsLayer = this.initLayer(this.publishedEventsFeatures, this.publishedEventStyle);
 
-      this.map.hasFeatureAtPixel(pixel) ? mapDiv.classList.add("clickable") : mapDiv.classList.remove("clickable");
+    this.notPublishedEventsFeatures = this.initFeatures(this.events.filter(x => !x.publish));
+    this.notPublishedEventsLayer = this.initLayer(this.notPublishedEventsFeatures, this.notPublishedEventStyle);
+
+    this.contributorsFeatures = this.initFeatures(this.contributors);
+    this.contributorsLayer = this.initLayer(this.contributorsFeatures, this.contributorStyle);
+
+    this.sameLocationItemFeatures = this.initFeatures(this.sameLocationItems);
+    this.sameLocationItemLayer = this.initLayer(this.sameLocationItemFeatures, this.sameLocationEventStyle);
+  }
+
+  private initFeatures(sources: (ContributorClass | EventClass | ItemClass)[]): ol.Feature[] {
+    return sources.map((source) =>
+      new ol.Feature({
+        geometry: new ol.geom.Point([source.longitude, source.latitude]),
+        object: source
+      })
+    );
+  }
+
+  private initLayer(features: ol.Feature[], style: ol.style.Style) {
+    const markerSource = new ol.source.Vector({ features: features });
+    return new ol.layer.Vector({
+      source: markerSource,
+      style: style
     });
   }
 
@@ -839,5 +809,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 enum Color {
   EVENT = '#6CCACC',
   CONTRIBUTOR = '#0D70CD',
-  SELECTED = '#FF5555'
+  SELECTED = '#FF5555',
+  OWNED = "##FEC344"
 }
