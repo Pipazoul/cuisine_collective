@@ -24,6 +24,11 @@ import { UserClass } from './domain/user.class';
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
+  public readonly notificationOptions = {
+    showProgressBar: true,
+    timeOut: 3000
+  }
+
   public showSidenav: boolean = false;
   private connectedUser: UserClass;
 

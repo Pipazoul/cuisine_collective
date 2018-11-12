@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER, LOCALE_ID } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SimpleNotificationsModule } from 'angular2-notifications';
 
 import { AppComponent } from './app.component';
 
@@ -167,6 +168,7 @@ export function startupServiceFactory(authenticationService: AuthenticationServi
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    SimpleNotificationsModule.forRoot(),
     // Material
     MatAutocompleteModule,
     MatButtonModule,
