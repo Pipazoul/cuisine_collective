@@ -19,7 +19,7 @@
         </mat-sidenav-content>
         <!-- Sidenav to create/edit events/contributors -->
         <mat-sidenav mode="over" [opened]="showSidenav" [disableClose]="true" position="end" [ngClass]="{'full-sidenav': sidenavEdition}">
-            <router-outlet (activate)='onPrimaryRouterActivate($event)' (deactivate)='onPrimaryRouterDeactivate($event)'></router-outlet>
+            <router-outlet (activate)='onPrimaryRouterActivate($event)' (deactivate)='onPrimaryRouterDeactivate()'></router-outlet>
         </mat-sidenav>
     </mat-sidenav-container>
 </div>

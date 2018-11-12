@@ -10,11 +10,11 @@
       <mat-form-field class="required">
         <input matInput type="password" formControlName="password" placeholder="Mot de passe">
       </mat-form-field>
-      <app-form-error [field]="userForm.controls.passwords.controls.password"></app-form-error>
+      <app-form-error [field]="userForm.controls.passwords['controls'].password"></app-form-error>
       <mat-form-field class="required">
         <input matInput type="password" formControlName="passwordConfirm" placeholder="Confirmez le mot de passe">
       </mat-form-field>
-      <app-form-error [field]="userForm.controls.passwords.controls.passwordConfirm" [errors]="{'matchOther': 'Le mot de passe est différent'}"></app-form-error>
+      <app-form-error [field]="userForm.controls.passwords['controls'].passwordConfirm" [errors]="{'matchOther': 'Le mot de passe est différent'}"></app-form-error>
     </div>
   </div>
 
