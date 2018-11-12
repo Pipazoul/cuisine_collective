@@ -7,6 +7,7 @@ import { ContributorClass } from '../../../domain/contributor.class';
 import { MatSelectChange } from '@angular/material';
 import * as _ from 'lodash';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-event-contributors',
@@ -20,8 +21,9 @@ export class EventContributorsComponent extends AbstractEventModifier implements
 
   constructor(@Inject(EventService) eventService: EventService,
     @Inject(AuthenticationService) authenticationService: AuthenticationService,
+    @Inject(NotificationsService) notificationsService: NotificationsService,
     private contributorService: ContributorService) {
-    super(eventService, authenticationService);
+    super(eventService, authenticationService, notificationsService);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -149,7 +151,7 @@ export class EventContributorsComponent extends AbstractEventModifier implements
       contributorsSkills: _.map(this.event.contributorsSkills, 'id'),
       contributorsPeople: _.map(this.event.contributorsPeople, 'id'),
       contributorsAssistants: _.map(this.event.contributorsAssistants, 'id')
-    }).subscribe(() => goBack ? this.backwardPressed.emit() : this.eventSaved.emit(this.event));
+    }).subscribe(() => goBack ? this.backwardPressed.emit() : this.eventChanged.emit(this.event));
   }
 
 }

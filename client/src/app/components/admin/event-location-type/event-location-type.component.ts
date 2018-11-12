@@ -9,6 +9,7 @@ import * as _ from 'lodash';
 import * as ol from 'openlayers';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-event-location-type',
@@ -25,8 +26,9 @@ export class EventLocationTypeComponent extends AbstractEventModifier implements
 
   constructor(@Inject(EventService) eventService: EventService,
     @Inject(AuthenticationService) authenticationService: AuthenticationService,
+    @Inject(NotificationsService) notificationsService: NotificationsService,
     private locationService: LocationService) {
-    super(eventService, authenticationService);
+    super(eventService, authenticationService, notificationsService);
   }
 
   ngOnInit() {

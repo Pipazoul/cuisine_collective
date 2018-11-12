@@ -5,6 +5,7 @@ import { EventService } from '../../../services/event.service';
 import { EventClass } from '../../../domain/event.class';
 import { AbstractEventModifier } from '../../../abstract/abstract-event-modifier';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-event-form',
@@ -16,8 +17,9 @@ export class EventFormComponent extends AbstractEventModifier implements OnInit,
   public eventForm: FormGroup;
 
   constructor(@Inject(EventService) eventService: EventService,
-    @Inject(AuthenticationService) authenticationService: AuthenticationService) {
-    super(eventService, authenticationService);
+    @Inject(AuthenticationService) authenticationService: AuthenticationService,
+    @Inject(NotificationsService) notificationsService: NotificationsService) {
+    super(eventService, authenticationService, notificationsService);
   }
 
   ngOnInit() {

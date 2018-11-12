@@ -8,6 +8,7 @@ import { WeekDays } from '../../../enum/week-days';
 import * as _ from 'lodash';
 import { CustomValidators } from 'src/app/util/CustomValidators';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { NotificationsService } from 'angular2-notifications';
 
 @Component({
   selector: 'app-event-planning',
@@ -28,8 +29,9 @@ export class EventPlanningComponent extends AbstractEventModifier implements OnI
   public severalDatesFormSelected: boolean = false;
 
   constructor(@Inject(EventService) eventService: EventService,
-    @Inject(AuthenticationService) authenticationService: AuthenticationService) {
-    super(eventService, authenticationService);
+    @Inject(AuthenticationService) authenticationService: AuthenticationService,
+    @Inject(NotificationsService) notificationsService: NotificationsService) {
+    super(eventService, authenticationService, notificationsService);
   }
 
   ngOnInit() {

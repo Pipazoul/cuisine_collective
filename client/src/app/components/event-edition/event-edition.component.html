@@ -12,19 +12,19 @@
     <app-carousel #carousel *ngIf="event" [showControls]="false" fxFlex fxLayoutAlign="center start">
       <!-- All forms to create an event -->
 
-      <app-event-form *carouselItem class="carousel-element" [event]="event" (eventSaved)="carousel.next()"></app-event-form>
+      <app-event-form *carouselItem class="carousel-element" [event]="event" (eventChanged)="carousel.next()"></app-event-form>
 
       <app-event-planning *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()"
-        (eventSaved)="carousel.next()"></app-event-planning>
+        (eventChanged)="carousel.next()"></app-event-planning>
 
       <app-event-location-type *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()"
-        (eventSaved)="carousel.next()"></app-event-location-type>
+        (eventChanged)="carousel.next()"></app-event-location-type>
 
       <!-- Supprimé pour le proto pour le moment -->
-      <!-- <app-event-contributors *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventSaved)="carousel.next()"></app-event-contributors> -->
+      <!-- <app-event-contributors *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()" (eventChanged)="carousel.next()"></app-event-contributors> -->
 
       <app-event-missing *carouselItem class="carousel-element" [event]="event" (backwardPressed)="carousel.prev()"
-        (eventSaved)="endCarousel($event)"></app-event-missing>
+        (eventChanged)="endCarousel($event)"></app-event-missing>
     </app-carousel>
   </div>
 </div>
