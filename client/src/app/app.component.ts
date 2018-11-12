@@ -554,68 +554,16 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  public onPrimaryRouterActivate(elementRef) {
+  public onPrimaryRouterActivate(elementRef: ElementRef) {
     if (elementRef instanceof ContributorEditionComponent || elementRef instanceof EventEditionComponent) {
       this.sidenavEdition = true;
     } else {
       this.sidenavEdition = false;
     }
     this.showSidenav = true;
-
-    // Event filter of the sidenav
-    if (elementRef instanceof RepresentedOnMapComponent) {
-      elementRef.removePoint.subscribe(params => {
-        if (params.type === EventClass) {
-          _.each(this.publishedEventsLayer.getSource().getFeatures(), feature => {
-            if (feature.get('object').id === params.id) {
-              this.publishedEventsLayer.getSource().removeFeature(feature);
-            }
-          });
-          _.each(this.notPublishedEventsLayer.getSource().getFeatures(), feature => {
-            if (feature.get('object').id === params.id) {
-              this.notPublishedEventsLayer.getSource().removeFeature(feature);
-            }
-          });
-          _.each(this.sameLocationItems, item => {
-            _.remove(item.itemsList, element => element instanceof EventClass && element.id === params.id);
-          });
-        } else if (params.type === ContributorClass) {
-          _.each(this.contributorsLayer.getSource().getFeatures(), feature => {
-            if (feature.get('object').id === params.id) {
-              this.contributorsLayer.getSource().removeFeature(feature);
-            }
-          });
-          _.each(this.sameLocationItems, item => {
-            _.remove(item.itemsList, element => element instanceof ContributorClass && element.id === params.id);
-          });
-        }
-      });
-    }
   }
 
-  public onPrimaryRouterDeactivate(component) {
-    if (component instanceof EventEditionComponent && component.saved) {
-      const event = this.events.find(x => x.id === component.event.id);
-      const index = this.events.indexOf(event);
-      if (event) {
-        this.events.splice(index, 1, component.event)
-      }
-      else {
-        this.events.push(component.event);
-      }
-    }
-
-    if (component instanceof ContributorEditionComponent && component.saved) {
-      const contributor = this.contributors.find(x => x.id === component.contributor.id);
-      const index = this.contributors.indexOf(contributor);
-      if (contributor) {
-        this.contributors.splice(index, 1, component.contributor)
-      }
-      else {
-        this.contributors.push(component.contributor);
-      }
-    }
-
+  public onPrimaryRouterDeactivate() {
     this.showSidenav = false;
   }
 
