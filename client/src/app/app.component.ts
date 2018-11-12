@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private notPublishedEventsLayer: ol.layer.Vector;
   private contributorsLayer: ol.layer.Vector;
   private sameLocationItemLayer: ol.layer.Vector;
-  
+
   // Styles
   private readonly publishedEventStyle: ol.style.Style;
   private readonly notPublishedEventStyle: ol.style.Style;
@@ -708,89 +708,43 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    * Remove all published events from layer then add the new ones
    */
   private redrawPublishedEvents() {
-    this.publishedEventsLayer.getSource().clear();
-
-    // Adding all new features (events) of publishedEventsLayer
-    this.events.filter(x => x.publish).map((event) =>
-      this.publishedEventsLayer.getSource().addFeature(new ol.Feature({
-        geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        object: event,
-      }))
-    );
-
-    this.publishedEventsFeatures = this.events.filter(x => x.publish).map((event) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        object: event
-      })
-    );
+    this.publishedEventsFeatures = this.redrawLayerFeatures(this.publishedEventsLayer, this.events.filter(x => x.publish));
   }
 
   /**
    * Remove all unpublished events from layer then add the new ones
    */
   private redrawUnpublishedEvents() {
-    this.notPublishedEventsLayer.getSource().clear();
-
-    // Adding all new features (events) of notPublishedEventsLayer
-    this.events.filter(x => !x.publish).map((event) =>
-      this.notPublishedEventsLayer.getSource().addFeature(new ol.Feature({
-        geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        object: event,
-      }))
-    );
-
-    this.notPublishedEventsFeatures = this.events.filter(x => !x.publish).map((event) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point([event.longitude, event.latitude]),
-        object: event
-      })
-    );
+    this.notPublishedEventsFeatures = this.redrawLayerFeatures(this.notPublishedEventsLayer, this.events.filter(x => !x.publish));
   }
 
   /**
    * Remove all contributors from layer then add the new ones
    */
   private redrawContributors() {
-    this.contributorsLayer.getSource().clear();
-
-    // Adding all new features
-    this.contributors.map((contributor) =>
-      this.contributorsLayer.getSource().addFeature(new ol.Feature({
-        geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
-        object: contributor
-      }))
-    );
-
-    this.contributorsFeatures = this.contributors.map((contributor) =>
-      new ol.Feature({
-        geometry: new ol.geom.Point([contributor.longitude, contributor.latitude]),
-        object: contributor
-      })
-    );
+    this.contributorsFeatures = this.redrawLayerFeatures(this.contributorsLayer, this.contributors);
   }
 
   /**
    * Remove all same location items from layer then add the new ones
    */
   private redrawSameLocationItems() {
-    this.sameLocationItemLayer.getSource().clear();
+    this.sameLocationItemFeatures = this.redrawLayerFeatures(this.sameLocationItemLayer, this.sameLocationItems);
+  }
 
-    // Adding all new features
-    this.sameLocationItems.map((item) =>
-      this.sameLocationItemLayer.getSource().addFeature(new ol.Feature({
-        geometry: new ol.geom.Point([item.longitude, item.latitude]),
-        object: item
-      }))
-    );
-
-    this.sameLocationItemFeatures = this.sameLocationItems.map((item) => {
-      // TODO : Add overlay for the item list count
+  /**
+   * Redraw layer's features from a list of items
+   */
+  private redrawLayerFeatures(layer: ol.layer.Vector, items: (ContributorClass | EventClass | ItemClass)[]): ol.Feature[] {
+    const features = items.map((item) => {
       return new ol.Feature({
         geometry: new ol.geom.Point([item.longitude, item.latitude]),
         object: item
       })
     });
+    layer.getSource().clear();
+    layer.getSource().addFeatures(features);
+    return features;
   }
 
   private filterItems() {
@@ -885,5 +839,5 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 enum Color {
   EVENT = '#6CCACC',
   CONTRIBUTOR = '#0D70CD',
-  SELECTED = '#FF5555'   
+  SELECTED = '#FF5555'
 }
