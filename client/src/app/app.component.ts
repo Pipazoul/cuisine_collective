@@ -36,9 +36,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private events: EventClass[] = [];
   private get ownedPublishedEvents(): EventClass[] { return this.events.filter(x => x.publish && this.connectedUser && x.userId === this.connectedUser.id) }
-  private get notOwnedPublishedEvents(): EventClass[] { return this.events.filter(x => x.publish && this.connectedUser && x.userId !== this.connectedUser.id) }
+  private get notOwnedPublishedEvents(): EventClass[] { return this.events.filter(x => x.publish && (!this.connectedUser || x.userId !== this.connectedUser.id)) }
   private get ownedNotPublishedEvents(): EventClass[] { return this.events.filter(x => !x.publish && this.connectedUser && x.userId === this.connectedUser.id) }
-  private get notOwnedNotPublishedEvents(): EventClass[] { return this.events.filter(x => !x.publish && this.connectedUser && x.userId !== this.connectedUser.id) }
+  private get notOwnedNotPublishedEvents(): EventClass[] { return this.events.filter(x => !x.publish && (!this.connectedUser || x.userId !== this.connectedUser.id)) }
   /**
    * All contributors received from query
    */
@@ -48,11 +48,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private contributors: ContributorClass[] = [];
   private get ownedContributors(): ContributorClass[] { return this.contributors.filter(x => this.connectedUser && x.userId === this.connectedUser.id) }
-  private get notOwnedContributors(): ContributorClass[] { return this.contributors.filter(x => this.connectedUser && x.userId !== this.connectedUser.id) }
+  private get notOwnedContributors(): ContributorClass[] { return this.contributors.filter(x => !this.connectedUser || x.userId !== this.connectedUser.id) }
   /**
+   * TODO reverse logic
    * Same location contributors/events
    */
   public sameLocationItems: ItemClass[] = [];
+  public get ownedSameLocationItems(): ItemClass[] { return this.sameLocationItems.filter(x => this.connectedUser && x.itemsList.some(i => i.userId === this.connectedUser.id)) }
+  public get notOwnedSameLocationItems(): ItemClass[] { return this.sameLocationItems.filter(x => !this.connectedUser || x.itemsList.every(i => i.userId !== this.connectedUser.id)) }
 
   /**
    * Is sidenav in edition mode ?
@@ -69,14 +72,9 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public popupContent: SafeHtml;
   private selectInteraction: ol.interaction.Select;
 
-  /**
-   * All events features - not displayed, just for referencing & fast retrieve
-   */
-  private eventsFeatures: ol.Feature[] = [];
-  /**
-   * All contributors features - not displayed, just for referencing & fast retrieve
-   */
-  private contributorsFeatures: ol.Feature[] = [];
+  private get eventsFeatures(): ol.Feature[] { return this.ownedPublishedEventsFeatures.concat(this.notOwnedPublishedEventsFeatures).concat(this.ownedNotPublishedEventsFeatures).concat(this.notOwnedNotPublishedEventsFeatures) }
+  private get contributorsFeatures(): ol.Feature[] { return this.ownedContributorsFeatures.concat(this.notOwnedContributorsFeatures) };
+  private get sameLocationItemFeatures(): ol.Feature[] { return this.ownedSameLocationItemFeatures.concat(this.notOwnedSameLocationItemFeatures) };
   // Features
   private ownedPublishedEventsFeatures: ol.Feature[] = [];
   private notOwnedPublishedEventsFeatures: ol.Feature[] = [];
@@ -84,7 +82,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private notOwnedNotPublishedEventsFeatures: ol.Feature[] = [];
   private ownedContributorsFeatures: ol.Feature[] = [];
   private notOwnedContributorsFeatures: ol.Feature[] = [];
-  private sameLocationItemFeatures: ol.Feature[] = [];
+  private ownedSameLocationItemFeatures: ol.Feature[] = [];
+  private notOwnedSameLocationItemFeatures: ol.Feature[] = [];
 
   // Layers
   private ownedPublishedEventsLayer: ol.layer.Vector;
@@ -93,7 +92,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private notOwnedNotPublishedEventsLayer: ol.layer.Vector;
   private ownedContributorsLayer: ol.layer.Vector;
   private notOwnedContributorsLayer: ol.layer.Vector;
-  private sameLocationItemLayer: ol.layer.Vector;
+  private ownedSameLocationItemLayer: ol.layer.Vector;
+  private notOwnedSameLocationItemLayer: ol.layer.Vector;
 
   // Styles
   private readonly ownedPublishedEventStyle: ol.style.Style;
@@ -102,8 +102,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly notOwnedNotPublishedEventStyle: ol.style.Style;
   private readonly ownedContributorStyle: ol.style.Style;
   private readonly notOwnedContributorStyle: ol.style.Style;
-  private readonly sameLocationEventStyle: ol.style.Style;
-  private readonly sameLocationContributorStyle: ol.style.Style;
+  private readonly ownedSameLocationEventStyle: ol.style.Style;
+  private readonly notOwnedSameLocationEventStyle: ol.style.Style;
+  private readonly ownedSameLocationContributorStyle: ol.style.Style;
+  private readonly notOwnedSameLocationContributorStyle: ol.style.Style;
   private readonly selectedLocationPinStyle: ol.style.Style;
   private readonly selectedEditLocationPinStyle: ol.style.Style;
   private readonly selectedSameLocationPinStyle: ol.style.Style;
@@ -130,8 +132,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.notOwnedNotPublishedEventStyle = this.initStyle('assets/edit_location.svg', Color.EVENT);
     this.ownedContributorStyle = this.initStyle('assets/location_on.svg', Color.OWNED);
     this.notOwnedContributorStyle = this.initStyle('assets/location_on.svg', Color.CONTRIBUTOR);
-    this.sameLocationEventStyle = this.initStyle('assets/add_location.svg', Color.EVENT);
-    this.sameLocationContributorStyle = this.initStyle('assets/add_location.svg', Color.CONTRIBUTOR);
+    this.ownedSameLocationEventStyle = this.initStyle('assets/add_location.svg', Color.OWNED);
+    this.notOwnedSameLocationEventStyle = this.initStyle('assets/add_location.svg', Color.EVENT);
+    this.ownedSameLocationContributorStyle = this.initStyle('assets/add_location.svg', Color.OWNED);
+    this.notOwnedSameLocationContributorStyle = this.initStyle('assets/add_location.svg', Color.CONTRIBUTOR);
     this.selectedLocationPinStyle = this.initStyle('assets/location_on.svg', Color.SELECTED);
     this.selectedEditLocationPinStyle = this.initStyle('assets/edit_location.svg', Color.SELECTED);
     this.selectedSameLocationPinStyle = this.initStyle('assets/add_location.svg', Color.SELECTED);
@@ -216,12 +220,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.connectedUser = this.authenticationService.user;
         // Load only events & clean contributors from screen
         this.eventService.getAll().subscribe(events => {
-          this.sameLocationItemLayer.setStyle(this.sameLocationEventStyle);
+          // Change same location item style
+          this.ownedSameLocationItemLayer.setStyle(this.ownedSameLocationEventStyle);
+          this.notOwnedSameLocationItemLayer.setStyle(this.notOwnedSameLocationEventStyle);
+          // Compute lists
           this.allEvents = events;
-          this.contributors = [];
           this.allContributors = [];
+          this.computeSameLocationItems();
 
-          this.removeEventsFromItemsList();
           this.unloadFilteredEventOrContributor();
           this.redrawAll();
         });
@@ -245,6 +251,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         // Update in array and redraw
         _.remove(this.allEvents, { id: event.id });
         this.allEvents.push(event);
+        this.computeSameLocationItems();
         this.redrawAll();
         // Re-select
         this.selectAndGoToEvent(event);
@@ -256,6 +263,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         // Update in array and redraw
         _.remove(this.allContributors, { id: contributor.id });
         this.allContributors.push(contributor);
+        this.computeSameLocationItems();
         this.redrawAll();
         // Re-select
         this.selectAndGoToContributor(contributor);
@@ -267,6 +275,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         const oldEvent = _.find(this.allEvents, { id: event.id });
         if (!oldEvent) {
           this.allEvents.push(event);
+          this.computeSameLocationItems();
         } else if (oldEvent.publish === event.publish) {
           // If event already displayed and publish status not changed, do nothing
           return;
@@ -282,26 +291,29 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptionEventDeleted = this.eventService.eventDeleted.subscribe((eventId) => {
       if (eventId) {
-        _.remove(this.allEvents, { id: eventId });
         this.selectInteraction.getFeatures().clear();
+        _.remove(this.allEvents, { id: eventId });
+        this.computeSameLocationItems();
         this.redrawAll();
       }
     });
 
     this.subscriptionContributorDeleted = this.contributorService.contributorDeleted.subscribe((contributorId) => {
       if (contributorId) {
-        _.remove(this.allContributors, { id: contributorId });
         this.selectInteraction.getFeatures().clear();
+        _.remove(this.allContributors, { id: contributorId });
+        this.computeSameLocationItems();
         this.redrawAll();
       }
     });
   }
 
   private selectAndGoToEvent(event: EventClass) {
-    const featureToSelect = this.eventsFeatures.find(x => x.get('object').id === event.id)
-      || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof EventClass && i.id === event.id));
     this.selectInteraction.getFeatures().clear();
     this.popupContent = '';
+    // Find event and mark as selected
+    const featureToSelect = this.eventsFeatures.find(x => x.get('object').id === event.id)
+      || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof EventClass && i.id === event.id));
     if (featureToSelect) {
       this.selectInteraction.getFeatures().push(featureToSelect);
     }
@@ -310,10 +322,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private selectAndGoToContributor(contributor: ContributorClass) {
-    const featureToSelect = this.contributorsFeatures.find(x => x.get('object').id === contributor.id)
-      || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof ContributorClass && i.id === contributor.id));
     this.selectInteraction.getFeatures().clear();
     this.popupContent = '';
+    // Find contributor and mark as selected
+    const featureToSelect = this.contributorsFeatures.find(x => x.get('object').id === contributor.id)
+      || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof ContributorClass && i.id === contributor.id));
     if (featureToSelect) {
       this.selectInteraction.getFeatures().push(featureToSelect);
     }
@@ -359,10 +372,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.eventService.getAll().subscribe((events) => {
       this.allEvents = events;
       this.allContributors = [];
-
-      // Compute items list of same coordinate elements
-      this.sameLocationItems.length = 0;
-      this.filterItems();
+      this.computeSameLocationItems();
 
       this.initializeMap();
 
@@ -509,7 +519,8 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.notOwnedNotPublishedEventsLayer,
         this.ownedContributorsLayer,
         this.notOwnedContributorsLayer,
-        this.sameLocationItemLayer
+        this.ownedSameLocationItemLayer,
+        this.notOwnedSameLocationItemLayer
       ],
       target: this.mapElement.nativeElement,
       controls: ol.control.defaults({
@@ -583,18 +594,17 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.notOwnedNotPublishedEventsFeatures = this.initFeatures(this.notOwnedNotPublishedEvents);
     this.notOwnedNotPublishedEventsLayer = this.initLayer(this.notOwnedNotPublishedEventsFeatures, this.notOwnedNotPublishedEventStyle);
 
-    this.reassignEventsFeatures();
-
     this.ownedContributorsFeatures = this.initFeatures(this.ownedContributors);
     this.ownedContributorsLayer = this.initLayer(this.ownedContributorsFeatures, this.ownedContributorStyle);
 
     this.notOwnedContributorsFeatures = this.initFeatures(this.notOwnedContributors);
     this.notOwnedContributorsLayer = this.initLayer(this.notOwnedContributorsFeatures, this.notOwnedContributorStyle);
 
-    this.reassignContributorsFeatures();
+    this.ownedSameLocationItemFeatures = this.initFeatures(this.ownedSameLocationItems);
+    this.ownedSameLocationItemLayer = this.initLayer(this.ownedSameLocationItemFeatures, this.ownedSameLocationEventStyle);
 
-    this.sameLocationItemFeatures = this.initFeatures(this.sameLocationItems);
-    this.sameLocationItemLayer = this.initLayer(this.sameLocationItemFeatures, this.sameLocationEventStyle);
+    this.notOwnedSameLocationItemFeatures = this.initFeatures(this.notOwnedSameLocationItems);
+    this.notOwnedSameLocationItemLayer = this.initLayer(this.notOwnedSameLocationItemFeatures, this.notOwnedSameLocationEventStyle);
   }
 
   private initFeatures(sources: (ContributorClass | EventClass | ItemClass)[]): ol.Feature[] {
@@ -612,17 +622,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       source: markerSource,
       style: style
     });
-  }
-
-  private reassignContributorsFeatures() {
-    this.contributorsFeatures = this.ownedContributorsFeatures.concat(this.notOwnedContributorsFeatures);
-  }
-
-  private reassignEventsFeatures() {
-    this.eventsFeatures = this.ownedPublishedEventsFeatures
-      .concat(this.notOwnedPublishedEventsFeatures)
-      .concat(this.ownedNotPublishedEventsFeatures)
-      .concat(this.notOwnedNotPublishedEventsFeatures);
   }
 
   public onPrimaryRouterActivate(elementRef: ElementRef) {
@@ -646,47 +645,36 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     // Event filter of the filters menu
     elementRef.filterEvents.subscribe(filters => {
       this.eventService.getAll(filters).subscribe(events => {
-        this.sameLocationItemLayer.setStyle(this.sameLocationEventStyle);
-        // Clean contributors
-        this.allContributors = [];
-        this.removeContributorsFromItemsList();
-        // Redraw events
+        // Change same location item style
+        this.ownedSameLocationItemLayer.setStyle(this.ownedSameLocationEventStyle);
+        this.notOwnedSameLocationItemLayer.setStyle(this.notOwnedSameLocationEventStyle);
+        // Redraw only events
         this.allEvents = events;
+        this.allContributors = [];
+        this.computeSameLocationItems();
+
         this.unloadFilteredEventOrContributor();
-        this.removeEventsFromItemsList();
         this.redrawAll();
       });
     });
     elementRef.filterContributors.subscribe(filters => {
       this.contributorService.getAll(filters).subscribe(contributors => {
-        this.sameLocationItemLayer.setStyle(this.sameLocationContributorStyle);
-        // Clean events
+        // Change same location item style
+        this.ownedSameLocationItemLayer.setStyle(this.ownedSameLocationContributorStyle);
+        this.notOwnedSameLocationItemLayer.setStyle(this.notOwnedSameLocationContributorStyle);
+        // Redraw only contributors
         this.allEvents = [];
-        this.removeEventsFromItemsList();
-        // Redraw contributors
         this.allContributors = contributors;
+        this.computeSameLocationItems();
+
         this.unloadFilteredEventOrContributor();
-        this.removeContributorsFromItemsList();
         this.redrawAll();
       });
     });
   }
 
-  private removeEventsFromItemsList() {
-    _.each(this.sameLocationItems, item => {
-      _.remove(item.itemsList, element => element instanceof EventClass)
-    })
-  }
-
-  private removeContributorsFromItemsList() {
-    _.each(this.sameLocationItems, item => {
-      _.remove(item.itemsList, element => element instanceof ContributorClass)
-    })
-  }
-
   private redrawAll() {
     this.selectInteraction.getFeatures().clear();
-    this.filterItems();
     this.redrawEvents();
     this.redrawContributors();
     this.redrawSameLocationItems();
@@ -700,7 +688,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.notOwnedPublishedEventsFeatures = this.redrawLayerFeatures(this.notOwnedPublishedEventsLayer, this.notOwnedPublishedEvents);
     this.ownedNotPublishedEventsFeatures = this.redrawLayerFeatures(this.ownedNotPublishedEventsLayer, this.ownedNotPublishedEvents);
     this.notOwnedNotPublishedEventsFeatures = this.redrawLayerFeatures(this.notOwnedNotPublishedEventsLayer, this.notOwnedNotPublishedEvents);
-    this.reassignEventsFeatures();
   }
 
   /**
@@ -709,80 +696,73 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private redrawContributors() {
     this.ownedContributorsFeatures = this.redrawLayerFeatures(this.ownedContributorsLayer, this.ownedContributors);
     this.notOwnedContributorsFeatures = this.redrawLayerFeatures(this.notOwnedContributorsLayer, this.notOwnedContributors);
-    this.reassignContributorsFeatures();
   }
 
   /**
    * Remove all same location items from layer then add the new ones
    */
   private redrawSameLocationItems() {
-    this.sameLocationItemFeatures = this.redrawLayerFeatures(this.sameLocationItemLayer, this.sameLocationItems);
+    this.ownedSameLocationItemFeatures = this.redrawLayerFeatures(this.ownedSameLocationItemLayer, this.ownedSameLocationItems);
+    this.notOwnedSameLocationItemFeatures = this.redrawLayerFeatures(this.notOwnedSameLocationItemLayer, this.notOwnedSameLocationItems);
   }
 
   /**
    * Redraw layer's features from a list of items
    */
   private redrawLayerFeatures(layer: ol.layer.Vector, items: (ContributorClass | EventClass | ItemClass)[]): ol.Feature[] {
-    const features = items.map((item) => {
-      return new ol.Feature({
-        geometry: new ol.geom.Point([item.longitude, item.latitude]),
-        object: item
-      })
-    });
+    const features = this.initFeatures(items);
     layer.getSource().clear();
     layer.getSource().addFeatures(features);
     return features;
   }
 
-  private filterItems() {
+  /**
+   * Group events & contributors which are on the same location
+   */
+  private computeSameLocationItems() {
     this.events = [].concat(this.allEvents);
     this.contributors = [].concat(this.allContributors);
     this.sameLocationItems = [];
 
-    var itemsList: ItemClass[] = this.sameLocationItems;
-
-    // Group events by coordinate
-    _.each(this.events, (event) => {
-      var item = _.find(itemsList, { longitude: event.longitude, latitude: event.latitude });
-      if (item) {
-        item.itemsList.push(event);
-      } else {
-        itemsList.push(new ItemClass({
-          longitude: event.longitude,
-          latitude: event.latitude,
-          itemsList: new Array(event)
-        }));
-      }
-    });
-
-    // Group contributors by coordinate
-    _.each(this.contributors, (contributor) => {
-      var item = _.find(itemsList, { longitude: contributor.longitude, latitude: contributor.latitude });
-      if (item) {
-        item.itemsList.push(contributor);
-      } else {
-        itemsList.push(new ItemClass({
-          longitude: contributor.longitude,
-          latitude: contributor.latitude,
-          itemsList: new Array(contributor)
-        }));
-      }
-    });
-
-    // Remove item if not at least 2 element has the same coordinate
-    this.sameLocationItems = _.reject(itemsList, item => item.itemsList.length < 2)
-
-    _.each(this.sameLocationItems, (item) => {
-      _.each(item.itemsList, (element) => {
-        if (element instanceof EventClass) {
-          _.remove(this.events, { id: element.id });
-        } else if (element instanceof ContributorClass) {
-          _.remove(this.contributors, { id: element.id });
+    /**
+     * Group events or contributors by coordinates
+     * 
+     * @param items 
+     */
+    function groupByCoordinates(items: (ContributorClass | EventClass)[], sameLocationItems: ItemClass[]) {
+      items.forEach((item) => {
+        // Find existing group for item's location
+        var sameLocationItem = _.find(sameLocationItems, { longitude: item.longitude, latitude: item.latitude });
+        if (sameLocationItem) {
+          // Add item to the existing items' group
+          sameLocationItem.itemsList.push(item);
         } else {
-          // C'est pas normal
+          sameLocationItems.push(new ItemClass({
+            longitude: item.longitude,
+            latitude: item.latitude,
+            itemsList: new Array(item)
+          }));
+        }
+      });
+    }
+
+    groupByCoordinates(this.events, this.sameLocationItems);
+    groupByCoordinates(this.contributors, this.sameLocationItems);
+    // Remove item if not at least 2 element has the same coordinate
+    this.sameLocationItems = _.reject(this.sameLocationItems, sameLocationItem => sameLocationItem.itemsList.length < 2);
+
+    // Remove same location items from event & contributor lists
+    this.sameLocationItems.forEach((sameLocationItem) => {
+      sameLocationItem.itemsList.forEach((item) => {
+        if (item instanceof EventClass) {
+          _.remove(this.events, { id: item.id });
+        } else if (item instanceof ContributorClass) {
+          _.remove(this.contributors, { id: item.id });
+        } else {
+          throw new Error('Invalid item type');
         }
       })
-    });
+    })
   }
 
   private initPopupContent(feature, elementId?: string) {
