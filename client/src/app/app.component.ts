@@ -803,12 +803,15 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       const type = item instanceof EventClass ? 'event' : 'contributor';
       const id = type + '-' + item.id;
       theHtmlString += '<div class="item ' + (id === elementId ? 'selected ' : '') + type + '"><span class="' + type + '" id="' + id + '">';
+      let designation;
       if (item instanceof EventClass) {
+        designation = item.name;
         theHtmlString += item.publish ? '<i class="material-icons">location_on</i>' : '<i class="material-icons">edit_location</i>';
       } else {
+        designation = item.title;
         theHtmlString += '<i class="material-icons">location_on</i>';
       }
-      theHtmlString += item.name ? item.name : 'Sans nom' + '</span><i class="material-icons">keyboard_arrow_right</i>';
+      theHtmlString += designation ? designation : 'Sans nom' + '</span><i class="material-icons">keyboard_arrow_right</i>';
       theHtmlString += '</div>';
     });
 
