@@ -2,7 +2,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, OnInit, OnDestroy } fr
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import * as _ from 'lodash';
 import * as ol from 'openlayers';
-import { Router, NavigationEnd, ActivatedRoute, UrlSegmentGroup } from '@angular/router';
+import { Router, NavigationEnd, UrlSegmentGroup } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { EventService } from './services/event.service';
 import { EventClass } from './domain/event.class';
@@ -24,52 +24,49 @@ import { AdminFiltersComponent } from './components/admin/admin-filters/admin-fi
 })
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
-  private eventColor = '#6CCACC';
-  private contributorColor = '#0D70CD';
-  private selectedColor = '#FF5555';
+  public showSidenav: boolean = false;
 
   private events: EventClass[];
   private allEvents: EventClass[];
   private contributors: ContributorClass[];
   private allContributors: ContributorClass[];
+  public sameLocationItems: ItemClass[] = [];
 
   public sidenavEdition: boolean = false;
 
-  @ViewChild('itemsList') itemsList: ElementRef;
-  @ViewChild('map') mapElement: ElementRef;
-  title = 'client';
-  initialCoordinates: [number, number] = [538262.3872128094, 5740786.2887582248];
-  initialZoom: number = 13;
-  searchZoom: number = 16;
-  map: ol.Map;
+  @ViewChild('itemsList') public itemsList: ElementRef;
+  @ViewChild('map') public mapElement: ElementRef;
+  private readonly initialCoordinates: [number, number] = [538262.3872128094, 5740786.2887582248];
+  private readonly initialZoom: number = 13;
+  private readonly searchZoom: number = 16;
+  private map: ol.Map;
 
   public popupContent: SafeHtml;
-  public sameLocationItems: ItemClass[] = [];
-  public popup: ol.Overlay;
-  public showSidenav: boolean = false;
-  publishedEventsFeatures: ol.Feature[];
-  notPublishedEventsFeatures: ol.Feature[];
-  contributorsFeatures: ol.Feature[];
-  sameLocationItemFeatures: ol.Feature[];
-  publishedEventsMarkerSource: ol.source.Vector;
-  notPublishedEventsMarkerSource: ol.source.Vector;
-  contributorsMarkerSource: ol.source.Vector;
-  sameLocationItemMarkerSource: ol.source.Vector;
-  publishedEventsLayer: ol.layer.Vector;
-  notPublishedEventsLayer: ol.layer.Vector;
-  contributorsLayer: ol.layer.Vector;
-  sameLocationItemLayer: ol.layer.Vector;
-  selectInteraction: ol.interaction.Select;
-  currentRouteWithNoSelection: ActivatedRoute;
-  _publishedEventStyle: ol.style.Style;
-  _notPublishedEventStyle: ol.style.Style;
-  _contributorStyle: ol.style.Style;
-  _sameLocationEventStyle: ol.style.Style;
-  _sameLocationContributorStyle: ol.style.Style;
-  _selectedLocationPinStyle: ol.style.Style;
-  _selectedEditLocationPinStyle: ol.style.Style;
-  _selectedSameLocationPinStyle: ol.style.Style;
+  private selectInteraction: ol.interaction.Select;
 
+  // Features
+  private publishedEventsFeatures: ol.Feature[];
+  private notPublishedEventsFeatures: ol.Feature[];
+  private contributorsFeatures: ol.Feature[];
+  private sameLocationItemFeatures: ol.Feature[];
+
+  // Layers
+  private publishedEventsLayer: ol.layer.Vector;
+  private notPublishedEventsLayer: ol.layer.Vector;
+  private contributorsLayer: ol.layer.Vector;
+  private sameLocationItemLayer: ol.layer.Vector;
+  
+  // Styles
+  private readonly publishedEventStyle: ol.style.Style;
+  private readonly notPublishedEventStyle: ol.style.Style;
+  private readonly contributorStyle: ol.style.Style;
+  private readonly sameLocationEventStyle: ol.style.Style;
+  private readonly sameLocationContributorStyle: ol.style.Style;
+  private readonly selectedLocationPinStyle: ol.style.Style;
+  private readonly selectedEditLocationPinStyle: ol.style.Style;
+  private readonly selectedSameLocationPinStyle: ol.style.Style;
+
+  // Event & contributors subscription
   private subscriptionEventLocationChanged: Subscription;
   private subscriptionContributorLocationChanged: Subscription;
   private subscriptionEventPublishStatusChanged: Subscription;
@@ -83,6 +80,26 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private authenticationService: AuthenticationService,
     private domSanitizer: DomSanitizer
   ) {
+    // Init all styles
+    this.publishedEventStyle = this.initStyle('assets/location_on.svg', Color.EVENT);
+    this.notPublishedEventStyle = this.initStyle('assets/edit_location.svg', Color.EVENT);
+    this.contributorStyle = this.initStyle('assets/location_on.svg', Color.CONTRIBUTOR);
+    this.sameLocationEventStyle = this.initStyle('assets/add_location.svg', Color.EVENT);
+    this.sameLocationContributorStyle = this.initStyle('assets/add_location.svg', Color.CONTRIBUTOR);
+    this.selectedLocationPinStyle = this.initStyle('assets/location_on.svg', Color.SELECTED);
+    this.selectedEditLocationPinStyle = this.initStyle('assets/edit_location.svg', Color.SELECTED);
+    this.selectedSameLocationPinStyle = this.initStyle('assets/add_location.svg', Color.SELECTED);
+  }
+
+  private initStyle(svgSrc: string, color: Color): ol.style.Style {
+    let canvas = this.addWhiteOutlineToMarker(svgSrc, color);
+    return new ol.style.Style({
+      image: new ol.style.Icon({
+        img: canvas,
+        imgSize: canvas ? [canvas.width, canvas.height] : undefined,
+        anchor: [0.5, 1]
+      })
+    });
   }
 
   ngOnInit() {
@@ -113,16 +130,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         this.router.navigate([...this.routingUrls.contributors, e.target.id.split('-')[1]]);
       }
     });
-
-    //Eagerly load styles to avoid rendering bugs when selecting a feature for the first time
-    this.publishedEventStyle;
-    this.notPublishedEventStyle;
-    this.contributorStyle;
-    this.sameLocationEventStyle;
-    this.sameLocationContributorStyle;
-    this.selectedLocationPinStyle;
-    this.selectedEditLocationPinStyle;
-    this.selectedSameLocationPinStyle;
 
     this.subscriptionEventLocationChanged = this.eventService.eventLocationChanged.subscribe((event) => {
       if (event) {
@@ -212,126 +219,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionEventPublishStatusChanged.unsubscribe();
     this.subscriptionEventDeleted.unsubscribe();
     this.subscriptionContributorDeleted.unsubscribe();
-  }
-
-  private get publishedEventStyle() {
-    if (!this._publishedEventStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.eventColor);
-
-      this._publishedEventStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._publishedEventStyle;
-  }
-
-  private get notPublishedEventStyle() {
-    if (!this._notPublishedEventStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/edit_location.svg', this.eventColor);
-
-      this._notPublishedEventStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._notPublishedEventStyle;
-  }
-
-  private get contributorStyle() {
-    if (!this._contributorStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.contributorColor);
-
-      this._contributorStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._contributorStyle;
-  }
-
-  private get sameLocationEventStyle() {
-    if (!this._sameLocationEventStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/add_location.svg', this.eventColor);
-
-      this._sameLocationEventStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._sameLocationEventStyle;
-  }
-
-  private get sameLocationContributorStyle() {
-    if (!this._sameLocationContributorStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/add_location.svg', this.contributorColor);
-
-      this._sameLocationContributorStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._sameLocationContributorStyle;
-  }
-
-  private get selectedLocationPinStyle() {
-    if (!this._selectedLocationPinStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/location_on.svg', this.selectedColor);
-
-      this._selectedLocationPinStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._selectedLocationPinStyle;
-  }
-
-  private get selectedEditLocationPinStyle() {
-    if (!this._selectedEditLocationPinStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/edit_location.svg', this.selectedColor);
-
-      this._selectedEditLocationPinStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._selectedEditLocationPinStyle;
-  }
-
-  private get selectedSameLocationPinStyle() {
-    if (!this._selectedSameLocationPinStyle) {
-      let canvas = this.addWhiteOutlineToMarker('assets/add_location.svg', this.selectedColor);
-
-      this._selectedSameLocationPinStyle = new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */({
-          img: canvas,
-          imgSize: canvas ? [canvas.width, canvas.height] : undefined,
-          anchor: [0.5, 1]
-        }))
-      });
-    }
-    return this._selectedSameLocationPinStyle;
   }
 
   /**
@@ -571,12 +458,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-    this.publishedEventsMarkerSource = new ol.source.Vector({
+    const publishedEventsMarkerSource = new ol.source.Vector({
       features: this.publishedEventsFeatures
     });
 
     this.publishedEventsLayer = new ol.layer.Vector({
-      source: this.publishedEventsMarkerSource,
+      source: publishedEventsMarkerSource,
       style: this.publishedEventStyle,
     });
 
@@ -587,12 +474,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-    this.notPublishedEventsMarkerSource = new ol.source.Vector({
+    const notPublishedEventsMarkerSource = new ol.source.Vector({
       features: this.notPublishedEventsFeatures
     });
 
     this.notPublishedEventsLayer = new ol.layer.Vector({
-      source: this.notPublishedEventsMarkerSource,
+      source: notPublishedEventsMarkerSource,
       style: this.notPublishedEventStyle,
     });
 
@@ -603,12 +490,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-    this.contributorsMarkerSource = new ol.source.Vector({
+    const contributorsMarkerSource = new ol.source.Vector({
       features: this.contributorsFeatures
     });
 
     this.contributorsLayer = new ol.layer.Vector({
-      source: this.contributorsMarkerSource,
+      source: contributorsMarkerSource,
       style: this.contributorStyle,
     });
 
@@ -619,12 +506,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       })
     );
 
-    this.sameLocationItemMarkerSource = new ol.source.Vector({
+    const sameLocationItemMarkerSource = new ol.source.Vector({
       features: this.sameLocationItemFeatures
     });
 
     this.sameLocationItemLayer = new ol.layer.Vector({
-      source: this.sameLocationItemMarkerSource,
+      source: sameLocationItemMarkerSource,
       style: this.sameLocationEventStyle,
     });
 
@@ -959,14 +846,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private initPopupContent(feature, elementId?) {
     // Add new overlay
-    this.popup = new ol.Overlay({
+    const popup = new ol.Overlay({
       element: document.getElementById('itemsList')
     });
-    this.map.addOverlay(this.popup);
+    this.map.addOverlay(popup);
 
     // Set popup position
     var coordinate = feature.getGeometry().getCoordinates();
-    this.popup.setPosition(coordinate);
+    popup.setPosition(coordinate);
 
     // Fill popup content
     var theHtmlString = '';
@@ -993,4 +880,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public get isConnected() {
     return this.authenticationService.isConnected;
   }
+}
+
+enum Color {
+  EVENT = '#6CCACC',
+  CONTRIBUTOR = '#0D70CD',
+  SELECTED = '#FF5555'   
 }
