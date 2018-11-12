@@ -8,7 +8,7 @@ module.exports = {
 
     const user = [{
       'username': 'Admin',
-      'password': 'Gestion',
+      'password': 'useless',
       'email': 'admin@admin.com',
       'emailVerified': true,
     }];

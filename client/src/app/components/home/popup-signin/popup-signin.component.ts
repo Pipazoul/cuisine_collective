@@ -24,13 +24,12 @@ export class PopupSigninComponent implements OnInit {
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      'email': new FormControl('', [Validators.required, Validators.email]),
-      'password': new FormControl('', Validators.required)
+      'email': new FormControl('', [Validators.required, Validators.email])
     });
   }
 
   public signin(credentials: Credentials) {
-    this.authenticationService.signin(credentials.email, credentials.password).subscribe(
+    this.authenticationService.signin(credentials.email, UserClass.DEFAULT_PASSWORD).subscribe(
       (res) => {
         this.showError = false;
         this.dialogRef.close(res);
@@ -57,5 +56,4 @@ export class PopupSigninComponent implements OnInit {
 
 interface Credentials {
   email: string;
-  password: string;
 }

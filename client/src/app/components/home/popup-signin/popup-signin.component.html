@@ -17,11 +17,6 @@
           <input matInput type="email" formControlName="email" placeholder="Email">
         </mat-form-field>
         <app-form-error [field]="loginForm.controls.email"></app-form-error>
-
-        <mat-form-field class="required">
-          <input matInput type="password" formControlName="password" placeholder="Mot de passe">
-        </mat-form-field>
-        <app-form-error [field]="loginForm.controls.password"></app-form-error>
       </div>
 
       <span *ngIf="showError" class="error-message">Identifiants invalides</span>

@@ -26,17 +26,13 @@ export class UserFormComponent implements OnInit {
 
   ngOnInit() {
     this.userForm = new FormGroup({
-      'email': new FormControl(this.user.email, [Validators.required, Validators.email]),
-      'passwords': new FormGroup({
-        'password': new FormControl('', Validators.required),
-        'passwordConfirm': new FormControl('', [Validators.required, CustomValidators.matchOther('password')])
-      })
+      'email': new FormControl(this.user.email, [Validators.required, Validators.email])
     });
   }
 
   public submitForm(value) {
     this.user.email = value.email;
-    this.user.password = value.passwords.password;
+    this.user.password = UserClass.DEFAULT_PASSWORD;
     this.userService.create(this.user).subscribe(
       (user) => this.userCreated.emit(Object.assign(this.user, user)),
       (err) => this.handleError(err));
