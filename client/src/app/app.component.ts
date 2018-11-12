@@ -16,6 +16,7 @@ import { ContributorEditionComponent } from './components/contributor-edition/co
 import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 import { ItemClass } from './domain/items-list.class';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
+import { UserClass } from './domain/user.class';
 
 @Component({
   selector: 'app-root',
@@ -25,15 +26,38 @@ import { AdminFiltersComponent } from './components/admin/admin-filters/admin-fi
 export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showSidenav: boolean = false;
+  private connectedUser: UserClass;
 
-  private events: EventClass[] = [];
-  private get publishedEvents(): EventClass[] { return this.events.filter(x => x.publish) }
-  private get notPublishedEvents(): EventClass[] { return this.events.filter(x => !x.publish) }
+  /**
+   * All events received from query
+   */
   private allEvents: EventClass[] = [];
-  private contributors: ContributorClass[] = [];
+  /**
+   * All events but same location events
+   */
+  private events: EventClass[] = [];
+  private get ownedPublishedEvents(): EventClass[] { return this.events.filter(x => x.publish && this.connectedUser && x.userId === this.connectedUser.id) }
+  private get notOwnedPublishedEvents(): EventClass[] { return this.events.filter(x => x.publish && this.connectedUser && x.userId !== this.connectedUser.id) }
+  private get ownedNotPublishedEvents(): EventClass[] { return this.events.filter(x => !x.publish && this.connectedUser && x.userId === this.connectedUser.id) }
+  private get notOwnedNotPublishedEvents(): EventClass[] { return this.events.filter(x => !x.publish && this.connectedUser && x.userId !== this.connectedUser.id) }
+  /**
+   * All contributors received from query
+   */
   private allContributors: ContributorClass[] = [];
+  /**
+   * All contributors but same location contributors
+   */
+  private contributors: ContributorClass[] = [];
+  private get ownedContributors(): ContributorClass[] { return this.contributors.filter(x => this.connectedUser && x.userId === this.connectedUser.id) }
+  private get notOwnedContributors(): ContributorClass[] { return this.contributors.filter(x => this.connectedUser && x.userId !== this.connectedUser.id) }
+  /**
+   * Same location contributors/events
+   */
   public sameLocationItems: ItemClass[] = [];
 
+  /**
+   * Is sidenav in edition mode ?
+   */
   public sidenavEdition: boolean = false;
 
   @ViewChild('itemsList') public itemsList: ElementRef;
@@ -46,26 +70,39 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   public popupContent: SafeHtml;
   private selectInteraction: ol.interaction.Select;
 
-  // Features
   /**
-   * All events features - not displayed, just for referencing & fast find
+   * All events features - not displayed, just for referencing & fast retrieve
    */
-  private eventsFeatures: ol.Feature[];
-  private publishedEventsFeatures: ol.Feature[];
-  private notPublishedEventsFeatures: ol.Feature[];
-  private contributorsFeatures: ol.Feature[];
-  private sameLocationItemFeatures: ol.Feature[];
+  private eventsFeatures: ol.Feature[] = [];
+  /**
+   * All contributors features - not displayed, just for referencing & fast retrieve
+   */
+  private contributorsFeatures: ol.Feature[] = [];
+  // Features
+  private ownedPublishedEventsFeatures: ol.Feature[] = [];
+  private notOwnedPublishedEventsFeatures: ol.Feature[] = [];
+  private ownedNotPublishedEventsFeatures: ol.Feature[] = [];
+  private notOwnedNotPublishedEventsFeatures: ol.Feature[] = [];
+  private ownedContributorsFeatures: ol.Feature[] = [];
+  private notOwnedContributorsFeatures: ol.Feature[] = [];
+  private sameLocationItemFeatures: ol.Feature[] = [];
 
   // Layers
-  private publishedEventsLayer: ol.layer.Vector;
-  private notPublishedEventsLayer: ol.layer.Vector;
-  private contributorsLayer: ol.layer.Vector;
+  private ownedPublishedEventsLayer: ol.layer.Vector;
+  private notOwnedPublishedEventsLayer: ol.layer.Vector;
+  private ownedNotPublishedEventsLayer: ol.layer.Vector;
+  private notOwnedNotPublishedEventsLayer: ol.layer.Vector;
+  private ownedContributorsLayer: ol.layer.Vector;
+  private notOwnedContributorsLayer: ol.layer.Vector;
   private sameLocationItemLayer: ol.layer.Vector;
 
   // Styles
-  private readonly publishedEventStyle: ol.style.Style;
-  private readonly notPublishedEventStyle: ol.style.Style;
-  private readonly contributorStyle: ol.style.Style;
+  private readonly ownedPublishedEventStyle: ol.style.Style;
+  private readonly notOwnedPublishedEventStyle: ol.style.Style;
+  private readonly ownedNotPublishedEventStyle: ol.style.Style;
+  private readonly notOwnedNotPublishedEventStyle: ol.style.Style;
+  private readonly ownedContributorStyle: ol.style.Style;
+  private readonly notOwnedContributorStyle: ol.style.Style;
   private readonly sameLocationEventStyle: ol.style.Style;
   private readonly sameLocationContributorStyle: ol.style.Style;
   private readonly selectedLocationPinStyle: ol.style.Style;
@@ -86,10 +123,14 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private authenticationService: AuthenticationService,
     private domSanitizer: DomSanitizer
   ) {
+    this.connectedUser = this.authenticationService.user;
     // Init all styles
-    this.publishedEventStyle = this.initStyle('assets/location_on.svg', Color.EVENT);
-    this.notPublishedEventStyle = this.initStyle('assets/edit_location.svg', Color.EVENT);
-    this.contributorStyle = this.initStyle('assets/location_on.svg', Color.CONTRIBUTOR);
+    this.ownedPublishedEventStyle = this.initStyle('assets/location_on.svg', Color.OWNED);
+    this.notOwnedPublishedEventStyle = this.initStyle('assets/location_on.svg', Color.EVENT);
+    this.ownedNotPublishedEventStyle = this.initStyle('assets/edit_location.svg', Color.OWNED);
+    this.notOwnedNotPublishedEventStyle = this.initStyle('assets/edit_location.svg', Color.EVENT);
+    this.ownedContributorStyle = this.initStyle('assets/location_on.svg', Color.OWNED);
+    this.notOwnedContributorStyle = this.initStyle('assets/location_on.svg', Color.CONTRIBUTOR);
     this.sameLocationEventStyle = this.initStyle('assets/add_location.svg', Color.EVENT);
     this.sameLocationContributorStyle = this.initStyle('assets/add_location.svg', Color.CONTRIBUTOR);
     this.selectedLocationPinStyle = this.initStyle('assets/location_on.svg', Color.SELECTED);
@@ -173,6 +214,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnInit() {
     this.authenticationService.connectionStatusChanged.subscribe((connected) => {
       if (connected === true || connected === false) {
+        this.connectedUser = this.authenticationService.user;
         // Load only events & clean contributors from screen
         this.eventService.getAll().subscribe(events => {
           this.sameLocationItemLayer.setStyle(this.sameLocationEventStyle);
@@ -241,7 +283,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptionEventDeleted = this.eventService.eventDeleted.subscribe((eventId) => {
       if (eventId) {
-        _.remove(this.events, { id: eventId });
+        _.remove(this.allEvents, { id: eventId });
         this.selectInteraction.getFeatures().clear();
         this.redrawAll();
       }
@@ -249,7 +291,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.subscriptionContributorDeleted = this.contributorService.contributorDeleted.subscribe((contributorId) => {
       if (contributorId) {
-        _.remove(this.contributors, { id: contributorId });
+        _.remove(this.allContributors, { id: contributorId });
         this.selectInteraction.getFeatures().clear();
         this.redrawAll();
       }
@@ -376,8 +418,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
           this.router.navigate(this.routingUrls.root);
         }
       }
-    }
-    else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
+    } else if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.contributors) && !isNaN(+next)) {
       featureToSelect = this.contributorsFeatures.find(x => x.get('object').id === +next);
 
       if (featureToSelect) {
@@ -463,9 +504,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         new ol.layer.Tile({
           source: new ol.source.OSM()
         }),
-        this.publishedEventsLayer,
-        this.notPublishedEventsLayer,
-        this.contributorsLayer,
+        this.ownedPublishedEventsLayer,
+        this.notOwnedPublishedEventsLayer,
+        this.ownedNotPublishedEventsLayer,
+        this.notOwnedNotPublishedEventsLayer,
+        this.ownedContributorsLayer,
+        this.notOwnedContributorsLayer,
         this.sameLocationItemLayer
       ],
       target: this.mapElement.nativeElement,
@@ -528,16 +572,27 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initFeaturesAndLayers() {
-    this.publishedEventsFeatures = this.initFeatures(this.publishedEvents);
-    this.publishedEventsLayer = this.initLayer(this.publishedEventsFeatures, this.publishedEventStyle);
+    this.ownedPublishedEventsFeatures = this.initFeatures(this.ownedPublishedEvents);
+    this.ownedPublishedEventsLayer = this.initLayer(this.ownedPublishedEventsFeatures, this.ownedPublishedEventStyle);
 
-    this.notPublishedEventsFeatures = this.initFeatures(this.notPublishedEvents);
-    this.notPublishedEventsLayer = this.initLayer(this.notPublishedEventsFeatures, this.notPublishedEventStyle);
+    this.notOwnedPublishedEventsFeatures = this.initFeatures(this.notOwnedPublishedEvents);
+    this.notOwnedPublishedEventsLayer = this.initLayer(this.notOwnedPublishedEventsFeatures, this.notOwnedPublishedEventStyle);
 
-    this.eventsFeatures = this.publishedEventsFeatures.concat(this.notPublishedEventsFeatures);
+    this.ownedNotPublishedEventsFeatures = this.initFeatures(this.ownedNotPublishedEvents);
+    this.ownedNotPublishedEventsLayer = this.initLayer(this.ownedNotPublishedEventsFeatures, this.ownedNotPublishedEventStyle);
 
-    this.contributorsFeatures = this.initFeatures(this.contributors);
-    this.contributorsLayer = this.initLayer(this.contributorsFeatures, this.contributorStyle);
+    this.notOwnedNotPublishedEventsFeatures = this.initFeatures(this.notOwnedNotPublishedEvents);
+    this.notOwnedNotPublishedEventsLayer = this.initLayer(this.notOwnedNotPublishedEventsFeatures, this.notOwnedNotPublishedEventStyle);
+
+    this.reassignEventsFeatures();
+
+    this.ownedContributorsFeatures = this.initFeatures(this.ownedContributors);
+    this.ownedContributorsLayer = this.initLayer(this.ownedContributorsFeatures, this.ownedContributorStyle);
+
+    this.notOwnedContributorsFeatures = this.initFeatures(this.notOwnedContributors);
+    this.notOwnedContributorsLayer = this.initLayer(this.notOwnedContributorsFeatures, this.notOwnedContributorStyle);
+
+    this.reassignContributorsFeatures();
 
     this.sameLocationItemFeatures = this.initFeatures(this.sameLocationItems);
     this.sameLocationItemLayer = this.initLayer(this.sameLocationItemFeatures, this.sameLocationEventStyle);
@@ -558,6 +613,17 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
       source: markerSource,
       style: style
     });
+  }
+
+  private reassignContributorsFeatures() {
+    this.contributorsFeatures = this.ownedContributorsFeatures.concat(this.notOwnedContributorsFeatures);
+  }
+
+  private reassignEventsFeatures() {
+    this.eventsFeatures = this.ownedPublishedEventsFeatures
+      .concat(this.notOwnedPublishedEventsFeatures)
+      .concat(this.ownedNotPublishedEventsFeatures)
+      .concat(this.notOwnedNotPublishedEventsFeatures);
   }
 
   public onPrimaryRouterActivate(elementRef: ElementRef) {
@@ -631,16 +697,20 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
    * Remove all events from layer then add the new ones
    */
   private redrawEvents() {
-    this.publishedEventsFeatures = this.redrawLayerFeatures(this.publishedEventsLayer, this.publishedEvents);
-    this.notPublishedEventsFeatures = this.redrawLayerFeatures(this.notPublishedEventsLayer, this.notPublishedEvents);
-    this.eventsFeatures = this.publishedEventsFeatures.concat(this.notPublishedEventsFeatures);
+    this.ownedPublishedEventsFeatures = this.redrawLayerFeatures(this.ownedPublishedEventsLayer, this.ownedPublishedEvents);
+    this.notOwnedPublishedEventsFeatures = this.redrawLayerFeatures(this.notOwnedPublishedEventsLayer, this.notOwnedPublishedEvents);
+    this.ownedNotPublishedEventsFeatures = this.redrawLayerFeatures(this.ownedNotPublishedEventsLayer, this.ownedNotPublishedEvents);
+    this.notOwnedNotPublishedEventsFeatures = this.redrawLayerFeatures(this.notOwnedNotPublishedEventsLayer, this.notOwnedNotPublishedEvents);
+    this.reassignEventsFeatures();
   }
 
   /**
    * Remove all contributors from layer then add the new ones
    */
   private redrawContributors() {
-    this.contributorsFeatures = this.redrawLayerFeatures(this.contributorsLayer, this.contributors);
+    this.ownedContributorsFeatures = this.redrawLayerFeatures(this.ownedContributorsLayer, this.ownedContributors);
+    this.notOwnedContributorsFeatures = this.redrawLayerFeatures(this.notOwnedContributorsLayer, this.notOwnedContributors);
+    this.reassignContributorsFeatures();
   }
 
   /**
@@ -716,7 +786,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private initPopupContent(feature, elementId?) {
+  private initPopupContent(feature, elementId?: string) {
     // Add new overlay
     const popup = new ol.Overlay({
       element: document.getElementById('itemsList')
@@ -732,7 +802,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     _.each(feature.get('object').itemsList, (item) => {
       const type = item instanceof EventClass ? 'event' : 'contributor';
       const id = type + '-' + item.id;
-      theHtmlString += '<div class="item ' + (id == elementId ? 'selected ' : '') + type + '"><span class="' + type + '" id="' + id + '">';
+      theHtmlString += '<div class="item ' + (id === elementId ? 'selected ' : '') + type + '"><span class="' + type + '" id="' + id + '">';
       if (item instanceof EventClass) {
         theHtmlString += item.publish ? '<i class="material-icons">location_on</i>' : '<i class="material-icons">edit_location</i>';
       } else {
@@ -758,5 +828,5 @@ enum Color {
   EVENT = '#6CCACC',
   CONTRIBUTOR = '#0D70CD',
   SELECTED = '#FF5555',
-  OWNED = "##FEC344"
+  OWNED = "#FEC344"
 }
