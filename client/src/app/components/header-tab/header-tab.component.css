@@ -1,6 +1,5 @@
 span {
-    background-color: #F0F0F0;
-    color: #909090;
+    background-color: white;
     cursor: pointer;
     font-size: 1.5em;
     font-weight: bold;
@@ -9,16 +8,22 @@ span {
     text-transform: uppercase;
 }
 
-span.selected {
-    background-color: white;
+span:not(.selected):hover {
+    background-color: #F0F0F0;
+}
+
+span.tab-event {
+    color: #6CCACC;
 }
 
 span.tab-event.selected {
     border-bottom: 10px solid #6CCACC;
-    color: #6CCACC;
+}
+
+span.tab-contributor {
+    color: #0D70CD;
 }
 
 span.tab-contributor.selected {
     border-bottom: 10px solid #0D70CD;
-    color: #0D70CD;
 }
