@@ -2,7 +2,7 @@
     padding: 30px;
 }
 
-::ng-deep .mat-form-field {
+.mat-form-field {
     width: 200px;
 }
 
