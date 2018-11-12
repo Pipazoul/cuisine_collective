@@ -8,8 +8,8 @@ import { AuthenticationService } from "../services/authentication.service";
 export abstract class AbstractContributorModifier {
 
     @Input() public contributor: ContributorClass;
-    @Output() private backwardPressed: EventEmitter<ContributorClass> = new EventEmitter();
-    @Output() private contributorSaved: EventEmitter<ContributorClass> = new EventEmitter();
+    @Output() protected backwardPressed: EventEmitter<ContributorClass> = new EventEmitter();
+    @Output() protected contributorChanged: EventEmitter<ContributorClass> = new EventEmitter();
 
     constructor(protected contributorService: ContributorService,
         protected authenticationService: AuthenticationService) {
@@ -17,7 +17,7 @@ export abstract class AbstractContributorModifier {
     }
 
     protected saveContributor(contributorToSave: ContributorClass, goBack: boolean = false): Observable<ContributorClass> {
-        return this.saveAndEmit(contributorToSave, goBack ? this.backwardPressed : this.contributorSaved);
+        return this.saveAndEmit(contributorToSave, goBack ? this.backwardPressed : this.contributorChanged);
     }
 
     private saveAndEmit(contributor: ContributorClass, eventEmitter: EventEmitter<ContributorClass>): Observable<ContributorClass> {

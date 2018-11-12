@@ -10,9 +10,9 @@
     </div>
 
     <app-carousel #carousel [showControls]="false" fxFlex fxLayoutAlign="center start">
-      <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorSaved)="carousel.next()"></app-contributor-services>
+      <app-contributor-services *carouselItem class="carousel-element" [contributor]="contributor" (contributorChanged)="carousel.next()"></app-contributor-services>
       <app-contributor-form *carouselItem class="carousel-element" [contributor]="contributor" (backwardPressed)="carousel.prev()"
-        (contributorSaved)="endCarousel()"></app-contributor-form>
+        (contributorChanged)="endCarousel()"></app-contributor-form>
     </app-carousel>
   </div>
 </div>

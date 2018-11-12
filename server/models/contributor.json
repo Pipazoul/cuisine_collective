@@ -8,13 +8,15 @@
   },
   "properties": {
     "title": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
       "type": "string"
     },
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "hours": {
       "type": "string"
