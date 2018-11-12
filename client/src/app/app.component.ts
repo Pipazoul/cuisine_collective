@@ -13,7 +13,6 @@ import { filter } from 'rxjs/operators';
 import { ArrayUtils } from './util/ArrayUtils';
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
-import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 import { ItemClass } from './domain/items-list.class';
 import { AdminFiltersComponent } from './components/admin/admin-filters/admin-filters.component';
 import { UserClass } from './domain/user.class';

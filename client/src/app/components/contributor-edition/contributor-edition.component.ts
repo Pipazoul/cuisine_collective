@@ -2,14 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ContributorClass } from '../../domain/contributor.class';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContributorService } from '../../services/contributor.service';
-import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
 
 @Component({
   selector: 'app-contributor-edition',
   templateUrl: './contributor-edition.component.html',
   styleUrls: ['./contributor-edition.component.css']
 })
-export class ContributorEditionComponent extends RepresentedOnMapComponent implements OnInit {
+export class ContributorEditionComponent implements OnInit {
 
   public contributor: ContributorClass = new ContributorClass();
   public saved: boolean;
@@ -17,7 +16,6 @@ export class ContributorEditionComponent extends RepresentedOnMapComponent imple
   constructor(private router: Router,
     private route: ActivatedRoute,
     private contributorService: ContributorService) {
-    super();
   }
 
   ngOnInit() {

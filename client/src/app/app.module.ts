@@ -74,7 +74,6 @@ import { ContributorComponent } from './components/contributor/contributor.compo
 import { ContributorEditionComponent } from './components/contributor-edition/contributor-edition.component';
 import { EventEditionComponent } from './components/event-edition/event-edition.component';
 import { EventMissingComponent } from './components/admin/event-missing/event-missing.component';
-import { RepresentedOnMapComponent } from './components/base/represented-on-map/represented-on-map.component';
 import { WeekDaySelectorComponent } from './common/week-day-selector/week-day-selector.component';
 
 import { registerLocaleData } from '@angular/common';

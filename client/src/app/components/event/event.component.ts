@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { EventClass } from '../../domain/event.class';
 import { AuthenticationService } from '../../services/authentication.service';
-import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
 import { MatDialog } from '@angular/material';
 import { DialogComponent, DialogParams } from '../common/dialog/dialog.component';
 import { UserClass } from 'src/app/domain/user.class';
@@ -13,7 +12,7 @@ import { UserClass } from 'src/app/domain/user.class';
   templateUrl: './event.component.html',
   styleUrls: ['./event.component.css']
 })
-export class EventComponent extends RepresentedOnMapComponent implements OnInit {
+export class EventComponent implements OnInit {
 
   public event: EventClass;
   public readonly connectedUser: UserClass;
@@ -24,7 +23,6 @@ export class EventComponent extends RepresentedOnMapComponent implements OnInit 
     private router: Router,
     private authenticationService: AuthenticationService,
     private eventService: EventService) {
-    super();
     this.connectedUser = this.authenticationService.user;
   }
 
@@ -46,8 +44,7 @@ export class EventComponent extends RepresentedOnMapComponent implements OnInit 
       }
     }).afterClosed().subscribe((res: boolean) => {
       if (res) {
-        this.eventService.delete(eventId).subscribe(res => {
-          this.removePoint.emit({ type: EventClass, id: eventId });
+        this.eventService.delete(eventId).subscribe(() => {
           this.router.navigate(['/admin']);
         });
       }

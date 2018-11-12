@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ContributorService } from '../../services/contributor.service';
 import { ContributorClass } from '../../domain/contributor.class';
-import { RepresentedOnMapComponent } from '../base/represented-on-map/represented-on-map.component';
 import { AuthenticationService } from '../../services/authentication.service';
 import { DialogComponent, DialogParams } from '../common/dialog/dialog.component';
 import { MatDialog } from '@angular/material';
@@ -13,7 +12,7 @@ import { UserClass } from 'src/app/domain/user.class';
   templateUrl: './contributor.component.html',
   styleUrls: ['./contributor.component.css']
 })
-export class ContributorComponent extends RepresentedOnMapComponent implements OnInit {
+export class ContributorComponent implements OnInit {
 
   public contributor: ContributorClass;
   public readonly connectedUser: UserClass;
@@ -24,7 +23,6 @@ export class ContributorComponent extends RepresentedOnMapComponent implements O
     private authenticationService: AuthenticationService,
     private contributorService: ContributorService
   ) {
-    super();
     this.connectedUser = this.authenticationService.user;
   }
 
@@ -46,8 +44,7 @@ export class ContributorComponent extends RepresentedOnMapComponent implements O
       }
     }).afterClosed().subscribe((res: boolean) => {
       if (res) {
-        this.contributorService.delete(contributorId).subscribe(res => {
-          this.removePoint.emit({ type: ContributorClass, id: contributorId });
+        this.contributorService.delete(contributorId).subscribe(() => {
           this.router.navigate(['/admin']);
         });
       }
