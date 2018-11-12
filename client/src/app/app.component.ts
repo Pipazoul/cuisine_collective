@@ -26,10 +26,12 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public showSidenav: boolean = false;
 
-  private events: EventClass[];
-  private allEvents: EventClass[];
-  private contributors: ContributorClass[];
-  private allContributors: ContributorClass[];
+  private events: EventClass[] = [];
+  private get publishedEvents(): EventClass[] { return this.events.filter(x => x.publish) }
+  private get notPublishedEvents(): EventClass[] { return this.events.filter(x => !x.publish) }
+  private allEvents: EventClass[] = [];
+  private contributors: ContributorClass[] = [];
+  private allContributors: ContributorClass[] = [];
   public sameLocationItems: ItemClass[] = [];
 
   public sidenavEdition: boolean = false;
@@ -45,6 +47,10 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private selectInteraction: ol.interaction.Select;
 
   // Features
+  /**
+   * All events features - not displayed, just for referencing & fast find
+   */
+  private eventsFeatures: ol.Feature[];
   private publishedEventsFeatures: ol.Feature[];
   private notPublishedEventsFeatures: ol.Feature[];
   private contributorsFeatures: ol.Feature[];
@@ -100,6 +106,68 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
         anchor: [0.5, 1]
       })
     });
+  }
+
+  /**
+   * Adds a white outline to a given marker with a given color
+   * 
+   * @param src URL of the marker SVG file
+   * @param color Color of the marker
+   * @returns The canvas to render
+   */
+  private addWhiteOutlineToMarker(src: string, color: string): HTMLCanvasElement {
+    //Initialize canvas
+    var canvas = document.createElement('canvas');
+    canvas.height = 80;
+    canvas.width = 80;
+    var ctx = canvas.getContext('2d');
+
+    //Initialize images
+    var markerImage = new Image();
+    var backgroundImage = new Image();
+
+    //Load marker image
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", src);
+    xhr.send();
+    xhr.onload = () => {
+      var svg = xhr.responseXML.documentElement;
+      svg.getElementsByTagName('path')[0].setAttribute('fill', color);
+      markerImage.src = 'data:image/svg+xml;base64,' + btoa(svg.outerHTML);
+    };
+
+    //Load background image
+    var xhr2 = new XMLHttpRequest();
+    xhr2.open("GET", 'assets/marker_background.svg');
+    xhr2.send();
+    xhr2.onload = () => {
+      var svg = xhr2.responseXML.documentElement;
+      backgroundImage.src = 'data:image/svg+xml;base64,' + btoa(svg.outerHTML);
+    };
+
+    //Wrap markerImage.onload into a Promise
+    var markerImageLoaded = new Promise((resolve) => {
+      markerImage.onload = () => {
+        resolve();
+      };
+    });
+
+    //Wrap backgroundImage.onload into a Promise
+    var backgroundImageLoaded = new Promise((resolve) => {
+      backgroundImage.onload = () => {
+        resolve();
+      };
+    });
+
+    //Draw canvas
+    Promise.all([markerImageLoaded, backgroundImageLoaded]).then(() => {
+      ctx.drawImage(backgroundImage, 0, 0);
+      ctx.globalCompositeOperation = "source-over";
+      //x offset: (88 - 72) / 2
+      //y offset: (88 - 72) * 0.38 because the center of the circle is approximately at 38% height from the top
+      ctx.drawImage(markerImage, 8, 6);
+    });
+    return canvas;
   }
 
   ngOnInit() {
@@ -189,8 +257,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private selectAndGoToEvent(event: EventClass) {
-    const featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === event.id)
-      || this.notPublishedEventsFeatures.find(x => x.get('object').id === event.id)
+    const featureToSelect = this.eventsFeatures.find(x => x.get('object').id === event.id)
       || this.sameLocationItemFeatures.find(x => x.get('object').itemsList.some(i => i instanceof EventClass && i.id === event.id));
     this.selectInteraction.getFeatures().clear();
     this.popupContent = '';
@@ -219,68 +286,6 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.subscriptionEventPublishStatusChanged.unsubscribe();
     this.subscriptionEventDeleted.unsubscribe();
     this.subscriptionContributorDeleted.unsubscribe();
-  }
-
-  /**
-   * Adds a white outline to a given marker with a given color
-   * 
-   * @param src URL of the marker SVG file
-   * @param color Color of the marker
-   * @returns The canvas to render
-   */
-  private addWhiteOutlineToMarker(src: string, color: string): HTMLCanvasElement {
-    //Initialize canvas
-    var canvas = document.createElement('canvas');
-    canvas.height = 80;
-    canvas.width = 80;
-    var ctx = canvas.getContext('2d');
-
-    //Initialize images
-    var markerImage = new Image();
-    var backgroundImage = new Image();
-
-    //Load marker image
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", src);
-    xhr.send();
-    xhr.onload = () => {
-      var svg = xhr.responseXML.documentElement;
-      svg.getElementsByTagName('path')[0].setAttribute('fill', color);
-      markerImage.src = 'data:image/svg+xml;base64,' + btoa(svg.outerHTML);
-    };
-
-    //Load background image
-    var xhr2 = new XMLHttpRequest();
-    xhr2.open("GET", 'assets/marker_background.svg');
-    xhr2.send();
-    xhr2.onload = () => {
-      var svg = xhr2.responseXML.documentElement;
-      backgroundImage.src = 'data:image/svg+xml;base64,' + btoa(svg.outerHTML);
-    };
-
-    //Wrap markerImage.onload into a Promise
-    var markerImageLoaded = new Promise((resolve, reject) => {
-      markerImage.onload = () => {
-        resolve();
-      };
-    });
-
-    //Wrap backgroundImage.onload into a Promise
-    var backgroundImageLoaded = new Promise((resolve, reject) => {
-      backgroundImage.onload = () => {
-        resolve();
-      };
-    });
-
-    //Draw canvas
-    Promise.all([markerImageLoaded, backgroundImageLoaded]).then(() => {
-      ctx.drawImage(backgroundImage, 0, 0);
-      ctx.globalCompositeOperation = "source-over";
-      //x offset: (88 - 72) / 2
-      //y offset: (88 - 72) * 0.38 because the center of the circle is approximately at 38% height from the top
-      ctx.drawImage(markerImage, 8, 6);
-    });
-    return canvas;
   }
 
   private get routingUrls() {
@@ -350,8 +355,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     let featureToSelect = undefined;
 
     if (ArrayUtils.compareSortedArrays(pathToCompare, this.routingUrls.events) && !isNaN(+next)) {
-      featureToSelect = this.publishedEventsFeatures.find(x => x.get('object').id === +next) ||
-        this.notPublishedEventsFeatures.find(x => x.get('object').id === +next);
+      featureToSelect = this.eventsFeatures.find(x => x.get('object').id === +next);
 
       if (featureToSelect) {
         // The feature is not in events list
@@ -524,11 +528,13 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private initFeaturesAndLayers() {
-    this.publishedEventsFeatures = this.initFeatures(this.events.filter(x => x.publish));
+    this.publishedEventsFeatures = this.initFeatures(this.publishedEvents);
     this.publishedEventsLayer = this.initLayer(this.publishedEventsFeatures, this.publishedEventStyle);
 
-    this.notPublishedEventsFeatures = this.initFeatures(this.events.filter(x => !x.publish));
+    this.notPublishedEventsFeatures = this.initFeatures(this.notPublishedEvents);
     this.notPublishedEventsLayer = this.initLayer(this.notPublishedEventsFeatures, this.notPublishedEventStyle);
+
+    this.eventsFeatures = this.publishedEventsFeatures.concat(this.notPublishedEventsFeatures);
 
     this.contributorsFeatures = this.initFeatures(this.contributors);
     this.contributorsLayer = this.initLayer(this.contributorsFeatures, this.contributorStyle);
@@ -616,24 +622,18 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   private redrawAll() {
     this.selectInteraction.getFeatures().clear();
     this.filterItems();
-    this.redrawPublishedEvents();
-    this.redrawUnpublishedEvents();
+    this.redrawEvents();
     this.redrawContributors();
     this.redrawSameLocationItems();
   }
 
   /**
-   * Remove all published events from layer then add the new ones
+   * Remove all events from layer then add the new ones
    */
-  private redrawPublishedEvents() {
-    this.publishedEventsFeatures = this.redrawLayerFeatures(this.publishedEventsLayer, this.events.filter(x => x.publish));
-  }
-
-  /**
-   * Remove all unpublished events from layer then add the new ones
-   */
-  private redrawUnpublishedEvents() {
-    this.notPublishedEventsFeatures = this.redrawLayerFeatures(this.notPublishedEventsLayer, this.events.filter(x => !x.publish));
+  private redrawEvents() {
+    this.publishedEventsFeatures = this.redrawLayerFeatures(this.publishedEventsLayer, this.publishedEvents);
+    this.notPublishedEventsFeatures = this.redrawLayerFeatures(this.notPublishedEventsLayer, this.notPublishedEvents);
+    this.eventsFeatures = this.publishedEventsFeatures.concat(this.notPublishedEventsFeatures);
   }
 
   /**
