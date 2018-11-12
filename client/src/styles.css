@@ -333,7 +333,6 @@ label {
 .items-list .item {
     justify-content: space-between;
     display: flex;
-    color: #6CCACC;
     cursor: pointer;
 }
 
@@ -343,6 +342,10 @@ label {
 
 .items-list .item.contributor {
     color: #0d70cd;
+}
+
+.items-list .item.owned {
+    color: #FEC344;
 }
 
 .items-list .item span {

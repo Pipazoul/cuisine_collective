@@ -798,10 +798,11 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
 
     // Fill popup content
     var theHtmlString = '';
-    _.each(feature.get('object').itemsList, (item) => {
+    _.each(feature.get('object').itemsList, (item: ContributorClass | EventClass) => {
       const type = item instanceof EventClass ? 'event' : 'contributor';
       const id = type + '-' + item.id;
-      theHtmlString += '<div class="item ' + (id === elementId ? 'selected ' : '') + type + '"><span class="' + type + '" id="' + id + '">';
+      const owned = this.connectedUser && item.userId === this.connectedUser.id;
+      theHtmlString += '<div class="item ' + (id === elementId ? ' selected ' : '') + type + (owned ? ' owned' : '') + '"><span class="' + type + '" id="' + id + '">';
       let designation;
       if (item instanceof EventClass) {
         designation = item.name;
