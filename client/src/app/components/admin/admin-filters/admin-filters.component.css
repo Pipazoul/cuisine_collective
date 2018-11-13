@@ -25,6 +25,18 @@ mat-form-field {
     width: 200px;
 }
 
-.search-input {
-    width: 300px;
+.filters-search {
+    padding: 0 20px 20px 20px;
+}
+
+.filters-search>.search-input {
+    width: 100%;
+}
+
+.filters-search>.search-input.filters-contributors {
+    border: 1px solid #0D70CD;
+}
+
+.filters-search>.search-input.filters-events {
+    border: 1px solid #6CCACC;
 }

@@ -48,8 +48,6 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
   private initEventFiltersForm() {
     this.eventFiltersForm = new FormGroup({
       searchString: new FormControl(),
-      mine: new FormControl(),
-      others: new FormControl(),
       eat: new FormControl(),
       cook: new FormControl(),
       // public: new FormControl(),
@@ -70,8 +68,6 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
   private initContributorFiltersForms() {
     this.contributorFiltersForm = new FormGroup({
       searchString: new FormControl(),
-      mine: new FormControl(),
-      others: new FormControl(),
       location: new FormControl(),
       food: new FormControl(),
       skills: new FormControl(),

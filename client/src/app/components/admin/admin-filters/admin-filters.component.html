@@ -3,30 +3,13 @@
     <div class="filters-title filters-events bold">
       Filtrer les évènements
     </div>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" class="filters-search">
+      <div fxLayout="row" fxLayoutAlign="center center" class="search-input filters-events">
+        <i class="material-icons">search</i>
+        <input type="text" formControlName="searchString">
+      </div>
+    </div>
     <mat-accordion multi="true">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header class="filters-events">
-          <mat-panel-title>
-            Désignation ou appartenance
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-          <div fxLayout="row" fxLayoutAlign="center center" class="search-input">
-            <i class="material-icons">search</i>
-            <input type="text" formControlName="searchString">
-          </div>
-          <div fxLayout="row" fxLayoutAlign="center center">
-            <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
-              <label for="eventMine">Mes événements</label>
-              <label for="eventOthers">Les événements des autres</label>
-            </div>
-            <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-              <mat-slide-toggle id="eventMine" formControlName="mine"></mat-slide-toggle>
-              <mat-slide-toggle id="eventOthers" formControlName="others"></mat-slide-toggle>
-            </div>
-          </div>
-        </div>
-      </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header class="filters-events">
           <mat-panel-title>
@@ -130,30 +113,13 @@
     <div class="filters-title filters-contributors bold">
       Filtrer les contributeurs
     </div>
+    <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" class="filters-search">
+      <div fxLayout="row" fxLayoutAlign="center center" class="search-input filters-contributors">
+        <i class="material-icons">search</i>
+        <input type="text" formControlName="searchString">
+      </div>
+    </div>
     <mat-accordion multi="true">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header class="filters-contributors">
-          <mat-panel-title>
-            Désignation ou appartenance
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-        <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
-          <div fxLayout="row" fxLayoutAlign="center center" class="search-input">
-            <i class="material-icons">search</i>
-            <input type="text" formControlName="searchString">
-          </div>
-          <div fxLayout="row" fxLayoutAlign="center center">
-            <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
-              <label for="contribMine">Mes contributions</label>
-              <label for="contribOthers">Les contributions des autres</label>
-            </div>
-            <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-              <mat-slide-toggle id="contribMine" formControlName="mine"></mat-slide-toggle>
-              <mat-slide-toggle id="contribOthers" formControlName="others"></mat-slide-toggle>
-            </div>
-          </div>
-        </div>
-      </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header class="filters-contributors">
           <mat-panel-title>

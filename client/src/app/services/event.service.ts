@@ -70,12 +70,6 @@ export class EventService {
     };
 
     params.filter.where.and.push({
-      or: [{
-        userId: filters && filters.mine && this.authenticateService.isConnected ? this.authenticateService.user.id : undefined
-      }, {
-        userId: filters && filters.others && this.authenticateService.isConnected ? { neq: this.authenticateService.user.id } : undefined
-      }],
-    }, {
         eat: filters && filters.eat ? filters.eat : undefined
       }, {
         cook: filters && filters.cook ? filters.cook : undefined
@@ -200,8 +194,6 @@ export interface ContributorsIds {
 }
 
 export interface EventFilters {
-  mine?: boolean;
-  others?: boolean;
   eat?: boolean;
   cook?: boolean;
   /* public?: boolean; */
