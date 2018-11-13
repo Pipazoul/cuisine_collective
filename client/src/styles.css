@@ -365,7 +365,7 @@ label {
     color: #0d70cd;
 }
 
-.items-list .item.owned {
+.items-list .item.owned, .admin-color {
     color: #FEC344;
 }
 

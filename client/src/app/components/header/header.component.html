@@ -9,6 +9,6 @@
       &nbsp;Professionnels
     </div>
     <button *ngIf="!isConnected" mat-button type="button" (click)="openSigninDialog()">Se connecter</button>
-    <button *ngIf="isConnected" mat-button type="button" (click)="openSignoutDialog()">Se déconnecter</button>
+    <button *ngIf="isConnected" mat-button type="button" class="admin-color" (click)="openSignoutDialog()">Se déconnecter</button>
   </div>
 </div>
