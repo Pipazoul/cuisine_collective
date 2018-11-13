@@ -1,6 +1,9 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { EventFilters } from '../../../services/event.service';
 import { ContributorFilters } from '../../../services/contributor.service';
+import { FormGroup, FormControl } from '@angular/forms';
+import { filter, debounceTime } from 'rxjs/operators';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-home-filters',
@@ -9,18 +12,11 @@ import { ContributorFilters } from '../../../services/contributor.service';
 })
 export class HomeFiltersComponent implements OnInit {
 
-  @Output() filterEvents: EventEmitter<EventFilters> = new EventEmitter();
-  @Output() filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+  @Output() private filterEvents: EventEmitter<EventFilters> = new EventEmitter();
+  @Output() private filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+  public homeFiltersForm: FormGroup;
 
-  // Event's filters
   public readonly today = new Date();
-  public startDate: Date;
-  public endDate: Date;
-  public eatToggle: boolean = false;
-  public cookToggle: boolean = false;
-  /* public publicToggle: boolean = false; */
-  public regularToggle: boolean = false;
-  public searchString: string;
 
   // Assistants' filters
   public assistantsToggle: boolean = false;
@@ -28,18 +24,16 @@ export class HomeFiltersComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-  }
-
-  applyEventsFilters() {
-    this.filterEvents.emit({
-      eat: this.eatToggle,
-      cook: this.cookToggle,
-      /* public: this.publicToggle, */
-      regular: this.regularToggle,
-      startDate: this.startDate,
-      endDate: this.endDate,
-      searchString: this.searchString,
+    this.homeFiltersForm = new FormGroup({
+      'searchString': new FormControl(),
+      'startDate': new FormControl(),
+      'endDate': new FormControl(),
+      'eat': new FormControl(),
+      'cook': new FormControl(),
+      // 'public': new FormControl(),
+      'regular': new FormControl()
     });
+    this.homeFiltersForm.valueChanges.pipe(debounceTime(500)).subscribe((value) => this.filterEvents.emit(value));
   }
 
   applyContributorsFilters() {
