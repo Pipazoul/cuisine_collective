@@ -1,5 +1,5 @@
 <div class="left-content">
-  <div [hidden]="!isTypeEvents">
+  <form [hidden]="!isTypeEvents" [formGroup]="eventFiltersForm">
     <div class="filters-title filters-events bold">
       Filtrer les évènements
     </div>
@@ -7,7 +7,7 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header class="filters-events">
           <mat-panel-title>
-            ???
+            Désignation ou appartenance
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
@@ -16,8 +16,8 @@
             <label for="eventOthers">Les événements des autres</label>
           </div>
           <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-slide-toggle id="eventMine" [(ngModel)]="eventMine" (change)="applyEventsFilters()"></mat-slide-toggle>
-            <mat-slide-toggle id="eventOthers" [(ngModel)]="eventOthers" (change)="applyEventsFilters()"></mat-slide-toggle>
+            <mat-slide-toggle id="eventMine" formControlName="mine"></mat-slide-toggle>
+            <mat-slide-toggle id="eventOthers" formControlName="others"></mat-slide-toggle>
           </div>
         </div>
       </mat-expansion-panel>
@@ -29,11 +29,11 @@
         </mat-expansion-panel-header>
         <div class="section-filters" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="10px">
           <label class="status" fxLayoutAlign="center center">
-            <input type="checkbox" [(ngModel)]="published" (change)="applyEventsFilters()">
+            <input type="checkbox" formControlName="published">
             <i class="material-icons">location_on</i>Publiés
           </label>
           <label class="status" fxLayoutAlign="center center">
-            <input type="checkbox" [(ngModel)]="unpublished" (change)="applyEventsFilters()">
+            <input type="checkbox" formControlName="unpublished">
             <i class="material-icons">edit_location</i>En cours d'organisation
           </label>
         </div>
@@ -47,15 +47,15 @@
         <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
           <mat-form-field>
             <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="today" [max]="endDate"
-              placeholder="A partir de" [(ngModel)]="startDate" (blur)="applyEventsFilters()">
+              placeholder="A partir de" formControlName="startDate">
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-            <mat-datepicker #startPicker (closed)="applyEventsFilters()"></mat-datepicker>
+            <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
             <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="startDate || today"
-              placeholder="Jusqu'au" [(ngModel)]="endDate" (blur)="applyEventsFilters()">
+              placeholder="Jusqu'au" formControlName="endDate">
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-            <mat-datepicker #endPicker (closed)="applyEventsFilters()"></mat-datepicker>
+            <mat-datepicker #endPicker></mat-datepicker>
           </mat-form-field>
         </div>
       </mat-expansion-panel>
@@ -74,11 +74,11 @@
             <label for="regular-input">Récurrent</label>
           </div>
           <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-slide-toggle id="eat" [(ngModel)]="eatToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
-            <mat-slide-toggle id="cook" [(ngModel)]="cookToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
+            <mat-slide-toggle id="eat" formControlName="eat"></mat-slide-toggle>
+            <mat-slide-toggle id="cook" formControlName="cook"></mat-slide-toggle>
             <!-- Masqué pour le proto -->
-            <!-- <mat-slide-toggle id="public" [(ngModel)]="publicToggle" (change)="applyEventsFilters()"></mat-slide-toggle> -->
-            <mat-slide-toggle id="regular" [(ngModel)]="regularToggle" (change)="applyEventsFilters()"></mat-slide-toggle>
+            <!-- <mat-slide-toggle id="public" formControlName="public"></mat-slide-toggle> -->
+            <mat-slide-toggle id="regular" formControlName="regular"></mat-slide-toggle>
           </div>
         </div>
       </mat-expansion-panel>
@@ -91,36 +91,36 @@
         <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
           <div fxLayout="row" class="full-width">
             <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="missingLocation" (change)="applyEventsFilters()">
+              <input type="checkbox" formControlName="missingLocation">
               <i class="material-icons">kitchen</i>Un lieu
             </label>
             <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="missingFood" (change)="applyEventsFilters()">
+              <input type="checkbox" formControlName="missingFood">
               <i class="material-icons">shopping_cart</i>Des aliments
             </label>
           </div>
           <div fxLayout="row" class="full-width">
             <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="missingSkills" (change)="applyEventsFilters()">
+              <input type="checkbox" formControlName="missingSkills">
               <i class="material-icons">school</i>Des professionnels
             </label>
             <label class="services needed" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="missingPeople" (change)="applyEventsFilters()">
+              <input type="checkbox" formControlName="missingPeople">
               <i class="material-icons">people</i>Des participants
             </label>
           </div>
           <div fxLayout="row">
             <label class="services needed" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="missingAssistants" (change)="applyEventsFilters()">
+              <input type="checkbox" formControlName="missingAssistants">
               <i class="material-icons">mood</i>Des accompagnateurs
             </label>
           </div>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
-  </div>
+  </form>
 
-  <div [hidden]="!isTypeContributors">
+  <form [hidden]="!isTypeContributors" [formGroup]="contributorFiltersForm">
     <div class="filters-title filters-contributors bold">
       Filtrer les contributeurs
     </div>
@@ -128,7 +128,7 @@
       <mat-expansion-panel>
         <mat-expansion-panel-header class="filters-contributors">
           <mat-panel-title>
-            ???
+            Désignation ou appartenance
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
@@ -137,8 +137,8 @@
             <label for="contribOthers">Les contributions des autres</label>
           </div>
           <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-slide-toggle id="contribMine" [(ngModel)]="contribMine" (change)="applyContributorsFilters()"></mat-slide-toggle>
-            <mat-slide-toggle id="contribOthers" [(ngModel)]="contribOthers" (change)="applyContributorsFilters()"></mat-slide-toggle>
+            <mat-slide-toggle id="contribMine" formControlName="mine"></mat-slide-toggle>
+            <mat-slide-toggle id="contribOthers" formControlName="others"></mat-slide-toggle>
           </div>
         </div>
       </mat-expansion-panel>
@@ -151,32 +151,32 @@
         <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
           <div fxLayout="row" class="full-width">
             <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="location" (change)="applyContributorsFilters()">
+              <input type="checkbox" formControlName="location">
               <i class="material-icons">kitchen</i>Un lieu
             </label>
             <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="food" (change)="applyContributorsFilters()">
+              <input type="checkbox" formControlName="food">
               <i class="material-icons">shopping_cart</i>Des aliments
             </label>
           </div>
           <div fxLayout="row" class="full-width">
             <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="skills" (change)="applyContributorsFilters()">
+              <input type="checkbox" formControlName="skills">
               <i class="material-icons">school</i>Des professionnels
             </label>
             <label class="services provided" fxFlex="50%" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="people" (change)="applyContributorsFilters()">
+              <input type="checkbox" formControlName="people">
               <i class="material-icons">people</i>Des participants
             </label>
           </div>
           <div fxLayout="row">
             <label class="services provided" fxLayout="column" fxLayoutAlign="center center">
-              <input type="checkbox" [(ngModel)]="assistants" (change)="applyContributorsFilters()">
+              <input type="checkbox" formControlName="assistants">
               <i class="material-icons">mood</i>Des accompagnateurs
             </label>
           </div>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
-  </div>
+  </form>
 </div>

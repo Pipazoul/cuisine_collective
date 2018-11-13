@@ -4,6 +4,8 @@ import { ContributorFilters } from '../../../services/contributor.service';
 import { Subscription } from 'rxjs';
 import { HeaderTabService } from 'src/app/services/header-tab.service';
 import { TabSelectionType } from 'src/app/enum/tab-selection-type.enum';
+import { FormGroup, FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin-filters',
@@ -14,6 +16,8 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
 
   @Output() public filterEvents: EventEmitter<EventFilters> = new EventEmitter();
   @Output() public filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+  public eventFiltersForm: FormGroup;
+  public contributorFiltersForm: FormGroup;
 
   public readonly today = new Date();
 
@@ -49,14 +53,16 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.initEventFiltersForm();
+    this.initContributorFiltersForms();
     this.onHeaderTabChanged = this.headerTabService.onTypeChanged((type) => {
       if (!type) {
         return;
       }
       if (type === TabSelectionType.CONTRIBUTORS) {
-        this.applyContributorsFilters();
+        this.filterEvents.emit(this.eventFiltersForm.value);
       } else if (type === TabSelectionType.EVENTS) {
-        this.applyEventsFilters();
+        this.filterContributors.emit(this.contributorFiltersForm.value);
       }
     });
   }
@@ -65,36 +71,38 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
     this.onHeaderTabChanged.unsubscribe();
   }
 
-  public applyEventsFilters() {
-    this.filterEvents.emit({
-      mine: this.eventMine,
-      others: this.eventOthers,
-      eat: this.eatToggle,
-      cook: this.cookToggle,
-      /* public: this.publicToggle, */
-      regular: this.regularToggle,
-      startDate: this.startDate,
-      endDate: this.endDate,
-      missingLocation: this.missingLocation,
-      missingFood: this.missingFood,
-      missingSkills: this.missingSkills,
-      missingPeople: this.missingPeople,
-      missingAssistants: this.missingAssistants,
-      published: this.published,
-      unpublished: this.unpublished,
+  private initEventFiltersForm() {
+    this.eventFiltersForm = new FormGroup({
+      mine: new FormControl(),
+      others: new FormControl(),
+      eat: new FormControl(),
+      cook: new FormControl(),
+      // public: new FormControl(),
+      regular: new FormControl(),
+      startDate: new FormControl(),
+      endDate: new FormControl(),
+      missingLocation: new FormControl(),
+      missingFood: new FormControl(),
+      missingSkills: new FormControl(),
+      missingPeople: new FormControl(),
+      missingAssistants: new FormControl(),
+      published: new FormControl(),
+      unpublished: new FormControl(),
     });
+    this.eventFiltersForm.valueChanges.pipe(debounceTime(500)).subscribe((value) => this.filterEvents.emit(value));
   }
 
-  public applyContributorsFilters() {
-    this.filterContributors.emit({
-      mine: this.contribMine,
-      others: this.contribOthers,
-      location: this.location,
-      food: this.food,
-      skills: this.skills,
-      people: this.people,
-      assistants: this.assistants,
+  private initContributorFiltersForms() {
+    this.contributorFiltersForm = new FormGroup({
+      mine: new FormControl(),
+      others: new FormControl(),
+      location: new FormControl(),
+      food: new FormControl(),
+      skills: new FormControl(),
+      people: new FormControl(),
+      assistants: new FormControl(),
     });
+    this.contributorFiltersForm.valueChanges.pipe(debounceTime(500)).subscribe((value) => this.filterContributors.emit(value));
   }
 
   public get isTypeEvents(): boolean {
