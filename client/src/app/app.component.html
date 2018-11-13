@@ -1,7 +1,7 @@
 <app-header></app-header>
 <!-- Header tab to select between events & contributors -->
-<app-header-tab *ngIf="isConnected"></app-header-tab>
-<div class="full-page-container" [ngClass]="{'connected': isConnected}">
+<app-header-tab *ngIf="isConnected" [hidden]="showSidenav && sidenavEdition"></app-header-tab>
+<div class="full-page-container" [ngClass]="{'connected': isConnected && !(showSidenav && sidenavEdition)}">
     <!-- Map in background + left (fixed) sidenav + right (collapsable) sidenav-->
     <mat-sidenav-container>
         <mat-sidenav-content fxLayout="row">
