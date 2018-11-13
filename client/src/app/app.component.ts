@@ -223,6 +223,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     this.authenticationService.connectionStatusChanged.subscribe((connected) => {
       if (connected === true || connected === false) {
         this.connectedUser = this.authenticationService.user;
+        this.popupContent = '';
         // Load only events & clean contributors from screen
         this.eventService.getAll().subscribe(events => {
           // Change same location item style
