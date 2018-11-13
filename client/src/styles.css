@@ -388,7 +388,7 @@ label {
 .ol-zoom {
     position: absolute;
     right: 20px;
-    bottom: 20px;
+    bottom: 50px;
     display: flex;
     flex-direction: column;
     box-shadow: 0px 0 7px 2px #888;
