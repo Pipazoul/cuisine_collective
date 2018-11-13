@@ -72,6 +72,14 @@ export class ContributorService {
             assistants: !this.authenticateService.isConnected ? true : undefined
           }, {
             assistants: !this.authenticateService.isConnected ? (filters && filters.assistants ? filters.assistants : false) : undefined
+          }, {
+            or: [{
+              title: filters && filters.searchString ? { ilike: '%' + filters.searchString + '%' } : undefined
+            }, {
+              name: filters && filters.searchString ? { ilike: '%' + filters.searchString + '%' } : undefined
+            }, {
+              description: filters && filters.searchString ? { ilike: '%' + filters.searchString + '%' } : undefined
+            }]
           }]
         }
       }
@@ -105,4 +113,5 @@ export interface ContributorFilters {
   skills?: boolean;
   people?: boolean;
   assistants?: boolean;
+  searchString?: string;
 }

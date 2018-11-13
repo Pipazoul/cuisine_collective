@@ -17,6 +17,14 @@
     padding-top: 20px;
 }
 
+.section-filters>*:not(mat-form-field):not(.search-input) {
+    width: 100%;
+}
+
 mat-form-field {
     width: 200px;
+}
+
+.search-input {
+    width: 300px;
 }

@@ -166,6 +166,27 @@ span.required:before {
   
 /* ------ END Radio button ------- */
 
+/* ----- Search input ----- */
+
+.search-input {
+    border-radius: 10px;
+    background-color: white;
+    color: #c6c6c6;
+    height: 35px;
+}
+
+.search-input>i {
+    border-radius: 10px 0 0 10px;
+    padding: 0 7px 0 10px;
+}
+
+.search-input input {
+    border: none;
+    width: 100%;
+}
+
+/* ----- END Search input ----- */
+
 .mat-slide-toggle.mat-checked:not(.mat-disabled) .mat-slide-toggle-thumb {
     background-color: #6CCACC;
 }
@@ -401,4 +422,4 @@ label {
     font-weight: bold;
 }
 
-/* ----- Forms ----- */
+/* ----- END Forms ----- */

@@ -14,38 +14,12 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class AdminFiltersComponent implements OnInit, OnDestroy {
 
+  public readonly today = new Date();
+
   @Output() public filterEvents: EventEmitter<EventFilters> = new EventEmitter();
   @Output() public filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
   public eventFiltersForm: FormGroup;
   public contributorFiltersForm: FormGroup;
-
-  public readonly today = new Date();
-
-  // Event's filters
-  public eventMine: boolean = false;
-  public eventOthers: boolean = false;
-  public startDate: Date;
-  public endDate: Date;
-  public eatToggle: boolean = false;
-  public cookToggle: boolean = false;
-  /* public publicToggle: boolean = false; */
-  public regularToggle: boolean = false;
-  public missingLocation: boolean = false;
-  public missingFood: boolean = false;
-  public missingSkills: boolean = false;
-  public missingPeople: boolean = false;
-  public missingAssistants: boolean = false;
-  public published: boolean = false;
-  public unpublished: boolean = false;
-
-  // Contributor's filters
-  public contribMine: boolean = false;
-  public contribOthers: boolean = false;
-  public location: boolean = false;
-  public food: boolean = false;
-  public skills: boolean = false;
-  public people: boolean = false;
-  public assistants: boolean = false;
 
   private onHeaderTabChanged: Subscription;
 
@@ -60,9 +34,9 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
         return;
       }
       if (type === TabSelectionType.CONTRIBUTORS) {
-        this.filterEvents.emit(this.eventFiltersForm.value);
-      } else if (type === TabSelectionType.EVENTS) {
         this.filterContributors.emit(this.contributorFiltersForm.value);
+      } else if (type === TabSelectionType.EVENTS) {
+        this.filterEvents.emit(this.eventFiltersForm.value);
       }
     });
   }
@@ -73,6 +47,7 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
 
   private initEventFiltersForm() {
     this.eventFiltersForm = new FormGroup({
+      searchString: new FormControl(),
       mine: new FormControl(),
       others: new FormControl(),
       eat: new FormControl(),
@@ -94,6 +69,7 @@ export class AdminFiltersComponent implements OnInit, OnDestroy {
 
   private initContributorFiltersForms() {
     this.contributorFiltersForm = new FormGroup({
+      searchString: new FormControl(),
       mine: new FormControl(),
       others: new FormControl(),
       location: new FormControl(),

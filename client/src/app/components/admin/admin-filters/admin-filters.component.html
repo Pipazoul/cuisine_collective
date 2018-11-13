@@ -10,14 +10,20 @@
             Désignation ou appartenance
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
-          <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
-            <label for="eventMine">Mes événements</label>
-            <label for="eventOthers">Les événements des autres</label>
+        <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutAlign="center center" class="search-input">
+            <i class="material-icons">search</i>
+            <input type="text" formControlName="searchString">
           </div>
-          <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-slide-toggle id="eventMine" formControlName="mine"></mat-slide-toggle>
-            <mat-slide-toggle id="eventOthers" formControlName="others"></mat-slide-toggle>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
+              <label for="eventMine">Mes événements</label>
+              <label for="eventOthers">Les événements des autres</label>
+            </div>
+            <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+              <mat-slide-toggle id="eventMine" formControlName="mine"></mat-slide-toggle>
+              <mat-slide-toggle id="eventOthers" formControlName="others"></mat-slide-toggle>
+            </div>
           </div>
         </div>
       </mat-expansion-panel>
@@ -27,12 +33,12 @@
             Statut
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="section-filters" fxLayout="column" fxLayoutAlign="center start" fxLayoutGap="10px">
-          <label class="status" fxLayoutAlign="center center">
+        <div class="section-filters" fxLayout="column" fxLayoutGap="10px">
+          <label class="status" fxLayoutAlign="start center">
             <input type="checkbox" formControlName="published">
             <i class="material-icons">location_on</i>Publiés
           </label>
-          <label class="status" fxLayoutAlign="center center">
+          <label class="status" fxLayoutAlign="start center">
             <input type="checkbox" formControlName="unpublished">
             <i class="material-icons">edit_location</i>En cours d'organisation
           </label>
@@ -109,7 +115,7 @@
               <i class="material-icons">people</i>Des participants
             </label>
           </div>
-          <div fxLayout="row">
+          <div fxLayout="row" fxLayoutAlign="center center">
             <label class="services needed" fxLayout="column" fxLayoutAlign="center center">
               <input type="checkbox" formControlName="missingAssistants">
               <i class="material-icons">mood</i>Des accompagnateurs
@@ -124,21 +130,27 @@
     <div class="filters-title filters-contributors bold">
       Filtrer les contributeurs
     </div>
-    <mat-accordion>
+    <mat-accordion multi="true">
       <mat-expansion-panel>
         <mat-expansion-panel-header class="filters-contributors">
           <mat-panel-title>
             Désignation ou appartenance
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div class="section-filters" fxLayout="row" fxLayoutAlign="center center">
-          <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
-            <label for="contribMine">Mes contributions</label>
-            <label for="contribOthers">Les contributions des autres</label>
+        <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
+          <div fxLayout="row" fxLayoutAlign="center center" class="search-input">
+            <i class="material-icons">search</i>
+            <input type="text" formControlName="searchString">
           </div>
-          <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
-            <mat-slide-toggle id="contribMine" formControlName="mine"></mat-slide-toggle>
-            <mat-slide-toggle id="contribOthers" formControlName="others"></mat-slide-toggle>
+          <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxFlex="60%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center start">
+              <label for="contribMine">Mes contributions</label>
+              <label for="contribOthers">Les contributions des autres</label>
+            </div>
+            <div fxFlex="30%" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center">
+              <mat-slide-toggle id="contribMine" formControlName="mine"></mat-slide-toggle>
+              <mat-slide-toggle id="contribOthers" formControlName="others"></mat-slide-toggle>
+            </div>
           </div>
         </div>
       </mat-expansion-panel>
@@ -169,7 +181,7 @@
               <i class="material-icons">people</i>Des participants
             </label>
           </div>
-          <div fxLayout="row">
+          <div fxLayout="row" fxLayoutAlign="center center">
             <label class="services provided" fxLayout="column" fxLayoutAlign="center center">
               <input type="checkbox" formControlName="assistants">
               <i class="material-icons">mood</i>Des accompagnateurs
