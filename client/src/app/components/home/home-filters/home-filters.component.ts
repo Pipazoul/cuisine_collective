@@ -12,8 +12,8 @@ import * as _ from 'lodash';
 })
 export class HomeFiltersComponent implements OnInit {
 
-  @Output() private filterEvents: EventEmitter<EventFilters> = new EventEmitter();
-  @Output() private filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
+  @Output() public filterEvents: EventEmitter<EventFilters> = new EventEmitter();
+  @Output() public filterContributors: EventEmitter<ContributorFilters> = new EventEmitter();
   public homeFiltersForm: FormGroup;
 
   public readonly today = new Date();
