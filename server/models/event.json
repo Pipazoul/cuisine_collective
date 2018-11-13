@@ -27,7 +27,7 @@
     },
     "timeSlot": {
       "type": "string",
-      "length": 200,
+      "length": 500,
       "postgresql": {
         "dataType": "character varying"
       }
