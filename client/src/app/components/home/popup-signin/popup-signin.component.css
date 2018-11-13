@@ -6,12 +6,6 @@
     width: 200px;
 }
 
-.authentication-button {
-    width: 150px;
-    background-color: #FF5555;
-    color: white;
-}
-
 .create-account {
     color: 6CCACC;
     cursor: pointer;

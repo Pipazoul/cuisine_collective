@@ -16,14 +16,13 @@
         <mat-form-field class="required">
           <input matInput type="email" formControlName="email" placeholder="Email">
         </mat-form-field>
-        <app-form-error [field]="loginForm.controls.email"></app-form-error>
       </div>
 
       <span *ngIf="showError" class="error-message">Identifiants invalides</span>
 
       <span class="create-account" (click)="createAccount()">Créer mon compte</span>
 
-      <button mat-button type="submit" class="authentication-button uppercase" [disabled]="loginForm.invalid">
+      <button mat-button type="submit" class="uppercase" [disabled]="loginForm.invalid">
         Se connecter
       </button>
     </form>
