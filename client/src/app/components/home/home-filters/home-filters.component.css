@@ -1,6 +1,5 @@
-.filters-container {
-    height: 100%;
-    background-color: #eaeaea;
+.left-content>* {
+    min-height: fit-content;
 }
 
 .content-title {
@@ -8,8 +7,13 @@
     background-color: white;
 }
 
+.filters-container {
+    height: 100%;
+    background-color: #eaeaea;
+}
+
 .section-header {
-    padding: 20px 0 20px 0;
+    margin: 20px 0 20px 0;
     width: 100%
 }
 
@@ -34,12 +38,6 @@ mat-form-field {
     width: 200px;
 }
 
-.section-assistants {
-    padding: 20px;
-    background-color: #0d70cd;
-    color: white;
-}
-
 .search-input {
     border-radius: 10px;
     background-color: white;
@@ -55,4 +53,10 @@ mat-form-field {
 .search-input input {
     border: none;
     width: 100%;
+}
+
+.section-assistants {
+    padding: 20px;
+    background-color: #0d70cd;
+    color: white;
 }
