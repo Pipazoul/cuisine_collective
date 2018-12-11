@@ -35,13 +35,13 @@
         </mat-expansion-panel-header>
         <div class="section-filters" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px">
           <mat-form-field>
-            <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="today" [max]="endDate"
+            <input matInput autocomplete="new-password" [matDatepicker]="startPicker" [min]="today" [max]="eventFiltersForm.controls.endDate ? eventFiltersForm.controls.endDate.value : undefined"
               placeholder="A partir de" formControlName="startDate">
             <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
             <mat-datepicker #startPicker></mat-datepicker>
           </mat-form-field>
           <mat-form-field>
-            <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="startDate || today"
+            <input matInput autocomplete="new-password" [matDatepicker]="endPicker" [min]="eventFiltersForm.controls.startDate ? eventFiltersForm.controls.startDate.value : today"
               placeholder="Jusqu'au" formControlName="endDate">
             <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
             <mat-datepicker #endPicker></mat-datepicker>
